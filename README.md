@@ -83,7 +83,7 @@ public class MyRepository<T> : Repository<T>
 {
 	private readonly MyDbContext myDbContext;
 
-	public RepositoryEF(MyDbContext myDbContext)
+	public MyRepository(MyDbContext myDbContext)
 		: base(myDbContext)
 	{
 		this.myDbContext = myDbContext;
