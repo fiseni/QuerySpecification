@@ -58,18 +58,18 @@ public class MyCompanySpec : Specification<Company>
 {
     public MyCompanySpec(int id)
     {
-		// It's possible to chain everything, or write them separately. 
-		// It's based on your preference
-		Query.Where(x => x.Id == id)
-			 .Paginate(10, 20)
-			 .OrderBy(x => x.Name)
-				.ThenByDescending(x => x.SomeOtherCompanyInfo);
+	// It's possible to chain everything, or write them separately. 
+	// It's based on your preference
+	Query.Where(x => x.Id == id)
+		 .Paginate(10, 20)
+		 .OrderBy(x => x.Name)
+			.ThenByDescending(x => x.SomeOtherCompanyInfo);
 
-		Query.Where(x => x.Name == "MyCompany")
-			 .Include(x => x.Stores)
-				.ThenInclude(x => x.Addresses)
+	Query.Where(x => x.Name == "MyCompany")
+		 .Include(x => x.Stores)
+			.ThenInclude(x => x.Addresses)
 
-		Query.Include(x => x.Country)
+	Query.Include(x => x.Country)
     }
 }
 ```
@@ -121,3 +121,7 @@ public class CompanyService : ICompanyService
 ```
 
 And that's it, you got your data. I do believe it can't be any simpler.
+
+
+## Give a Star! :star:
+If you like or are using this project please give it a star. Thanks!
