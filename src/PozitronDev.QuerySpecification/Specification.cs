@@ -18,6 +18,8 @@ namespace PozitronDev.QuerySpecification
         public IEnumerable<Expression<Func<T, bool>>> WhereExpressions { get; } = new List<Expression<Func<T, bool>>>();
         public IEnumerable<(Expression<Func<T, object>> KeySelector, OrderTypeEnum OrderType)> OrderExpressions { get; } =
             new List<(Expression<Func<T, object>> KeySelector, OrderTypeEnum OrderType)>();
+        public IEnumerable<IIncludeAggregator> IncludeAggregators { get; } = new List<IIncludeAggregator>();
+        public IEnumerable<string> IncludeStrings { get; } = new List<string>();
 
         public int Take { get; private set; }
         public int Skip { get; private set; }
@@ -41,13 +43,28 @@ namespace PozitronDev.QuerySpecification
                 return this;
             }
 
-            public virtual IOrderedSpecificationBuilder<TSource> OrderBy(Expression<Func<TSource, object>> orderExpression)
+            public IIncludableSpecificationBuilder<TSource, TProperty> Include<TProperty>(Expression<Func<TSource, TProperty>> includeExpression)
+            {
+                var aggregator = new IncludeAggregator((includeExpression.Body as MemberExpression)?.Member?.Name);
+                var includeBuilder = new IncludableSpecificationBuilder<TSource, TProperty>(aggregator);
+
+                ((List<IIncludeAggregator>)parent.IncludeAggregators).Add(aggregator);
+                return includeBuilder;
+            }
+
+            public ISpecificationBuilder<TSource> Include(string includeString)
+            {
+                ((List<string>)parent.IncludeStrings).Add(includeString);
+                return this;
+            }
+
+            public IOrderedSpecificationBuilder<TSource> OrderBy(Expression<Func<TSource, object>> orderExpression)
             {
                 ((List<(Expression<Func<TSource, object>> OrderExpression, OrderTypeEnum OrderType)>)parent.OrderExpressions).Add((orderExpression, OrderTypeEnum.OrderBy));
                 return orderedSpecificationBuilder;
             }
 
-            public virtual IOrderedSpecificationBuilder<TSource> OrderByDescending(Expression<Func<TSource, object>> orderExpression)
+            public IOrderedSpecificationBuilder<TSource> OrderByDescending(Expression<Func<TSource, object>> orderExpression)
             {
                 ((List<(Expression<Func<TSource, object>> OrderExpression, OrderTypeEnum OrderType)>)parent.OrderExpressions).Add((orderExpression, OrderTypeEnum.OrderByDescending));
                 return orderedSpecificationBuilder;
@@ -71,13 +88,13 @@ namespace PozitronDev.QuerySpecification
                 this.parent = parent;
             }
 
-            public virtual IOrderedSpecificationBuilder<TSourceOrdered> ThenBy(Expression<Func<TSourceOrdered, object>> orderExpression)
+            public IOrderedSpecificationBuilder<TSourceOrdered> ThenBy(Expression<Func<TSourceOrdered, object>> orderExpression)
             {
                 ((List<(Expression<Func<TSourceOrdered, object>> OrderExpression, OrderTypeEnum OrderType)>)parent.OrderExpressions).Add((orderExpression, OrderTypeEnum.OrderBy));
                 return this;
             }
 
-            public virtual IOrderedSpecificationBuilder<TSourceOrdered> ThenByDescending(Expression<Func<TSourceOrdered, object>> orderExpression)
+            public IOrderedSpecificationBuilder<TSourceOrdered> ThenByDescending(Expression<Func<TSourceOrdered, object>> orderExpression)
             {
                 ((List<(Expression<Func<TSourceOrdered, object>> OrderExpression, OrderTypeEnum OrderType)>)parent.OrderExpressions).Add((orderExpression, OrderTypeEnum.OrderByDescending));
                 return this;
