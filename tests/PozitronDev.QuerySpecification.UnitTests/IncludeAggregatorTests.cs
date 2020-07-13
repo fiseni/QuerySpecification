@@ -12,78 +12,80 @@ namespace PozitronDev.QuerySpecification.UnitTests
         [Fact]
         public void IncludeAggregator_AddPropertyNameInConstructor_ReturnsCorrectIncludeString()
         {
-            var shouldReturnIncludeString = nameof(Company);
-            var includeAggregator = new IncludeAggregator(shouldReturnIncludeString);
+            var expectedString = nameof(Company);
+            var includeAggregator = new IncludeAggregator(expectedString);
 
-            Assert.Equal(shouldReturnIncludeString, includeAggregator.IncludeString);
+            Assert.Equal(expectedString, includeAggregator.IncludeString);
         }
 
         [Fact]
         public void IncludeAggregator_AddNullInConstructor_ReturnsStringEmpty()
         {
-            var shouldReturnIncludeString = string.Empty;
+            var expectedString = string.Empty;
             var includeAggregator = new IncludeAggregator(null);
 
-            Assert.Equal(shouldReturnIncludeString, includeAggregator.IncludeString);
+            Assert.Equal(expectedString, includeAggregator.IncludeString);
         }
 
         [Fact]
-        public void IncludeAggregator_AddStringEmptyInConstructor_ReturnsStringEmpty()
+        public void IncludeAggregator_AddEmptyStringInConstructor_ReturnsStringEmpty()
         {
-            var shouldReturnIncludeString = string.Empty;
+            var expectedString = string.Empty;
             var includeAggregator = new IncludeAggregator(null);
 
-            Assert.Equal(shouldReturnIncludeString, includeAggregator.IncludeString);
+            Assert.Equal(expectedString, includeAggregator.IncludeString);
         }
 
         [Fact]
         public void IncludeAggregator_AddNavigationPropertyName_ReturnsCorrectIncludeString()
         {
-            var nameOfCompanyEntity = nameof(Company);
-            var nameOfStoresNavigation = nameof(Company.Stores);
-            var nameOfProductsNavigation = nameof(Store.Products);
+            var expectedString = $"{nameof(Company)}.{nameof(Company.Stores)}.{nameof(Store.Products)}";
 
-            var shouldReturnIncludeString = $"{nameOfCompanyEntity}.{nameOfStoresNavigation}.{nameOfProductsNavigation}";
+            var includeAggregator = new IncludeAggregator(nameof(Company));
+            includeAggregator.AddNavigationPropertyName(nameof(Company.Stores));
+            includeAggregator.AddNavigationPropertyName(nameof(Store.Products));
 
-            var includeAggregator = new IncludeAggregator(nameOfCompanyEntity);
-            includeAggregator.AddNavigationPropertyName(nameOfStoresNavigation);
-            includeAggregator.AddNavigationPropertyName(nameOfProductsNavigation);
-
-            Assert.Equal(shouldReturnIncludeString, includeAggregator.IncludeString);
+            Assert.Equal(expectedString, includeAggregator.IncludeString);
         }
 
         [Fact]
         public void IncludeAggregator_AddNavigationPropertyNameAndNullInConstructor_ReturnsCorrectIncludeString()
         {
-            var nameOfCompanyEntity = nameof(Company);
-            var nameOfStoresNavigation = nameof(Company.Stores);
-            var nameOfProductsNavigation = nameof(Store.Products);
-
-            var shouldReturnIncludeString = $"{nameOfCompanyEntity}.{nameOfStoresNavigation}.{nameOfProductsNavigation}";
+            var expectedString = $"{nameof(Company)}.{nameof(Company.Stores)}.{nameof(Store.Products)}";
 
             var includeAggregator = new IncludeAggregator(null);
-            includeAggregator.AddNavigationPropertyName(nameOfCompanyEntity);
-            includeAggregator.AddNavigationPropertyName(nameOfStoresNavigation);
-            includeAggregator.AddNavigationPropertyName(nameOfProductsNavigation);
+            includeAggregator.AddNavigationPropertyName(nameof(Company));
+            includeAggregator.AddNavigationPropertyName(nameof(Company.Stores));
+            includeAggregator.AddNavigationPropertyName(nameof(Store.Products));
 
-            Assert.Equal(shouldReturnIncludeString, includeAggregator.IncludeString);
+            Assert.Equal(expectedString, includeAggregator.IncludeString);
         }
 
         [Fact]
         public void IncludeAggregator_AddNavigationPropertyNameAndEmptyStringInConstructor_ReturnsCorrectIncludeString()
         {
-            var nameOfCompanyEntity = nameof(Company);
-            var nameOfStoresNavigation = nameof(Company.Stores);
-            var nameOfProductsNavigation = nameof(Store.Products);
-
-            var shouldReturnIncludeString = $"{nameOfCompanyEntity}.{nameOfStoresNavigation}.{nameOfProductsNavigation}";
+            var expectedString = $"{nameof(Company)}.{nameof(Company.Stores)}.{nameof(Store.Products)}";
 
             var includeAggregator = new IncludeAggregator(string.Empty);
-            includeAggregator.AddNavigationPropertyName(nameOfCompanyEntity);
-            includeAggregator.AddNavigationPropertyName(nameOfStoresNavigation);
-            includeAggregator.AddNavigationPropertyName(nameOfProductsNavigation);
+            includeAggregator.AddNavigationPropertyName(nameof(Company));
+            includeAggregator.AddNavigationPropertyName(nameof(Company.Stores));
+            includeAggregator.AddNavigationPropertyName(nameof(Store.Products));
 
-            Assert.Equal(shouldReturnIncludeString, includeAggregator.IncludeString);
+            Assert.Equal(expectedString, includeAggregator.IncludeString);
+        }
+
+        [Fact]
+        public void IncludeAggregator_AddNullNavigationPropertyName_ReturnsCorrectIncludeString()
+        {
+            var expectedString = $"{nameof(Company)}.{nameof(Company.Stores)}.{nameof(Store.Products)}";
+
+            var includeAggregator = new IncludeAggregator(string.Empty);
+            includeAggregator.AddNavigationPropertyName(nameof(Company));
+            includeAggregator.AddNavigationPropertyName(null);
+            includeAggregator.AddNavigationPropertyName(nameof(Company.Stores));
+            includeAggregator.AddNavigationPropertyName(nameof(Store.Products));
+
+            Assert.Equal(expectedString, includeAggregator.IncludeString);
         }
     }
 }
