@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification.UnitTests.Entities
 {
-    class Store
+    public class Store
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -16,5 +16,10 @@ namespace PozitronDev.QuerySpecification.UnitTests.Entities
         public Address Address { get; set; }
 
         public List<Product> Products { get; set; } = new List<Product>();
+
+        public object GetSomethingFromStore()
+        {
+            return new object();
+        }
     }
 }

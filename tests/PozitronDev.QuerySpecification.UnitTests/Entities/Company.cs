@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification.UnitTests.Entities
 {
-    class Company
+    public class Company
     {
         public int Id { get; set; }
         public string Name { get; set; }
