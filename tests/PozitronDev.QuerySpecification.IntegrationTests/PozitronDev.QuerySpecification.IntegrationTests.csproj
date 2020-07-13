@@ -28,8 +28,4 @@
     <ProjectReference Include="..\..\src\PozitronDev.QuerySpecification\PozitronDev.QuerySpecification.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Specs\" />
-  </ItemGroup>
-
 </Project>
