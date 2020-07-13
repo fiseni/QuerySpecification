@@ -7,10 +7,10 @@ namespace PozitronDev.QuerySpecification.IntegrationTests.Specs
 {
     public class StoresByCompanyPaginatedSpec : Specification<Store>
     {
-        public StoresByCompanyPaginatedSpec(int companyId, int take, int skip)
+        public StoresByCompanyPaginatedSpec(int companyId, int skip, int take)
         {
             Query.Where(x => x.CompanyId == companyId)
-                 .Paginate(take, skip);
+                 .Paginate(skip, take);
         }
     }
 }

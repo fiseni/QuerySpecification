@@ -5,12 +5,12 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification.IntegrationTests.Specs
 {
-    public class StoresByCompanyPaginatedOrderedSpec : Specification<Store>
+    public class StoresByCompanyPaginatedOrderedDescByNameSpec : Specification<Store>
     {
-        public StoresByCompanyPaginatedOrderedSpec(int companyId, int take, int skip)
+        public StoresByCompanyPaginatedOrderedDescByNameSpec(int companyId, int skip, int take)
         {
             Query.Where(x => x.CompanyId == companyId)
-                 .Paginate(take, skip)
+                 .Paginate(skip, take)
                  .OrderByDescending(x => x.Name);
         }
     }

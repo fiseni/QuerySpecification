@@ -5,13 +5,12 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification.IntegrationTests.Specs
 {
-    public class StoresByCompanyOrderedThenBySpec : Specification<Store>
+    public class StoresByCompanyOrderedDescByNameSpec : Specification<Store>
     {
-        public StoresByCompanyOrderedThenBySpec(int companyId)
+        public StoresByCompanyOrderedDescByNameSpec(int companyId)
         {
             Query.Where(x => x.CompanyId == companyId)
-                 .OrderByDescending(x => x.Name)
-                 .ThenBy(x => x.Id);
+                 .OrderByDescending(x => x.Name);
         }
     }
 }

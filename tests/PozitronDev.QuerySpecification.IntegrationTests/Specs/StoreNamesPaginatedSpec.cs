@@ -7,9 +7,9 @@ namespace PozitronDev.QuerySpecification.IntegrationTests.Specs
 {
     public class StoreNamesPaginatedSpec : Specification<Store, string>
     {
-        public StoreNamesPaginatedSpec(int take, int skip)
+        public StoreNamesPaginatedSpec(int skip, int take)
         {
-            Query.Paginate(take, skip);
+            Query.Paginate(skip, take);
             Query.Select(x => x.Name);
         }
     }

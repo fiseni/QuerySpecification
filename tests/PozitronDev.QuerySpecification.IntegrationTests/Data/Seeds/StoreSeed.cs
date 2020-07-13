@@ -6,6 +6,18 @@ namespace PozitronDev.QuerySpecification.IntegrationTests.Data.Seeds
 {
     public class StoreSeed
     {
+        public const int ORDERED_BY_NAME_FIRST_ID = 48;
+        public const int ORDERED_BY_NAME_LAST_ID = 49;
+        public const int ORDERED_BY_NAME_DESC_FIRST_ID = 49;
+        public const int ORDERED_BY_NAME_DESC_LAST_ID = 48;
+
+        public const int ORDERED_BY_NAME_FOR_COMPANY2_FIRST_ID = 98;
+        public const int ORDERED_BY_NAME_FOR_COMPANY2_LAST_ID = 99;
+        public const int ORDERED_BY_NAME_DESC_FOR_COMPANY2_FIRST_ID = 99;
+        public const int ORDERED_BY_NAME_DESC_FOR_COMPANY2_LAST_ID = 98;
+        public const int ORDERED_BY_NAME_DESC_FOR_COMPANY2_PAGE2_FIRST_ID = 89;
+        public const int ORDERED_BY_NAME_DESC_FOR_COMPANY2_PAGE2_LAST_ID = 80;
+
         public static List<Store> Get()
         {
             var stores = new List<Store>();
@@ -30,6 +42,13 @@ namespace PozitronDev.QuerySpecification.IntegrationTests.Data.Seeds
                     CompanyId = 2,
                 });
             }
+
+            stores[49 - 1].Name = "ZZZ";
+            stores[48 - 1].Name = "AAA";
+            stores[99 - 1].Name = "YYY";
+            stores[98 - 1].Name = "BBB";
+
+            stores[100 - 1].Name = "Store 999";
 
             return stores;
         }

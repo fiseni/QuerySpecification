@@ -5,11 +5,11 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification.IntegrationTests.Specs
 {
-    public class StoresOrderedSpec : Specification<Store>
+    public class StoresOrderedDescendingByNameSpec : Specification<Store>
     {
-        public StoresOrderedSpec()
+        public StoresOrderedDescendingByNameSpec()
         {
-            Query.OrderBy(x => x.Name);
+            Query.OrderByDescending(x => x.Name);
         }
     }
 }
