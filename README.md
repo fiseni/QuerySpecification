@@ -1,12 +1,12 @@
 <img align="left" src="pozitronlogo.png" width="120" height="120">
 
-&nbsp; [![Build Status](https://dev.azure.com/pozitrondev/PozitronDev.QuerySpecification/_apis/build/status/fiseni.PozitronDev.QuerySpecification?branchName=master)](https://dev.azure.com/pozitrondev/PozitronDev.QuerySpecification/_build/latest?definitionId=4&branchName=master)
-
 &nbsp; [![NuGet](https://img.shields.io/nuget/v/PozitronDev.QuerySpecification.svg)](https://www.nuget.org/packages/PozitronDev.QuerySpecification)[![NuGet](https://img.shields.io/nuget/dt/PozitronDev.QuerySpecification.svg)](https://www.nuget.org/packages/PozitronDev.QuerySpecification)
 
-&nbsp; Nuget: PozitronDev.QuerySpecification
+&nbsp; [![Build Status](https://dev.azure.com/pozitrondev/PozitronDev.QuerySpecification/_apis/build/status/PozitronDev.QuerySpecification_BuildPackage?branchName=master)](https://dev.azure.com/pozitrondev/PozitronDev.QuerySpecification/_build/latest?definitionId=7&branchName=master)
 
-# PozitronDev QuerySpecification
+&nbsp; [![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/pozitrondev/PozitronDev.QuerySpecification/7.svg)](https://dev.azure.com/pozitrondev/PozitronDev.QuerySpecification/_build/latest?definitionId=7&branchName=master)
+
+# PozitronDev.QuerySpecification
 
 Nuget package for building query specifications in your domain model. They are evaluated and utilized to create actual queries for your ORM.
 
