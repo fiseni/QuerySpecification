@@ -18,7 +18,7 @@ This is base/abstract package intended to be utilized for various ORM implementa
 
 Specification pattern in general is a way of combining and encapsulating set of business rules. Once you create them, you can test if domain objects satisfy these defined rules or not. Historically, the initiative had nothing to do with DB related queries or anything with persistence, but more with customizable business logic, which (in theory) would be easily maintainable.
 
-I personally, throughout the years have always avoided this pattern, and considered to be an unnecessary abstraction, which does more harm than good. The composite specification classes where just a glorified If statements. Check out this example on this [Wikipedia link](https://en.wikipedia.org/wiki/Specification_pattern). It can't be more ugly than that!
+I personally, throughout the years have always avoided this pattern, and considered to be an unnecessary abstraction, which does more harm than good. The composite specification classes were just a glorified If statements. Check out this example on this [Wikipedia link](https://en.wikipedia.org/wiki/Specification_pattern). It can't be more ugly than that!
 
 ### What changed
 
