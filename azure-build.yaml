@@ -1,0 +1,87 @@
+trigger:
+  branches:
+      include:
+      - master
+      - refs/tags/*
+pr:
+- master
+
+pool:
+  vmImage: 'windows-2019'
+
+variables:
+  buildConfiguration: 'Release'
+  buildPlatform: 'Any CPU'
+  solution: '**/*.sln'
+
+steps:
+
+# Prepare
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet info'
+  inputs:
+    command: custom
+    custom: '--info'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet version'
+  inputs:
+    command: custom
+    custom: '--version'
+
+- task: NuGetToolInstaller@0
+  displayName: 'Use NuGet 4.9.3'
+  inputs:
+    versionSpec: 4.9.3
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+    
+# Build    
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+    arguments: '--output $(Build.ArtifactStagingDirectory)'
+
+# Run tests and create coverage report
+- task: DotNetCoreCLI@2
+  displayName: Test
+  inputs:
+    command: test
+    arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+    projects: 'tests/**/*.csproj'
+    nobuild: true
+
+- task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
+  displayName: ReportGenerator
+  inputs:
+    reports: '$(Build.SourcesDirectory)/tests/**/coverage.cobertura.xml'
+    targetdir: '$(Build.SourcesDirectory)/CodeCoverage'
+    reporttypes: 'HtmlInline_AzurePipelines;Cobertura;Badges'
+    assemblyfilters: '-xunit*'
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml'
+#    reportDirectory: '$(Build.SourcesDirectory)/CodeCoverage'
+
+- task: CopyFiles@2
+  displayName: 'Copy *.nupkg Files'
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)'
+    Contents: '**\*.nupkg'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)\Package'
+    flattenFolders: true
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+
+# Publish
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)\Package'
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
