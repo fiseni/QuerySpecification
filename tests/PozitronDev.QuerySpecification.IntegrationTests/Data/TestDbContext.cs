@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PozitronDev.QuerySpecification.IntegrationTests.Data.Seeds;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -26,6 +27,14 @@ namespace PozitronDev.QuerySpecification.IntegrationTests.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Store>().HasOne(x => x.Address).WithOne(x => x.Store).HasForeignKey<Address>(x => x.StoreId);
+
+            modelBuilder.Entity<Country>().HasData(CountrySeed.Get());
+            modelBuilder.Entity<Company>().HasData(CompanySeed.Get());
+            modelBuilder.Entity<Address>().HasData(AddressSeed.Get());
+            modelBuilder.Entity<Store>().HasData(StoreSeed.Get());
+            modelBuilder.Entity<Product>().HasData(ProductSeed.Get());
         }
     }
 }
