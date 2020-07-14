@@ -5,9 +5,9 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification
 {
-    public class SpecificationEvaluator<T> : ISpecificationEvaluator<T> where T : class
+    public abstract class SpecificationEvaluatorBase<T> : ISpecificationEvaluator<T> where T : class
     {
-        public IQueryable<TResult> GetQuery<TResult>(IQueryable<T> inputQuery, ISpecification<T, TResult> specification)
+        public virtual IQueryable<TResult> GetQuery<TResult>(IQueryable<T> inputQuery, ISpecification<T, TResult> specification)
         {
             var query = GetQuery(inputQuery, (ISpecification<T>)specification);
 
@@ -17,7 +17,7 @@ namespace PozitronDev.QuerySpecification
             return selectQuery;
         }
 
-        public IQueryable<T> GetQuery(IQueryable<T> inputQuery, ISpecification<T> specification)
+        public virtual IQueryable<T> GetQuery(IQueryable<T> inputQuery, ISpecification<T> specification)
         {
             var query = inputQuery;
 

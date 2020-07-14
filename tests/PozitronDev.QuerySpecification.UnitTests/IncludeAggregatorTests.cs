@@ -1,5 +1,4 @@
-﻿using PozitronDev.QuerySpecification.Builder;
-using PozitronDev.QuerySpecification.UnitTests.Entities;
+﻿using PozitronDev.QuerySpecification.UnitTests.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;

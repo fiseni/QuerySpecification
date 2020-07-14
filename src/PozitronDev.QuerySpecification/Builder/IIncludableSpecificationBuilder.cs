@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PozitronDev.QuerySpecification.Builder
+namespace PozitronDev.QuerySpecification
 {
     public interface IIncludableSpecificationBuilder<T, out TProperty>
     {
