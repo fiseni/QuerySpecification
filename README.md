@@ -74,32 +74,34 @@ public class MyCompanySpec : Specification<Company>
 }
 ```
 
-### Repository
+In your infrastructure project, add the EF plugin nuget package `PozitronDev.QuerySpecification.EF`. Once you do that, you can use an instance of SpecificationEvaluator to evaluate your specifications into IQueryable.
 
-In your infrastructure project, add the EF implementation nuget package `PozitronDev.QuerySpecification.EF`. Once you do that, create your own repository and inherit from the abstract repository defined in the package.
+### Base Repository
+
+The EF plugin nuget package `PozitronDev.QuerySpecification.EF` contains an abstract `RepositoryBase` class. If you want you can use it as base class for your repository, thus leveraging from the provided set of standard generic methods. Inherit from it as following
 
 ```
-public class MyRepository<T> : Repository<T>
+public class Repository<T> : RepositoryBase<T>, IRepository<T>
 {
 	private readonly MyDbContext myDbContext;
 
-	public MyRepository(MyDbContext myDbContext)
+	public Repository(MyDbContext myDbContext)
 		: base(myDbContext)
 	{
 		this.myDbContext = myDbContext;
 	}
 
-	// Not required to implement anything. Override or add additional functionalities.
+	// Not required to implement anything. Add additional functionalities if required.
 }
 ```
 
-That's it, you're ready to go. In the package there is already defined interface `IRepository<T>` which is implemented by `Repository<T>.` Just wire it in your DI container. I you're using IServiceCollection, then wire it up as following
-
 ```
-services.AddScoped(typeof(IRepository<>), typeof(MyRepository<>));
+public interface IRepository<T> : IRepositoryBase<T>
+{
+}
 ```
 
-Now, let's use and consume it from your services/controllers or whatever construct you have.
+That's it. Now, let's use and consume it from your services/controllers or whatever construct you have.
 
 ```
 public class CompanyService : ICompanyService
