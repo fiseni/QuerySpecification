@@ -27,14 +27,14 @@ I personally, throughout the years have always avoided this pattern, and conside
 Once EF got released, we realized we can use this pattern to improve our domain model. EF utilizes/can utilize IQueryable<T> to build the queries, which in the end are parsed and materialized to particular SQL statements. Since IQueryable<T> is a BCL type, we can construct powerful abstraction within our domain model. Let's assume the following example
 
 ```
-dbContext.Companies.Where(x => x.Id == 1).Where(x => x.Name == "MyCompany").ToListAsync()
+dbContext.Companies.Where(x => x.CountryId == 1).Where(x => x.Name == "MyCompany").ToListAsync()
 ```
 This is a simple EF query to get set of data from DB. Now let's modify it a bit
 
 ```
-dbContext.Companies.AsQueryable().Where(x => x.Id == 1).Where(x => x.Name == "MyCompany").ToListAsync()
+dbContext.Companies.AsQueryable().Where(x => x.CountryId == 1).Where(x => x.Name == "MyCompany").ToListAsync()
 ```
-This would evaluate and would give the same results as the previous one. But, if we analyze carefully the portion `Where(x => x.Id == 1).Where(x => x.Name == "MyCompany")` has nothing to do with the EF implementation, and the query is been constructed on top of IQueryable<T> (which is a BCL type). And even more importantly, that portion of code is the actual logic of the query itself.
+This would evaluate and would give the same results as the previous one. But, if we analyze carefully the portion `Where(x => x.CountryId == 1).Where(x => x.Name == "MyCompany")` has nothing to do with the EF implementation, and the query is been constructed on top of IQueryable<T> (which is a BCL type). And even more importantly, that portion of code is the actual logic of the query itself.
 
 ### Why should I use it?
 
@@ -58,11 +58,11 @@ Add `PozitronDev.QuerySpecification` nuget package in your core/domain project. 
 ```
 public class MyCompanySpec : Specification<Company>
 {
-    public MyCompanySpec(int id)
+    public MyCompanySpec(int countryId)
     {
 	// It's possible to chain everything, or write them separately. 
 	// It's based on your preference
-	Query.Where(x => x.Id == id)
+	Query.Where(x => x.CountryId == countryId)
 		 .Paginate(10, 20)
 		 .OrderBy(x => x.Name)
 			.ThenByDescending(x => x.SomeOtherCompanyInfo);
