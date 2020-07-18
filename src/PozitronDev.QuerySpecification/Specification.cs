@@ -15,7 +15,7 @@ namespace PozitronDev.QuerySpecification
             base.Query = this.Query;
         }
 
-        public Expression<Func<T, TResult>> Selector { get; private set; }
+        public Expression<Func<T, TResult>>? Selector { get; private set; }
 
         protected class SpecificationBuilder<TSource, TSourceResult> : SpecificationBuilder<TSource>, ISpecificationBuilder<TSource, TSourceResult>
         {
@@ -86,15 +86,15 @@ namespace PozitronDev.QuerySpecification
                 return this;
             }
 
-            public IOrderedSpecificationBuilder<TSource> OrderBy(Expression<Func<TSource, object>> orderExpression)
+            public IOrderedSpecificationBuilder<TSource> OrderBy(Expression<Func<TSource, object?>> orderExpression)
             {
-                ((List<(Expression<Func<TSource, object>> OrderExpression, OrderTypeEnum OrderType)>)parent.OrderExpressions).Add((orderExpression, OrderTypeEnum.OrderBy));
+                ((List<(Expression<Func<TSource, object?>> OrderExpression, OrderTypeEnum OrderType)>)parent.OrderExpressions).Add((orderExpression, OrderTypeEnum.OrderBy));
                 return orderedSpecificationBuilder;
             }
 
-            public IOrderedSpecificationBuilder<TSource> OrderByDescending(Expression<Func<TSource, object>> orderExpression)
+            public IOrderedSpecificationBuilder<TSource> OrderByDescending(Expression<Func<TSource, object?>> orderExpression)
             {
-                ((List<(Expression<Func<TSource, object>> OrderExpression, OrderTypeEnum OrderType)>)parent.OrderExpressions).Add((orderExpression, OrderTypeEnum.OrderByDescending));
+                ((List<(Expression<Func<TSource, object?>> OrderExpression, OrderTypeEnum OrderType)>)parent.OrderExpressions).Add((orderExpression, OrderTypeEnum.OrderByDescending));
                 return orderedSpecificationBuilder;
             }
 
@@ -116,15 +116,15 @@ namespace PozitronDev.QuerySpecification
                 this.parent = parent;
             }
 
-            public IOrderedSpecificationBuilder<TSourceOrdered> ThenBy(Expression<Func<TSourceOrdered, object>> orderExpression)
+            public IOrderedSpecificationBuilder<TSourceOrdered> ThenBy(Expression<Func<TSourceOrdered, object?>> orderExpression)
             {
-                ((List<(Expression<Func<TSourceOrdered, object>> OrderExpression, OrderTypeEnum OrderType)>)parent.OrderExpressions).Add((orderExpression, OrderTypeEnum.ThenBy));
+                ((List<(Expression<Func<TSourceOrdered, object?>> OrderExpression, OrderTypeEnum OrderType)>)parent.OrderExpressions).Add((orderExpression, OrderTypeEnum.ThenBy));
                 return this;
             }
 
-            public IOrderedSpecificationBuilder<TSourceOrdered> ThenByDescending(Expression<Func<TSourceOrdered, object>> orderExpression)
+            public IOrderedSpecificationBuilder<TSourceOrdered> ThenByDescending(Expression<Func<TSourceOrdered, object?>> orderExpression)
             {
-                ((List<(Expression<Func<TSourceOrdered, object>> OrderExpression, OrderTypeEnum OrderType)>)parent.OrderExpressions).Add((orderExpression, OrderTypeEnum.ThenByDescending));
+                ((List<(Expression<Func<TSourceOrdered, object?>> OrderExpression, OrderTypeEnum OrderType)>)parent.OrderExpressions).Add((orderExpression, OrderTypeEnum.ThenByDescending));
                 return this;
             }
         }

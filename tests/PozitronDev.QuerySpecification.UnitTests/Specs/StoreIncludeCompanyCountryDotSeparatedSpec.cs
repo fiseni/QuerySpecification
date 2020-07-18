@@ -9,7 +9,7 @@ namespace PozitronDev.QuerySpecification.UnitTests.Specs
     {
         public StoreIncludeCompanyCountryDotSeparatedSpec()
         {
-            Query.Include(x => x.Company.Country);
+            Query.Include(x => x.Company!.Country);
         }
     }
 }

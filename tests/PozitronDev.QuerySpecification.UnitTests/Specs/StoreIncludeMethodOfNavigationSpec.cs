@@ -9,7 +9,7 @@ namespace PozitronDev.QuerySpecification.UnitTests.Specs
     {
         public StoreIncludeMethodOfNavigationSpec()
         {
-            Query.Include(x => x.Address.GetSomethingFromAddress());
+            Query.Include(x => x.Address!.GetSomethingFromAddress());
         }
     }
 }
