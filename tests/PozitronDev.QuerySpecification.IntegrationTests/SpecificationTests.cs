@@ -73,21 +73,21 @@ namespace PozitronDev.QuerySpecification.IntegrationTests
         {
             var stores = await storeRepository.ListAsync(new StoresByCompanyOrderedDescByNameThenByIdSpec(2));
 
-            stores.First().Id.Should().Be(51);
-            stores.Last().Id.Should().Be(100);
+            stores.First().Id.Should().Be(99);
+            stores.Last().Id.Should().Be(98);
         }
 
         [Fact]
-        public async Task GetFirstPageOfStoresForCompanyWithId2_Using_StoresByCompanyPaginatedOrderedDescByNameSpec()
+        public async Task GetSecondPageOfStoresForCompanyWithId2_Using_StoresByCompanyPaginatedOrderedDescByNameSpec()
         {
             int take = 10; // pagesize 10
-            int skip = (1 - 1) * 10; // page 1
+            int skip = (2 - 1) * 10; // page 2
 
             var stores = await storeRepository.ListAsync(new StoresByCompanyPaginatedOrderedDescByNameSpec(2, skip, take));
 
             stores.Count.Should().Be(take);
-            stores.First().Id.Should().Be(StoreSeed.ORDERED_BY_NAME_DESC_FOR_COMPANY2_FIRST_ID);
-            stores.Last().Id.Should().Be(90);
+            stores.First().Id.Should().Be(StoreSeed.ORDERED_BY_NAME_DESC_FOR_COMPANY2_PAGE2_FIRST_ID);
+            stores.Last().Id.Should().Be(StoreSeed.ORDERED_BY_NAME_DESC_FOR_COMPANY2_PAGE2_LAST_ID);
         }
 
         [Fact]
