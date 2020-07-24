@@ -8,7 +8,7 @@
 
 &nbsp;
 
-<strong>Note:</strong> This package soon will be merged into the following GitHub project [Ardalis.Specification](https://github.com/fiseni/QuerySpecificationEF)
+<strong>Note:</strong> Most of the functionalities also have been merged into version4 of [Ardalis.Specification](https://github.com/fiseni/QuerySpecificationEF)
 
 # PozitronDev.QuerySpecification
 
