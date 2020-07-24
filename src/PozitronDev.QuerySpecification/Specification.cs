@@ -12,7 +12,6 @@ namespace PozitronDev.QuerySpecification
         protected Specification() : base()
         {
             this.Query = new SpecificationBuilder<T, TResult>(this);
-            base.Query = this.Query;
         }
 
         public Expression<Func<T, TResult>>? Selector { get; internal set; }
@@ -20,7 +19,7 @@ namespace PozitronDev.QuerySpecification
 
     public abstract class Specification<T> : ISpecification<T>
     {
-        protected virtual ISpecificationBuilder<T> Query { get; set; }
+        protected virtual ISpecificationBuilder<T> Query { get; }
 
         protected Specification()
         {
