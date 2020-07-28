@@ -8,7 +8,7 @@
 
 &nbsp;
 
-<strong>Note:</strong> Most of the functionalities also have been merged into version4 of [Ardalis.Specification](https://github.com/fiseni/QuerySpecificationEF)
+<strong>Note:</strong> Most of the functionalities also have been merged into version4 of [Ardalis.Specification](https://github.com/ardalis/Specification)
 
 # PozitronDev.QuerySpecification
 
@@ -22,7 +22,7 @@ Specification pattern in general is a way of combining and encapsulating set of 
 
 I personally, throughout the years have always avoided this pattern, and considered to be an unnecessary abstraction, which does more harm than good. The composite specification classes were just a glorified If statements. Check out this example on this [Wikipedia link](https://en.wikipedia.org/wiki/Specification_pattern). It can't be more ugly than that!
 
-### What changed
+### What has changed?
 
 Once EF got released, we realized we can use this pattern to improve our domain model. EF utilizes/can utilize IQueryable<T> to build the queries, which in the end are parsed and materialized to particular SQL statements. Since IQueryable<T> is a BCL type, we can construct powerful abstraction within our domain model. Let's assume the following example
 
@@ -45,7 +45,7 @@ There are various techniques how to achieve such an abstraction. But, in all tho
 
 That's exactly what this package addresses. The knowledge of the "queried data" is kept within the domain model, and then just materialized through some outer implementation. We still keep our domain clean of any dependencies, and clean of any implementation details.
 
-### What if I can't build all queries
+### What if I can't build all queries?
 
 The intention is not re-create all possible functionalities of various ORMs. Your ORM for sure will offer much more options in order to effectively build all sort of queries. You have complex queries, leave them in your persistence projects, and just keep the Interface in your domain model. That's what I do. But, surely 80% of the queries are just simple basic queries. Let's keep them in your domain model, and for the complex ones utilize the full potential of your ORM. This way, if you decide to change your ORM, you will have much less work to do.
 
