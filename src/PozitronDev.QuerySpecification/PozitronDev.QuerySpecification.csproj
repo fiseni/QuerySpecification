@@ -11,13 +11,13 @@
     <Summary>Abstract package for building query specifications in your domain model.</Summary>
     <Copyright>Copyright © 2020 Pozitron Group LLC</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>SpecificationBuilder provided as outer class and available for inheritance.</PackageReleaseNotes>
+    <PackageReleaseNotes>Search feature added.</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/fiseni/QuerySpecification</PackageProjectUrl>
     <PackageIconUrl>https://pozitrongroup.com/PozitronLogo.png</PackageIconUrl>
     <PackageIcon>pozitronicon.png</PackageIcon>
     <PackageTags>pozitron specification efcore repository cleanarchitecture</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.0.4</Version>
+    <Version>1.0.5</Version>
     <!--<DocumentationFile>bin\$(Configuration)\PozitronDev.QuerySpecification.xml</DocumentationFile>-->
     <RepositoryUrl>https://github.com/fiseni/QuerySpecification</RepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
