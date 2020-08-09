@@ -65,6 +65,12 @@ namespace PozitronDev.QuerySpecification
             return orderedSpecificationBuilder;
         }
 
+        public ISpecificationBuilder<T> Search(string searchTerm, int searchType = 1)
+        {
+            ((List<(string SearchTerm, int SearchType)>)specification.SearchCriterias).Add((searchTerm, searchType));
+            return this;
+        }
+
         public ISpecificationBuilder<T> Paginate(int skip, int take)
         {
             specification.Skip = skip;

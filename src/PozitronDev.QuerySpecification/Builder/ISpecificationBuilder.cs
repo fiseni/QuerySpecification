@@ -18,5 +18,6 @@ namespace PozitronDev.QuerySpecification
         IOrderedSpecificationBuilder<T> OrderByDescending(Expression<Func<T, object?>> orderExpression);
         ISpecificationBuilder<T> Include(string includeString);
         IIncludableSpecificationBuilder<T, TProperty> Include<TProperty>(Expression<Func<T, TProperty>> includeExpression);
+        ISpecificationBuilder<T> Search(string searchTerm, int searchType = 1);
     }
 }

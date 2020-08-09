@@ -35,6 +35,8 @@ namespace PozitronDev.QuerySpecification
 
         public IEnumerable<string> IncludeStrings { get; } = new List<string>();
 
+        public IEnumerable<(string SearchTerm, int SearchType)> SearchCriterias { get; } = new List<(string SearchTerm, int SearchType)>();
+
         public int Take { get; internal set; }
 
         public int Skip { get; internal set; }
