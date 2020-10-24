@@ -42,5 +42,7 @@ namespace PozitronDev.QuerySpecification
         public int? Skip { get; internal set; } = null;
 
         public bool IsPagingEnabled { get; internal set; } = false;
+
+        public Func<List<T>, List<T>>? InMemory { get; internal set; } = null;
     }
 }

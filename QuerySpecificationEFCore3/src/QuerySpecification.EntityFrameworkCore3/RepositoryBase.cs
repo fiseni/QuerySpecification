@@ -59,6 +59,7 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
             await dbContext.SaveChangesAsync();
         }
 
+
         public async Task<T?> GetByIdAsync(int id)
         {
             return await dbContext.Set<T>().FindAsync(id);
@@ -71,13 +72,14 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
 
         public async Task<T?> GetBySpecAsync(ISpecification<T> specification)
         {
-            return (await ListAsync(specification)).FirstOrDefault();
+            return await ApplySpecification(specification).FirstOrDefaultAsync();
         }
 
         public async Task<TResult> GetBySpecAsync<TResult>(ISpecification<T, TResult> specification)
         {
-            return (await ListAsync(specification)).FirstOrDefault();
+            return await ApplySpecification(specification).FirstOrDefaultAsync();
         }
+
 
         public async Task<List<T>> ListAsync()
         {
@@ -86,13 +88,16 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
 
         public async Task<List<T>> ListAsync(ISpecification<T> specification)
         {
-            return await ApplySpecification(specification).ToListAsync();
+            var queryResult = await ApplySpecification(specification).ToListAsync();
+
+            return specification.InMemory == null ? queryResult : specification.InMemory(queryResult);
         }
 
         public async Task<List<TResult>> ListAsync<TResult>(ISpecification<T, TResult> specification)
         {
             return await ApplySpecification(specification).ToListAsync();
         }
+
 
         public async Task<int> CountAsync(ISpecification<T> specification)
         {

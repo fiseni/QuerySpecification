@@ -23,5 +23,7 @@ namespace PozitronDev.QuerySpecification
 
         [Obsolete]
         bool IsPagingEnabled { get; }
+
+        public Func<List<T>, List<T>>? InMemory { get; }
     }
 }

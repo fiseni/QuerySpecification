@@ -23,5 +23,6 @@ namespace PozitronDev.QuerySpecification
         [Obsolete]
         ISpecificationBuilder<T> Paginate(int skip, int take);
         ISpecificationBuilder<T> Search(string searchTerm, int searchType = 1);
+        ISpecificationBuilder<T> InMemory(Func<List<T>, List<T>> predicate);
     }
 }

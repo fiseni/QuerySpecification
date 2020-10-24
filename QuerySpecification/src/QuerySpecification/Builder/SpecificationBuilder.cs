@@ -95,5 +95,11 @@ namespace PozitronDev.QuerySpecification
             Take(take);
             return this;
         }
+
+        public ISpecificationBuilder<T> InMemory(Func<List<T>, List<T>> predicate)
+        {
+            specification.InMemory = predicate;
+            return this;
+        }
     }
 }

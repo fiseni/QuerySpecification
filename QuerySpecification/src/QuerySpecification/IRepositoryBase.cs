@@ -21,6 +21,7 @@ namespace PozitronDev.QuerySpecification
         Task<List<T>> ListAsync();
         Task<List<T>> ListAsync(ISpecification<T> specification);
         Task<List<TResult>> ListAsync<TResult>(ISpecification<T, TResult> specification);
+
         Task<int> CountAsync(ISpecification<T> specification);
     }
 }
