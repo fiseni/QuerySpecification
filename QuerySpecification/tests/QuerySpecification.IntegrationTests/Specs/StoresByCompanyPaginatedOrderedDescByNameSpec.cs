@@ -10,7 +10,8 @@ namespace PozitronDev.QuerySpecification.IntegrationTests.Specs
         public StoresByCompanyPaginatedOrderedDescByNameSpec(int companyId, int skip, int take)
         {
             Query.Where(x => x.CompanyId == companyId)
-                 .Paginate(skip, take)
+                 .Skip(skip)
+                 .Take(take)
                  .OrderByDescending(x => x.Name);
         }
     }

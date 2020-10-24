@@ -62,7 +62,7 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests
             result.Should().NotBeNull();
             result.Name.Should().Be(CompanySeed.VALID_COMPANY_NAME);
             result.Stores.Count.Should().BeGreaterThan(49);
-            result.Stores.Select(x=>x.Address).Count().Should().BeGreaterThan(0);
+            result.Stores.Select(x => x.Address).Count().Should().BeGreaterThan(0);
         }
 
         [Fact]

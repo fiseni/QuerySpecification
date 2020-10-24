@@ -18,8 +18,10 @@ namespace PozitronDev.QuerySpecification
         IEnumerable<(Expression<Func<T, object>> KeySelector, OrderTypeEnum OrderType)> OrderExpressions { get; }
         IEnumerable<(string SearchTerm, int SearchType)> SearchCriterias { get; }
 
-        int Take { get; }
-        int Skip { get; }
+        int? Take { get; }
+        int? Skip { get; }
+
+        [Obsolete]
         bool IsPagingEnabled { get; }
     }
 }

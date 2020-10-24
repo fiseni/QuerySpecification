@@ -59,17 +59,22 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T?> GetByIdAsync(int id)
         {
             return await dbContext.Set<T>().FindAsync(id);
         }
 
-        public async Task<T> GetByIdAsync<TId>(TId id)
+        public async Task<T?> GetByIdAsync<TId>(TId id)
         {
             return await dbContext.Set<T>().FindAsync(id);
         }
 
-        public async Task<T> GetBySpecAsync(ISpecification<T> specification)
+        public async Task<T?> GetBySpecAsync(ISpecification<T> specification)
+        {
+            return (await ListAsync(specification)).FirstOrDefault();
+        }
+
+        public async Task<TResult> GetBySpecAsync<TResult>(ISpecification<T, TResult> specification)
         {
             return (await ListAsync(specification)).FirstOrDefault();
         }
@@ -86,9 +91,6 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
 
         public async Task<List<TResult>> ListAsync<TResult>(ISpecification<T, TResult> specification)
         {
-            if (specification is null) throw new ArgumentNullException("Specification is required");
-            if (specification.Selector is null) throw new Exception("Specification must have Selector defined.");
-
             return await ApplySpecification(specification).ToListAsync();
         }
 
@@ -98,12 +100,15 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
         }
 
 
-        private IQueryable<T> ApplySpecification(ISpecification<T> specification)
+        protected IQueryable<T> ApplySpecification(ISpecification<T> specification)
         {
             return specificationEvaluator.GetQuery(dbContext.Set<T>().AsQueryable(), specification);
         }
-        private IQueryable<TResult> ApplySpecification<TResult>(ISpecification<T, TResult> specification)
+        protected IQueryable<TResult> ApplySpecification<TResult>(ISpecification<T, TResult> specification)
         {
+            if (specification is null) throw new ArgumentNullException("Specification is required");
+            if (specification.Selector is null) throw new SelectorNotFoundException();
+
             return specificationEvaluator.GetQuery(dbContext.Set<T>().AsQueryable(), specification);
         }
     }

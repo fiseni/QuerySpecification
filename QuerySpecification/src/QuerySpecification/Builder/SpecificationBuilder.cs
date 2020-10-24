@@ -71,11 +71,28 @@ namespace PozitronDev.QuerySpecification
             return this;
         }
 
-        public ISpecificationBuilder<T> Paginate(int skip, int take)
+        public ISpecificationBuilder<T> Take(int take)
         {
-            specification.Skip = skip;
+            if (specification.Take != null) throw new DuplicateTakeException();
+
             specification.Take = take;
             specification.IsPagingEnabled = true;
+            return this;
+        }
+
+        public ISpecificationBuilder<T> Skip(int skip)
+        {
+            if (specification.Skip != null) throw new DuplicateSkipException();
+
+            specification.Skip = skip;
+            specification.IsPagingEnabled = true;
+            return this;
+        }
+
+        public ISpecificationBuilder<T> Paginate(int skip, int take)
+        {
+            Skip(skip);
+            Take(take);
             return this;
         }
     }

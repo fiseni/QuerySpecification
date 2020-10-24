@@ -37,9 +37,9 @@ namespace PozitronDev.QuerySpecification
 
         public IEnumerable<(string SearchTerm, int SearchType)> SearchCriterias { get; } = new List<(string SearchTerm, int SearchType)>();
 
-        public int Take { get; internal set; }
+        public int? Take { get; internal set; } = null;
 
-        public int Skip { get; internal set; }
+        public int? Skip { get; internal set; } = null;
 
         public bool IsPagingEnabled { get; internal set; } = false;
     }
