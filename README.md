@@ -75,6 +75,8 @@ public MyCompanySpec(int countryId)
 
     Query.InMemory(x =>
     {
+    	// This is a capability for InMemory operations.
+	// Once the data is materialized/retrieved from persistence, this predicate will be called to further manipulate the result.
         // Here you are not constrained to the specification builder.
         // You can use everything that .NET offers in order to manipulate the List
     });
