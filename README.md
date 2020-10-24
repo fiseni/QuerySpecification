@@ -1,4 +1,4 @@
-<img align="left" src="pozitronlogo.png" width="120" height="120">
+<img align="left" src="docs/pozitronlogo.png" width="120" height="120">
 
 &nbsp; [![NuGet](https://img.shields.io/nuget/v/PozitronDev.QuerySpecification.svg)](https://www.nuget.org/packages/PozitronDev.QuerySpecification)[![NuGet](https://img.shields.io/nuget/dt/PozitronDev.QuerySpecification.svg)](https://www.nuget.org/packages/PozitronDev.QuerySpecification)
 
@@ -12,9 +12,11 @@
 
 # PozitronDev.QuerySpecification
 
-Nuget package for building query specifications in your domain model. They are evaluated and utilized to create actual queries for your ORM.
+Nuget packages for building query specifications in your domain model. They are evaluated and utilized to create actual queries for your ORM.
 
-This is base/abstract package intended to be utilized for various ORM implementation packages. Please check [PozitronDev.QuerySpecification.EF](https://github.com/fiseni/QuerySpecificationEF) for the EF implementation, which contains EF evaluators and generic repository ready to be consumed in your projects.
+Packages:
+- <strong>PozitronDev.QuerySpecification:</strong> Base/abstract package intended to be utilized for various ORM implementation packages
+- <strong>PozitronDev.QuerySpecification.EntityFrameworkCore3:</strong> An EntityFramework Core 3 plugin to the base abstract package. It contains EF evaluators and generic repository ready to be consumed in your projects.
 
 ## What is specification pattern
 
@@ -56,44 +58,50 @@ Basically, you just need to inherit from the Specification abstract class. The c
 Add `PozitronDev.QuerySpecification` nuget package in your core/domain project. This package has no any dependencies other than .NET framework.
 
 ```
-public class MyCompanySpec : Specification<Company>
+public MyCompanySpec(int countryId)
 {
-    public MyCompanySpec(int countryId)
+    // It's possible to chain everything, or write them separately. 
+    // It's based on your preference
+    Query.Where(x => x.CountryId == countryId)
+         .Skip(10)
+	 .Take(20)
+         .OrderBy(x => x.Name)
+            .ThenByDescending(x => x.SomeOtherCompanyInfo);
+
+    Query.Where(x => x.Name == "MyCompany")
+         .Include(x => x.Stores)
+            .ThenInclude(x => x.Addresses);
+
+    Query.Include(x => x.Country);
+
+    Query.InMemory(x =>
     {
-	// It's possible to chain everything, or write them separately. 
-	// It's based on your preference
-	Query.Where(x => x.CountryId == countryId)
-		 .Paginate(10, 20)
-		 .OrderBy(x => x.Name)
-			.ThenByDescending(x => x.SomeOtherCompanyInfo);
-
-	Query.Where(x => x.Name == "MyCompany")
-		 .Include(x => x.Stores)
-			.ThenInclude(x => x.Addresses)
-
-	Query.Include(x => x.Country)
-    }
+    	// This is a capability for InMemory operations.
+	// Once the data is materialized/retrieved from persistence, this predicate will be called to further manipulate the result.
+        // Here you are not constrained to the specification builder.
+        // You can use everything that .NET offers in order to manipulate the List
+    });
 }
 ```
 
-In your infrastructure project, add the EF plugin nuget package `PozitronDev.QuerySpecification.EF`. Once you do that, you can use an instance of SpecificationEvaluator to evaluate your specifications into IQueryable.
+In your infrastructure project, add the EF plugin nuget package `PozitronDev.QuerySpecification.EntityFrameworkCore3`. Once you do that, you can use an instance of SpecificationEvaluator to evaluate your specifications into IQueryable.
 
 ### Base Repository
 
-The EF plugin nuget package `PozitronDev.QuerySpecification.EF` contains an abstract `RepositoryBase` class. If you want you can use it as base class for your repository, thus leveraging from the provided set of standard generic methods. Inherit from it as following
+The EF plugin nuget package `PozitronDev.QuerySpecification.EntityFrameworkCore3` contains an abstract `RepositoryBase` class. If you want you can use it as base class for your repository, thus leveraging from the provided set of standard generic methods. Inherit from it as following
 
 ```
 public class Repository<T> : RepositoryBase<T>, IRepository<T>
 {
-	private readonly MyDbContext myDbContext;
+    private readonly MyDbContext myDbContext;
 
-	public Repository(MyDbContext myDbContext)
-		: base(myDbContext)
-	{
-		this.myDbContext = myDbContext;
-	}
+    public Repository(MyDbContext myDbContext)
+        : base(myDbContext)
+    {
+        this.myDbContext = myDbContext;
+    }
 
-	// Not required to implement anything. Add additional functionalities if required.
+    // Not required to implement anything. Add additional functionalities if required.
 }
 ```
 
@@ -108,19 +116,19 @@ That's it. Now, let's use and consume it from your services/controllers or whate
 ```
 public class CompanyService : ICompanyService
 {
-	private readonly IRepository<Company> companyRepository;
+    private readonly IRepository<Company> companyRepository;
 
-	public CompanyService(IRepository<Company> companyRepository)
-	{
-		this.companyRepository = companyRepository;
-	}
-	
-	public async Task<List<Company>> GetMyCompanies()
-	{
-		var companies = await companyRepository.ListAsync(new MyCompanySpec());
+    public CompanyService(IRepository<Company> companyRepository)
+    {
+	    this.companyRepository = companyRepository;
+    }
 
-		return companies;
-	}
+    public async Task<List<Company>> GetMyCompanies()
+    {
+	    var companies = await companyRepository.ListAsync(new MyCompanySpec());
+
+	    return companies;
+    }
 }
 ```
 
