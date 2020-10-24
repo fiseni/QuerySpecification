@@ -1,8 +1,12 @@
 trigger:
   branches:
-      include:
-      - master
-      - refs/tags/*
+    include:
+    - master
+    - refs/tags/efcore3-*
+  paths:
+    include:
+    - QuerySpecificationEFCore3/*
+
 pr:
 - master
 
@@ -52,14 +56,14 @@ steps:
   inputs:
     command: test
     arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
-    projects: 'tests/**/*.csproj'
+    projects: 'QuerySpecificationEFCore3/tests/**/*.csproj'
     nobuild: true
 
 - task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
   displayName: ReportGenerator
   inputs:
-    reports: '$(Build.SourcesDirectory)/tests/**/coverage.cobertura.xml'
-    targetdir: '$(Build.SourcesDirectory)/CodeCoverage'
+    reports: '$(Build.SourcesDirectory)/QuerySpecificationEFCore3/tests/**/coverage.cobertura.xml'
+    targetdir: '$(Build.SourcesDirectory)/CodeCoverageEFCore3'
     reporttypes: 'HtmlInline_AzurePipelines;Cobertura;Badges'
     assemblyfilters: '-xunit*'
 
@@ -67,15 +71,15 @@ steps:
   displayName: 'Publish code coverage'
   inputs:
     codeCoverageTool: Cobertura
-    summaryFileLocation: '$(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml'
-#    reportDirectory: '$(Build.SourcesDirectory)/CodeCoverage'
+    summaryFileLocation: '$(Build.SourcesDirectory)/CodeCoverageEFCore3/Cobertura.xml'
+#    reportDirectory: '$(Build.SourcesDirectory)/CodeCoverageEFCore3'
 
 - task: CopyFiles@2
   displayName: 'Copy *.nupkg Files'
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)'
-    Contents: '**\*.nupkg'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)\Package'
+    Contents: 'QuerySpecificationEFCore3/**/*.nupkg'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)\QuerySpecificationEFCore3Package'
     flattenFolders: true
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
@@ -83,5 +87,6 @@ steps:
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)\Package'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)\QuerySpecificationEFCore3Package'
+    artifactName: QuerySpecificationEFCore3Package
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
