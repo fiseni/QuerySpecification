@@ -14,9 +14,15 @@ namespace PozitronDev.QuerySpecification
             this.specification = specification;
         }
 
-        public ISpecificationBuilder<T> Select(Expression<Func<T, TResult>> selector)
+        public ISpecificationBuilder<T, TResult> Select(Expression<Func<T, TResult>> selector)
         {
             specification.Selector = selector;
+            return this;
+        }
+
+        public ISpecificationBuilder<T, TResult> InMemory(Func<List<TResult>, List<TResult>> predicate)
+        {
+            specification.InMemory = predicate;
             return this;
         }
     }

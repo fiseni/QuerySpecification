@@ -107,7 +107,9 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
 
         public async Task<List<TResult>> ListAsync<TResult>(ISpecification<T, TResult> specification)
         {
-            return await ApplySpecification(specification).ToListAsync();
+            var queryResult = await ApplySpecification(specification).ToListAsync();
+
+            return specification.InMemory == null ? queryResult : specification.InMemory(queryResult);
         }
 
 

@@ -8,6 +8,7 @@ namespace PozitronDev.QuerySpecification
     public interface ISpecification<T, TResult> : ISpecification<T>
     {
         Expression<Func<T, TResult>>? Selector { get; }
+        new Func<List<TResult>, List<TResult>>? InMemory { get; }
     }
 
     public interface ISpecification<T>
@@ -24,6 +25,6 @@ namespace PozitronDev.QuerySpecification
         [Obsolete]
         bool IsPagingEnabled { get; }
 
-        public Func<List<T>, List<T>>? InMemory { get; }
+        Func<List<T>, List<T>>? InMemory { get; }
     }
 }

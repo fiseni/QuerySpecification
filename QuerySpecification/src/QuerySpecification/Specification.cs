@@ -15,6 +15,8 @@ namespace PozitronDev.QuerySpecification
         }
 
         public Expression<Func<T, TResult>>? Selector { get; internal set; }
+
+        public new Func<List<TResult>, List<TResult>>? InMemory { get; internal set; } = null;
     }
 
     public abstract class Specification<T> : ISpecification<T>

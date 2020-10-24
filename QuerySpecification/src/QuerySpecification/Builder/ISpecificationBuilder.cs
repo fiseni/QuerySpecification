@@ -7,7 +7,8 @@ namespace PozitronDev.QuerySpecification
 {
     public interface ISpecificationBuilder<T, TResult> : ISpecificationBuilder<T>
     {
-        ISpecificationBuilder<T> Select(Expression<Func<T, TResult>> selector);
+        ISpecificationBuilder<T, TResult> Select(Expression<Func<T, TResult>> selector);
+        ISpecificationBuilder<T, TResult> InMemory(Func<List<TResult>, List<TResult>> predicate);
     }
 
     public interface ISpecificationBuilder<T>
