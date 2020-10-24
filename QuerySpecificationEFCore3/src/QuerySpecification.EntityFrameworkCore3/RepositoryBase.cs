@@ -24,34 +24,46 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
             this.specificationEvaluator = specificationEvaluator;
         }
 
-        public async Task<T> AddAsync(T entity)
+        public async Task<T> AddAsync(T entity, bool saveChanges = true)
         {
             dbContext.Set<T>().Add(entity);
 
-            await SaveChangesAsync();
+            if (saveChanges)
+            {
+                await SaveChangesAsync();
+            }
 
             return entity;
         }
 
-        public async Task UpdateAsync(T entity)
+        public async Task UpdateAsync(T entity, bool saveChanges = true)
         {
             dbContext.Entry(entity).State = EntityState.Modified;
 
-            await SaveChangesAsync();
+            if (saveChanges)
+            {
+                await SaveChangesAsync();
+            }
         }
 
-        public async Task DeleteAsync(T entity)
+        public async Task DeleteAsync(T entity, bool saveChanges = true)
         {
             dbContext.Set<T>().Remove(entity);
 
-            await SaveChangesAsync();
+            if (saveChanges)
+            {
+                await SaveChangesAsync();
+            }
         }
 
-        public async Task DeleteRangeAsync(IEnumerable<T> entities)
+        public async Task DeleteRangeAsync(IEnumerable<T> entities, bool saveChanges = true)
         {
             dbContext.Set<T>().RemoveRange(entities);
 
-            await SaveChangesAsync();
+            if (saveChanges)
+            {
+                await SaveChangesAsync();
+            }
         }
 
         public async Task SaveChangesAsync()

@@ -7,10 +7,10 @@ namespace PozitronDev.QuerySpecification
 {
     public interface IRepositoryBase<T> where T : class
     {
-        Task<T> AddAsync(T entity);
-        Task UpdateAsync(T entity);
-        Task DeleteAsync(T entity);
-        Task DeleteRangeAsync(IEnumerable<T> entities);
+        Task<T> AddAsync(T entity, bool saveChanges = true);
+        Task UpdateAsync(T entity, bool saveChanges = true);
+        Task DeleteAsync(T entity, bool saveChanges = true);
+        Task DeleteRangeAsync(IEnumerable<T> entities, bool saveChanges = true);
         Task SaveChangesAsync();
 
         Task<T?> GetByIdAsync(int id);
