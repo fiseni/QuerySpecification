@@ -28,7 +28,7 @@ namespace PozitronDev.QuerySpecification
             }
 
             // Need to check for null if <Nullable> is enabled.
-            if (specification.OrderExpressions != null)
+            if (specification.OrderExpressions != null && specification.OrderExpressions.Count() > 0)
             {
                 IOrderedQueryable<T>? orderedQuery = null;
                 foreach (var orderExpression in specification.OrderExpressions)
@@ -49,11 +49,11 @@ namespace PozitronDev.QuerySpecification
                     {
                         orderedQuery = orderedQuery.ThenByDescending(orderExpression.KeySelector);
                     }
-                }
 
-                if (orderedQuery != null)
-                {
-                    query = orderedQuery;
+                    if (orderedQuery != null)
+                    {
+                        query = orderedQuery;
+                    }
                 }
             }
 
