@@ -26,9 +26,9 @@
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-  
+
   <ItemGroup>
-    <None Include="../../pozitronicon.png" Pack="true" PackagePath="\" />
+    <None Include="../../../docs/pozitronicon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
   
 </Project>
