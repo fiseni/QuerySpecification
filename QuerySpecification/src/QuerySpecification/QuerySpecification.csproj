@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>PozitronDev.QuerySpecification</PackageId>
+    <Authors>Fati Iseni</Authors>
+    <Company>Pozitron Group LLC</Company>
+    <Product>Pozitron Query Specification</Product>
+    <Title>PozitronDev.QuerySpecification</Title>
+    <Description>Abstract package for building query specifications in your domain model.</Description>
+    <Summary>Abstract package for building query specifications in your domain model.</Summary>
+    <Copyright>Copyright © 2020 Pozitron Group LLC</Copyright>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReleaseNotes>Search feature added.</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/fiseni/QuerySpecification</PackageProjectUrl>
+    <PackageIconUrl>https://pozitrongroup.com/PozitronLogo.png</PackageIconUrl>
+    <PackageIcon>pozitronicon.png</PackageIcon>
+    <PackageTags>pozitron specification efcore repository cleanarchitecture</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Version>1.0.5</Version>
+    <!--<DocumentationFile>bin\$(Configuration)\PozitronDev.QuerySpecification.xml</DocumentationFile>-->
+    <RepositoryUrl>https://github.com/fiseni/QuerySpecification</RepositoryUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <RootNamespace>PozitronDev.QuerySpecification</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../../docs/pozitronicon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  
+</Project>

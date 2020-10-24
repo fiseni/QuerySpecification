@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <IsPackable>false</IsPackable>
     <Nullable>enable</Nullable>
+    <RootNamespace>PozitronDev.QuerySpecification.IntegrationTests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\PozitronDev.QuerySpecification\PozitronDev.QuerySpecification.csproj" />
+    <ProjectReference Include="..\..\src\QuerySpecification\QuerySpecification.csproj" />
   </ItemGroup>
 
 </Project>
