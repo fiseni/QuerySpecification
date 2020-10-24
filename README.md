@@ -63,13 +63,13 @@ public MyCompanySpec(int countryId)
     // It's possible to chain everything, or write them separately. 
     // It's based on your preference
     Query.Where(x => x.CountryId == countryId)
-        .Paginate(10, 20)
-        .OrderBy(x => x.Name)
-        .ThenByDescending(x => x.SomeOtherCompanyInfo);
+         .Paginate(10, 20)
+         .OrderBy(x => x.Name)
+            .ThenByDescending(x => x.SomeOtherCompanyInfo);
 
     Query.Where(x => x.Name == "MyCompany")
-        .Include(x => x.Stores)
-        .ThenInclude(x => x.Addresses);
+         .Include(x => x.Stores)
+            .ThenInclude(x => x.Addresses);
 
     Query.Include(x => x.Country);
 
