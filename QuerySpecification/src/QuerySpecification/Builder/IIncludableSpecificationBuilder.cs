@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification
 {
-    public interface IIncludableSpecificationBuilder<T, out TProperty>
+    public interface IIncludableSpecificationBuilder<T, out TProperty> : ISpecificationBuilder<T>
     {
         IIncludeAggregator Aggregator { get; }
     }
