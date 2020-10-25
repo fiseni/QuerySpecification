@@ -15,7 +15,7 @@
 Nuget packages for building query specifications in your domain model. They are evaluated and utilized to create actual queries for your ORM.
 
 Packages:
-- <strong>PozitronDev.QuerySpecification:</strong> Base/abstract package intended to be utilized for various ORM implementation packages
+- <strong>PozitronDev.QuerySpecification:</strong> Base/abstract package which has dependency only on .NET, so you reference it from your core project and build your specifications.
 - <strong>PozitronDev.QuerySpecification.EntityFrameworkCore3:</strong> An EntityFramework Core 3 plugin to the base abstract package. It contains EF evaluators and generic repository ready to be consumed in your projects.
 
 ## What is specification pattern
