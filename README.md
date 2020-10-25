@@ -54,7 +54,7 @@ The intention is not re-create all possible functionalities of various ORMs. You
 ## Usage
 
 The usage is quite straight-forward. In this package I tried to mimic the existing LINQ approach of doing things, so I believe the usage would be quite familiar to a large audience.
-Basically, you just need to inherit from the Specification abstract class. The class offers a builder "Query", and by using the builder you write your query in the constructor. That's it.
+Basically, you just need to inherit from the Specification abstract class. The class offers a builder "Query", and by using the builder you write your query in the constructor. 
 Add `PozitronDev.QuerySpecification` nuget package in your core/domain project. This package has no any dependencies other than .NET framework.
 
 ```
@@ -71,6 +71,8 @@ public MyCompanySpec(int countryId)
     Query.Where(x => x.Name == "MyCompany")
          .Include(x => x.Stores)
             .ThenInclude(x => x.Addresses);
+	    
+    Query.Search(x => x.Address, "portion of address")
 
     Query.Include(x => x.Country);
 
@@ -85,6 +87,50 @@ public MyCompanySpec(int countryId)
 ```
 
 In your infrastructure project, add the EF plugin nuget package `PozitronDev.QuerySpecification.EntityFrameworkCore3`. Once you do that, you can use an instance of SpecificationEvaluator to evaluate your specifications into IQueryable.
+
+### Search feature
+
+There are ocassions when we need to utilize SQL Like functionality. It offers some quasi full-text search. Not applicable everywhere, but there are cases where it's quite useful. As part of this package `Search` feature is provided while building the specifications. The evaluator will automatically translate and build expressions utilizing the `EF.Functions.Like` feature of Entity Framework.
+
+The implementation complexity is hidden, and clean usage is provided. If you define following specification:
+
+```
+public class CustomerSpec : Specification<Customer>
+{
+    public CustomerSpec(string searchTerm)
+    {
+        Query.Search(x => x.Name, searchTerm)
+             .Search(x => x.Address, searchTerm);
+    }
+}
+```
+The evaluator will translate this automatically into
+	
+```
+dbContext.Customers.Where(x => EF.Functions.Like(x.Name, searchTerm) ||
+                                EF.Functions.Like(x.Address, searchTerm));
+```
+
+You can also provide separate/different search terms for each property. The `Search` expressions ultimately will be evaluated into `OR` conditions while building the query. If you need `AND` condition, you can provide additional paremeter `SearchGroup` to `Search`. The usage is as following:
+
+```
+public class CustomerSpec : Specification<Customer>
+{
+    public CustomerSpec(string searchTerm)
+    {
+        Query.Search(x => x.Name, searchTerm, 1)
+             .Search(x => x.Address, searchTerm, 1);
+             .Search(x => x.Phone, searchTerm, 2);
+    }
+}
+```
+The evaluator will translate this into
+	
+```
+dbContext.Customers.Where(x => EF.Functions.Like(x.Name, searchTerm) ||
+                                EF.Functions.Like(x.Address, searchTerm))
+		   .Where(x => EF.Functions.Like(x.Phone, searchTerm));
+```
 
 ### Base Repository
 
