@@ -16,14 +16,15 @@ namespace PozitronDev.QuerySpecification
         ISpecificationBuilder<T> Where(Expression<Func<T, bool>> criteria);
         IOrderedSpecificationBuilder<T> OrderBy(Expression<Func<T, object?>> orderExpression);
         IOrderedSpecificationBuilder<T> OrderByDescending(Expression<Func<T, object?>> orderExpression);
-        ISpecificationBuilder<T> Include(string includeString);
         IIncludableSpecificationBuilder<T, TProperty> Include<TProperty>(Expression<Func<T, TProperty>> includeExpression);
+        ISpecificationBuilder<T> Include(string includeString);
+        ISpecificationBuilder<T> Search(Expression<Func<T, string>> selector, string searchTerm, int searchGroup = 1);
+        
         ISpecificationBuilder<T> Take(int take);
         ISpecificationBuilder<T> Skip(int skip);
-
         [Obsolete]
         ISpecificationBuilder<T> Paginate(int skip, int take);
-        ISpecificationBuilder<T> Search(string searchTerm, int searchType = 1);
+        
         ISpecificationBuilder<T> InMemory(Func<List<T>, List<T>> predicate);
     }
 }

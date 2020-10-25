@@ -44,6 +44,18 @@ namespace PozitronDev.QuerySpecification
             return this;
         }
 
+        public IOrderedSpecificationBuilder<T> OrderBy(Expression<Func<T, object?>> orderExpression)
+        {
+            ((List<(Expression<Func<T, object?>> OrderExpression, OrderTypeEnum OrderType)>)specification.OrderExpressions).Add((orderExpression, OrderTypeEnum.OrderBy));
+            return orderedSpecificationBuilder;
+        }
+
+        public IOrderedSpecificationBuilder<T> OrderByDescending(Expression<Func<T, object?>> orderExpression)
+        {
+            ((List<(Expression<Func<T, object?>> OrderExpression, OrderTypeEnum OrderType)>)specification.OrderExpressions).Add((orderExpression, OrderTypeEnum.OrderByDescending));
+            return orderedSpecificationBuilder;
+        }
+
         public IIncludableSpecificationBuilder<T, TProperty> Include<TProperty>(Expression<Func<T, TProperty>> includeExpression)
         {
             var aggregator = new IncludeAggregator((includeExpression.Body as MemberExpression)?.Member?.Name);
@@ -59,23 +71,12 @@ namespace PozitronDev.QuerySpecification
             return this;
         }
 
-        public IOrderedSpecificationBuilder<T> OrderBy(Expression<Func<T, object?>> orderExpression)
+        public ISpecificationBuilder<T> Search(Expression<Func<T, string>> selector, string searchTerm, int searchGroup = 1)
         {
-            ((List<(Expression<Func<T, object?>> OrderExpression, OrderTypeEnum OrderType)>)specification.OrderExpressions).Add((orderExpression, OrderTypeEnum.OrderBy));
-            return orderedSpecificationBuilder;
-        }
-
-        public IOrderedSpecificationBuilder<T> OrderByDescending(Expression<Func<T, object?>> orderExpression)
-        {
-            ((List<(Expression<Func<T, object?>> OrderExpression, OrderTypeEnum OrderType)>)specification.OrderExpressions).Add((orderExpression, OrderTypeEnum.OrderByDescending));
-            return orderedSpecificationBuilder;
-        }
-
-        public ISpecificationBuilder<T> Search(string searchTerm, int searchType = 1)
-        {
-            ((List<(string SearchTerm, int SearchType)>)specification.SearchCriterias).Add((searchTerm, searchType));
+            ((List<(Expression<Func<T, string>> Selector, string SearchTerm, int SearchGroup)>)specification.SearchCriterias).Add((selector, searchTerm, searchGroup));
             return this;
         }
+
 
         public ISpecificationBuilder<T> Take(int take)
         {
@@ -101,6 +102,7 @@ namespace PozitronDev.QuerySpecification
             Take(take);
             return this;
         }
+
 
         public ISpecificationBuilder<T> InMemory(Func<List<T>, List<T>> predicate)
         {

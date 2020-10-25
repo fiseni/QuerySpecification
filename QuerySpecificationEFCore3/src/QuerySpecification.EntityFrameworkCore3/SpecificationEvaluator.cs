@@ -8,18 +8,6 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
 {
     public class SpecificationEvaluator<T> : SpecificationEvaluatorBase<T> where T : class
     {
-        private readonly ISearchEvaluator<T>? searchEvaluator;
-
-        public SpecificationEvaluator()
-        {
-            this.searchEvaluator = null;
-        }
-
-        public SpecificationEvaluator(ISearchEvaluator<T>? searchEvaluator)
-        {
-            this.searchEvaluator = searchEvaluator;
-        }
-
         public override IQueryable<TResult> GetQuery<TResult>(IQueryable<T> inputQuery, ISpecification<T, TResult> specification)
         {
             var query = GetQuery(inputQuery, (ISpecification<T>)specification);
@@ -45,14 +33,10 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
                 }
             }
 
-            foreach (var searchCriteria in specification.SearchCriterias)
+            foreach (var searchCriteria in specification.SearchCriterias.GroupBy(x => x.SearchGroup))
             {
-                var searchExpression = searchEvaluator?.GetExpression(searchCriteria.SearchTerm, searchCriteria.SearchType);
-
-                if (searchExpression != null)
-                {
-                    query = query.Where(searchExpression);
-                }
+                var criterias = searchCriteria.Select(x => (x.Selector, x.SearchTerm));
+                query = query.Search(criterias);
             }
 
             return query;

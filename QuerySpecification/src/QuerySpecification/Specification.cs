@@ -37,7 +37,9 @@ namespace PozitronDev.QuerySpecification
 
         public IEnumerable<string> IncludeStrings { get; } = new List<string>();
 
-        public IEnumerable<(string SearchTerm, int SearchType)> SearchCriterias { get; } = new List<(string SearchTerm, int SearchType)>();
+        public IEnumerable<(Expression<Func<T, string>> Selector, string SearchTerm, int SearchGroup)> SearchCriterias { get; } = 
+            new List<(Expression<Func<T, string>> Selector, string SearchTerm, int SearchGroup)>();
+
 
         public int? Take { get; internal set; } = null;
 
@@ -45,6 +47,7 @@ namespace PozitronDev.QuerySpecification
 
         public bool IsPagingEnabled { get; internal set; } = false;
 
+        
         public Func<List<T>, List<T>>? InMemory { get; internal set; } = null;
     }
 }

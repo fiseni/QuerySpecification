@@ -24,7 +24,7 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
             this.specificationEvaluator = specificationEvaluator;
         }
 
-        public async Task<T> AddAsync(T entity, bool saveChanges = true)
+        public virtual async Task<T> AddAsync(T entity, bool saveChanges = true)
         {
             dbContext.Set<T>().Add(entity);
 
@@ -35,8 +35,7 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
 
             return entity;
         }
-
-        public async Task UpdateAsync(T entity, bool saveChanges = true)
+        public virtual async Task UpdateAsync(T entity, bool saveChanges = true)
         {
             dbContext.Entry(entity).State = EntityState.Modified;
 
@@ -45,8 +44,7 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
                 await SaveChangesAsync();
             }
         }
-
-        public async Task DeleteAsync(T entity, bool saveChanges = true)
+        public virtual async Task DeleteAsync(T entity, bool saveChanges = true)
         {
             dbContext.Set<T>().Remove(entity);
 
@@ -55,8 +53,7 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
                 await SaveChangesAsync();
             }
         }
-
-        public async Task DeleteRangeAsync(IEnumerable<T> entities, bool saveChanges = true)
+        public virtual async Task DeleteRangeAsync(IEnumerable<T> entities, bool saveChanges = true)
         {
             dbContext.Set<T>().RemoveRange(entities);
 
@@ -65,59 +62,49 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
                 await SaveChangesAsync();
             }
         }
-
-        public async Task SaveChangesAsync()
+        public virtual async Task SaveChangesAsync()
         {
             await dbContext.SaveChangesAsync();
         }
 
-
-        public async Task<T?> GetByIdAsync(int id)
+        public virtual async Task<T?> GetByIdAsync(int id)
         {
             return await dbContext.Set<T>().FindAsync(id);
         }
-
-        public async Task<T?> GetByIdAsync<TId>(TId id)
+        public virtual async Task<T?> GetByIdAsync<TId>(TId id)
         {
             return await dbContext.Set<T>().FindAsync(id);
         }
-
-        public async Task<T?> GetBySpecAsync(ISpecification<T> specification)
+        public virtual async Task<T?> GetBySpecAsync(ISpecification<T> specification)
+        {
+            return await ApplySpecification(specification).FirstOrDefaultAsync();
+        }
+        public virtual async Task<TResult> GetBySpecAsync<TResult>(ISpecification<T, TResult> specification)
         {
             return await ApplySpecification(specification).FirstOrDefaultAsync();
         }
 
-        public async Task<TResult> GetBySpecAsync<TResult>(ISpecification<T, TResult> specification)
-        {
-            return await ApplySpecification(specification).FirstOrDefaultAsync();
-        }
-
-
-        public async Task<List<T>> ListAsync()
+        public virtual async Task<List<T>> ListAsync()
         {
             return await dbContext.Set<T>().ToListAsync();
         }
+        public virtual async Task<List<T>> ListAsync(ISpecification<T> specification)
+        {
+            var queryResult = await ApplySpecification(specification).ToListAsync();
 
-        public async Task<List<T>> ListAsync(ISpecification<T> specification)
+            return specification.InMemory == null ? queryResult : specification.InMemory(queryResult);
+        }
+        public virtual async Task<List<TResult>> ListAsync<TResult>(ISpecification<T, TResult> specification)
         {
             var queryResult = await ApplySpecification(specification).ToListAsync();
 
             return specification.InMemory == null ? queryResult : specification.InMemory(queryResult);
         }
 
-        public async Task<List<TResult>> ListAsync<TResult>(ISpecification<T, TResult> specification)
-        {
-            var queryResult = await ApplySpecification(specification).ToListAsync();
-
-            return specification.InMemory == null ? queryResult : specification.InMemory(queryResult);
-        }
-
-
-        public async Task<int> CountAsync(ISpecification<T> specification)
+        public virtual async Task<int> CountAsync(ISpecification<T> specification)
         {
             return await ApplySpecification(specification).CountAsync();
         }
-
 
         protected IQueryable<T> ApplySpecification(ISpecification<T> specification)
         {
