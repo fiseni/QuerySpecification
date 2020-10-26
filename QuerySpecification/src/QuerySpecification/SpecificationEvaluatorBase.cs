@@ -5,6 +5,10 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification
 {
+    // This class is not used as base by the evaluator in plugin package anymore, since we have to ensure proper order of evaluation.
+    // For an example Search should be evaluated before pagination.
+    // This base class remains just for legacy reasons and for unit tests.
+
     public abstract class SpecificationEvaluatorBase<T> : ISpecificationEvaluator<T> where T : class
     {
         public virtual IQueryable<TResult> GetQuery<TResult>(IQueryable<T> inputQuery, ISpecification<T, TResult> specification)
@@ -21,10 +25,9 @@ namespace PozitronDev.QuerySpecification
         {
             var query = inputQuery;
 
-            if (specification.WhereExpressions.Count() > 0)
+            foreach (var criteria in specification.WhereExpressions)
             {
-                query = specification.WhereExpressions.Aggregate(query,
-                                    (current, criteria) => current.Where(criteria));
+                query = query.Where(criteria);
             }
 
             // Need to check for null if <Nullable> is enabled.
