@@ -3,6 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PozitronDev.SpecSampleApp.Core", "sample\PozitronDev.SpecSampleApp.Core\PozitronDev.SpecSampleApp.Core.csproj", "{0B9C3415-F1C4-4CF3-96E6-206C8C515AE6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PozitronDev.SpecSampleApp.Web", "sample\PozitronDev.SpecSampleApp.Web\PozitronDev.SpecSampleApp.Web.csproj", "{C43D5506-6BD0-45AA-9448-463BE3F69A56}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PozitronDev.SpecSampleApp.Infrastructure", "sample\PozitronDev.SpecSampleApp.Infrastructure\PozitronDev.SpecSampleApp.Infrastructure.csproj", "{80D5D37C-1D08-4535-982F-16543B2A5F23}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification", "QuerySpecification\src\QuerySpecification\QuerySpecification.csproj", "{3E4D1ED6-7CDD-4870-BB56-033DE1A17EA1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification.UnitTests", "QuerySpecification\tests\QuerySpecification.UnitTests\QuerySpecification.UnitTests.csproj", "{BAFCF13F-05EF-4DEF-AD78-B5006CE86784}"
@@ -11,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification.Integrat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification.EntityFrameworkCore3", "QuerySpecificationEFCore3\src\QuerySpecification.EntityFrameworkCore3\QuerySpecification.EntityFrameworkCore3.csproj", "{89BC2F0A-D3E3-4F28-8E5C-0B810C94BF01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuerySpecification.EntityFrameworkCore3.IntegrationTests", "QuerySpecificationEFCore3\tests\QuerySpecification.EntityFrameworkCore3.IntegrationTests\QuerySpecification.EntityFrameworkCore3.IntegrationTests.csproj", "{23DD4782-E579-499F-91E4-5BA959E21EBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification.EntityFrameworkCore3.IntegrationTests", "QuerySpecificationEFCore3\tests\QuerySpecification.EntityFrameworkCore3.IntegrationTests\QuerySpecification.EntityFrameworkCore3.IntegrationTests.csproj", "{23DD4782-E579-499F-91E4-5BA959E21EBE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{14CC34F1-BFA1-4C3D-A9A1-2B79DF665B02}"
 	ProjectSection(SolutionItems) = preProject
@@ -23,6 +29,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuerySpecification", "QuerySpecification", "{A74EF8FE-73A5-4ED1-A272-5243B81B0A16}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuerySpecificationEFCore3", "QuerySpecificationEFCore3", "{A2ADEC9D-6966-4B18-BEA3-C66873EC7861}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{4BBD9571-BFA7-4368-A556-7E026E6C0998}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +58,18 @@ Global
 		{23DD4782-E579-499F-91E4-5BA959E21EBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23DD4782-E579-499F-91E4-5BA959E21EBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23DD4782-E579-499F-91E4-5BA959E21EBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B9C3415-F1C4-4CF3-96E6-206C8C515AE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B9C3415-F1C4-4CF3-96E6-206C8C515AE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B9C3415-F1C4-4CF3-96E6-206C8C515AE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B9C3415-F1C4-4CF3-96E6-206C8C515AE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80D5D37C-1D08-4535-982F-16543B2A5F23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80D5D37C-1D08-4535-982F-16543B2A5F23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80D5D37C-1D08-4535-982F-16543B2A5F23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80D5D37C-1D08-4535-982F-16543B2A5F23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C43D5506-6BD0-45AA-9448-463BE3F69A56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C43D5506-6BD0-45AA-9448-463BE3F69A56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C43D5506-6BD0-45AA-9448-463BE3F69A56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C43D5506-6BD0-45AA-9448-463BE3F69A56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +80,9 @@ Global
 		{9B200ED1-89A8-4530-908B-8402BC7C9338} = {A74EF8FE-73A5-4ED1-A272-5243B81B0A16}
 		{89BC2F0A-D3E3-4F28-8E5C-0B810C94BF01} = {A2ADEC9D-6966-4B18-BEA3-C66873EC7861}
 		{23DD4782-E579-499F-91E4-5BA959E21EBE} = {A2ADEC9D-6966-4B18-BEA3-C66873EC7861}
+		{0B9C3415-F1C4-4CF3-96E6-206C8C515AE6} = {4BBD9571-BFA7-4368-A556-7E026E6C0998}
+		{80D5D37C-1D08-4535-982F-16543B2A5F23} = {4BBD9571-BFA7-4368-A556-7E026E6C0998}
+		{C43D5506-6BD0-45AA-9448-463BE3F69A56} = {4BBD9571-BFA7-4368-A556-7E026E6C0998}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E5CD485E-D269-41DE-A144-EEC734F5B893}
