@@ -43,5 +43,16 @@ namespace PozitronDev.QuerySpecification.UnitTests
 
             actual.Should().Be(expected);
         }
+
+        [Fact]
+        public void AppendsNavigationName_GivenTypeOfCollection()
+        {
+            var spec = new StoreIncludeProductsThenStoreSpec();
+
+            string expected = $"{nameof(Store.Products)}.{nameof(Product.Store)}";
+            string actual = spec.IncludeAggregators.FirstOrDefault().IncludeString;
+
+            actual.Should().Be(expected);
+        }
     }
 }

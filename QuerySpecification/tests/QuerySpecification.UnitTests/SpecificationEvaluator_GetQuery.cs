@@ -7,7 +7,7 @@ using Xunit;
 
 namespace PozitronDev.QuerySpecification.UnitTests
 {
-    public class SpecificationEvaluatorGetQuery
+    public class SpecificationEvaluator_GetQuery
     {
         private int _testId = 123;
 

@@ -5,11 +5,12 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification.UnitTests.Fixture.Specs
 {
-    public class StoresPaginatedSpec : Specification<Store>
+    public class StoreSearchByNameOrCitySpec : Specification<Store>
     {
-        public StoresPaginatedSpec(int skip, int take)
+        public StoreSearchByNameOrCitySpec(string searchTerm)
         {
-            Query.Paginate(skip, take);
+            Query.Search(x => x.Name!, searchTerm)
+                .Search(x => x.City!, searchTerm);
         }
     }
 }

@@ -12,11 +12,11 @@ using Xunit;
 
 namespace PozitronDev.QuerySpecification.UnitTests
 {
-    public class SpecificationTests
+    public class SpecificationEvaluatorTests
     {
         private readonly SpecificationEvaluator<Store> evaluator;
 
-        public SpecificationTests()
+        public SpecificationEvaluatorTests()
         {
             this.evaluator = new SpecificationEvaluator<Store>();
         }

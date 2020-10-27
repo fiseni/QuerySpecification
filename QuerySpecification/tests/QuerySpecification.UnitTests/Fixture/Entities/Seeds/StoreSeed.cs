@@ -32,6 +32,7 @@ namespace PozitronDev.QuerySpecification.UnitTests.Fixture.Entities.Seeds
                 {
                     Id = i,
                     Name = $"Store {i}",
+                    City = $"City {i}",
                     AddressId = i,
                     CompanyId = 1,
                 });
@@ -42,6 +43,7 @@ namespace PozitronDev.QuerySpecification.UnitTests.Fixture.Entities.Seeds
                 {
                     Id = i,
                     Name = $"Store {i}",
+                    City = $"City {i}",
                     AddressId = i,
                     CompanyId = 2,
                 });
