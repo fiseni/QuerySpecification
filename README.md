@@ -4,7 +4,7 @@
 
 &nbsp; [![Build Status](https://dev.azure.com/pozitrondev/PozitronDev.QuerySpecification/_apis/build/status/QuerySpecification_BuildPackage?branchName=master)](https://dev.azure.com/pozitrondev/PozitronDev.QuerySpecification/_build/latest?definitionId=11&branchName=master)
 
-&nbsp; [![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/pozitrondev/PozitronDev.QuerySpecification/11)](https://dev.azure.com/pozitrondev/PozitronDev.QuerySpecification/_build/latest?definitionId=11&branchName=master)
+&nbsp; [![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/pozitrondev/PozitronDev.QuerySpecification/11)](https://dev.azure.com/pozitrondev/PozitronDev.QuerySpecification/_build/latest?definitionId=11&branchName=master&view=codecoverage-tab)
 
 &nbsp;
 
