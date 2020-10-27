@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
-using PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests.Data.Seeds;
-using PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests.Specs;
+using PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests.Fixture;
+using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities.Seeds;
+using PozitronDev.QuerySpecification.UnitTests.Fixture.Specs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,9 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests
     {
 
         [Fact]
-        public async Task GetStoreUsingRepositoryAnd_StoreWithProductsSpec_ShouldIncludeProducts()
+        public async Task ReturnsStoreWithProducts_GivenStoreByIdIncludeProductsSpec()
         {
-            var result = (await storeRepository.ListAsync(new StoreWithProductsSpec(StoreSeed.VALID_STORE_ID))).SingleOrDefault();
+            var result = (await storeRepository.ListAsync(new StoreByIdIncludeProductsSpec(StoreSeed.VALID_STORE_ID))).SingleOrDefault();
 
             result.Should().NotBeNull();
             result.Name.Should().Be(StoreSeed.VALID_STORE_NAME);
@@ -24,9 +25,9 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests
         }
 
         [Fact]
-        public async Task GetStoreUsingRepositoryAnd_StoreWithAddressSpec_ShouldIncludeAddress()
+        public async Task ReturnsStoreWithAddress_GivenStoreByIdIncludeAddressSpec()
         {
-            var result = (await storeRepository.ListAsync(new StoreWithAddressSpec(StoreSeed.VALID_STORE_ID))).SingleOrDefault();
+            var result = (await storeRepository.ListAsync(new StoreByIdIncludeAddressSpec(StoreSeed.VALID_STORE_ID))).SingleOrDefault();
 
             result.Should().NotBeNull();
             result.Name.Should().Be(StoreSeed.VALID_STORE_NAME);
@@ -34,9 +35,9 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests
         }
 
         [Fact]
-        public async Task GetStoreUsingRepositoryAnd_StoreWithAddressAndProductsSpec_ShouldIncludeAddressAndProducts()
+        public async Task ReturnsStoreWithAddressAndProduct_GivenStoreByIdIncludeAddressAndProductsSpec()
         {
-            var result = (await storeRepository.ListAsync(new StoreWithAddressAndProductsSpec(StoreSeed.VALID_STORE_ID))).SingleOrDefault();
+            var result = (await storeRepository.ListAsync(new StoreByIdIncludeAddressAndProductsSpec(StoreSeed.VALID_STORE_ID))).SingleOrDefault();
 
             result.Should().NotBeNull();
             result.Name.Should().Be(StoreSeed.VALID_STORE_NAME);
@@ -45,9 +46,9 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests
         }
 
         [Fact]
-        public async Task GetStoreUsingRepositoryAnd_StoreWithProductsUsingStringSpec_ShouldIncludeProducts()
+        public async Task ReturnsStoreWithProducts_GivenStoreByIdIncludeProductsUsingStringSpec()
         {
-            var result = (await storeRepository.ListAsync(new StoreWithProductsUsingStringSpec(StoreSeed.VALID_STORE_ID))).SingleOrDefault();
+            var result = (await storeRepository.ListAsync(new StoreByIdIncludeProductsUsingStringSpec(StoreSeed.VALID_STORE_ID))).SingleOrDefault();
 
             result.Should().NotBeNull();
             result.Name.Should().Be(StoreSeed.VALID_STORE_NAME);
@@ -55,9 +56,9 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests
         }
 
         [Fact]
-        public async Task GetCompanyUsingRepositoryAnd_CompanyWithStoresThenIncludeAddressSpec_ShouldIncludeStoresAndAddress()
+        public async Task ReturnsCompanyWithStoresAndAddress_GivenCompanyByIdIncludeStoresThenIncludeAddressSpec()
         {
-            var result = (await companyRepository.ListAsync(new CompanyWithStoresThenIncludeAddressSpec(CompanySeed.VALID_COMPANY_ID))).SingleOrDefault();
+            var result = (await companyRepository.ListAsync(new CompanyByIdIncludeStoresThenIncludeAddressSpec(CompanySeed.VALID_COMPANY_ID))).SingleOrDefault();
 
             result.Should().NotBeNull();
             result.Name.Should().Be(CompanySeed.VALID_COMPANY_NAME);
@@ -66,9 +67,9 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests
         }
 
         [Fact]
-        public async Task GetCompanyUsingRepositoryAnd_CompanyWithStoresThenIncludeProductsSpec_ShouldIncludeStoresAndProducts()
+        public async Task ReturnsCompanyWithStoresAndProducts_GivenCompanyByIdIncludeStoresThenIncludeProductsSpec()
         {
-            var result = (await companyRepository.ListAsync(new CompanyWithStoresThenIncludeProductsSpec(CompanySeed.VALID_COMPANY_ID))).SingleOrDefault();
+            var result = (await companyRepository.ListAsync(new CompanyByIdIncludeStoresThenIncludeProductsSpec(CompanySeed.VALID_COMPANY_ID))).SingleOrDefault();
 
             result.Should().NotBeNull();
             result.Name.Should().Be(CompanySeed.VALID_COMPANY_NAME);

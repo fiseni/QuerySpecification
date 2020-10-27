@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests.Data;
+using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests
+namespace PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests.Fixture
 {
     public class SpecificationTestBase
     {

@@ -5,13 +5,13 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification.UnitTests.Fixture.Specs
 {
-    public class CompanyIncludeStoresThenIncludeProductsSpec : Specification<Company>
+    public class CompanyByIdIncludeStoresThenIncludeAddressSpec : Specification<Company>
     {
-        public CompanyIncludeStoresThenIncludeProductsSpec(int id)
+        public CompanyByIdIncludeStoresThenIncludeAddressSpec(int id)
         {
             Query.Where(x => x.Id == id)
                 .Include(x => x.Stores)
-                .ThenInclude(x => x.Products);
+                .ThenInclude(x => x.Address);
         }
     }
 }

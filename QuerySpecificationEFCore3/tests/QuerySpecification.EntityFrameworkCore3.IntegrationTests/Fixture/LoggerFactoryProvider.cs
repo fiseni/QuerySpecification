@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests.Data
+namespace PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests.Fixture
 {
     public class LoggerFactoryProvider
     {
