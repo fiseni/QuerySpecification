@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PozitronDev.QuerySpecification.UnitTests.Fixture;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,7 +25,7 @@ namespace PozitronDev.QuerySpecification.UnitTests
         }
 
         [Fact]
-        public void ReturnsEntityWithId()
+        public void ReturnsEntityWithId_GiveWhereExpression()
         {
             var spec = new ItemWithIdSpecification(_testId);
 
