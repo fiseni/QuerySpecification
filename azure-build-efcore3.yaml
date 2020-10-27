@@ -55,7 +55,7 @@ steps:
   displayName: Test
   inputs:
     command: test
-    arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+    arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:Exclude="[QuerySpecification]*%2c[QuerySpecification.UnitTests]*" /p:CoverletOutputFormat=cobertura'
     projects: 'QuerySpecificationEFCore3/tests/**/*.csproj'
     nobuild: true
 
