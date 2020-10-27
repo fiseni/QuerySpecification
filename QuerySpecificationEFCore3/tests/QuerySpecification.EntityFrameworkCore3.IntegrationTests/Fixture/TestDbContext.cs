@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests.Fixture.Entities;
-using PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests.Fixture.Entities.Seeds;
+using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities;
+using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities.Seeds;
 using System;
 using System.Collections.Generic;
 using System.Text;

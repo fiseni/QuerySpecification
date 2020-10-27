@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests.Fixture;
-using PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests.Fixture.Entities.Seeds;
-using PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests.Fixture.Specs;
+using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities.Seeds;
+using PozitronDev.QuerySpecification.UnitTests.Fixture.Specs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
