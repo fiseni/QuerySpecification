@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\QuerySpecification\tests\QuerySpecification.UnitTests\QuerySpecification.UnitTests.csproj" />
     <ProjectReference Include="..\..\src\QuerySpecification.EntityFrameworkCore3\QuerySpecification.EntityFrameworkCore3.csproj" />
   </ItemGroup>
 

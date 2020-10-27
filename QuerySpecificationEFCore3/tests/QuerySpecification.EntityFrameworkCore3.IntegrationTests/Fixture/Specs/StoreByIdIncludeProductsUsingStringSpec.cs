@@ -1,9 +1,9 @@
-﻿using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities;
+﻿using PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests.Fixture.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PozitronDev.QuerySpecification.UnitTests.Fixture.Specs
+namespace PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests.Fixture.Specs
 {
     public class StoreByIdIncludeProductsUsingStringSpec : Specification<Store>
     {
