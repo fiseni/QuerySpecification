@@ -9,7 +9,7 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests.F
 {
     public class IntegrationTestBase
     {
-        public const string ConnectionString = "Server=(localdb)\\mssqllocaldb;Integrated Security=SSPI;Initial Catalog=SpecificationEFTestsDB;";
+        public const string ConnectionString = "Server=(localdb)\\mssqllocaldb;Integrated Security=SSPI;Initial Catalog=QuerySpecificationEF3TestsDB;";
         protected TestDbContext dbContext;
         protected Repository<Company> companyRepository;
         protected Repository<Store> storeRepository;
