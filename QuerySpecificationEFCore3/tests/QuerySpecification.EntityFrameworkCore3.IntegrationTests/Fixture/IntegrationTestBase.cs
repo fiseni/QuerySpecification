@@ -1,19 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities;
+using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities.Seeds;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests.Fixture
 {
-    public class SpecificationTestBase
+    public class IntegrationTestBase
     {
         public const string ConnectionString = "Server=(localdb)\\mssqllocaldb;Integrated Security=SSPI;Initial Catalog=SpecificationEFTestsDB;";
         protected TestDbContext dbContext;
         protected Repository<Company> companyRepository;
         protected Repository<Store> storeRepository;
 
-        public SpecificationTestBase()
+        public IntegrationTestBase()
         {
             var optionsBuilder = new DbContextOptionsBuilder<TestDbContext>();
             optionsBuilder.UseSqlServer(ConnectionString);

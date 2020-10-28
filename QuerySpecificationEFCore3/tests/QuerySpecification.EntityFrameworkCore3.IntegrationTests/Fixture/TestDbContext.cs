@@ -9,6 +9,8 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests.F
 {
     public class TestDbContext : DbContext
     {
+        public static bool SeedingExecuted { get; private set; }
+
         public DbSet<Country>? Countries { get; set; }
         public DbSet<Company>? Companies { get; set; }
         public DbSet<Store>? Stores { get; set; }
@@ -31,11 +33,16 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests.F
 
             modelBuilder.Entity<Store>().HasOne(x => x.Address).WithOne(x => x!.Store!).HasForeignKey<Address>(x => x.StoreId);
 
-            modelBuilder.Entity<Country>().HasData(CountrySeed.Get());
-            modelBuilder.Entity<Company>().HasData(CompanySeed.Get());
-            modelBuilder.Entity<Address>().HasData(AddressSeed.Get());
-            modelBuilder.Entity<Store>().HasData(StoreSeed.Get());
-            modelBuilder.Entity<Product>().HasData(ProductSeed.Get());
+            if (!SeedingExecuted)
+            {
+                modelBuilder.Entity<Country>().HasData(CountrySeed.Get());
+                modelBuilder.Entity<Company>().HasData(CompanySeed.Get());
+                modelBuilder.Entity<Address>().HasData(AddressSeed.Get());
+                modelBuilder.Entity<Store>().HasData(StoreSeed.Get());
+                modelBuilder.Entity<Product>().HasData(ProductSeed.Get());
+
+                SeedingExecuted = true;
+            }
         }
     }
 }
