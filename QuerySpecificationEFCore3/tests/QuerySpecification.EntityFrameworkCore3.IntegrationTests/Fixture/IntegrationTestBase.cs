@@ -20,7 +20,10 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests.F
             optionsBuilder.UseSqlServer(ConnectionString);
             dbContext = new TestDbContext(optionsBuilder.Options);
 
-            dbContext.Database.EnsureCreated();
+            if (!TestDbContext.SeedingExecuted)
+            {
+                dbContext.Database.EnsureCreated();
+            }
 
             companyRepository = new Repository<Company>(dbContext);
             storeRepository = new Repository<Store>(dbContext);
