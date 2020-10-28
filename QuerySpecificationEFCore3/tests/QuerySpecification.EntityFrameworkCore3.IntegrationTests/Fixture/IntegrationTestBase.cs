@@ -4,26 +4,19 @@ using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities.Seeds;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Xunit;
 
 namespace PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests.Fixture
 {
-    public class IntegrationTestBase
+    public class IntegrationTestBase : IClassFixture<SharedDatabaseFixture>
     {
-        public const string ConnectionString = "Server=(localdb)\\mssqllocaldb;Integrated Security=SSPI;Initial Catalog=QuerySpecificationEF3TestsDB;";
         protected TestDbContext dbContext;
         protected Repository<Company> companyRepository;
         protected Repository<Store> storeRepository;
 
-        public IntegrationTestBase()
+        public IntegrationTestBase(SharedDatabaseFixture fixture)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<TestDbContext>();
-            optionsBuilder.UseSqlServer(ConnectionString);
-            dbContext = new TestDbContext(optionsBuilder.Options);
-
-            if (!TestDbContext.SeedingExecuted)
-            {
-                dbContext.Database.EnsureCreated();
-            }
+            dbContext = fixture.CreateContext();
 
             companyRepository = new Repository<Company>(dbContext);
             storeRepository = new Repository<Store>(dbContext);

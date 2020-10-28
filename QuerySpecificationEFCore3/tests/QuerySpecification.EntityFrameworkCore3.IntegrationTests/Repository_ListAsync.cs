@@ -13,6 +13,8 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests
 {
     public class Repository_ListAsync : IntegrationTestBase
     {
+        public Repository_ListAsync(SharedDatabaseFixture fixture) : base(fixture) { }
+
         [Fact]
         public async Task ReturnsStoreWithProducts_GivenStoreIncludeProductsSpec()
         {
