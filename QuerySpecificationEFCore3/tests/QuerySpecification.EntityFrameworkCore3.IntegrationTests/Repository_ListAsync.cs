@@ -166,11 +166,12 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests
         [Fact]
         public async Task ReturnsStoreContainingCity1_GivenStoreIncludeProductsSpec()
         {
-            var result = await storeRepository.ListAsync(new StoreSearchByNameOrCitySpec("City 1"));
+            var result = await storeRepository.ListAsync(new StoreSearchByNameOrCitySpec(StoreSeed.VALID_Search_City_Key));
 
             result.Should().NotBeNull();
-            result.Should().NotBeEmpty();
-            result[0].City.Should().Be("City 1");
+            result.Should().ContainSingle();
+            result[0].Id.Should().Be(StoreSeed.VALID_Search_City_ID);
+            result[0].City.Should().Contain(StoreSeed.VALID_Search_City_Key);
         }
     }
 }
