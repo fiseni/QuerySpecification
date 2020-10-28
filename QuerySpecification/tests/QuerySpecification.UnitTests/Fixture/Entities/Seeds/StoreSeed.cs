@@ -9,6 +9,7 @@ namespace PozitronDev.QuerySpecification.UnitTests.Fixture.Entities.Seeds
     {
         public const int VALID_STORE_ID = 1;
         public const string VALID_STORE_NAME = "Store 1";
+        public const string VALID_STORE_City = "City 1";
 
         public const int ORDERED_BY_NAME_FIRST_ID = 48;
         public const int ORDERED_BY_NAME_LAST_ID = 49;

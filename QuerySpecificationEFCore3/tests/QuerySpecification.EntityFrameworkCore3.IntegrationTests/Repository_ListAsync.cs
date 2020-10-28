@@ -162,5 +162,15 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests
             stores.First().Id.Should().Be(StoreSeed.ORDERED_BY_NAME_DESC_FIRST_ID);
             stores.Last().Id.Should().Be(StoreSeed.ORDERED_BY_NAME_DESC_LAST_ID);
         }
+
+        [Fact]
+        public async Task ReturnsStoreContainingCity1_GivenStoreIncludeProductsSpec()
+        {
+            var result = await storeRepository.ListAsync(new StoreSearchByNameOrCitySpec("City 1"));
+
+            result.Should().NotBeNull();
+            result.Should().NotBeEmpty();
+            result[0].City.Should().Be("City 1");
+        }
     }
 }
