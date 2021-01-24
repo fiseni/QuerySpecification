@@ -9,7 +9,7 @@ namespace PozitronDev.QuerySpecification.UnitTests.Fixture.Specs
     {
         public StoreSearchByNameSpec(string searchTerm)
         {
-            Query.Search(x => x.Name!, searchTerm);
+            Query.Search(x => x.Name!, "%" + searchTerm + "%");
         }
     }
 }

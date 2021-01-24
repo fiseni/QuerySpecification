@@ -29,7 +29,7 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
                                         like,
                                         functions,
                                         (propertySelector as LambdaExpression)?.Body,
-                                        Expression.Constant("%" + criteria.searchTerm + "%"));
+                                        Expression.Constant(criteria.searchTerm));
 
                 expr = expr == null ? (Expression)likeExpression : Expression.OrElse(expr, likeExpression);
             }

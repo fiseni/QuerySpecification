@@ -9,8 +9,8 @@ namespace PozitronDev.QuerySpecification.UnitTests.Fixture.Specs
     {
         public StoreSearchByNameAndCitySpec(string searchTerm)
         {
-            Query.Search(x => x.Name!, searchTerm, 1)
-                .Search(x => x.City!, searchTerm, 2);
+            Query.Search(x => x.Name!, "%" + searchTerm + "%", 1)
+                .Search(x => x.City!, "%" + searchTerm + "%", 2);
         }
     }
 }
