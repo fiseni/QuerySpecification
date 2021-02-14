@@ -26,15 +26,17 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
             });
         }
 
-        public virtual IQueryable<TResult> GetQuery<TResult>(IQueryable<T> query, ISpecification<T, TResult> specification)
+        public virtual IQueryable<TResult> GetQuery<TResult>(IQueryable<T> query, ISpecification<T, TResult> specification, bool evaluateCriteriaOnly = false)
         {
-            query = GetQuery(query, (ISpecification<T>)specification);
+            query = GetQuery(query, (ISpecification<T>)specification, evaluateCriteriaOnly);
 
             return query.Select(specification.Selector);
         }
 
-        public virtual IQueryable<T> GetQuery(IQueryable<T> query, ISpecification<T> specification)
+        public virtual IQueryable<T> GetQuery(IQueryable<T> query, ISpecification<T> specification, bool evaluateCriteriaOnly = false)
         {
+            var evaluators = evaluateCriteriaOnly ? this.evaluators.Where(x => x.IsCriteriaEvaluator) : this.evaluators;
+
             foreach (var evaluator in evaluators)
             {
                 query = evaluator.GetQuery(query, specification);

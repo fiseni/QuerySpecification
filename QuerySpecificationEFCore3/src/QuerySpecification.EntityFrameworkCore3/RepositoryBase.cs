@@ -103,19 +103,19 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
 
         public virtual async Task<int> CountAsync(ISpecification<T> specification)
         {
-            return await ApplySpecification(specification).CountAsync();
+            return await ApplySpecification(specification, true).CountAsync();
         }
 
-        protected IQueryable<T> ApplySpecification(ISpecification<T> specification)
+        protected IQueryable<T> ApplySpecification(ISpecification<T> specification, bool evaluateCriteriaOnly = false)
         {
-            return specificationEvaluator.GetQuery(dbContext.Set<T>().AsQueryable(), specification);
+            return specificationEvaluator.GetQuery(dbContext.Set<T>().AsQueryable(), specification, evaluateCriteriaOnly);
         }
-        protected IQueryable<TResult> ApplySpecification<TResult>(ISpecification<T, TResult> specification)
+        protected IQueryable<TResult> ApplySpecification<TResult>(ISpecification<T, TResult> specification, bool evaluateCriteriaOnly = false)
         {
             if (specification is null) throw new ArgumentNullException("Specification is required");
             if (specification.Selector is null) throw new SelectorNotFoundException();
 
-            return specificationEvaluator.GetQuery(dbContext.Set<T>().AsQueryable(), specification);
+            return specificationEvaluator.GetQuery(dbContext.Set<T>().AsQueryable(), specification, evaluateCriteriaOnly);
         }
     }
 }
