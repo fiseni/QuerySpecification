@@ -33,7 +33,7 @@ namespace PozitronDev.QuerySpecification
         public IEnumerable<(Expression<Func<T, object>> KeySelector, OrderTypeEnum OrderType)> OrderExpressions { get; } =
             new List<(Expression<Func<T, object>> KeySelector, OrderTypeEnum OrderType)>();
 
-        public IEnumerable<IIncludeAggregator> IncludeAggregators { get; } = new List<IIncludeAggregator>();
+        public IEnumerable<IncludeExpressionInfo> IncludeExpressions { get; } = new List<IncludeExpressionInfo>();
 
         public IEnumerable<string> IncludeStrings { get; } = new List<string>();
 

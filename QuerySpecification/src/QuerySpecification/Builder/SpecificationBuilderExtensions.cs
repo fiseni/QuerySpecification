@@ -44,10 +44,12 @@ namespace PozitronDev.QuerySpecification
             this ISpecificationBuilder<T> specificationBuilder,
             Expression<Func<T, TProperty>> includeExpression)
         {
-            var aggregator = new IncludeAggregator((includeExpression.Body as MemberExpression)?.Member?.Name);
-            var includeBuilder = new IncludableSpecificationBuilder<T, TProperty>(specificationBuilder.Specification, aggregator);
+            var info = new IncludeExpressionInfo(includeExpression, typeof(T), typeof(TProperty));
+            
+            ((List<IncludeExpressionInfo>)specificationBuilder.Specification.IncludeExpressions).Add(info);
 
-            ((List<IIncludeAggregator>)specificationBuilder.Specification.IncludeAggregators).Add(aggregator);
+            var includeBuilder = new IncludableSpecificationBuilder<T, TProperty>(specificationBuilder.Specification);
+
             return includeBuilder;
         }
 

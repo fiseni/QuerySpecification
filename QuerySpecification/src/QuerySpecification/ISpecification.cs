@@ -15,7 +15,7 @@ namespace PozitronDev.QuerySpecification
     {
         IEnumerable<Expression<Func<T, bool>>> WhereExpressions { get; }
         IEnumerable<(Expression<Func<T, object>> KeySelector, OrderTypeEnum OrderType)> OrderExpressions { get; }
-        IEnumerable<IIncludeAggregator> IncludeAggregators { get; }
+        IEnumerable<IncludeExpressionInfo> IncludeExpressions { get; }
         IEnumerable<string> IncludeStrings { get; }
         IEnumerable<(Expression<Func<T, string>> Selector, string SearchTerm, int SearchGroup)> SearchCriterias { get; }
 

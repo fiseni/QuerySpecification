@@ -31,5 +31,9 @@
   <ItemGroup>
     <None Include="../../../docs/pozitronicon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PozitronDev.Validations" Version="1.1.0" />
+  </ItemGroup>
   
 </Project>
