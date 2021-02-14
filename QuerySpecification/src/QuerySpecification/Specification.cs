@@ -49,5 +49,10 @@ namespace PozitronDev.QuerySpecification
 
         
         public Func<List<T>, List<T>>? InMemory { get; internal set; } = null;
+
+        public string? CacheKey { get; internal set; }
+        public bool CacheEnabled { get; internal set; }
+
+        public bool AsNoTracking { get; internal set; } = false;
     }
 }

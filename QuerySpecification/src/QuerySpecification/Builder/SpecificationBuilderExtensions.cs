@@ -133,5 +133,26 @@ namespace PozitronDev.QuerySpecification
             
             return specificationBuilder;
         }
+
+        public static ISpecificationBuilder<T> EnableCache<T>(
+            this ISpecificationBuilder<T> specificationBuilder,
+            string specificationName, params object[] args)
+        {
+            _ = specificationName ?? throw new ArgumentNullException(nameof(specificationName));
+
+            specificationBuilder.Specification.CacheKey = $"{specificationName}-{string.Join("-", args)}";
+
+            specificationBuilder.Specification.CacheEnabled = true;
+
+            return specificationBuilder;
+        }
+
+        public static ISpecificationBuilder<T> AsNoTracking<T>(
+            this ISpecificationBuilder<T> specificationBuilder)
+        {
+            specificationBuilder.Specification.AsNoTracking = true;
+
+            return specificationBuilder;
+        }
     }
 }

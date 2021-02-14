@@ -25,5 +25,10 @@ namespace PozitronDev.QuerySpecification
         bool IsPagingEnabled { get; }
 
         Func<List<T>, List<T>>? InMemory { get; }
+
+        bool CacheEnabled { get; }
+        string? CacheKey { get; }
+
+        bool AsNoTracking { get; }
     }
 }

@@ -22,7 +22,8 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
                 SearchEvaluator<T>.Instance,
                 IncludeEvaluator<T>.Instance,
                 OrderEvaluator<T>.Instance,
-                PaginationEvaluator<T>.Instance
+                PaginationEvaluator<T>.Instance,
+                AsNoTrackingEvaluator<T>.Instance
             });
         }
 
