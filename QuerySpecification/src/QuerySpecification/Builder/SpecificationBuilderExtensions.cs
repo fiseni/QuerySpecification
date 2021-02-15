@@ -9,7 +9,7 @@ namespace PozitronDev.QuerySpecification
     {
         public static ISpecificationBuilder<T> Where<T>(
             this ISpecificationBuilder<T> specificationBuilder,
-            Expression<Func<T, bool>> criteria)
+            Expression<Func<T, bool>> criteria) where T : class
         {
             ((List<Expression<Func<T, bool>>>)specificationBuilder.Specification.WhereExpressions).Add(criteria);
 
@@ -18,7 +18,7 @@ namespace PozitronDev.QuerySpecification
 
         public static IOrderedSpecificationBuilder<T> OrderBy<T>(
             this ISpecificationBuilder<T> specificationBuilder,
-            Expression<Func<T, object?>> orderExpression)
+            Expression<Func<T, object?>> orderExpression) where T : class
         {
             ((List<(Expression<Func<T, object?>> OrderExpression, OrderTypeEnum OrderType)>)specificationBuilder.Specification.OrderExpressions)
                 .Add((orderExpression, OrderTypeEnum.OrderBy));
@@ -30,7 +30,7 @@ namespace PozitronDev.QuerySpecification
 
         public static IOrderedSpecificationBuilder<T> OrderByDescending<T>(
             this ISpecificationBuilder<T> specificationBuilder,
-            Expression<Func<T, object?>> orderExpression)
+            Expression<Func<T, object?>> orderExpression) where T : class
         {
             ((List<(Expression<Func<T, object?>> OrderExpression, OrderTypeEnum OrderType)>)specificationBuilder.Specification.OrderExpressions)
                 .Add((orderExpression, OrderTypeEnum.OrderByDescending));
@@ -42,7 +42,7 @@ namespace PozitronDev.QuerySpecification
 
         public static IIncludableSpecificationBuilder<T, TProperty> Include<T, TProperty>(
             this ISpecificationBuilder<T> specificationBuilder,
-            Expression<Func<T, TProperty>> includeExpression)
+            Expression<Func<T, TProperty>> includeExpression) where T : class
         {
             var info = new IncludeExpressionInfo(includeExpression, typeof(T), typeof(TProperty));
             
@@ -55,7 +55,7 @@ namespace PozitronDev.QuerySpecification
 
         public static ISpecificationBuilder<T> Include<T>(
             this ISpecificationBuilder<T> specificationBuilder,
-            string includeString)
+            string includeString) where T : class
         {
             ((List<string>)specificationBuilder.Specification.IncludeStrings).Add(includeString);
             return specificationBuilder;
@@ -66,7 +66,7 @@ namespace PozitronDev.QuerySpecification
             this ISpecificationBuilder<T> specificationBuilder,
             Expression<Func<T, string>> selector, 
             string searchTerm, 
-            int searchGroup = 1)
+            int searchGroup = 1) where T : class
         {
             ((List<(Expression<Func<T, string>> Selector, string SearchTerm, int SearchGroup)>)specificationBuilder.Specification.SearchCriterias)
                 .Add((selector, searchTerm, searchGroup));
@@ -76,7 +76,7 @@ namespace PozitronDev.QuerySpecification
 
         public static ISpecificationBuilder<T> Take<T>(
             this ISpecificationBuilder<T> specificationBuilder,
-            int take)
+            int take) where T : class
         {
             if (specificationBuilder.Specification.Take != null) throw new DuplicateTakeException();
 
@@ -87,7 +87,7 @@ namespace PozitronDev.QuerySpecification
 
         public static ISpecificationBuilder<T> Skip<T>(
             this ISpecificationBuilder<T> specificationBuilder,
-            int skip)
+            int skip) where T : class
         {
             if (specificationBuilder.Specification.Skip != null) throw new DuplicateSkipException();
 
@@ -99,7 +99,7 @@ namespace PozitronDev.QuerySpecification
         public static ISpecificationBuilder<T> Paginate<T>(
             this ISpecificationBuilder<T> specificationBuilder,
             int skip, 
-            int take)
+            int take) where T : class
         {
             specificationBuilder.Skip(skip);
             specificationBuilder.Take(take);
@@ -109,7 +109,7 @@ namespace PozitronDev.QuerySpecification
 
         public static ISpecificationBuilder<T> InMemory<T>(
             this ISpecificationBuilder<T> specificationBuilder,
-            Func<List<T>, List<T>> predicate)
+            Func<List<T>, List<T>> predicate) where T : class
         {
             specificationBuilder.Specification.InMemory = predicate;
             
@@ -118,7 +118,7 @@ namespace PozitronDev.QuerySpecification
 
         public static ISpecificationBuilder<T, TResult> Select<T, TResult>(
             this ISpecificationBuilder<T, TResult> specificationBuilder,
-            Expression<Func<T, TResult>> selector)
+            Expression<Func<T, TResult>> selector) where T : class
         {
             specificationBuilder.Specification.Selector = selector;
 
@@ -127,7 +127,7 @@ namespace PozitronDev.QuerySpecification
 
         public static ISpecificationBuilder<T, TResult> InMemory<T, TResult>(
             this ISpecificationBuilder<T, TResult> specificationBuilder,
-            Func<List<TResult>, List<TResult>> predicate)
+            Func<List<TResult>, List<TResult>> predicate) where T : class
         {
             specificationBuilder.Specification.InMemory = predicate;
             
@@ -136,7 +136,7 @@ namespace PozitronDev.QuerySpecification
 
         public static ISpecificationBuilder<T> EnableCache<T>(
             this ISpecificationBuilder<T> specificationBuilder,
-            string specificationName, params object[] args)
+            string specificationName, params object[] args) where T : class
         {
             _ = specificationName ?? throw new ArgumentNullException(nameof(specificationName));
 
@@ -148,7 +148,7 @@ namespace PozitronDev.QuerySpecification
         }
 
         public static ISpecificationBuilder<T> AsNoTracking<T>(
-            this ISpecificationBuilder<T> specificationBuilder)
+            this ISpecificationBuilder<T> specificationBuilder) where T : class
         {
             specificationBuilder.Specification.AsNoTracking = true;
 

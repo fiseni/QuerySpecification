@@ -5,14 +5,14 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification
 {
-    public class PaginationEvaluator<T> : IEvaluator<T> where T : class
+    public class PaginationEvaluator : IEvaluator
     {
         private PaginationEvaluator() { }
-        public static PaginationEvaluator<T> Instance { get; } = new PaginationEvaluator<T>();
+        public static PaginationEvaluator Instance { get; } = new PaginationEvaluator();
 
         public bool IsCriteriaEvaluator { get; } =  false;
 
-        public IQueryable<T> GetQuery(IQueryable<T> query, ISpecification<T> specification)
+        public IQueryable<T> GetQuery<T>(IQueryable<T> query, ISpecification<T> specification) where T : class
         {
             // If skip is 0, avoid adding to the IQueryable. It will generate more optimized SQL that way.
             if (specification.Skip != null && specification.Skip != 0)

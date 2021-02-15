@@ -6,35 +6,39 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
 {
-    public class SpecificationEvaluator<T> : ISpecificationEvaluator<T> where T : class
+    public class SpecificationEvaluator : ISpecificationEvaluator
     {
-        private readonly List<IEvaluator<T>> evaluators = new List<IEvaluator<T>>();
+        // Will use singleton for default configuration. Yet, it can be instantiated if necessary, with default or provided evaluators.
+        public static SpecificationEvaluator Default { get; } = new SpecificationEvaluator();
 
-        public SpecificationEvaluator(IEnumerable<IEvaluator<T>> evaluators)
+        private readonly List<IEvaluator> evaluators = new List<IEvaluator>();
+
+        public SpecificationEvaluator()
+        {
+            this.evaluators.AddRange(new IEvaluator[]
+            {
+                WhereEvaluator.Instance,
+                SearchEvaluator.Instance,
+                IncludeEvaluator.Instance,
+                OrderEvaluator.Instance,
+                PaginationEvaluator.Instance,
+                AsNoTrackingEvaluator.Instance
+            });
+        }
+        public SpecificationEvaluator(IEnumerable<IEvaluator> evaluators)
         {
             this.evaluators.AddRange(evaluators);
         }
-        public SpecificationEvaluator()
-        {
-            this.evaluators.AddRange(new IEvaluator<T>[] 
-            { 
-                WhereEvaluator<T>.Instance,
-                SearchEvaluator<T>.Instance,
-                IncludeEvaluator<T>.Instance,
-                OrderEvaluator<T>.Instance,
-                PaginationEvaluator<T>.Instance,
-                AsNoTrackingEvaluator<T>.Instance
-            });
-        }
 
-        public virtual IQueryable<TResult> GetQuery<TResult>(IQueryable<T> query, ISpecification<T, TResult> specification, bool evaluateCriteriaOnly = false)
+
+        public virtual IQueryable<TResult> GetQuery<T, TResult>(IQueryable<T> query, ISpecification<T, TResult> specification, bool evaluateCriteriaOnly = false) where T : class
         {
             query = GetQuery(query, (ISpecification<T>)specification, evaluateCriteriaOnly);
 
             return query.Select(specification.Selector);
         }
 
-        public virtual IQueryable<T> GetQuery(IQueryable<T> query, ISpecification<T> specification, bool evaluateCriteriaOnly = false)
+        public virtual IQueryable<T> GetQuery<T>(IQueryable<T> query, ISpecification<T> specification, bool evaluateCriteriaOnly = false) where T : class
         {
             var evaluators = evaluateCriteriaOnly ? this.evaluators.Where(x => x.IsCriteriaEvaluator) : this.evaluators;
 

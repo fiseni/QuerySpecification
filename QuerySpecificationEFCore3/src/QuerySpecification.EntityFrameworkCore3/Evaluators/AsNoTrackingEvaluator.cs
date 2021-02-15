@@ -6,14 +6,14 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
 {
-    public class AsNoTrackingEvaluator<T> : IEvaluator<T> where T : class
+    public class AsNoTrackingEvaluator : IEvaluator
     {
         private AsNoTrackingEvaluator() { }
-        public static AsNoTrackingEvaluator<T> Instance { get; } = new AsNoTrackingEvaluator<T>();
+        public static AsNoTrackingEvaluator Instance { get; } = new AsNoTrackingEvaluator();
 
         public bool IsCriteriaEvaluator { get; } = true;
 
-        public IQueryable<T> GetQuery(IQueryable<T> query, ISpecification<T> specification)
+        public IQueryable<T> GetQuery<T>(IQueryable<T> query, ISpecification<T> specification) where T : class
         {
             if (specification.AsNoTracking)
             {

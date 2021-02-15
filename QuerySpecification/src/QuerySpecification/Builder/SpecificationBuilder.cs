@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification
 {
-    public class SpecificationBuilder<T, TResult> : SpecificationBuilder<T>, ISpecificationBuilder<T, TResult>
+    public class SpecificationBuilder<T, TResult> : SpecificationBuilder<T>, ISpecificationBuilder<T, TResult> where T : class
     {
         public new Specification<T, TResult> Specification { get; }
 
@@ -16,7 +16,7 @@ namespace PozitronDev.QuerySpecification
         }
     }
 
-    public class SpecificationBuilder<T> : ISpecificationBuilder<T>
+    public class SpecificationBuilder<T> : ISpecificationBuilder<T> where T : class
     {
         public Specification<T> Specification { get; }
 

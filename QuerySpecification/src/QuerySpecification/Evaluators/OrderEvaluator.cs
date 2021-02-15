@@ -5,14 +5,14 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification
 {
-    public class OrderEvaluator<T> : IEvaluator<T> where T : class
+    public class OrderEvaluator : IEvaluator
     {
         private OrderEvaluator() { }
-        public static OrderEvaluator<T> Instance { get; } = new OrderEvaluator<T>();
+        public static OrderEvaluator Instance { get; } = new OrderEvaluator();
 
         public bool IsCriteriaEvaluator { get; } =  false;
 
-        public IQueryable<T> GetQuery(IQueryable<T> query, ISpecification<T> specification)
+        public IQueryable<T> GetQuery<T>(IQueryable<T> query, ISpecification<T> specification) where T : class
         {
             if (specification.OrderExpressions != null && specification.OrderExpressions.Count() > 0)
             {

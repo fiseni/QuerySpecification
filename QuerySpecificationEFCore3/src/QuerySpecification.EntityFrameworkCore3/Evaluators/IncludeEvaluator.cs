@@ -6,14 +6,14 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
 {
-    public class IncludeEvaluator<T> : IEvaluator<T> where T : class
+    public class IncludeEvaluator : IEvaluator
     {
         private IncludeEvaluator() { }
-        public static IncludeEvaluator<T> Instance { get; } = new IncludeEvaluator<T>();
+        public static IncludeEvaluator Instance { get; } = new IncludeEvaluator();
 
         public bool IsCriteriaEvaluator { get; } = false;
 
-        public IQueryable<T> GetQuery(IQueryable<T> query, ISpecification<T> specification)
+        public IQueryable<T> GetQuery<T>(IQueryable<T> query, ISpecification<T> specification) where T : class
         {
             foreach (var includeString in specification.IncludeStrings)
             {

@@ -5,14 +5,14 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification
 {
-    public class WhereEvaluator<T> : IEvaluator<T> where T : class
+    public class WhereEvaluator : IEvaluator
     {
         private WhereEvaluator() { }
-        public static WhereEvaluator<T> Instance { get; } = new WhereEvaluator<T>();
+        public static WhereEvaluator Instance { get; } = new WhereEvaluator();
 
         public bool IsCriteriaEvaluator { get; } =  true;
 
-        public IQueryable<T> GetQuery(IQueryable<T> query, ISpecification<T> specification)
+        public IQueryable<T> GetQuery<T>(IQueryable<T> query, ISpecification<T> specification) where T : class
         {
             foreach (var criteria in specification.WhereExpressions)
             {

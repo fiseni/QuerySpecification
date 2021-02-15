@@ -5,10 +5,10 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification
 {
-    public interface IEvaluator<T> where T : class
+    public interface IEvaluator
     {
         bool IsCriteriaEvaluator { get; }
 
-        IQueryable<T> GetQuery(IQueryable<T> query, ISpecification<T> specification);
+        IQueryable<T> GetQuery<T>(IQueryable<T> query, ISpecification<T> specification) where T : class;
     }
 }

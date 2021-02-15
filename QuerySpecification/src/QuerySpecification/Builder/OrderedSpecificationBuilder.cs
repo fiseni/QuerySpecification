@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification
 {
-    public class OrderedSpecificationBuilder<T> : IOrderedSpecificationBuilder<T>
+    public class OrderedSpecificationBuilder<T> : IOrderedSpecificationBuilder<T> where T : class
     {
         public Specification<T> Specification { get; }
 

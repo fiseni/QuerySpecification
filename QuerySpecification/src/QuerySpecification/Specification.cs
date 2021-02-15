@@ -5,13 +5,24 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification
 {
-    public abstract class Specification<T, TResult> : Specification<T>, ISpecification<T, TResult>
+    public abstract class Specification<T, TResult> : Specification<T>, ISpecification<T, TResult> where T : class
     {
         protected new virtual ISpecificationBuilder<T, TResult> Query { get; }
 
-        protected Specification() : base()
+        protected Specification()
+            : this(TransientEvaluator.Default)
+        {
+        }
+
+        protected Specification(ITransientSpecificationEvaluator transientEvaluator) 
+            : base(transientEvaluator)
         {
             this.Query = new SpecificationBuilder<T, TResult>(this);
+        }
+
+        public new virtual List<TResult> Evaluate(List<T> entities)
+        {
+            return evaluator.Evaluate(entities, this);
         }
 
         public Expression<Func<T, TResult>>? Selector { get; internal set; }
@@ -19,13 +30,24 @@ namespace PozitronDev.QuerySpecification
         public new Func<List<TResult>, List<TResult>>? InMemory { get; internal set; } = null;
     }
 
-    public abstract class Specification<T> : ISpecification<T>
+    public abstract class Specification<T> : ISpecification<T> where T : class
     {
+        protected readonly ITransientSpecificationEvaluator evaluator;
         protected virtual ISpecificationBuilder<T> Query { get; }
 
-        protected Specification()
+        protected Specification() 
+            : this(TransientEvaluator.Default)
         {
+        }
+        protected Specification(ITransientSpecificationEvaluator transientEvaluator)
+        {
+            this.evaluator = transientEvaluator;
             this.Query = new SpecificationBuilder<T>(this);
+        }
+
+        public virtual List<T> Evaluate(List<T> entities)
+        {
+            return evaluator.Evaluate(entities, this);
         }
 
         public IEnumerable<Expression<Func<T, bool>>> WhereExpressions { get; } = new List<Expression<Func<T, bool>>>();

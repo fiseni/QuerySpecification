@@ -10,15 +10,14 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
         private readonly DbContext dbContext;
-        private readonly ISpecificationEvaluator<T> specificationEvaluator;
+        private readonly ISpecificationEvaluator specificationEvaluator;
 
         public RepositoryBase(DbContext dbContext)
+            : this(dbContext, SpecificationEvaluator.Default)
         {
-            this.dbContext = dbContext;
-            this.specificationEvaluator = new SpecificationEvaluator<T>();
         }
 
-        public RepositoryBase(DbContext dbContext, ISpecificationEvaluator<T> specificationEvaluator)
+        public RepositoryBase(DbContext dbContext, ISpecificationEvaluator specificationEvaluator)
         {
             this.dbContext = dbContext;
             this.specificationEvaluator = specificationEvaluator;
@@ -106,11 +105,11 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
             return await ApplySpecification(specification, true).CountAsync();
         }
 
-        protected IQueryable<T> ApplySpecification(ISpecification<T> specification, bool evaluateCriteriaOnly = false)
+        protected virtual IQueryable<T> ApplySpecification(ISpecification<T> specification, bool evaluateCriteriaOnly = false)
         {
             return specificationEvaluator.GetQuery(dbContext.Set<T>().AsQueryable(), specification, evaluateCriteriaOnly);
         }
-        protected IQueryable<TResult> ApplySpecification<TResult>(ISpecification<T, TResult> specification, bool evaluateCriteriaOnly = false)
+        protected virtual IQueryable<TResult> ApplySpecification<TResult>(ISpecification<T, TResult> specification, bool evaluateCriteriaOnly = false)
         {
             if (specification is null) throw new ArgumentNullException("Specification is required");
             if (specification.Selector is null) throw new SelectorNotFoundException();

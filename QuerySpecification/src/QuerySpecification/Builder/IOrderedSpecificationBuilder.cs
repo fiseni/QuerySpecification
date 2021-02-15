@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification
 {
-    public interface IOrderedSpecificationBuilder<T> : ISpecificationBuilder<T>
+    public interface IOrderedSpecificationBuilder<T> : ISpecificationBuilder<T> where T : class
     {
     }
 }

@@ -14,19 +14,12 @@ namespace PozitronDev.QuerySpecification.UnitTests
 {
     public class SpecificationEvaluatorTests
     {
-        private readonly SpecificationEvaluator<Store> evaluator;
-
-        public SpecificationEvaluatorTests()
-        {
-            this.evaluator = new SpecificationEvaluator<Store>();
-        }
-
         [Fact]
         public void ReturnsStoreWithId10_GivenStoreByIdSpec()
         {
             var spec = new StoreByIdSpec(10);
 
-            var store = evaluator.GetQuery(StoreSeed.AsQueryable(), spec).FirstOrDefault();
+            var store = spec.Evaluate(StoreSeed.Get()).FirstOrDefault();
 
             store.Id.Should().Be(10);
         }
@@ -37,7 +30,7 @@ namespace PozitronDev.QuerySpecification.UnitTests
             var ids = Enumerable.Range(15, 16);
             var spec = new StoresByIdListSpec(ids);
 
-            var stores = evaluator.GetQuery(StoreSeed.AsQueryable(), spec).ToList();
+            var stores = spec.Evaluate(StoreSeed.Get());
 
             stores.Count.Should().Be(16);
             stores.OrderBy(x=>x.Id).First().Id.Should().Be(15);
@@ -52,7 +45,7 @@ namespace PozitronDev.QuerySpecification.UnitTests
 
             var spec = new StoreNamesPaginatedSpec(skip, take);
 
-            var storeNames = evaluator.GetQuery(StoreSeed.AsQueryable(), spec).ToList();
+            var storeNames = spec.Evaluate(StoreSeed.Get());
 
             storeNames.Count.Should().Be(take);
             storeNames.First().Should().Be("Store 11");
@@ -67,7 +60,7 @@ namespace PozitronDev.QuerySpecification.UnitTests
 
             var spec = new StoresPaginatedSpec(skip, take);
 
-            var stores = evaluator.GetQuery(StoreSeed.AsQueryable(), spec).ToList();
+            var stores = spec.Evaluate(StoreSeed.Get());
 
             stores.Count.Should().Be(take);
             stores.OrderBy(x=>x.Id).First().Id.Should().Be(11);
@@ -79,7 +72,7 @@ namespace PozitronDev.QuerySpecification.UnitTests
         {
             var spec = new StoresByCompanyOrderedDescByNameSpec(2);
 
-            var stores = evaluator.GetQuery(StoreSeed.AsQueryable(), spec).ToList();
+            var stores = spec.Evaluate(StoreSeed.Get());
 
             stores.First().Id.Should().Be(StoreSeed.ORDERED_BY_NAME_DESC_FOR_COMPANY2_FIRST_ID);
             stores.Last().Id.Should().Be(StoreSeed.ORDERED_BY_NAME_DESC_FOR_COMPANY2_LAST_ID);
@@ -90,7 +83,7 @@ namespace PozitronDev.QuerySpecification.UnitTests
         {
             var spec = new StoresByCompanyOrderedDescByNameThenByIdSpec(2);
 
-            var stores = evaluator.GetQuery(StoreSeed.AsQueryable(), spec).ToList();
+            var stores = spec.Evaluate(StoreSeed.Get());
 
             stores.First().Id.Should().Be(99);
             stores.Last().Id.Should().Be(98);
@@ -104,7 +97,7 @@ namespace PozitronDev.QuerySpecification.UnitTests
 
             var spec = new StoresByCompanyPaginatedOrderedDescByNameSpec(2, skip, take);
 
-            var stores = evaluator.GetQuery(StoreSeed.AsQueryable(), spec).ToList();
+            var stores = spec.Evaluate(StoreSeed.Get());
 
             stores.Count.Should().Be(take);
             stores.First().Id.Should().Be(StoreSeed.ORDERED_BY_NAME_DESC_FOR_COMPANY2_PAGE2_FIRST_ID);
@@ -119,7 +112,7 @@ namespace PozitronDev.QuerySpecification.UnitTests
 
             var spec = new StoresByCompanyPaginatedSpec(2, skip, take);
 
-            var stores = evaluator.GetQuery(StoreSeed.AsQueryable(), spec).ToList();
+            var stores = spec.Evaluate(StoreSeed.Get());
 
             stores.Count.Should().Be(take);
             stores.OrderBy(x => x.Id).First().Id.Should().Be(61);
@@ -131,7 +124,7 @@ namespace PozitronDev.QuerySpecification.UnitTests
         {
             var spec = new StoresOrderedSpecByName();
 
-            var stores = evaluator.GetQuery(StoreSeed.AsQueryable(), spec).ToList();
+            var stores = spec.Evaluate(StoreSeed.Get());
 
             stores.First().Id.Should().Be(StoreSeed.ORDERED_BY_NAME_FIRST_ID);
             stores.Last().Id.Should().Be(StoreSeed.ORDERED_BY_NAME_LAST_ID);
@@ -142,7 +135,7 @@ namespace PozitronDev.QuerySpecification.UnitTests
         {
             var spec = new StoresOrderedDescendingByNameSpec();
 
-            var stores = evaluator.GetQuery(StoreSeed.AsQueryable(), spec).ToList();
+            var stores = spec.Evaluate(StoreSeed.Get());
 
             stores.First().Id.Should().Be(StoreSeed.ORDERED_BY_NAME_DESC_FIRST_ID);
             stores.Last().Id.Should().Be(StoreSeed.ORDERED_BY_NAME_DESC_LAST_ID);
