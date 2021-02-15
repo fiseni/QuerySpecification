@@ -28,15 +28,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.9" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="../../../docs/pozitronicon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="..\..\..\QuerySpecification\src\QuerySpecification\PozitronDev.QuerySpecification.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.12" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 </Project>
 
