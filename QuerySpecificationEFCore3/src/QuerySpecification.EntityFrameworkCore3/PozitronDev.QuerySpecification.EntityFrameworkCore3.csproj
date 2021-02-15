@@ -25,7 +25,6 @@
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
-    <RootNamespace>PozitronDev.QuerySpecification.EntityFrameworkCore3</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\QuerySpecification\src\QuerySpecification\QuerySpecification.csproj" />
+    <ProjectReference Include="..\..\..\QuerySpecification\src\QuerySpecification\PozitronDev.QuerySpecification.csproj" />
   </ItemGroup>
 </Project>
 

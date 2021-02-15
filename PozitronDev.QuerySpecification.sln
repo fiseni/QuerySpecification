@@ -9,17 +9,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PozitronDev.SpecSampleApp.W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PozitronDev.SpecSampleApp.Infrastructure", "sample\PozitronDev.SpecSampleApp.Infrastructure\PozitronDev.SpecSampleApp.Infrastructure.csproj", "{80D5D37C-1D08-4535-982F-16543B2A5F23}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification", "QuerySpecification\src\QuerySpecification\QuerySpecification.csproj", "{3E4D1ED6-7CDD-4870-BB56-033DE1A17EA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PozitronDev.QuerySpecification", "QuerySpecification\src\QuerySpecification\PozitronDev.QuerySpecification.csproj", "{3E4D1ED6-7CDD-4870-BB56-033DE1A17EA1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification.UnitTests", "QuerySpecification\tests\QuerySpecification.UnitTests\QuerySpecification.UnitTests.csproj", "{BAFCF13F-05EF-4DEF-AD78-B5006CE86784}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification.EntityFrameworkCore3", "QuerySpecificationEFCore3\src\QuerySpecification.EntityFrameworkCore3\QuerySpecification.EntityFrameworkCore3.csproj", "{89BC2F0A-D3E3-4F28-8E5C-0B810C94BF01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PozitronDev.QuerySpecification.EntityFrameworkCore3", "QuerySpecificationEFCore3\src\QuerySpecification.EntityFrameworkCore3\PozitronDev.QuerySpecification.EntityFrameworkCore3.csproj", "{89BC2F0A-D3E3-4F28-8E5C-0B810C94BF01}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification.EntityFrameworkCore3.IntegrationTests", "QuerySpecificationEFCore3\tests\QuerySpecification.EntityFrameworkCore3.IntegrationTests\QuerySpecification.EntityFrameworkCore3.IntegrationTests.csproj", "{23DD4782-E579-499F-91E4-5BA959E21EBE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{14CC34F1-BFA1-4C3D-A9A1-2B79DF665B02}"
 	ProjectSection(SolutionItems) = preProject
-		azure-build.yaml = azure-build.yaml
+		azure-build-base.yaml = azure-build-base.yaml
+		azure-build-efcore3.yaml = azure-build-efcore3.yaml
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
 	EndProjectSection
