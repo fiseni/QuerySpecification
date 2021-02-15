@@ -31,6 +31,7 @@ namespace PozitronDev.QuerySpecification
         string? CacheKey { get; }
 
         bool AsNoTracking { get; }
+        bool AsSplitQuery { get; }
 
         List<T> Evaluate(List<T> entities);
     }

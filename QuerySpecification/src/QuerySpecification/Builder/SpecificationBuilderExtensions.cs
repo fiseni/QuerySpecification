@@ -154,5 +154,13 @@ namespace PozitronDev.QuerySpecification
 
             return specificationBuilder;
         }
+
+        public static ISpecificationBuilder<T> AsSplitQuery<T>(
+            this ISpecificationBuilder<T> specificationBuilder) where T : class
+        {
+            specificationBuilder.Specification.AsSplitQuery = true;
+
+            return specificationBuilder;
+        }
     }
 }

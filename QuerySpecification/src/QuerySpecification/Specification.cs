@@ -76,5 +76,6 @@ namespace PozitronDev.QuerySpecification
         public bool CacheEnabled { get; internal set; }
 
         public bool AsNoTracking { get; internal set; } = false;
+        public bool AsSplitQuery { get; internal set; } = false;
     }
 }
