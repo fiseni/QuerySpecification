@@ -27,18 +27,18 @@ namespace PozitronDev.QuerySpecification
             this.evaluators.AddRange(evaluators);
         }
 
-        public virtual List<TResult> Evaluate<T, TResult>(IEnumerable<T> source, ISpecification<T, TResult> specification) where T : class
+        public virtual IEnumerable<TResult> Evaluate<T, TResult>(IEnumerable<T> source, ISpecification<T, TResult> specification) where T : class
         {
             var baseQuery = Evaluate(source, (ISpecification<T>)specification).AsQueryable();
 
-            var resultQuery = baseQuery.Select(specification.Selector).ToList();
+            var resultQuery = baseQuery.Select(specification.Selector);
 
             return specification.InMemory == null
-                ? resultQuery
+                ? resultQuery.AsEnumerable()
                 : specification.InMemory(resultQuery);
         }
 
-        public virtual List<T> Evaluate<T>(IEnumerable<T> source, ISpecification<T> specification) where T : class
+        public virtual IEnumerable<T> Evaluate<T>(IEnumerable<T> source, ISpecification<T> specification) where T : class
         {
             var queryable = source.AsQueryable();
 
@@ -48,8 +48,8 @@ namespace PozitronDev.QuerySpecification
             }
 
             return specification.InMemory == null
-                ? queryable.ToList()
-                : specification.InMemory(queryable.ToList());
+                ? queryable.AsEnumerable()
+                : specification.InMemory(queryable);
         }
     }
 }

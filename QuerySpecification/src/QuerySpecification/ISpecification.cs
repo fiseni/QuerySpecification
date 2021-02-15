@@ -8,8 +8,8 @@ namespace PozitronDev.QuerySpecification
     public interface ISpecification<T, TResult> : ISpecification<T> where T : class
     {
         Expression<Func<T, TResult>>? Selector { get; }
-        new Func<List<TResult>, List<TResult>>? InMemory { get; }
-        new List<TResult> Evaluate(List<T> entities);
+        new Func<IEnumerable<TResult>, IEnumerable<TResult>>? InMemory { get; }
+        new IEnumerable<TResult> Evaluate(IEnumerable<T> entities);
     }
 
     public interface ISpecification<T> where T : class
@@ -25,7 +25,7 @@ namespace PozitronDev.QuerySpecification
         [Obsolete]
         bool IsPagingEnabled { get; }
 
-        Func<List<T>, List<T>>? InMemory { get; }
+        Func<IEnumerable<T>, IEnumerable<T>>? InMemory { get; }
 
         bool CacheEnabled { get; }
         string? CacheKey { get; }
@@ -33,6 +33,6 @@ namespace PozitronDev.QuerySpecification
         bool AsNoTracking { get; }
         bool AsSplitQuery { get; }
 
-        List<T> Evaluate(List<T> entities);
+        IEnumerable<T> Evaluate(IEnumerable<T> entities);
     }
 }

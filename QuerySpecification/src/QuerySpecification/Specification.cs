@@ -20,14 +20,14 @@ namespace PozitronDev.QuerySpecification
             this.Query = new SpecificationBuilder<T, TResult>(this);
         }
 
-        public new virtual List<TResult> Evaluate(List<T> entities)
+        public new virtual IEnumerable<TResult> Evaluate(IEnumerable<T> entities)
         {
             return evaluator.Evaluate(entities, this);
         }
 
         public Expression<Func<T, TResult>>? Selector { get; internal set; }
 
-        public new Func<List<TResult>, List<TResult>>? InMemory { get; internal set; } = null;
+        public new Func<IEnumerable<TResult>, IEnumerable<TResult>>? InMemory { get; internal set; } = null;
     }
 
     public abstract class Specification<T> : ISpecification<T> where T : class
@@ -45,7 +45,7 @@ namespace PozitronDev.QuerySpecification
             this.Query = new SpecificationBuilder<T>(this);
         }
 
-        public virtual List<T> Evaluate(List<T> entities)
+        public virtual IEnumerable<T> Evaluate(IEnumerable<T> entities)
         {
             return evaluator.Evaluate(entities, this);
         }
@@ -70,7 +70,7 @@ namespace PozitronDev.QuerySpecification
         public bool IsPagingEnabled { get; internal set; } = false;
 
         
-        public Func<List<T>, List<T>>? InMemory { get; internal set; } = null;
+        public Func<IEnumerable<T>, IEnumerable<T>>? InMemory { get; internal set; } = null;
 
         public string? CacheKey { get; internal set; }
         public bool CacheEnabled { get; internal set; }

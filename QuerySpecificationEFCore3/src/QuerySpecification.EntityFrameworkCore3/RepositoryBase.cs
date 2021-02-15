@@ -91,13 +91,13 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
         {
             var queryResult = await ApplySpecification(specification).ToListAsync();
 
-            return specification.InMemory == null ? queryResult : specification.InMemory(queryResult);
+            return specification.InMemory == null ? queryResult : specification.InMemory(queryResult).ToList();
         }
         public virtual async Task<List<TResult>> ListAsync<TResult>(ISpecification<T, TResult> specification)
         {
             var queryResult = await ApplySpecification(specification).ToListAsync();
 
-            return specification.InMemory == null ? queryResult : specification.InMemory(queryResult);
+            return specification.InMemory == null ? queryResult : specification.InMemory(queryResult).ToList();
         }
 
         public virtual async Task<int> CountAsync(ISpecification<T> specification)

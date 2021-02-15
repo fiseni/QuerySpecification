@@ -109,7 +109,7 @@ namespace PozitronDev.QuerySpecification
 
         public static ISpecificationBuilder<T> InMemory<T>(
             this ISpecificationBuilder<T> specificationBuilder,
-            Func<List<T>, List<T>> predicate) where T : class
+            Func<IEnumerable<T>, IEnumerable<T>> predicate) where T : class
         {
             specificationBuilder.Specification.InMemory = predicate;
             
@@ -127,7 +127,7 @@ namespace PozitronDev.QuerySpecification
 
         public static ISpecificationBuilder<T, TResult> InMemory<T, TResult>(
             this ISpecificationBuilder<T, TResult> specificationBuilder,
-            Func<List<TResult>, List<TResult>> predicate) where T : class
+            Func<IEnumerable<TResult>, IEnumerable<TResult>> predicate) where T : class
         {
             specificationBuilder.Specification.InMemory = predicate;
             

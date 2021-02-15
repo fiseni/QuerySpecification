@@ -32,7 +32,7 @@ namespace PozitronDev.QuerySpecification.UnitTests
 
             var stores = spec.Evaluate(StoreSeed.Get());
 
-            stores.Count.Should().Be(16);
+            stores.Count().Should().Be(16);
             stores.OrderBy(x=>x.Id).First().Id.Should().Be(15);
             stores.OrderBy(x=>x.Id).Last().Id.Should().Be(30);
         }
@@ -47,7 +47,7 @@ namespace PozitronDev.QuerySpecification.UnitTests
 
             var storeNames = spec.Evaluate(StoreSeed.Get());
 
-            storeNames.Count.Should().Be(take);
+            storeNames.Count().Should().Be(take);
             storeNames.First().Should().Be("Store 11");
             storeNames.Last().Should().Be("Store 20");
         }
@@ -62,7 +62,7 @@ namespace PozitronDev.QuerySpecification.UnitTests
 
             var stores = spec.Evaluate(StoreSeed.Get());
 
-            stores.Count.Should().Be(take);
+            stores.Count().Should().Be(take);
             stores.OrderBy(x=>x.Id).First().Id.Should().Be(11);
             stores.OrderBy(x=>x.Id).Last().Id.Should().Be(20);
         }
@@ -99,7 +99,7 @@ namespace PozitronDev.QuerySpecification.UnitTests
 
             var stores = spec.Evaluate(StoreSeed.Get());
 
-            stores.Count.Should().Be(take);
+            stores.Count().Should().Be(take);
             stores.First().Id.Should().Be(StoreSeed.ORDERED_BY_NAME_DESC_FOR_COMPANY2_PAGE2_FIRST_ID);
             stores.Last().Id.Should().Be(StoreSeed.ORDERED_BY_NAME_DESC_FOR_COMPANY2_PAGE2_LAST_ID);
         }
@@ -114,7 +114,7 @@ namespace PozitronDev.QuerySpecification.UnitTests
 
             var stores = spec.Evaluate(StoreSeed.Get());
 
-            stores.Count.Should().Be(take);
+            stores.Count().Should().Be(take);
             stores.OrderBy(x => x.Id).First().Id.Should().Be(61);
             stores.OrderBy(x => x.Id).Last().Id.Should().Be(70);
         }
