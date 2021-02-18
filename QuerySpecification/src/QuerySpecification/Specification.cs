@@ -5,12 +5,12 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification
 {
-    public abstract class Specification<T, TResult> : Specification<T>, ISpecification<T, TResult> where T : class
+    public abstract class Specification<T, TResult> : Specification<T>, ISpecification<T, TResult>
     {
         protected new virtual ISpecificationBuilder<T, TResult> Query { get; }
 
         protected Specification()
-            : this(TransientEvaluator.Default)
+            : this(TransientSpecificationEvaluator.Default)
         {
         }
 
@@ -22,7 +22,7 @@ namespace PozitronDev.QuerySpecification
 
         public new virtual IEnumerable<TResult> Evaluate(IEnumerable<T> entities)
         {
-            return evaluator.Evaluate(entities, this);
+            return Evaluator.Evaluate(entities, this);
         }
 
         public Expression<Func<T, TResult>>? Selector { get; internal set; }
@@ -30,24 +30,24 @@ namespace PozitronDev.QuerySpecification
         public new Func<IEnumerable<TResult>, IEnumerable<TResult>>? InMemory { get; internal set; } = null;
     }
 
-    public abstract class Specification<T> : ISpecification<T> where T : class
+    public abstract class Specification<T> : ISpecification<T>
     {
-        protected readonly ITransientSpecificationEvaluator evaluator;
+        protected ITransientSpecificationEvaluator Evaluator { get; }
         protected virtual ISpecificationBuilder<T> Query { get; }
 
         protected Specification() 
-            : this(TransientEvaluator.Default)
+            : this(TransientSpecificationEvaluator.Default)
         {
         }
         protected Specification(ITransientSpecificationEvaluator transientEvaluator)
         {
-            this.evaluator = transientEvaluator;
+            this.Evaluator = transientEvaluator;
             this.Query = new SpecificationBuilder<T>(this);
         }
 
         public virtual IEnumerable<T> Evaluate(IEnumerable<T> entities)
         {
-            return evaluator.Evaluate(entities, this);
+            return Evaluator.Evaluate(entities, this);
         }
 
         public IEnumerable<Expression<Func<T, bool>>> WhereExpressions { get; } = new List<Expression<Func<T, bool>>>();

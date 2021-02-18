@@ -5,14 +5,14 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification
 {
-    public interface ISpecification<T, TResult> : ISpecification<T> where T : class
+    public interface ISpecification<T, TResult> : ISpecification<T>
     {
         Expression<Func<T, TResult>>? Selector { get; }
         new Func<IEnumerable<TResult>, IEnumerable<TResult>>? InMemory { get; }
         new IEnumerable<TResult> Evaluate(IEnumerable<T> entities);
     }
 
-    public interface ISpecification<T> where T : class
+    public interface ISpecification<T>
     {
         IEnumerable<Expression<Func<T, bool>>> WhereExpressions { get; }
         IEnumerable<(Expression<Func<T, object>> KeySelector, OrderTypeEnum OrderType)> OrderExpressions { get; }

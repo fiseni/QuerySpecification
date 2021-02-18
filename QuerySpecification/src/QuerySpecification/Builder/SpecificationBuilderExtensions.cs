@@ -9,7 +9,7 @@ namespace PozitronDev.QuerySpecification
     {
         public static ISpecificationBuilder<T> Where<T>(
             this ISpecificationBuilder<T> specificationBuilder,
-            Expression<Func<T, bool>> criteria) where T : class
+            Expression<Func<T, bool>> criteria)
         {
             ((List<Expression<Func<T, bool>>>)specificationBuilder.Specification.WhereExpressions).Add(criteria);
 
@@ -18,7 +18,7 @@ namespace PozitronDev.QuerySpecification
 
         public static IOrderedSpecificationBuilder<T> OrderBy<T>(
             this ISpecificationBuilder<T> specificationBuilder,
-            Expression<Func<T, object?>> orderExpression) where T : class
+            Expression<Func<T, object?>> orderExpression)
         {
             ((List<(Expression<Func<T, object?>> OrderExpression, OrderTypeEnum OrderType)>)specificationBuilder.Specification.OrderExpressions)
                 .Add((orderExpression, OrderTypeEnum.OrderBy));
@@ -30,7 +30,7 @@ namespace PozitronDev.QuerySpecification
 
         public static IOrderedSpecificationBuilder<T> OrderByDescending<T>(
             this ISpecificationBuilder<T> specificationBuilder,
-            Expression<Func<T, object?>> orderExpression) where T : class
+            Expression<Func<T, object?>> orderExpression)
         {
             ((List<(Expression<Func<T, object?>> OrderExpression, OrderTypeEnum OrderType)>)specificationBuilder.Specification.OrderExpressions)
                 .Add((orderExpression, OrderTypeEnum.OrderByDescending));
@@ -76,7 +76,7 @@ namespace PozitronDev.QuerySpecification
 
         public static ISpecificationBuilder<T> Take<T>(
             this ISpecificationBuilder<T> specificationBuilder,
-            int take) where T : class
+            int take)
         {
             if (specificationBuilder.Specification.Take != null) throw new DuplicateTakeException();
 
@@ -87,7 +87,7 @@ namespace PozitronDev.QuerySpecification
 
         public static ISpecificationBuilder<T> Skip<T>(
             this ISpecificationBuilder<T> specificationBuilder,
-            int skip) where T : class
+            int skip)
         {
             if (specificationBuilder.Specification.Skip != null) throw new DuplicateSkipException();
 
@@ -99,7 +99,7 @@ namespace PozitronDev.QuerySpecification
         public static ISpecificationBuilder<T> Paginate<T>(
             this ISpecificationBuilder<T> specificationBuilder,
             int skip, 
-            int take) where T : class
+            int take)
         {
             specificationBuilder.Skip(skip);
             specificationBuilder.Take(take);
@@ -109,7 +109,7 @@ namespace PozitronDev.QuerySpecification
 
         public static ISpecificationBuilder<T> InMemory<T>(
             this ISpecificationBuilder<T> specificationBuilder,
-            Func<IEnumerable<T>, IEnumerable<T>> predicate) where T : class
+            Func<IEnumerable<T>, IEnumerable<T>> predicate)
         {
             specificationBuilder.Specification.InMemory = predicate;
             
@@ -118,7 +118,7 @@ namespace PozitronDev.QuerySpecification
 
         public static ISpecificationBuilder<T, TResult> Select<T, TResult>(
             this ISpecificationBuilder<T, TResult> specificationBuilder,
-            Expression<Func<T, TResult>> selector) where T : class
+            Expression<Func<T, TResult>> selector)
         {
             specificationBuilder.Specification.Selector = selector;
 
@@ -127,7 +127,7 @@ namespace PozitronDev.QuerySpecification
 
         public static ISpecificationBuilder<T, TResult> InMemory<T, TResult>(
             this ISpecificationBuilder<T, TResult> specificationBuilder,
-            Func<IEnumerable<TResult>, IEnumerable<TResult>> predicate) where T : class
+            Func<IEnumerable<TResult>, IEnumerable<TResult>> predicate)
         {
             specificationBuilder.Specification.InMemory = predicate;
             

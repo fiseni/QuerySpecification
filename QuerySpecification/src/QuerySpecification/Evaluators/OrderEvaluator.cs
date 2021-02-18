@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification
 {
-    public class OrderEvaluator : IEvaluator
+    public class OrderEvaluator : IEvaluator, ITransientEvaluator
     {
         private OrderEvaluator() { }
         public static OrderEvaluator Instance { get; } = new OrderEvaluator();
@@ -34,6 +34,40 @@ namespace PozitronDev.QuerySpecification
                     else if (orderExpression.OrderType == OrderTypeEnum.ThenByDescending)
                     {
                         orderedQuery = orderedQuery.ThenByDescending(orderExpression.KeySelector);
+                    }
+
+                    if (orderedQuery != null)
+                    {
+                        query = orderedQuery;
+                    }
+                }
+            }
+
+            return query;
+        }
+
+        public IEnumerable<T> Evaluate<T>(IEnumerable<T> query, ISpecification<T> specification)
+        {
+            if (specification.OrderExpressions != null && specification.OrderExpressions.Count() > 0)
+            {
+                IOrderedEnumerable<T>? orderedQuery = null;
+                foreach (var orderExpression in specification.OrderExpressions)
+                {
+                    if (orderExpression.OrderType == OrderTypeEnum.OrderBy)
+                    {
+                        orderedQuery = query.OrderBy(orderExpression.KeySelector.Compile());
+                    }
+                    else if (orderExpression.OrderType == OrderTypeEnum.OrderByDescending)
+                    {
+                        orderedQuery = query.OrderByDescending(orderExpression.KeySelector.Compile());
+                    }
+                    else if (orderExpression.OrderType == OrderTypeEnum.ThenBy)
+                    {
+                        orderedQuery = orderedQuery.ThenBy(orderExpression.KeySelector.Compile());
+                    }
+                    else if (orderExpression.OrderType == OrderTypeEnum.ThenByDescending)
+                    {
+                        orderedQuery = orderedQuery.ThenByDescending(orderExpression.KeySelector.Compile());
                     }
 
                     if (orderedQuery != null)

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification
 {
-    public class WhereEvaluator : IEvaluator
+    public class WhereEvaluator : IEvaluator, ITransientEvaluator
     {
         private WhereEvaluator() { }
         public static WhereEvaluator Instance { get; } = new WhereEvaluator();
@@ -17,6 +17,16 @@ namespace PozitronDev.QuerySpecification
             foreach (var criteria in specification.WhereExpressions)
             {
                 query = query.Where(criteria);
+            }
+
+            return query;
+        }
+
+        public IEnumerable<T> Evaluate<T>(IEnumerable<T> query, ISpecification<T> specification)
+        {
+            foreach (var criteria in specification.WhereExpressions)
+            {
+                query = query.Where(criteria.Compile());
             }
 
             return query;
