@@ -11,13 +11,13 @@
     <Summary>Abstract package for building query specifications in your domain model.</Summary>
     <Copyright>Copyright © 2020 Pozitron Group LLC</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>Include feature improved. Added transient evaluator for specifications. Added Caching, AsNoTracking, AsSplitquery features. Updated Search and InMemory features. Updated inner infrastructure.</PackageReleaseNotes>
+    <PackageReleaseNotes>Updated and improved transient evaluation. Updated generic constraints.</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/fiseni/QuerySpecification</PackageProjectUrl>
     <PackageIconUrl>https://pozitrongroup.com/PozitronLogo.png</PackageIconUrl>
     <PackageIcon>pozitronicon.png</PackageIcon>
     <PackageTags>pozitron specification efcore repository cleanarchitecture</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>4.0.0</Version>
+    <Version>4.1.0</Version>
     <!--<DocumentationFile>bin\$(Configuration)\PozitronDev.QuerySpecification.xml</DocumentationFile>-->
     <RepositoryUrl>https://github.com/fiseni/QuerySpecification</RepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
