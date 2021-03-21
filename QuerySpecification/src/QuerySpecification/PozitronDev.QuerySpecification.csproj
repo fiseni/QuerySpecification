@@ -9,7 +9,7 @@
     <Title>PozitronDev.QuerySpecification</Title>
     <Description>Abstract package for building query specifications in your domain model.</Description>
     <Summary>Abstract package for building query specifications in your domain model.</Summary>
-    <Copyright>Copyright © 2020 Pozitron Group LLC</Copyright>
+    <Copyright>Copyright © 2021 Pozitron Group LLC</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>Check release notes on github.</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/fiseni/QuerySpecification</PackageProjectUrl>

@@ -6,11 +6,11 @@
     <RootNamespace>PozitronDev.QuerySpecification.EntityFrameworkCore</RootNamespace>
     <Authors>Fati Iseni</Authors>
     <Company>Pozitron Group LLC</Company>
-    <Product>Pozitron Query Specification (EntityFramework Core3 plugin)</Product>
+    <Product>Pozitron Query Specification (EntityFramework Core 3 plugin)</Product>
     <Title>PozitronDev.QuerySpecification.EntityFrameworkCore3</Title>
     <Description>EntityFramework Core 3 plugin to PozitronDev.QuerySpecification containing the EF evaluator and abstract repository.</Description>
     <Summary>EntityFramework Core 3 plugin to PozitronDev.QuerySpecification containing the EF evaluator and abstract repository.</Summary>
-    <Copyright>Copyright © 2020 Pozitron Group LLC</Copyright>
+    <Copyright>Copyright © 2021 Pozitron Group LLC</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>Check release notes on github.</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/fiseni/QuerySpecification</PackageProjectUrl>
