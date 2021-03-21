@@ -1,5 +1,5 @@
 ﻿using PozitronDev.QuerySpecification;
-using PozitronDev.QuerySpecification.EntityFrameworkCore3;
+using PozitronDev.QuerySpecification.EntityFrameworkCore;
 using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities;
 
 namespace QuerySpecification.Benchmark

@@ -1,4 +1,4 @@
-﻿using PozitronDev.QuerySpecification.EntityFrameworkCore3;
+﻿using PozitronDev.QuerySpecification.EntityFrameworkCore;
 using PozitronDev.SpecSampleApp.Core.Interfaces;
 using PozitronDev.SpecSampleApp.Infrastructure.DataAccess;
 using System;

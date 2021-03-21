@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\QuerySpecificationEFCore3\src\QuerySpecification.EntityFrameworkCore3\PozitronDev.QuerySpecification.EntityFrameworkCore3.csproj" />
+    <ProjectReference Include="..\..\QuerySpecificationEFCore\src\QuerySpecification.EntityFrameworkCore\PozitronDev.QuerySpecification.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\PozitronDev.SpecSampleApp.Core\PozitronDev.SpecSampleApp.Core.csproj" />
   </ItemGroup>
 

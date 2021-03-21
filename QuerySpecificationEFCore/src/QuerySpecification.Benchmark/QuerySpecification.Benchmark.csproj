@@ -12,8 +12,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\QuerySpecification\src\QuerySpecification\PozitronDev.QuerySpecification.csproj" />
     <ProjectReference Include="..\..\..\QuerySpecification\tests\QuerySpecification.UnitTests\QuerySpecification.UnitTests.csproj" />
-    <ProjectReference Include="..\..\tests\QuerySpecification.EntityFrameworkCore3.IntegrationTests\QuerySpecification.EntityFrameworkCore3.IntegrationTests.csproj" />
-    <ProjectReference Include="..\QuerySpecification.EntityFrameworkCore3\PozitronDev.QuerySpecification.EntityFrameworkCore3.csproj" />
+    <ProjectReference Include="..\..\tests\QuerySpecification.EntityFrameworkCore.IntegrationTests\QuerySpecification.EntityFrameworkCore.IntegrationTests.csproj" />
+    <ProjectReference Include="..\QuerySpecification.EntityFrameworkCore\PozitronDev.QuerySpecification.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
 </Project>

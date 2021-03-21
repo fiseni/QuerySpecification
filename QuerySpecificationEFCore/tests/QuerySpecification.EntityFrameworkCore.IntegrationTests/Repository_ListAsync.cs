@@ -47,6 +47,18 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore.IntegrationTests
         }
 
         [Fact]
+        public async Task ReturnsCompanyWithStoreWithIdOne_GivenCompanyIncludeFilteredStoresSpec()
+        {
+            var result = await companyRepository.ListAsync(new CompanyIncludeFilteredStoresSpec(1));
+
+            result.Should().NotBeNull();
+            result.Should().NotBeEmpty();
+            result[0].Stores.Should().NotBeEmpty();
+            result[0].Stores.Should().HaveCount(1);
+            result[0].Stores.First().Id.Should().Be(1);
+        }
+
+        [Fact]
         public async Task ReturnsStoreWithIdFrom15To30_GivenStoresByIdListSpec()
         {
             var ids = Enumerable.Range(15, 16);
@@ -172,22 +184,6 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore.IntegrationTests
             result.Should().ContainSingle();
             result[0].Id.Should().Be(StoreSeed.VALID_Search_City_ID);
             result[0].City.Should().Contain(StoreSeed.VALID_Search_City_Key);
-        }
-
-        [Fact]
-        public async Task ReturnsUntrackedCompanies_GivenCompanyByIdAsUntrackedSpec()
-        {
-            var result = (await companyRepository.ListAsync(new CompanyByIdSpec(CompanySeed.VALID_COMPANY_ID))).SingleOrDefault();
-            dbContext.Entry(result).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
-
-            result.Should().NotBeNull();
-            result!.Name.Should().Be(CompanySeed.VALID_COMPANY_NAME);
-
-            result = (await companyRepository.ListAsync(new CompanyByIdAsUntrackedSpec(CompanySeed.VALID_COMPANY_ID))).SingleOrDefault();
-
-            result.Should().NotBeNull();
-            result!.Name.Should().Be(CompanySeed.VALID_COMPANY_NAME);
-            dbContext.Entry(result).State.Should().Be(Microsoft.EntityFrameworkCore.EntityState.Detached);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -15,8 +15,8 @@
     </PackageReference>
     <PackageReference Include="ReportGenerator" Version="4.8.7" />
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.13" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
@@ -28,7 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\QuerySpecification\tests\QuerySpecification.UnitTests\QuerySpecification.UnitTests.csproj" />
-    <ProjectReference Include="..\..\src\QuerySpecification.EntityFrameworkCore3\PozitronDev.QuerySpecification.EntityFrameworkCore3.csproj" />
+    <ProjectReference Include="..\..\src\QuerySpecification.EntityFrameworkCore\PozitronDev.QuerySpecification.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
 </Project>

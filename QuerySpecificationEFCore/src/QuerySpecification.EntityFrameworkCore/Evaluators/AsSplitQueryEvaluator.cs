@@ -17,8 +17,7 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore
         {
             if (specification.AsSplitQuery)
             {
-                // No support in EF Core 3
-                //query = query.AsSplitQuery();
+                query = query.AsSplitQuery();
             }
 
             return query;

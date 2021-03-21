@@ -9,7 +9,7 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore.IntegrationTests.Fi
 {
     public class SharedDatabaseFixture : IDisposable
     {
-        public const string ConnectionString = "Server=(localdb)\\mssqllocaldb;Database=QuerySpecificationEF3TestsDB;ConnectRetryCount=0";
+        public const string ConnectionString = "Server=(localdb)\\mssqllocaldb;Database=QuerySpecificationEFTestsDB;ConnectRetryCount=0";
         private static readonly object _lock = new object();
         private static bool _databaseInitialized;
 

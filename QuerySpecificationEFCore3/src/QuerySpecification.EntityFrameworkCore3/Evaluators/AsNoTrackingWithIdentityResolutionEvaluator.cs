@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
+namespace PozitronDev.QuerySpecification.EntityFrameworkCore
 {
     public class AsNoTrackingWithIdentityResolutionEvaluator : IEvaluator
     {

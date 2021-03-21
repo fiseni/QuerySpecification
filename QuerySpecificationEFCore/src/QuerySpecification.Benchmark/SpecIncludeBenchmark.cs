@@ -2,8 +2,8 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using PozitronDev.QuerySpecification;
-using PozitronDev.QuerySpecification.EntityFrameworkCore3;
-using PozitronDev.QuerySpecification.EntityFrameworkCore3.IntegrationTests.Fixture;
+using PozitronDev.QuerySpecification.EntityFrameworkCore;
+using PozitronDev.QuerySpecification.EntityFrameworkCore.IntegrationTests.Fixture;
 using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities;
 using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities.Seeds;
 using System;
