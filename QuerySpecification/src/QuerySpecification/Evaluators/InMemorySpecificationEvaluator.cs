@@ -6,23 +6,23 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification
 {
-    public class TransientSpecificationEvaluator : ITransientSpecificationEvaluator
+    public class InMemorySpecificationEvaluator : IInMemorySpecificationEvaluator
     {
         // Will use singleton for default configuration. Yet, it can be instantiated if necessary, with default or provided evaluators.
-        public static TransientSpecificationEvaluator Default { get; } = new TransientSpecificationEvaluator();
+        public static InMemorySpecificationEvaluator Default { get; } = new InMemorySpecificationEvaluator();
 
-        private readonly List<ITransientEvaluator> evaluators = new List<ITransientEvaluator>();
+        private readonly List<IInMemoryEvaluator> evaluators = new List<IInMemoryEvaluator>();
 
-        public TransientSpecificationEvaluator()
+        public InMemorySpecificationEvaluator()
         {
-            this.evaluators.AddRange(new ITransientEvaluator[]
+            this.evaluators.AddRange(new IInMemoryEvaluator[]
             {
                 WhereEvaluator.Instance,
                 OrderEvaluator.Instance,
                 PaginationEvaluator.Instance
             });
         }
-        public TransientSpecificationEvaluator(IEnumerable<ITransientEvaluator> evaluators)
+        public InMemorySpecificationEvaluator(IEnumerable<IInMemoryEvaluator> evaluators)
         {
             this.evaluators.AddRange(evaluators);
         }
@@ -35,21 +35,26 @@ namespace PozitronDev.QuerySpecification
 
             var resultQuery = baseQuery.Select(specification.Selector.Compile());
 
-            return specification.InMemory == null
+            return specification.PostProcessingAction == null
                 ? resultQuery
-                : specification.InMemory(resultQuery);
+                : specification.PostProcessingAction(resultQuery);
         }
 
         public virtual IEnumerable<T> Evaluate<T>(IEnumerable<T> source, ISpecification<T> specification)
         {
+            if (specification.SearchCriterias.Count() > 0)
+            {
+                throw new NotSupportedException("The specification contains Search expressions and can't be evaluated with in-memory evaluator.");
+            }
+
             foreach (var evaluator in evaluators)
             {
                 source = evaluator.Evaluate(source, specification);
             }
 
-            return specification.InMemory == null
+            return specification.PostProcessingAction == null
                 ? source
-                : specification.InMemory(source);
+                : specification.PostProcessingAction(source);
         }
     }
 }

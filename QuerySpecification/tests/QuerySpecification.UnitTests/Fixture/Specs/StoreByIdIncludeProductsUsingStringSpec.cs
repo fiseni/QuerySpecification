@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification.UnitTests.Fixture.Specs
 {
-    public class StoreByIdIncludeProductsUsingStringSpec : Specification<Store>
+    public class StoreByIdIncludeProductsUsingStringSpec : Specification<Store>, ISingleResultSpecification
     {
         public StoreByIdIncludeProductsUsingStringSpec(int id)
         {

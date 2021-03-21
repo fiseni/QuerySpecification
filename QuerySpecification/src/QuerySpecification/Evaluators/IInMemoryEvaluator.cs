@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification
 {
-    public interface ITransientEvaluator
+    public interface IInMemoryEvaluator
     {
         IEnumerable<T> Evaluate<T>(IEnumerable<T> query, ISpecification<T> specification);
     }

@@ -10,12 +10,12 @@ namespace PozitronDev.QuerySpecification
         protected new virtual ISpecificationBuilder<T, TResult> Query { get; }
 
         protected Specification()
-            : this(TransientSpecificationEvaluator.Default)
+            : this(InMemorySpecificationEvaluator.Default)
         {
         }
 
-        protected Specification(ITransientSpecificationEvaluator transientEvaluator) 
-            : base(transientEvaluator)
+        protected Specification(IInMemorySpecificationEvaluator inMemorySpecificationEvaluator) 
+            : base(inMemorySpecificationEvaluator)
         {
             this.Query = new SpecificationBuilder<T, TResult>(this);
         }
@@ -27,21 +27,22 @@ namespace PozitronDev.QuerySpecification
 
         public Expression<Func<T, TResult>>? Selector { get; internal set; }
 
-        public new Func<IEnumerable<TResult>, IEnumerable<TResult>>? InMemory { get; internal set; } = null;
+        public new Func<IEnumerable<TResult>, IEnumerable<TResult>>? PostProcessingAction { get; internal set; } = null;
     }
 
     public abstract class Specification<T> : ISpecification<T>
     {
-        protected ITransientSpecificationEvaluator Evaluator { get; }
+        protected IInMemorySpecificationEvaluator Evaluator { get; }
         protected virtual ISpecificationBuilder<T> Query { get; }
 
         protected Specification() 
-            : this(TransientSpecificationEvaluator.Default)
+            : this(InMemorySpecificationEvaluator.Default)
         {
         }
-        protected Specification(ITransientSpecificationEvaluator transientEvaluator)
+
+        protected Specification(IInMemorySpecificationEvaluator inMemorySpecificationEvaluator)
         {
-            this.Evaluator = transientEvaluator;
+            this.Evaluator = inMemorySpecificationEvaluator;
             this.Query = new SpecificationBuilder<T>(this);
         }
 
@@ -70,12 +71,13 @@ namespace PozitronDev.QuerySpecification
         public bool IsPagingEnabled { get; internal set; } = false;
 
         
-        public Func<IEnumerable<T>, IEnumerable<T>>? InMemory { get; internal set; } = null;
+        public Func<IEnumerable<T>, IEnumerable<T>>? PostProcessingAction { get; internal set; } = null;
 
         public string? CacheKey { get; internal set; }
         public bool CacheEnabled { get; internal set; }
 
         public bool AsNoTracking { get; internal set; } = false;
         public bool AsSplitQuery { get; internal set; } = false;
+        public bool AsNoTrackingWithIdentityResolution { get; internal set; } = false;
     }
 }

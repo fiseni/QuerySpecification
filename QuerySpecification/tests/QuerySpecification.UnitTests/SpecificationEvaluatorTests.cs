@@ -21,7 +21,7 @@ namespace PozitronDev.QuerySpecification.UnitTests
 
             var store = spec.Evaluate(StoreSeed.Get()).FirstOrDefault();
 
-            store.Id.Should().Be(10);
+            store?.Id.Should().Be(10);
         }
 
         [Fact]
@@ -33,8 +33,8 @@ namespace PozitronDev.QuerySpecification.UnitTests
             var stores = spec.Evaluate(StoreSeed.Get());
 
             stores.Count().Should().Be(16);
-            stores.OrderBy(x=>x.Id).First().Id.Should().Be(15);
-            stores.OrderBy(x=>x.Id).Last().Id.Should().Be(30);
+            stores.OrderBy(x => x.Id).First().Id.Should().Be(15);
+            stores.OrderBy(x => x.Id).Last().Id.Should().Be(30);
         }
 
         [Fact]
@@ -63,8 +63,8 @@ namespace PozitronDev.QuerySpecification.UnitTests
             var stores = spec.Evaluate(StoreSeed.Get());
 
             stores.Count().Should().Be(take);
-            stores.OrderBy(x=>x.Id).First().Id.Should().Be(11);
-            stores.OrderBy(x=>x.Id).Last().Id.Should().Be(20);
+            stores.OrderBy(x => x.Id).First().Id.Should().Be(11);
+            stores.OrderBy(x => x.Id).Last().Id.Should().Be(20);
         }
 
         [Fact]

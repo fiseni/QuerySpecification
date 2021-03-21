@@ -9,8 +9,10 @@ namespace PozitronDev.QuerySpecification.UnitTests.Fixture.Specs
     {
         public StoreNamesPaginatedSpec(int skip, int take)
         {
-            Query.Skip(skip)
-                 .Take(take);
+            Query.OrderBy(x => x.Id)
+                .Skip(skip)
+                .Take(take);
+
             Query.Select(x => x.Name);
         }
     }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification
 {
-    public class PaginationEvaluator : IEvaluator, ITransientEvaluator
+    public class PaginationEvaluator : IEvaluator, IInMemoryEvaluator
     {
         private PaginationEvaluator() { }
         public static PaginationEvaluator Instance { get; } = new PaginationEvaluator();

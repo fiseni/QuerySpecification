@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification
 {
-    public class OrderEvaluator : IEvaluator, ITransientEvaluator
+    public class OrderEvaluator : IEvaluator, IInMemoryEvaluator
     {
         private OrderEvaluator() { }
         public static OrderEvaluator Instance { get; } = new OrderEvaluator();

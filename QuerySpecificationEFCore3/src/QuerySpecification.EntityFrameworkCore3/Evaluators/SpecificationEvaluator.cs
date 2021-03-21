@@ -22,7 +22,9 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
                 IncludeEvaluator.Instance,
                 OrderEvaluator.Instance,
                 PaginationEvaluator.Instance,
-                AsNoTrackingEvaluator.Instance
+                AsSplitQueryEvaluator.Instance,
+                AsNoTrackingEvaluator.Instance,
+                AsNoTrackingWithIdentityResolutionEvaluator.Instance
             });
         }
         public SpecificationEvaluator(IEnumerable<IEvaluator> evaluators)
@@ -31,9 +33,9 @@ namespace PozitronDev.QuerySpecification.EntityFrameworkCore3
         }
 
 
-        public virtual IQueryable<TResult> GetQuery<T, TResult>(IQueryable<T> query, ISpecification<T, TResult> specification, bool evaluateCriteriaOnly = false) where T : class
+        public virtual IQueryable<TResult> GetQuery<T, TResult>(IQueryable<T> query, ISpecification<T, TResult> specification) where T : class
         {
-            query = GetQuery(query, (ISpecification<T>)specification, evaluateCriteriaOnly);
+            query = GetQuery(query, (ISpecification<T>)specification);
 
             return query.Select(specification.Selector);
         }

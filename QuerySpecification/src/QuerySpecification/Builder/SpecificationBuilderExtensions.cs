@@ -107,11 +107,11 @@ namespace PozitronDev.QuerySpecification
             return specificationBuilder;
         }
 
-        public static ISpecificationBuilder<T> InMemory<T>(
+        public static ISpecificationBuilder<T> PostProcessingAction<T>(
             this ISpecificationBuilder<T> specificationBuilder,
             Func<IEnumerable<T>, IEnumerable<T>> predicate)
         {
-            specificationBuilder.Specification.InMemory = predicate;
+            specificationBuilder.Specification.PostProcessingAction = predicate;
             
             return specificationBuilder;
         }
@@ -125,11 +125,11 @@ namespace PozitronDev.QuerySpecification
             return specificationBuilder;
         }
 
-        public static ISpecificationBuilder<T, TResult> InMemory<T, TResult>(
+        public static ISpecificationBuilder<T, TResult> PostProcessingAction<T, TResult>(
             this ISpecificationBuilder<T, TResult> specificationBuilder,
             Func<IEnumerable<TResult>, IEnumerable<TResult>> predicate)
         {
-            specificationBuilder.Specification.InMemory = predicate;
+            specificationBuilder.Specification.PostProcessingAction = predicate;
             
             return specificationBuilder;
         }
@@ -159,6 +159,14 @@ namespace PozitronDev.QuerySpecification
             this ISpecificationBuilder<T> specificationBuilder) where T : class
         {
             specificationBuilder.Specification.AsSplitQuery = true;
+
+            return specificationBuilder;
+        }
+
+        public static ISpecificationBuilder<T> AsNoTrackingWithIdentityResolution<T>(
+            this ISpecificationBuilder<T> specificationBuilder) where T : class
+        {
+            specificationBuilder.Specification.AsNoTrackingWithIdentityResolution = true;
 
             return specificationBuilder;
         }

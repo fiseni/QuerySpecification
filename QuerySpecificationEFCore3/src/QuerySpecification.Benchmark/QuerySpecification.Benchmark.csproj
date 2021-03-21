@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\QuerySpecification\src\QuerySpecification\PozitronDev.QuerySpecification.csproj" />
+    <ProjectReference Include="..\..\..\QuerySpecification\tests\QuerySpecification.UnitTests\QuerySpecification.UnitTests.csproj" />
+    <ProjectReference Include="..\..\tests\QuerySpecification.EntityFrameworkCore3.IntegrationTests\QuerySpecification.EntityFrameworkCore3.IntegrationTests.csproj" />
+    <ProjectReference Include="..\QuerySpecification.EntityFrameworkCore3\PozitronDev.QuerySpecification.EntityFrameworkCore3.csproj" />
+  </ItemGroup>
+
+</Project>

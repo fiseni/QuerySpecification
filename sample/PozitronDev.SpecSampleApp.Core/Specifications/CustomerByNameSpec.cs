@@ -6,7 +6,7 @@ using System.Text;
 
 namespace PozitronDev.SpecSampleApp.Core.Specifications
 {
-    public class CustomerByNameSpec : Specification<Customer>
+    public class CustomerByNameSpec : Specification<Customer>, ISingleResultSpecification
     {
         public CustomerByNameSpec(string name)
         {

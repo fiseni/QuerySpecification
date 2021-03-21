@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PozitronDev.QuerySpecification
 {
-    public class WhereEvaluator : IEvaluator, ITransientEvaluator
+    public class WhereEvaluator : IEvaluator, IInMemoryEvaluator
     {
         private WhereEvaluator() { }
         public static WhereEvaluator Instance { get; } = new WhereEvaluator();
