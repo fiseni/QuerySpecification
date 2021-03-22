@@ -8,7 +8,8 @@
 
 &nbsp;
 
-<strong>Note:</strong> Most of the functionalities also have been merged into version4 of [Ardalis.Specification](https://github.com/ardalis/Specification)
+<strong>Note:</strong> This package is used mostly internally by my team. Please refer to the community edition [Ardalis.Specification](https://github.com/ardalis/Specification) by @ardalis. You can get better support, we're not so careless with changes and tend to provide a more stable version there. If you wanna live on the "edge" and have the newest features, then be my guest. But, be aware that I'll be breaking your code all the time :). Once the features are mature enough, I usually port them over there anyway, so you won't be missing anything. 
+
 
 # PozitronDev.QuerySpecification
 
@@ -16,7 +17,8 @@ Nuget packages for building query specifications in your domain model. They are 
 
 Packages:
 - <strong>PozitronDev.QuerySpecification:</strong> Base/abstract package which has dependency only on .NET, so you reference it from your core project and build your specifications.
-- <strong>PozitronDev.QuerySpecification.EntityFrameworkCore3:</strong> An EntityFramework Core 3 plugin to the base abstract package. It contains EF evaluators and generic repository ready to be consumed in your projects.
+- <strong>PozitronDev.QuerySpecification.EntityFrameworkCore:</strong> An `EntityFramework Core` (latest version) plugin to the base abstract package. It contains EF specific evaluators and generic repository ready to be consumed in your projects.
+- <strong>PozitronDev.QuerySpecification.EntityFrameworkCore3:</strong> An `EntityFramework Core 3` plugin to the base abstract package. It contains EF specific evaluators and generic repository ready to be consumed in your projects.
 
 ## What is specification pattern
 
