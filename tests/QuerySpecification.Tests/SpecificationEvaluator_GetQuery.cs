@@ -1,48 +1,42 @@
-﻿using Pozitron.QuerySpecification.Tests.Fixture;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xunit;
+﻿using Xunit;
 
-namespace Pozitron.QuerySpecification.Tests
+namespace Pozitron.QuerySpecification.Tests;
+
+public class SpecificationEvaluator_GetQuery
 {
-    public class SpecificationEvaluator_GetQuery
+    private int _testId = 123;
+
+    private class TestItem
     {
-        private int _testId = 123;
+        public int Id { get; set; }
+    }
 
-        private class TestItem
+    private class ItemWithIdSpecification : Specification<TestItem>
+    {
+        public ItemWithIdSpecification(int id)
         {
-            public int Id { get; set; }
+            Query.Where(x => x.Id == id);
         }
+    }
 
-        private class ItemWithIdSpecification : Specification<TestItem>
+    [Fact]
+    public void ReturnsEntityWithId_GiveWhereExpression()
+    {
+        var spec = new ItemWithIdSpecification(_testId);
+
+        var result = spec.Evaluate(GetTestListOfItems()).FirstOrDefault();
+
+        Assert.Equal(_testId, result?.Id);
+    }
+
+    private List<TestItem> GetTestListOfItems()
+    {
+        return new List<TestItem>
         {
-            public ItemWithIdSpecification(int id)
-            {
-                Query.Where(x => x.Id == id);
-            }
-        }
-
-        [Fact]
-        public void ReturnsEntityWithId_GiveWhereExpression()
-        {
-            var spec = new ItemWithIdSpecification(_testId);
-
-            var result = spec.Evaluate(GetTestListOfItems()).FirstOrDefault();
-
-            Assert.Equal(_testId, result?.Id);
-        }
-
-        private List<TestItem> GetTestListOfItems()
-        {
-            return new List<TestItem>
-            {
-                new TestItem{ Id = 1},
-                new TestItem{ Id = 2},
-                new TestItem{ Id = _testId},
-                new TestItem{ Id = 3}
-            };
-        }
+            new TestItem{ Id = 1},
+            new TestItem{ Id = 2},
+            new TestItem{ Id = _testId},
+            new TestItem{ Id = 3}
+        };
     }
 }

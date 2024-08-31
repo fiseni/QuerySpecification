@@ -1,30 +1,26 @@
 ﻿using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
-namespace Pozitron.QuerySpecification.Tests
+namespace Pozitron.QuerySpecification.Tests;
+
+public class SelectorNotFoundExceptionTests
 {
-    public class SelectorNotFoundExceptionTests
+    private const string defaultMessage = "The specification must have Selector defined.";
+
+    [Fact]
+    public void ThrowWithDefaultConstructor()
     {
-        private const string defaultMessage = "The specification must have Selector defined.";
+        Action action = () => throw new SelectorNotFoundException();
 
-        [Fact]
-        public void ThrowWithDefaultConstructor()
-        {
-            Action action = () => throw new SelectorNotFoundException();
+        action.Should().Throw<SelectorNotFoundException>().WithMessage(defaultMessage);
+    }
 
-            action.Should().Throw<SelectorNotFoundException>().WithMessage(defaultMessage);
-        }
+    [Fact]
+    public void ThrowWithInnerException()
+    {
+        Exception inner = new Exception("test");
+        Action action = () => throw new SelectorNotFoundException(inner);
 
-        [Fact]
-        public void ThrowWithInnerException()
-        {
-            Exception inner = new Exception("test");
-            Action action = () => throw new SelectorNotFoundException(inner);
-
-            action.Should().Throw<SelectorNotFoundException>().WithMessage(defaultMessage).WithInnerException<Exception>().WithMessage("test");
-        }
+        action.Should().Throw<SelectorNotFoundException>().WithMessage(defaultMessage).WithInnerException<Exception>().WithMessage("test");
     }
 }

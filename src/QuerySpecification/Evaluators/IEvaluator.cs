@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿namespace Pozitron.QuerySpecification;
 
-namespace Pozitron.QuerySpecification
+public interface IEvaluator
 {
-    public interface IEvaluator
-    {
-        bool IsCriteriaEvaluator { get; }
+    bool IsCriteriaEvaluator { get; }
 
-        IQueryable<T> GetQuery<T>(IQueryable<T> query, ISpecification<T> specification) where T : class;
-    }
+    IQueryable<T> GetQuery<T>(IQueryable<T> query, ISpecification<T> specification) where T : class;
 }

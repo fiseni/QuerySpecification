@@ -1,40 +1,36 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Pozitron.QuerySpecification.Tests.Fixture.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Pozitron.QuerySpecification.EntityFrameworkCore.Benchmarks
+namespace Pozitron.QuerySpecification.EntityFrameworkCore.Benchmarks;
+
+public class BenchmarkDbContext : DbContext
 {
-    public class BenchmarkDbContext : DbContext
+    public DbSet<Country> Countries { get; set; }
+    public DbSet<Company> Companies { get; set; }
+    public DbSet<Store> Stores { get; set; }
+    public DbSet<Address> Addresses { get; set; }
+    public DbSet<Product> Products { get; set; }
+
+    public BenchmarkDbContext()
     {
-        public DbSet<Country> Countries { get; set; }
-        public DbSet<Company> Companies { get; set; }
-        public DbSet<Store> Stores { get; set; }
-        public DbSet<Address> Addresses { get; set; }
-        public DbSet<Product> Products { get; set; }
+    }
+    public BenchmarkDbContext(DbContextOptions options) : base(options)
+    {
+    }
 
-        public BenchmarkDbContext()
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
         {
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=QuerySpecificationBenchmark;ConnectRetryCount=0");
         }
-        public BenchmarkDbContext(DbContextOptions options) : base(options)
-        {
-        }
+        base.OnConfiguring(optionsBuilder);
+    }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=QuerySpecificationBenchmark;ConnectRetryCount=0");
-            }
-            base.OnConfiguring(optionsBuilder);
-        }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<Store>().HasOne(x => x.Address).WithOne(x => x.Store).HasForeignKey<Address>(x => x.StoreId);
-        }
+        modelBuilder.Entity<Store>().HasOne(x => x.Address).WithOne(x => x.Store).HasForeignKey<Address>(x => x.StoreId);
     }
 }

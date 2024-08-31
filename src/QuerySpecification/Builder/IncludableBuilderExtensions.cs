@@ -1,38 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
+﻿using System.Linq.Expressions;
 
-namespace Pozitron.QuerySpecification
+namespace Pozitron.QuerySpecification;
+
+public static class IncludableBuilderExtensions
 {
-    public static class IncludableBuilderExtensions
+    public static IIncludableSpecificationBuilder<TEntity, TProperty> ThenInclude<TEntity, TPreviousProperty, TProperty>(
+        this IIncludableSpecificationBuilder<TEntity, TPreviousProperty> previousBuilder,
+        Expression<Func<TPreviousProperty, TProperty>> thenIncludeExpression)
+        where TEntity : class
     {
-        public static IIncludableSpecificationBuilder<TEntity, TProperty> ThenInclude<TEntity, TPreviousProperty, TProperty>(
-            this IIncludableSpecificationBuilder<TEntity, TPreviousProperty> previousBuilder,
-            Expression<Func<TPreviousProperty, TProperty>> thenIncludeExpression)
-            where TEntity : class
-        {
-            var info = new IncludeExpressionInfo(thenIncludeExpression, typeof(TEntity), typeof(TProperty), typeof(TPreviousProperty));
+        var info = new IncludeExpressionInfo(thenIncludeExpression, typeof(TEntity), typeof(TProperty), typeof(TPreviousProperty));
 
-            ((List<IncludeExpressionInfo>)previousBuilder.Specification.IncludeExpressions).Add(info);
+        ((List<IncludeExpressionInfo>)previousBuilder.Specification.IncludeExpressions).Add(info);
 
-            var includeBuilder = new IncludableSpecificationBuilder<TEntity, TProperty>(previousBuilder.Specification);
+        var includeBuilder = new IncludableSpecificationBuilder<TEntity, TProperty>(previousBuilder.Specification);
 
-            return includeBuilder;
-        }
+        return includeBuilder;
+    }
 
-        public static IIncludableSpecificationBuilder<TEntity, TProperty> ThenInclude<TEntity, TPreviousProperty, TProperty>(
-            this IIncludableSpecificationBuilder<TEntity, IEnumerable<TPreviousProperty>> previousBuilder,
-            Expression<Func<TPreviousProperty, TProperty>> thenIncludeExpression)
-            where TEntity : class
-        {
-            var info = new IncludeExpressionInfo(thenIncludeExpression, typeof(TEntity), typeof(TProperty), typeof(TPreviousProperty));
+    public static IIncludableSpecificationBuilder<TEntity, TProperty> ThenInclude<TEntity, TPreviousProperty, TProperty>(
+        this IIncludableSpecificationBuilder<TEntity, IEnumerable<TPreviousProperty>> previousBuilder,
+        Expression<Func<TPreviousProperty, TProperty>> thenIncludeExpression)
+        where TEntity : class
+    {
+        var info = new IncludeExpressionInfo(thenIncludeExpression, typeof(TEntity), typeof(TProperty), typeof(TPreviousProperty));
 
-            ((List<IncludeExpressionInfo>)previousBuilder.Specification.IncludeExpressions).Add(info);
+        ((List<IncludeExpressionInfo>)previousBuilder.Specification.IncludeExpressions).Add(info);
 
-            var includeBuilder = new IncludableSpecificationBuilder<TEntity, TProperty>(previousBuilder.Specification);
+        var includeBuilder = new IncludableSpecificationBuilder<TEntity, TProperty>(previousBuilder.Specification);
 
-            return includeBuilder;
-        }
+        return includeBuilder;
     }
 }

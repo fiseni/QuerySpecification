@@ -1,12 +1,11 @@
 ﻿using BenchmarkDotNet.Running;
 
-namespace Pozitron.QuerySpecification.EntityFrameworkCore.Benchmarks
+namespace Pozitron.QuerySpecification.EntityFrameworkCore.Benchmarks;
+
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            var summary = BenchmarkRunner.Run<CastingBenchmark>();
-        }
+        var summary = BenchmarkRunner.Run<CastingBenchmark>();
     }
 }

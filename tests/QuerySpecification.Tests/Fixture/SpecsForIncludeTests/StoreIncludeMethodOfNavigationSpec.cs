@@ -1,15 +1,11 @@
 ﻿using Pozitron.QuerySpecification.Tests.Fixture.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Pozitron.QuerySpecification.Tests.Fixture.Specs
+namespace Pozitron.QuerySpecification.Tests.Fixture.Specs;
+
+public class StoreIncludeMethodOfNavigationSpec : Specification<Store>
 {
-    public class StoreIncludeMethodOfNavigationSpec : Specification<Store>
+    public StoreIncludeMethodOfNavigationSpec()
     {
-        public StoreIncludeMethodOfNavigationSpec()
-        {
-            Query.Include(x => x.Address!.GetSomethingFromAddress());
-        }
+        Query.Include(x => x.Address!.GetSomethingFromAddress());
     }
 }

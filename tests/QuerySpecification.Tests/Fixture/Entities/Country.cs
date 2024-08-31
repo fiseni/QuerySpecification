@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace Pozitron.QuerySpecification.Tests.Fixture.Entities;
 
-namespace Pozitron.QuerySpecification.Tests.Fixture.Entities
+public class Country
 {
-    public class Country
-    {
-        public int Id { get; set; }
-        public string? Name { get; set; }
+    public int Id { get; set; }
+    public string? Name { get; set; }
 
-        public List<Company> Companies { get; set; } = new List<Company>();
-    }
+    public List<Company> Companies { get; set; } = new List<Company>();
 }

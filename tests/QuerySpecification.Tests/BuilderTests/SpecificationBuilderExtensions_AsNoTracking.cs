@@ -1,28 +1,24 @@
 ﻿using FluentAssertions;
 using Pozitron.QuerySpecification.Tests.Fixture.Specs;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
-namespace Pozitron.QuerySpecification.Tests.BuilderTests
+namespace Pozitron.QuerySpecification.Tests.BuilderTests;
+
+public class SpecificationBuilderExtensions_AsNoTracking
 {
-    public class SpecificationBuilderExtensions_AsNoTracking
+    [Fact]
+    public void DoesNothing_GivenSpecWithoutAsNoTracking()
     {
-        [Fact]
-        public void DoesNothing_GivenSpecWithoutAsNoTracking()
-        {
-            var spec = new StoreEmptySpec();
+        var spec = new StoreEmptySpec();
 
-            spec.AsNoTracking.Should().Be(false);
-        }
+        spec.AsNoTracking.Should().Be(false);
+    }
 
-        [Fact]
-        public void FlagsAsNoTracking_GivenSpecWithAsNoTracking()
-        {
-            var spec = new CompanyByIdAsUntrackedSpec(1);
+    [Fact]
+    public void FlagsAsNoTracking_GivenSpecWithAsNoTracking()
+    {
+        var spec = new CompanyByIdAsUntrackedSpec(1);
 
-            spec.AsNoTracking.Should().Be(true);
-        }
+        spec.AsNoTracking.Should().Be(true);
     }
 }

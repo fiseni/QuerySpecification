@@ -1,15 +1,11 @@
 ﻿using Pozitron.QuerySpecification.Tests.Fixture.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Pozitron.QuerySpecification.Tests.Fixture.Specs
+namespace Pozitron.QuerySpecification.Tests.Fixture.Specs;
+
+public class StoresOrderedDescendingByNameSpec : Specification<Store>
 {
-    public class StoresOrderedDescendingByNameSpec : Specification<Store>
+    public StoresOrderedDescendingByNameSpec()
     {
-        public StoresOrderedDescendingByNameSpec()
-        {
-            Query.OrderByDescending(x => x.Name);
-        }
+        Query.OrderByDescending(x => x.Name);
     }
 }

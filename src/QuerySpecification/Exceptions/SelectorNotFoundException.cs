@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace Pozitron.QuerySpecification;
 
-namespace Pozitron.QuerySpecification
+public class SelectorNotFoundException : Exception
 {
-    public class SelectorNotFoundException : Exception
+    private const string message = "The specification must have Selector defined.";
+
+    public SelectorNotFoundException()
+        : base(message)
     {
-        private const string message = "The specification must have Selector defined.";
+    }
 
-        public SelectorNotFoundException()
-            : base(message)
-        {
-        }
-
-        public SelectorNotFoundException(Exception innerException)
-            : base(message, innerException)
-        {
-        }
+    public SelectorNotFoundException(Exception innerException)
+        : base(message, innerException)
+    {
     }
 }

@@ -1,16 +1,12 @@
 ﻿using Pozitron.QuerySpecification.Tests.Fixture.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Pozitron.QuerySpecification.Tests.Fixture.Specs
+namespace Pozitron.QuerySpecification.Tests.Fixture.Specs;
+
+public class StoreDuplicateTakeSpec : Specification<Store>
 {
-    public class StoreDuplicateTakeSpec : Specification<Store>
+    public StoreDuplicateTakeSpec()
     {
-        public StoreDuplicateTakeSpec()
-        {
-            Query.Take(1)
-                 .Take(2);
-        }
+        Query.Take(1)
+             .Take(2);
     }
 }

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace Pozitron.QuerySpecification;
 
-namespace Pozitron.QuerySpecification
+public enum IncludeTypeEnum
 {
-    public enum IncludeTypeEnum
-    {
-        Include = 1,
-        ThenInclude = 2
-    }
+    Include = 1,
+    ThenInclude = 2
 }

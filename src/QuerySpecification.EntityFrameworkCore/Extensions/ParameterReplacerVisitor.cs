@@ -1,36 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
+﻿using System.Linq.Expressions;
 
-namespace Pozitron.QuerySpecification
+namespace Pozitron.QuerySpecification;
+
+internal class ParameterReplacerVisitor : ExpressionVisitor
 {
-    internal class ParameterReplacerVisitor : ExpressionVisitor
+    private Expression newExpression;
+    private ParameterExpression oldParameter;
+
+    private ParameterReplacerVisitor(ParameterExpression oldParameter, Expression newExpression)
     {
-        private Expression newExpression;
-        private ParameterExpression oldParameter;
+        this.oldParameter = oldParameter;
+        this.newExpression = newExpression;
+    }
 
-        private ParameterReplacerVisitor(ParameterExpression oldParameter, Expression newExpression)
+    internal static Expression Replace(Expression expression, ParameterExpression oldParameter, Expression newExpression)
+    {
+        return new ParameterReplacerVisitor(oldParameter, newExpression).Visit(expression);
+    }
+
+    protected override Expression VisitParameter(ParameterExpression p)
+    {
+        if (p == this.oldParameter)
         {
-            this.oldParameter = oldParameter;
-            this.newExpression = newExpression;
+            return this.newExpression;
         }
-
-        internal static Expression Replace(Expression expression, ParameterExpression oldParameter, Expression newExpression)
+        else
         {
-            return new ParameterReplacerVisitor(oldParameter, newExpression).Visit(expression);
-        }
-
-        protected override Expression VisitParameter(ParameterExpression p)
-        {
-            if (p == this.oldParameter)
-            {
-                return this.newExpression;
-            }
-            else
-            {
-                return p;
-            }
+            return p;
         }
     }
 }

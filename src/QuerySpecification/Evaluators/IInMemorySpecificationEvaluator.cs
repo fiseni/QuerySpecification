@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿namespace Pozitron.QuerySpecification;
 
-namespace Pozitron.QuerySpecification
+public interface IInMemorySpecificationEvaluator
 {
-    public interface IInMemorySpecificationEvaluator
-    {
-        IEnumerable<TResult> Evaluate<T, TResult>(IEnumerable<T> source, ISpecification<T, TResult> specification);
-        IEnumerable<T> Evaluate<T>(IEnumerable<T> source, ISpecification<T> specification);
-    }
+    IEnumerable<TResult> Evaluate<T, TResult>(IEnumerable<T> source, ISpecification<T, TResult> specification);
+    IEnumerable<T> Evaluate<T>(IEnumerable<T> source, ISpecification<T> specification);
 }

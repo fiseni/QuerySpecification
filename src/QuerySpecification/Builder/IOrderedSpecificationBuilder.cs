@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
+﻿namespace Pozitron.QuerySpecification;
 
-namespace Pozitron.QuerySpecification
+public interface IOrderedSpecificationBuilder<T> : ISpecificationBuilder<T>
 {
-    public interface IOrderedSpecificationBuilder<T> : ISpecificationBuilder<T>
-    {
-    }
 }

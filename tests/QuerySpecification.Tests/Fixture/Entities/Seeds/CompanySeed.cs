@@ -1,40 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace Pozitron.QuerySpecification.Tests.Fixture.Entities.Seeds;
 
-namespace Pozitron.QuerySpecification.Tests.Fixture.Entities.Seeds
+public class CompanySeed
 {
-    public class CompanySeed
+    public const int VALID_COMPANY_ID = 1;
+    public const string VALID_COMPANY_NAME = "Company 1";
+
+    public static List<Company> Get()
     {
-        public const int VALID_COMPANY_ID = 1;
-        public const string VALID_COMPANY_NAME = "Company 1";
+        var companies = new List<Company>();
 
-        public static List<Company> Get()
+        companies.Add(new Company()
         {
-            var companies = new List<Company>();
+            Id = 1,
+            Name = "Company 1",
+            CountryId = 1,
+        });
 
-            companies.Add(new Company()
-            {
-                Id = 1,
-                Name = "Company 1",
-                CountryId = 1,
-            });
+        companies.Add(new Company()
+        {
+            Id = 2,
+            Name = "Company 2",
+            CountryId = 2,
+        });
 
-            companies.Add(new Company()
-            {
-                Id = 2,
-                Name = "Company 2",
-                CountryId = 2,
-            });
+        companies.Add(new Company()
+        {
+            Id = 3,
+            Name = "Company 3",
+            CountryId = 1,
+        });
 
-            companies.Add(new Company()
-            {
-                Id = 3,
-                Name = "Company 3",
-                CountryId = 1,
-            });
-
-            return companies;
-        }
+        return companies;
     }
 }

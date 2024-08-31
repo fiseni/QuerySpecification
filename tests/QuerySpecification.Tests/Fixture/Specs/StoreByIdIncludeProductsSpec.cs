@@ -1,16 +1,12 @@
 ﻿using Pozitron.QuerySpecification.Tests.Fixture.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Pozitron.QuerySpecification.Tests.Fixture.Specs
+namespace Pozitron.QuerySpecification.Tests.Fixture.Specs;
+
+public class StoreByIdIncludeProductsSpec : Specification<Store>, ISingleResultSpecification
 {
-    public class StoreByIdIncludeProductsSpec : Specification<Store>, ISingleResultSpecification
+    public StoreByIdIncludeProductsSpec(int id)
     {
-        public StoreByIdIncludeProductsSpec(int id)
-        {
-            Query.Where(x => x.Id == id)
-                .Include(x => x.Products);
-        }
+        Query.Where(x => x.Id == id)
+            .Include(x => x.Products);
     }
 }

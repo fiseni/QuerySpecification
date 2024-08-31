@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace Pozitron.QuerySpecification;
 
-namespace Pozitron.QuerySpecification
+public class IncludableSpecificationBuilder<T, TProperty> : IIncludableSpecificationBuilder<T, TProperty> where T : class
 {
-    public class IncludableSpecificationBuilder<T, TProperty> : IIncludableSpecificationBuilder<T, TProperty> where T : class
-    {
-        public Specification<T> Specification { get; }
+    public Specification<T> Specification { get; }
 
-        public IncludableSpecificationBuilder(Specification<T> specification)
-        {
-            Specification = specification;
-        }
+    public IncludableSpecificationBuilder(Specification<T> specification)
+    {
+        Specification = specification;
     }
 }

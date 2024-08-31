@@ -1,15 +1,11 @@
 ﻿using Pozitron.QuerySpecification.Tests.Fixture.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Pozitron.QuerySpecification.Tests.Fixture.Specs
+namespace Pozitron.QuerySpecification.Tests.Fixture.Specs;
+
+public class StoreNamesSpec : Specification<Store, string?>
 {
-    public class StoreNamesSpec : Specification<Store, string?>
+    public StoreNamesSpec()
     {
-        public StoreNamesSpec()
-        {
-            Query.Select(x => x.Name);
-        }
+        Query.Select(x => x.Name);
     }
 }

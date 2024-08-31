@@ -1,46 +1,40 @@
 ﻿using FluentAssertions;
-using Pozitron.QuerySpecification.Tests.Fixture.Entities;
 using Pozitron.QuerySpecification.Tests.Fixture.Specs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Xunit;
 
-namespace Pozitron.QuerySpecification.Tests
+namespace Pozitron.QuerySpecification.Tests;
+
+public class SpecificationBuilderExtensions_PostProcessingAction
 {
-    public class SpecificationBuilderExtensions_PostProcessingAction
+    [Fact]
+    public void SetsNothing_GivenNoPostProcessingAction()
     {
-        [Fact]
-        public void SetsNothing_GivenNoPostProcessingAction()
-        {
-            var spec = new StoreEmptySpec();
+        var spec = new StoreEmptySpec();
 
-            spec.PostProcessingAction.Should().BeNull();
-        }
+        spec.PostProcessingAction.Should().BeNull();
+    }
 
-        [Fact]
-        public void SetsNothing_GivenSelectorSpecWithNoPostProcessingAction()
-        {
-            var spec = new StoreNamesEmptySpec();
+    [Fact]
+    public void SetsNothing_GivenSelectorSpecWithNoPostProcessingAction()
+    {
+        var spec = new StoreNamesEmptySpec();
 
-            spec.PostProcessingAction.Should().BeNull();
-        }
+        spec.PostProcessingAction.Should().BeNull();
+    }
 
-        [Fact]
-        public void SetsPostProcessingPredicate_GivenPostProcessingAction()
-        {
-            var spec = new StoreWithPostProcessingActionSpec();
+    [Fact]
+    public void SetsPostProcessingPredicate_GivenPostProcessingAction()
+    {
+        var spec = new StoreWithPostProcessingActionSpec();
 
-            spec.PostProcessingAction.Should().NotBeNull();
-        }
+        spec.PostProcessingAction.Should().NotBeNull();
+    }
 
-        [Fact]
-        public void SetsPostProcessingPredicate_GivenSelectorSpecWithPostProcessingAction()
-        {
-            var spec = new StoreNamesWithPostProcessingActionSpec();
+    [Fact]
+    public void SetsPostProcessingPredicate_GivenSelectorSpecWithPostProcessingAction()
+    {
+        var spec = new StoreNamesWithPostProcessingActionSpec();
 
-            spec.PostProcessingAction.Should().NotBeNull();
-        }
+        spec.PostProcessingAction.Should().NotBeNull();
     }
 }

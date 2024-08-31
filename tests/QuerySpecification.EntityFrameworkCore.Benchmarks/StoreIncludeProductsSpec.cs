@@ -1,15 +1,12 @@
-﻿using Pozitron.QuerySpecification;
-using Pozitron.QuerySpecification.EntityFrameworkCore;
-using Pozitron.QuerySpecification.Tests.Fixture.Entities;
+﻿using Pozitron.QuerySpecification.Tests.Fixture.Entities;
 
-namespace Pozitron.QuerySpecification.EntityFrameworkCore.Benchmarks
+namespace Pozitron.QuerySpecification.EntityFrameworkCore.Benchmarks;
+
+public class StoreIncludeProductsSpec : Specification<Store>
 {
-    public class StoreIncludeProductsSpec : Specification<Store>
+    public StoreIncludeProductsSpec()
     {
-        public StoreIncludeProductsSpec()
-        {
-            Query.Include(x => x.Products)
-                .Include(x => x.Company).ThenInclude(x=>x.Country);
-        }
+        Query.Include(x => x.Products)
+            .Include(x => x.Company).ThenInclude(x => x.Country);
     }
 }
