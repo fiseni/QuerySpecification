@@ -2,15 +2,15 @@
 
 public class DuplicateSkipException : Exception
 {
-    private const string message = "Duplicate use of the Skip(). Ensure you don't use both Paginate() and Skip() in the same specification!";
+    private const string _message = "Duplicate use of Skip(). Ensure you don't use Skip() more than once in the same specification!";
 
     public DuplicateSkipException()
-        : base(message)
+        : base(_message)
     {
     }
 
     public DuplicateSkipException(Exception innerException)
-        : base(message, innerException)
+        : base(_message, innerException)
     {
     }
 }

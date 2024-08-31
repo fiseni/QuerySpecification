@@ -1,11 +1,11 @@
 ﻿using System.Linq.Expressions;
 
-namespace Pozitron.QuerySpecification;
+namespace Pozitron.QuerySpecification.EntityFrameworkCore;
 
 internal class ParameterReplacerVisitor : ExpressionVisitor
 {
-    private Expression _newExpression;
-    private ParameterExpression _oldParameter;
+    private readonly Expression _newExpression;
+    private readonly ParameterExpression _oldParameter;
 
     private ParameterReplacerVisitor(ParameterExpression oldParameter, Expression newExpression)
     {
@@ -14,19 +14,8 @@ internal class ParameterReplacerVisitor : ExpressionVisitor
     }
 
     internal static Expression Replace(Expression expression, ParameterExpression oldParameter, Expression newExpression)
-    {
-        return new ParameterReplacerVisitor(oldParameter, newExpression).Visit(expression);
-    }
+      => new ParameterReplacerVisitor(oldParameter, newExpression).Visit(expression);
 
     protected override Expression VisitParameter(ParameterExpression p)
-    {
-        if (p == _oldParameter)
-        {
-            return _newExpression;
-        }
-        else
-        {
-            return p;
-        }
-    }
+      => p == _oldParameter ? _newExpression : p;
 }

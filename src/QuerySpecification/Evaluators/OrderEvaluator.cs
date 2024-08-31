@@ -9,8 +9,14 @@ public class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 
     public IQueryable<T> GetQuery<T>(IQueryable<T> query, ISpecification<T> specification) where T : class
     {
-        if (specification.OrderExpressions != null && specification.OrderExpressions.Count() > 0)
+        if (specification.OrderExpressions != null)
         {
+            if (specification.OrderExpressions.Count(x => x.OrderType == OrderTypeEnum.OrderBy
+                    || x.OrderType == OrderTypeEnum.OrderByDescending) > 1)
+            {
+                throw new DuplicateOrderChainException();
+            }
+
             IOrderedQueryable<T>? orderedQuery = null;
             foreach (var orderExpression in specification.OrderExpressions)
             {
@@ -24,17 +30,17 @@ public class OrderEvaluator : IEvaluator, IInMemoryEvaluator
                 }
                 else if (orderExpression.OrderType == OrderTypeEnum.ThenBy)
                 {
-                    orderedQuery = orderedQuery.ThenBy(orderExpression.KeySelector);
+                    orderedQuery = orderedQuery!.ThenBy(orderExpression.KeySelector);
                 }
                 else if (orderExpression.OrderType == OrderTypeEnum.ThenByDescending)
                 {
-                    orderedQuery = orderedQuery.ThenByDescending(orderExpression.KeySelector);
+                    orderedQuery = orderedQuery!.ThenByDescending(orderExpression.KeySelector);
                 }
+            }
 
-                if (orderedQuery != null)
-                {
-                    query = orderedQuery;
-                }
+            if (orderedQuery != null)
+            {
+                query = orderedQuery;
             }
         }
 
@@ -43,32 +49,38 @@ public class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 
     public IEnumerable<T> Evaluate<T>(IEnumerable<T> query, ISpecification<T> specification)
     {
-        if (specification.OrderExpressions != null && specification.OrderExpressions.Count() > 0)
+        if (specification.OrderExpressions != null)
         {
+            if (specification.OrderExpressions.Count(x => x.OrderType == OrderTypeEnum.OrderBy
+                    || x.OrderType == OrderTypeEnum.OrderByDescending) > 1)
+            {
+                throw new DuplicateOrderChainException();
+            }
+
             IOrderedEnumerable<T>? orderedQuery = null;
             foreach (var orderExpression in specification.OrderExpressions)
             {
                 if (orderExpression.OrderType == OrderTypeEnum.OrderBy)
                 {
-                    orderedQuery = query.OrderBy(orderExpression.KeySelector.Compile());
+                    orderedQuery = query.OrderBy(orderExpression.KeySelectorFunc);
                 }
                 else if (orderExpression.OrderType == OrderTypeEnum.OrderByDescending)
                 {
-                    orderedQuery = query.OrderByDescending(orderExpression.KeySelector.Compile());
+                    orderedQuery = query.OrderByDescending(orderExpression.KeySelectorFunc);
                 }
                 else if (orderExpression.OrderType == OrderTypeEnum.ThenBy)
                 {
-                    orderedQuery = orderedQuery.ThenBy(orderExpression.KeySelector.Compile());
+                    orderedQuery = orderedQuery!.ThenBy(orderExpression.KeySelectorFunc);
                 }
                 else if (orderExpression.OrderType == OrderTypeEnum.ThenByDescending)
                 {
-                    orderedQuery = orderedQuery.ThenByDescending(orderExpression.KeySelector.Compile());
+                    orderedQuery = orderedQuery!.ThenByDescending(orderExpression.KeySelectorFunc);
                 }
+            }
 
-                if (orderedQuery != null)
-                {
-                    query = orderedQuery;
-                }
+            if (orderedQuery != null)
+            {
+                query = orderedQuery;
             }
         }
 

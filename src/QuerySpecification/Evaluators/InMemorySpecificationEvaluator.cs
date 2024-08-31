@@ -5,29 +5,33 @@ public class InMemorySpecificationEvaluator : IInMemorySpecificationEvaluator
     // Will use singleton for default configuration. Yet, it can be instantiated if necessary, with default or provided evaluators.
     public static InMemorySpecificationEvaluator Default { get; } = new InMemorySpecificationEvaluator();
 
-    private readonly List<IInMemoryEvaluator> _evaluators = new List<IInMemoryEvaluator>();
+    protected List<IInMemoryEvaluator> Evaluators { get; } = new List<IInMemoryEvaluator>();
 
     public InMemorySpecificationEvaluator()
     {
-        _evaluators.AddRange(new IInMemoryEvaluator[]
+        Evaluators.AddRange(new IInMemoryEvaluator[]
         {
             WhereEvaluator.Instance,
+            SearchEvaluator.Instance,
             OrderEvaluator.Instance,
             PaginationEvaluator.Instance
         });
     }
     public InMemorySpecificationEvaluator(IEnumerable<IInMemoryEvaluator> evaluators)
     {
-        _evaluators.AddRange(evaluators);
+        Evaluators.AddRange(evaluators);
     }
 
     public virtual IEnumerable<TResult> Evaluate<T, TResult>(IEnumerable<T> source, ISpecification<T, TResult> specification)
     {
-        _ = specification.Selector ?? throw new SelectorNotFoundException();
+        if (specification.Selector is null && specification.SelectorMany is null) throw new SelectorNotFoundException();
+        if (specification.Selector != null && specification.SelectorMany != null) throw new ConcurrentSelectorsException();
 
         var baseQuery = Evaluate(source, (ISpecification<T>)specification);
 
-        var resultQuery = baseQuery.Select(specification.Selector.Compile());
+        var resultQuery = specification.Selector != null
+          ? baseQuery.Select(specification.Selector.Compile())
+          : baseQuery.SelectMany(specification.SelectorMany!.Compile());
 
         return specification.PostProcessingAction == null
             ? resultQuery
@@ -36,12 +40,7 @@ public class InMemorySpecificationEvaluator : IInMemorySpecificationEvaluator
 
     public virtual IEnumerable<T> Evaluate<T>(IEnumerable<T> source, ISpecification<T> specification)
     {
-        if (specification.SearchCriterias.Count() > 0)
-        {
-            throw new NotSupportedException("The specification contains Search expressions and can't be evaluated with in-memory evaluator.");
-        }
-
-        foreach (var evaluator in _evaluators)
+        foreach (var evaluator in Evaluators)
         {
             source = evaluator.Evaluate(source, specification);
         }

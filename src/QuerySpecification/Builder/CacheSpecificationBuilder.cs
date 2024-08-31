@@ -1,16 +1,16 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public class OrderedSpecificationBuilder<T> : IOrderedSpecificationBuilder<T>
+public class CacheSpecificationBuilder<T> : ICacheSpecificationBuilder<T> where T : class
 {
     public Specification<T> Specification { get; }
     public bool IsChainDiscarded { get; set; }
 
-    public OrderedSpecificationBuilder(Specification<T> specification)
+    public CacheSpecificationBuilder(Specification<T> specification)
         : this(specification, false)
     {
     }
 
-    public OrderedSpecificationBuilder(Specification<T> specification, bool isChainDiscarded)
+    public CacheSpecificationBuilder(Specification<T> specification, bool isChainDiscarded)
     {
         Specification = specification;
         IsChainDiscarded = isChainDiscarded;

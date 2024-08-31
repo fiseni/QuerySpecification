@@ -2,18 +2,18 @@
 
 namespace Pozitron.QuerySpecification.EntityFrameworkCore;
 
-public class AsSplitQueryEvaluator : IEvaluator
+public class AsTrackingEvaluator : IEvaluator
 {
-    private AsSplitQueryEvaluator() { }
-    public static AsSplitQueryEvaluator Instance { get; } = new AsSplitQueryEvaluator();
+    private AsTrackingEvaluator() { }
+    public static AsTrackingEvaluator Instance { get; } = new AsTrackingEvaluator();
 
     public bool IsCriteriaEvaluator { get; } = true;
 
     public IQueryable<T> GetQuery<T>(IQueryable<T> query, ISpecification<T> specification) where T : class
     {
-        if (specification.AsSplitQuery)
+        if (specification.AsTracking)
         {
-            query = query.AsSplitQuery();
+            query = query.AsTracking();
         }
 
         return query;

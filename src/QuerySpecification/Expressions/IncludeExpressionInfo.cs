@@ -5,9 +5,13 @@ namespace Pozitron.QuerySpecification;
 public class IncludeExpressionInfo
 {
     public LambdaExpression LambdaExpression { get; }
+
     public Type EntityType { get; }
+
     public Type PropertyType { get; }
+
     public Type? PreviousPropertyType { get; }
+
     public IncludeTypeEnum Type { get; }
 
     private IncludeExpressionInfo(LambdaExpression expression,

@@ -1,4 +1,4 @@
-﻿namespace Pozitron.QuerySpecification;
+﻿namespace Pozitron.QuerySpecification.EntityFrameworkCore;
 
 public class SearchEvaluator : IEvaluator
 {
@@ -11,8 +11,7 @@ public class SearchEvaluator : IEvaluator
     {
         foreach (var searchCriteria in specification.SearchCriterias.GroupBy(x => x.SearchGroup))
         {
-            var criterias = searchCriteria.Select(x => (x.Selector, x.SearchTerm));
-            query = query.Search(criterias);
+            query = query.Search(searchCriteria);
         }
 
         return query;

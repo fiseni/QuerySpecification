@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Pozitron.QuerySpecification;
+namespace Pozitron.QuerySpecification.EntityFrameworkCore;
 
 public class AsNoTrackingEvaluator : IEvaluator
 {

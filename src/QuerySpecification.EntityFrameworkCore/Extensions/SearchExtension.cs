@@ -1,31 +1,40 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Linq.Expressions;
+using System.Reflection;
 
-namespace Pozitron.QuerySpecification;
+namespace Pozitron.QuerySpecification.EntityFrameworkCore;
 
 public static class SearchExtension
 {
-    public static IQueryable<T> Search<T>(this IQueryable<T> source, IEnumerable<(Expression<Func<T, string>> selector, string searchTerm)> criterias)
+    private static readonly MethodInfo _likeMethodInfo = typeof(DbFunctionsExtensions)
+        .GetMethod(nameof(DbFunctionsExtensions.Like), new Type[] { typeof(DbFunctions), typeof(string), typeof(string) })
+        ?? throw new TargetException("The EF.Functions.Like not found");
+
+    private static readonly MemberExpression _functions = Expression.Property(null, typeof(EF).GetProperty(nameof(EF.Functions))
+        ?? throw new TargetException("The EF.Functions not found!"));
+
+    public static IQueryable<T> Search<T>(this IQueryable<T> source, IEnumerable<SearchExpressionInfo<T>> criterias)
     {
         Expression? expr = null;
         var parameter = Expression.Parameter(typeof(T), "x");
 
         foreach (var criteria in criterias)
         {
-            if (criteria.selector == null || string.IsNullOrEmpty(criteria.searchTerm))
+            if (string.IsNullOrEmpty(criteria.SearchTerm))
                 continue;
 
-            var functions = Expression.Property(null, typeof(EF).GetProperty(nameof(EF.Functions)));
-            var like = typeof(DbFunctionsExtensions).GetMethod(nameof(DbFunctionsExtensions.Like), new Type[] { functions.Type, typeof(string), typeof(string) });
+            var propertySelector = ParameterReplacerVisitor.Replace(criteria.Selector, criteria.Selector.Parameters[0], parameter) as LambdaExpression;
+            _ = propertySelector ?? throw new InvalidExpressionException();
 
-            var propertySelector = ParameterReplacerVisitor.Replace(criteria.selector, criteria.selector.Parameters[0], parameter);
+            var searchTermAsExpression = ((Expression<Func<string>>)(() => criteria.SearchTerm)).Body;
 
             var likeExpression = Expression.Call(
                                     null,
-                                    like,
-                                    functions,
-                                    (propertySelector as LambdaExpression)?.Body,
-                                    Expression.Constant(criteria.searchTerm));
+                                    _likeMethodInfo,
+                                    _functions,
+                                    propertySelector.Body,
+                                    searchTermAsExpression);
 
             expr = expr == null ? (Expression)likeExpression : Expression.OrElse(expr, likeExpression);
         }
