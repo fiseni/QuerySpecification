@@ -182,24 +182,6 @@ public static class SpecificationBuilderExtensions
         return specificationBuilder;
     }
 
-    public static ISpecificationBuilder<T> PostProcessingAction<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
-        Func<IEnumerable<T>, IEnumerable<T>> predicate)
-    {
-        specificationBuilder.Context.PostProcessingAction = predicate;
-
-        return specificationBuilder;
-    }
-
-    public static ISpecificationBuilder<T, TResult> PostProcessingAction<T, TResult>(
-        this ISpecificationBuilder<T, TResult> specificationBuilder,
-        Func<IEnumerable<TResult>, IEnumerable<TResult>> predicate)
-    {
-        specificationBuilder.Context.PostProcessingAction = predicate;
-
-        return specificationBuilder;
-    }
-
     public static ISpecificationBuilder<T> AsTracking<T>(
         this ISpecificationBuilder<T> specificationBuilder) where T : class
         => AsTracking(specificationBuilder, true);

@@ -33,9 +33,7 @@ public class InMemorySpecificationEvaluator
           ? baseQuery.Select(specification.Context.Selector.Compile())
           : baseQuery.SelectMany(specification.Context.SelectorMany!.Compile());
 
-        return specification.Context.PostProcessingAction == null
-            ? resultQuery
-            : specification.Context.PostProcessingAction(resultQuery);
+        return resultQuery;
     }
 
     public virtual IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)
@@ -45,8 +43,6 @@ public class InMemorySpecificationEvaluator
             source = evaluator.Evaluate(source, specification);
         }
 
-        return specification.Context.PostProcessingAction == null
-            ? source
-            : specification.Context.PostProcessingAction(source);
+        return source;
     }
 }

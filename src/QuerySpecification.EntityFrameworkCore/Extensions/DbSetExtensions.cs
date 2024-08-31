@@ -4,32 +4,6 @@ namespace Pozitron.QuerySpecification.EntityFrameworkCore;
 
 public static class DbSetExtensions
 {
-    public static async Task<List<TSource>> ToListAsync<TSource>(
-      this DbSet<TSource> source,
-      Specification<TSource> specification,
-      CancellationToken cancellationToken = default)
-      where TSource : class
-    {
-        var result = await SpecificationEvaluator.Default.GetQuery(source, specification).ToListAsync(cancellationToken);
-
-        return specification.Context.PostProcessingAction == null
-            ? result
-            : specification.Context.PostProcessingAction(result).ToList();
-    }
-
-    public static async Task<IEnumerable<TSource>> ToEnumerableAsync<TSource>(
-      this DbSet<TSource> source,
-      Specification<TSource> specification,
-      CancellationToken cancellationToken = default)
-      where TSource : class
-    {
-        var result = await SpecificationEvaluator.Default.GetQuery(source, specification).ToListAsync(cancellationToken);
-
-        return specification.Context.PostProcessingAction == null
-            ? result
-            : specification.Context.PostProcessingAction(result);
-    }
-
     public static IQueryable<TSource> WithSpecification<TSource>(
       this IQueryable<TSource> source,
       Specification<TSource> specification,
