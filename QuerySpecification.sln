@@ -3,9 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34818.151
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PozitronDev.QuerySpecification", "QuerySpecification\src\QuerySpecification\PozitronDev.QuerySpecification.csproj", "{3E4D1ED6-7CDD-4870-BB56-033DE1A17EA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification", "src\QuerySpecification\QuerySpecification.csproj", "{3E4D1ED6-7CDD-4870-BB56-033DE1A17EA1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification.UnitTests", "QuerySpecification\tests\QuerySpecification.UnitTests\QuerySpecification.UnitTests.csproj", "{BAFCF13F-05EF-4DEF-AD78-B5006CE86784}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification.EntityFrameworkCore", "src\QuerySpecification.EntityFrameworkCore\QuerySpecification.EntityFrameworkCore.csproj", "{5BAB6025-E04E-4902-BA2A-9549278A6FFB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification.Tests", "tests\QuerySpecification.Tests\QuerySpecification.Tests.csproj", "{BAFCF13F-05EF-4DEF-AD78-B5006CE86784}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification.EntityFrameworkCore.Tests", "tests\QuerySpecification.EntityFrameworkCore.Tests\QuerySpecification.EntityFrameworkCore.Tests.csproj", "{F85A5DB8-DB84-430A-8DA1-43A613FBD0CC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification.EntityFrameworkCore.Benchmarks", "tests\QuerySpecification.EntityFrameworkCore.Benchmarks\QuerySpecification.EntityFrameworkCore.Benchmarks.csproj", "{F25DE99A-0BE4-41C6-9D1C-570CCE6B0BB9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{670F5387-F816-409B-8048-183F2608EDB3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{14CC34F1-BFA1-4C3D-A9A1-2B79DF665B02}"
 	ProjectSection(SolutionItems) = preProject
@@ -15,16 +23,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
 	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuerySpecification", "QuerySpecification", "{A74EF8FE-73A5-4ED1-A272-5243B81B0A16}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification.Benchmark", "QuerySpecificationEFCore\src\QuerySpecification.Benchmark\QuerySpecification.Benchmark.csproj", "{F25DE99A-0BE4-41C6-9D1C-570CCE6B0BB9}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuerySpecificationEFCore", "QuerySpecificationEFCore", "{B7FAED5B-AFB8-40DB-BE5A-81EB56358BFA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification.EntityFrameworkCore.IntegrationTests", "QuerySpecificationEFCore\tests\QuerySpecification.EntityFrameworkCore.IntegrationTests\QuerySpecification.EntityFrameworkCore.IntegrationTests.csproj", "{F85A5DB8-DB84-430A-8DA1-43A613FBD0CC}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PozitronDev.QuerySpecification.EntityFrameworkCore", "QuerySpecificationEFCore\src\QuerySpecification.EntityFrameworkCore\PozitronDev.QuerySpecification.EntityFrameworkCore.csproj", "{5BAB6025-E04E-4902-BA2A-9549278A6FFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,11 +55,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{3E4D1ED6-7CDD-4870-BB56-033DE1A17EA1} = {A74EF8FE-73A5-4ED1-A272-5243B81B0A16}
-		{BAFCF13F-05EF-4DEF-AD78-B5006CE86784} = {A74EF8FE-73A5-4ED1-A272-5243B81B0A16}
-		{F25DE99A-0BE4-41C6-9D1C-570CCE6B0BB9} = {B7FAED5B-AFB8-40DB-BE5A-81EB56358BFA}
-		{F85A5DB8-DB84-430A-8DA1-43A613FBD0CC} = {B7FAED5B-AFB8-40DB-BE5A-81EB56358BFA}
-		{5BAB6025-E04E-4902-BA2A-9549278A6FFB} = {B7FAED5B-AFB8-40DB-BE5A-81EB56358BFA}
+		{BAFCF13F-05EF-4DEF-AD78-B5006CE86784} = {670F5387-F816-409B-8048-183F2608EDB3}
+		{F25DE99A-0BE4-41C6-9D1C-570CCE6B0BB9} = {670F5387-F816-409B-8048-183F2608EDB3}
+		{F85A5DB8-DB84-430A-8DA1-43A613FBD0CC} = {670F5387-F816-409B-8048-183F2608EDB3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E5CD485E-D269-41DE-A144-EEC734F5B893}

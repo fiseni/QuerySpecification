@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <PackageId>PozitronDev.QuerySpecification.EntityFrameworkCore</PackageId>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>PozitronDev.QuerySpecification</PackageId>
     <Authors>Fati Iseni</Authors>
     <Company>Pozitron Group LLC</Company>
-    <Product>Pozitron Query Specification (EntityFramework Core latest plugin)</Product>
-    <Title>PozitronDev.QuerySpecification.EntityFrameworkCore</Title>
-    <Description>EntityFramework Core (latest) plugin to PozitronDev.QuerySpecification containing the EF evaluator and abstract repository.</Description>
-    <Summary>EntityFramework Core (latest) plugin to PozitronDev.QuerySpecification containing the EF evaluator and abstract repository.</Summary>
+    <Product>Pozitron Query Specification</Product>
+    <Title>PozitronDev.QuerySpecification</Title>
+    <Description>Abstract package for building query specifications in your domain model.</Description>
+    <Summary>Abstract package for building query specifications in your domain model.</Summary>
     <Copyright>Copyright © 2021 Pozitron Group LLC</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>Check release notes on github.</PackageReleaseNotes>
@@ -18,7 +18,7 @@
     <PackageTags>pozitron specification efcore repository cleanarchitecture</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Version>5.0.4</Version>
-    <!--<DocumentationFile>bin\$(Configuration)\PozitronDev.QuerySpecification.EntityFrameworkCore.xml</DocumentationFile>-->
+    <!--<DocumentationFile>bin\$(Configuration)\PozitronDev.QuerySpecification.xml</DocumentationFile>-->
     <RepositoryUrl>https://github.com/fiseni/QuerySpecification</RepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
@@ -28,17 +28,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="../../../docs/pozitronicon.png" Pack="true" PackagePath="\" />
+    <None Include="../../docs/pozitronicon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\QuerySpecification\src\QuerySpecification\PozitronDev.QuerySpecification.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.4" />
+    <PackageReference Include="PozitronDev.Validations" Version="1.2.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
+  
 </Project>
-

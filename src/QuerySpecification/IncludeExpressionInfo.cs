@@ -1,9 +1,5 @@
-﻿using PozitronDev.Validations;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace PozitronDev.QuerySpecification
 {

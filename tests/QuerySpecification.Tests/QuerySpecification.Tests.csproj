@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\QuerySpecification\PozitronDev.QuerySpecification.csproj" />
+    <ProjectReference Include="..\..\src\QuerySpecification\QuerySpecification.csproj" />
   </ItemGroup>
 
 </Project>
