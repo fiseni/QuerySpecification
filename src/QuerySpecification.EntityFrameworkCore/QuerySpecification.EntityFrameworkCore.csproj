@@ -1,31 +1,34 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>Pozitron.QuerySpecification</RootNamespace>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    
     <PackageId>Pozitron.QuerySpecification.EntityFrameworkCore</PackageId>
-    <Authors>Fati Iseni</Authors>
-    <Company>Pozitron Group LLC</Company>
-    <Product>Pozitron Query Specification (EntityFramework Core latest plugin)</Product>
     <Title>Pozitron.QuerySpecification.EntityFrameworkCore</Title>
-    <Description>EntityFramework Core (latest) plugin to Pozitron.QuerySpecification containing the EF evaluator and abstract repository.</Description>
-    <Summary>EntityFramework Core (latest) plugin to Pozitron.QuerySpecification containing the EF evaluator and abstract repository.</Summary>
-    <Copyright>Copyright © 2021 Pozitron Group LLC</Copyright>
+    <Authors>Fati Iseni</Authors>
+    <Company>Pozitron Group</Company>
+    <Product>Pozitron QuerySpecification (EntityFrameworkCore plugin)</Product>
+    <Description>EntityFrameworkCore plugin to Pozitron.QuerySpecification containing the EF evaluators.</Description>
+    <Summary>EntityFrameworkCore plugin to Pozitron.QuerySpecification containing the EF evaluators.</Summary>
+    <Copyright>Copyright © 2024 Pozitron Group</Copyright>
+    
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>10.0.0</Version>
+    <PackageTags>pozitron query specification efcore</PackageTags>
     <PackageReleaseNotes>Check release notes on github.</PackageReleaseNotes>
+    
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/fiseni/QuerySpecification</PackageProjectUrl>
     <PackageIconUrl>https://pozitrongroup.com/PozitronLogo.png</PackageIconUrl>
     <PackageIcon>pozitronicon.png</PackageIcon>
-    <PackageTags>pozitron specification efcore repository cleanarchitecture</PackageTags>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>5.0.4</Version>
-    <!--<DocumentationFile>bin\$(Configuration)\Pozitron.QuerySpecification.EntityFrameworkCore.xml</DocumentationFile>-->
     <RepositoryUrl>https://github.com/fiseni/QuerySpecification</RepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-    <LangVersion>8.0</LangVersion>
-    <Nullable>enable</Nullable>
+    <!--<DocumentationFile>bin\$(Configuration)\Pozitron.QuerySpecification.EntityFrameworkCore.xml</DocumentationFile>-->
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,7 +38,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.8" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
