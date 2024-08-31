@@ -9,7 +9,7 @@ public class AsNoTrackingWithIdentityResolutionEvaluator : IEvaluator
 
     public bool IsCriteriaEvaluator { get; } = true;
 
-    public IQueryable<T> GetQuery<T>(IQueryable<T> query, ISpecification<T> specification) where T : class
+    public IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
     {
         if (specification.AsNoTrackingWithIdentityResolution)
         {

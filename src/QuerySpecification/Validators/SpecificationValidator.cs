@@ -20,7 +20,7 @@ public class SpecificationValidator : ISpecificationValidator
         _validators.AddRange(validators);
     }
 
-    public virtual bool IsValid<T>(T entity, ISpecification<T> specification)
+    public virtual bool IsValid<T>(T entity, Specification<T> specification)
     {
         foreach (var partialValidator in _validators)
         {

@@ -2,7 +2,7 @@
 
 namespace Pozitron.QuerySpecification;
 
-public class Specification<T, TResult> : Specification<T>, ISpecification<T, TResult>
+public class Specification<T, TResult> : Specification<T>
 {
     public new virtual ISpecificationBuilder<T, TResult> Query { get; }
 
@@ -29,7 +29,7 @@ public class Specification<T, TResult> : Specification<T>, ISpecification<T, TRe
     public new Func<IEnumerable<TResult>, IEnumerable<TResult>>? PostProcessingAction { get; internal set; } = null;
 }
 
-public class Specification<T> : ISpecification<T>
+public class Specification<T>
 {
     protected IInMemorySpecificationEvaluator Evaluator { get; }
     protected ISpecificationValidator Validator { get; }

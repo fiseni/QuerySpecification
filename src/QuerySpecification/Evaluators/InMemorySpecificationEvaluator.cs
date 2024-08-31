@@ -22,12 +22,12 @@ public class InMemorySpecificationEvaluator : IInMemorySpecificationEvaluator
         Evaluators.AddRange(evaluators);
     }
 
-    public virtual IEnumerable<TResult> Evaluate<T, TResult>(IEnumerable<T> source, ISpecification<T, TResult> specification)
+    public virtual IEnumerable<TResult> Evaluate<T, TResult>(IEnumerable<T> source, Specification<T, TResult> specification)
     {
         if (specification.Selector is null && specification.SelectorMany is null) throw new SelectorNotFoundException();
         if (specification.Selector != null && specification.SelectorMany != null) throw new ConcurrentSelectorsException();
 
-        var baseQuery = Evaluate(source, (ISpecification<T>)specification);
+        var baseQuery = Evaluate(source, (Specification<T>)specification);
 
         var resultQuery = specification.Selector != null
           ? baseQuery.Select(specification.Selector.Compile())
@@ -38,7 +38,7 @@ public class InMemorySpecificationEvaluator : IInMemorySpecificationEvaluator
             : specification.PostProcessingAction(resultQuery);
     }
 
-    public virtual IEnumerable<T> Evaluate<T>(IEnumerable<T> source, ISpecification<T> specification)
+    public virtual IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)
     {
         foreach (var evaluator in Evaluators)
         {

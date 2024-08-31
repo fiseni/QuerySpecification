@@ -6,7 +6,7 @@ public static class DbSetExtensions
 {
     public static async Task<List<TSource>> ToListAsync<TSource>(
       this DbSet<TSource> source,
-      ISpecification<TSource> specification,
+      Specification<TSource> specification,
       CancellationToken cancellationToken = default)
       where TSource : class
     {
@@ -19,7 +19,7 @@ public static class DbSetExtensions
 
     public static async Task<IEnumerable<TSource>> ToEnumerableAsync<TSource>(
       this DbSet<TSource> source,
-      ISpecification<TSource> specification,
+      Specification<TSource> specification,
       CancellationToken cancellationToken = default)
       where TSource : class
     {
@@ -32,7 +32,7 @@ public static class DbSetExtensions
 
     public static IQueryable<TSource> WithSpecification<TSource>(
       this IQueryable<TSource> source,
-      ISpecification<TSource> specification,
+      Specification<TSource> specification,
       ISpecificationEvaluator? evaluator = null)
       where TSource : class
     {
@@ -42,7 +42,7 @@ public static class DbSetExtensions
 
     public static IQueryable<TResult> WithSpecification<TSource, TResult>(
       this IQueryable<TSource> source,
-      ISpecification<TSource, TResult> specification,
+      Specification<TSource, TResult> specification,
       ISpecificationEvaluator? evaluator = null)
       where TSource : class
     {

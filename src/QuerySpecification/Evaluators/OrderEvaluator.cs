@@ -7,7 +7,7 @@ public class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 
     public bool IsCriteriaEvaluator { get; } = false;
 
-    public IQueryable<T> GetQuery<T>(IQueryable<T> query, ISpecification<T> specification) where T : class
+    public IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
     {
         if (specification.OrderExpressions != null)
         {
@@ -47,7 +47,7 @@ public class OrderEvaluator : IEvaluator, IInMemoryEvaluator
         return query;
     }
 
-    public IEnumerable<T> Evaluate<T>(IEnumerable<T> query, ISpecification<T> specification)
+    public IEnumerable<T> Evaluate<T>(IEnumerable<T> query, Specification<T> specification)
     {
         if (specification.OrderExpressions != null)
         {

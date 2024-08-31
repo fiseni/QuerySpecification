@@ -2,5 +2,5 @@
 
 public interface IInMemoryEvaluator
 {
-    IEnumerable<T> Evaluate<T>(IEnumerable<T> query, ISpecification<T> specification);
+    IEnumerable<T> Evaluate<T>(IEnumerable<T> query, Specification<T> specification);
 }

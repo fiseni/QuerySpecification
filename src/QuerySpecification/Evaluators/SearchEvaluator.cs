@@ -5,7 +5,7 @@ public class SearchEvaluator : IInMemoryEvaluator
     private SearchEvaluator() { }
     public static SearchEvaluator Instance { get; } = new SearchEvaluator();
 
-    public IEnumerable<T> Evaluate<T>(IEnumerable<T> query, ISpecification<T> specification)
+    public IEnumerable<T> Evaluate<T>(IEnumerable<T> query, Specification<T> specification)
     {
         foreach (var searchGroup in specification.SearchCriterias.GroupBy(x => x.SearchGroup))
         {

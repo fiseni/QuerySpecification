@@ -51,7 +51,7 @@ public class IncludeEvaluator : IEvaluator
 
     public bool IsCriteriaEvaluator => false;
 
-    public IQueryable<T> GetQuery<T>(IQueryable<T> query, ISpecification<T> specification) where T : class
+    public IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
     {
         foreach (var includeString in specification.IncludeStrings)
         {

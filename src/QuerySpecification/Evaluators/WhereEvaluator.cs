@@ -7,7 +7,7 @@ public class WhereEvaluator : IEvaluator, IInMemoryEvaluator
 
     public bool IsCriteriaEvaluator { get; } = true;
 
-    public IQueryable<T> GetQuery<T>(IQueryable<T> query, ISpecification<T> specification) where T : class
+    public IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
     {
         foreach (var info in specification.WhereExpressions)
         {
@@ -17,7 +17,7 @@ public class WhereEvaluator : IEvaluator, IInMemoryEvaluator
         return query;
     }
 
-    public IEnumerable<T> Evaluate<T>(IEnumerable<T> query, ISpecification<T> specification)
+    public IEnumerable<T> Evaluate<T>(IEnumerable<T> query, Specification<T> specification)
     {
         foreach (var info in specification.WhereExpressions)
         {
