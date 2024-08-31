@@ -26,11 +26,11 @@ public class IncludeExpressionInfo
             _ = previousPropertyType ?? throw new ArgumentNullException(nameof(previousPropertyType));
         }
 
-        this.LambdaExpression = expression;
-        this.EntityType = entityType;
-        this.PropertyType = propertyType;
-        this.PreviousPropertyType = previousPropertyType;
-        this.Type = includeType;
+        LambdaExpression = expression;
+        EntityType = entityType;
+        PropertyType = propertyType;
+        PreviousPropertyType = previousPropertyType;
+        Type = includeType;
     }
 
     public IncludeExpressionInfo(LambdaExpression expression,

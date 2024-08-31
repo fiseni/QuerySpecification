@@ -6,7 +6,7 @@ public class OrderedSpecificationBuilder<T> : IOrderedSpecificationBuilder<T>
 
     public OrderedSpecificationBuilder(Specification<T> specification)
     {
-        this.Specification = specification;
+        Specification = specification;
     }
 
 

@@ -7,7 +7,7 @@ public class SpecificationBuilder<T, TResult> : SpecificationBuilder<T>, ISpecif
     public SpecificationBuilder(Specification<T, TResult> specification)
         : base(specification)
     {
-        this.Specification = specification;
+        Specification = specification;
     }
 }
 
@@ -17,6 +17,6 @@ public class SpecificationBuilder<T> : ISpecificationBuilder<T>
 
     public SpecificationBuilder(Specification<T> specification)
     {
-        this.Specification = specification;
+        Specification = specification;
     }
 }

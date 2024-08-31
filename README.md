@@ -146,7 +146,7 @@ public class Repository<T> : RepositoryBase<T>, IRepository<T>
     public Repository(MyDbContext myDbContext)
         : base(myDbContext)
     {
-        this.myDbContext = myDbContext;
+        myDbContext = myDbContext;
     }
 
     // Not required to implement anything. Add additional functionalities if required.
@@ -168,7 +168,7 @@ public class CompanyService : ICompanyService
 
     public CompanyService(IRepository<Company> companyRepository)
     {
-	    this.companyRepository = companyRepository;
+	    companyRepository = companyRepository;
     }
 
     public async Task<List<Company>> GetMyCompanies()

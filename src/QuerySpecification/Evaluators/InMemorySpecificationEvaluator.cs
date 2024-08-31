@@ -5,11 +5,11 @@ public class InMemorySpecificationEvaluator : IInMemorySpecificationEvaluator
     // Will use singleton for default configuration. Yet, it can be instantiated if necessary, with default or provided evaluators.
     public static InMemorySpecificationEvaluator Default { get; } = new InMemorySpecificationEvaluator();
 
-    private readonly List<IInMemoryEvaluator> evaluators = new List<IInMemoryEvaluator>();
+    private readonly List<IInMemoryEvaluator> _evaluators = new List<IInMemoryEvaluator>();
 
     public InMemorySpecificationEvaluator()
     {
-        this.evaluators.AddRange(new IInMemoryEvaluator[]
+        _evaluators.AddRange(new IInMemoryEvaluator[]
         {
             WhereEvaluator.Instance,
             OrderEvaluator.Instance,
@@ -18,7 +18,7 @@ public class InMemorySpecificationEvaluator : IInMemorySpecificationEvaluator
     }
     public InMemorySpecificationEvaluator(IEnumerable<IInMemoryEvaluator> evaluators)
     {
-        this.evaluators.AddRange(evaluators);
+        _evaluators.AddRange(evaluators);
     }
 
     public virtual IEnumerable<TResult> Evaluate<T, TResult>(IEnumerable<T> source, ISpecification<T, TResult> specification)
@@ -41,7 +41,7 @@ public class InMemorySpecificationEvaluator : IInMemorySpecificationEvaluator
             throw new NotSupportedException("The specification contains Search expressions and can't be evaluated with in-memory evaluator.");
         }
 
-        foreach (var evaluator in evaluators)
+        foreach (var evaluator in _evaluators)
         {
             source = evaluator.Evaluate(source, specification);
         }

@@ -14,7 +14,7 @@ public abstract class Specification<T, TResult> : Specification<T>, ISpecificati
     protected Specification(IInMemorySpecificationEvaluator inMemorySpecificationEvaluator)
         : base(inMemorySpecificationEvaluator)
     {
-        this.Query = new SpecificationBuilder<T, TResult>(this);
+        Query = new SpecificationBuilder<T, TResult>(this);
     }
 
     public new virtual IEnumerable<TResult> Evaluate(IEnumerable<T> entities)
@@ -39,8 +39,8 @@ public abstract class Specification<T> : ISpecification<T>
 
     protected Specification(IInMemorySpecificationEvaluator inMemorySpecificationEvaluator)
     {
-        this.Evaluator = inMemorySpecificationEvaluator;
-        this.Query = new SpecificationBuilder<T>(this);
+        Evaluator = inMemorySpecificationEvaluator;
+        Query = new SpecificationBuilder<T>(this);
     }
 
     public virtual IEnumerable<T> Evaluate(IEnumerable<T> entities)

@@ -6,11 +6,11 @@ namespace Pozitron.QuerySpecification.Tests;
 
 public class IncludeExpressionInfoTests
 {
-    private readonly Expression<Func<Company, Country>> expr;
+    private readonly Expression<Func<Company, Country>> _expr;
 
     public IncludeExpressionInfoTests()
     {
-        expr = x => x.Country!;
+        _expr = x => x.Country!;
     }
 
     [Fact]
@@ -22,18 +22,18 @@ public class IncludeExpressionInfoTests
     [Fact]
     public void ThrowsArgumentNullException_GivenNullForEntityType()
     {
-        Assert.Throws<ArgumentNullException>(() => new IncludeExpressionInfo(expr, null!, typeof(Country)));
+        Assert.Throws<ArgumentNullException>(() => new IncludeExpressionInfo(_expr, null!, typeof(Country)));
     }
 
     [Fact]
     public void ThrowsArgumentNullException_GivenNullForPropertyType()
     {
-        Assert.Throws<ArgumentNullException>(() => new IncludeExpressionInfo(expr, typeof(Company), null!));
+        Assert.Throws<ArgumentNullException>(() => new IncludeExpressionInfo(_expr, typeof(Company), null!));
     }
 
     [Fact]
     public void ThrowsArgumentNullException_GivenNullForPreviousPropertyType()
     {
-        Assert.Throws<ArgumentNullException>(() => new IncludeExpressionInfo(expr, typeof(Company), typeof(Country), null!));
+        Assert.Throws<ArgumentNullException>(() => new IncludeExpressionInfo(_expr, typeof(Company), typeof(Country), null!));
     }
 }

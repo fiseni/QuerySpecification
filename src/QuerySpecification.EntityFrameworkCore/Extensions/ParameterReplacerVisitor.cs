@@ -4,13 +4,13 @@ namespace Pozitron.QuerySpecification;
 
 internal class ParameterReplacerVisitor : ExpressionVisitor
 {
-    private Expression newExpression;
-    private ParameterExpression oldParameter;
+    private Expression _newExpression;
+    private ParameterExpression _oldParameter;
 
     private ParameterReplacerVisitor(ParameterExpression oldParameter, Expression newExpression)
     {
-        this.oldParameter = oldParameter;
-        this.newExpression = newExpression;
+        _oldParameter = oldParameter;
+        _newExpression = newExpression;
     }
 
     internal static Expression Replace(Expression expression, ParameterExpression oldParameter, Expression newExpression)
@@ -20,9 +20,9 @@ internal class ParameterReplacerVisitor : ExpressionVisitor
 
     protected override Expression VisitParameter(ParameterExpression p)
     {
-        if (p == this.oldParameter)
+        if (p == _oldParameter)
         {
-            return this.newExpression;
+            return _newExpression;
         }
         else
         {
