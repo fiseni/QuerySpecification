@@ -1,14 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29905.134
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34818.151
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PozitronDev.SpecSampleApp.Core", "sample\PozitronDev.SpecSampleApp.Core\PozitronDev.SpecSampleApp.Core.csproj", "{0B9C3415-F1C4-4CF3-96E6-206C8C515AE6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PozitronDev.SpecSampleApp.Web", "sample\PozitronDev.SpecSampleApp.Web\PozitronDev.SpecSampleApp.Web.csproj", "{C43D5506-6BD0-45AA-9448-463BE3F69A56}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PozitronDev.SpecSampleApp.Infrastructure", "sample\PozitronDev.SpecSampleApp.Infrastructure\PozitronDev.SpecSampleApp.Infrastructure.csproj", "{80D5D37C-1D08-4535-982F-16543B2A5F23}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PozitronDev.QuerySpecification", "QuerySpecification\src\QuerySpecification\PozitronDev.QuerySpecification.csproj", "{3E4D1ED6-7CDD-4870-BB56-033DE1A17EA1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification.UnitTests", "QuerySpecification\tests\QuerySpecification.UnitTests\QuerySpecification.UnitTests.csproj", "{BAFCF13F-05EF-4DEF-AD78-B5006CE86784}"
@@ -30,8 +24,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuerySpecification", "Query
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuerySpecificationEFCore3", "QuerySpecificationEFCore3", "{A2ADEC9D-6966-4B18-BEA3-C66873EC7861}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{4BBD9571-BFA7-4368-A556-7E026E6C0998}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification.Benchmark", "QuerySpecificationEFCore\src\QuerySpecification.Benchmark\QuerySpecification.Benchmark.csproj", "{F25DE99A-0BE4-41C6-9D1C-570CCE6B0BB9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuerySpecificationEFCore", "QuerySpecificationEFCore", "{B7FAED5B-AFB8-40DB-BE5A-81EB56358BFA}"
@@ -46,18 +38,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0B9C3415-F1C4-4CF3-96E6-206C8C515AE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0B9C3415-F1C4-4CF3-96E6-206C8C515AE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0B9C3415-F1C4-4CF3-96E6-206C8C515AE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0B9C3415-F1C4-4CF3-96E6-206C8C515AE6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C43D5506-6BD0-45AA-9448-463BE3F69A56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C43D5506-6BD0-45AA-9448-463BE3F69A56}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C43D5506-6BD0-45AA-9448-463BE3F69A56}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C43D5506-6BD0-45AA-9448-463BE3F69A56}.Release|Any CPU.Build.0 = Release|Any CPU
-		{80D5D37C-1D08-4535-982F-16543B2A5F23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80D5D37C-1D08-4535-982F-16543B2A5F23}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{80D5D37C-1D08-4535-982F-16543B2A5F23}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80D5D37C-1D08-4535-982F-16543B2A5F23}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3E4D1ED6-7CDD-4870-BB56-033DE1A17EA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3E4D1ED6-7CDD-4870-BB56-033DE1A17EA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E4D1ED6-7CDD-4870-BB56-033DE1A17EA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -91,9 +71,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{0B9C3415-F1C4-4CF3-96E6-206C8C515AE6} = {4BBD9571-BFA7-4368-A556-7E026E6C0998}
-		{C43D5506-6BD0-45AA-9448-463BE3F69A56} = {4BBD9571-BFA7-4368-A556-7E026E6C0998}
-		{80D5D37C-1D08-4535-982F-16543B2A5F23} = {4BBD9571-BFA7-4368-A556-7E026E6C0998}
 		{3E4D1ED6-7CDD-4870-BB56-033DE1A17EA1} = {A74EF8FE-73A5-4ED1-A272-5243B81B0A16}
 		{BAFCF13F-05EF-4DEF-AD78-B5006CE86784} = {A74EF8FE-73A5-4ED1-A272-5243B81B0A16}
 		{89BC2F0A-D3E3-4F28-8E5C-0B810C94BF01} = {A2ADEC9D-6966-4B18-BEA3-C66873EC7861}
