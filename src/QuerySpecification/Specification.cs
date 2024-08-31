@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Pozitron.QuerySpecification;
+﻿namespace Pozitron.QuerySpecification;
 
 public class Specification<T, TResult> : Specification<T>
 {
@@ -12,7 +10,7 @@ public class Specification<T, TResult> : Specification<T>
     {
     }
 
-    protected Specification(IInMemorySpecificationEvaluator inMemorySpecificationEvaluator)
+    protected Specification(InMemorySpecificationEvaluator inMemorySpecificationEvaluator)
         : base(inMemorySpecificationEvaluator)
     {
         Context = new SpecificationContext<T, TResult>();
@@ -27,8 +25,8 @@ public class Specification<T, TResult> : Specification<T>
 
 public class Specification<T>
 {
-    protected IInMemorySpecificationEvaluator Evaluator { get; }
-    protected ISpecificationValidator Validator { get; }
+    protected InMemorySpecificationEvaluator Evaluator { get; }
+    protected SpecificationValidator Validator { get; }
     public SpecificationContext<T> Context { get; }
     public ISpecificationBuilder<T> Query { get; }
 
@@ -37,17 +35,17 @@ public class Specification<T>
     {
     }
 
-    protected Specification(IInMemorySpecificationEvaluator inMemorySpecificationEvaluator)
+    protected Specification(InMemorySpecificationEvaluator inMemorySpecificationEvaluator)
         : this(inMemorySpecificationEvaluator, SpecificationValidator.Default)
     {
     }
 
-    protected Specification(ISpecificationValidator specificationValidator)
+    protected Specification(SpecificationValidator specificationValidator)
         : this(InMemorySpecificationEvaluator.Default, specificationValidator)
     {
     }
 
-    protected Specification(IInMemorySpecificationEvaluator inMemorySpecificationEvaluator, ISpecificationValidator specificationValidator)
+    protected Specification(InMemorySpecificationEvaluator inMemorySpecificationEvaluator, SpecificationValidator specificationValidator)
     {
         Evaluator = inMemorySpecificationEvaluator;
         Validator = specificationValidator;

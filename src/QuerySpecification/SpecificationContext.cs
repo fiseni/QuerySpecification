@@ -29,11 +29,6 @@ public class SpecificationContext<T>
 
     public int? Skip { get; internal set; } = null;
 
-
-    public string? CacheKey { get; internal set; }
-
-    public bool CacheEnabled { get; internal set; }
-
     public bool AsTracking { get; internal set; } = false;
 
     public bool AsNoTracking { get; internal set; } = false;

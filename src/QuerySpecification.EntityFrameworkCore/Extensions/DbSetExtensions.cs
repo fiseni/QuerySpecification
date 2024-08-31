@@ -33,7 +33,7 @@ public static class DbSetExtensions
     public static IQueryable<TSource> WithSpecification<TSource>(
       this IQueryable<TSource> source,
       Specification<TSource> specification,
-      ISpecificationEvaluator? evaluator = null)
+      SpecificationEvaluator? evaluator = null)
       where TSource : class
     {
         evaluator ??= SpecificationEvaluator.Default;
@@ -43,7 +43,7 @@ public static class DbSetExtensions
     public static IQueryable<TResult> WithSpecification<TSource, TResult>(
       this IQueryable<TSource> source,
       Specification<TSource, TResult> specification,
-      ISpecificationEvaluator? evaluator = null)
+      SpecificationEvaluator? evaluator = null)
       where TSource : class
     {
         evaluator ??= SpecificationEvaluator.Default;

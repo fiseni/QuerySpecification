@@ -200,35 +200,6 @@ public static class SpecificationBuilderExtensions
         return specificationBuilder;
     }
 
-    public static ICacheSpecificationBuilder<T> EnableCache<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
-        string specificationName,
-        params object[] args) where T : class
-        => EnableCache(specificationBuilder, specificationName, true, args);
-
-    public static ICacheSpecificationBuilder<T> EnableCache<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
-        string specificationName,
-        bool condition,
-        params object[] args) where T : class
-    {
-        if (condition)
-        {
-            if (string.IsNullOrEmpty(specificationName))
-            {
-                throw new ArgumentException($"Required input {specificationName} was null or empty.", specificationName);
-            }
-
-            specificationBuilder.Context.CacheKey = $"{specificationName}-{string.Join("-", args)}";
-
-            specificationBuilder.Context.CacheEnabled = true;
-        }
-
-        var cacheBuilder = new CacheSpecificationBuilder<T>(specificationBuilder.Context, !condition);
-
-        return cacheBuilder;
-    }
-
     public static ISpecificationBuilder<T> AsTracking<T>(
         this ISpecificationBuilder<T> specificationBuilder) where T : class
         => AsTracking(specificationBuilder, true);
