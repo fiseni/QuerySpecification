@@ -11,7 +11,7 @@ public class AsTrackingEvaluator : IEvaluator
 
     public IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
     {
-        if (specification.AsTracking)
+        if (specification.Context.AsTracking)
         {
             query = query.AsTracking();
         }

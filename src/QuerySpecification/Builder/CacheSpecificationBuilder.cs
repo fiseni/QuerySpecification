@@ -2,17 +2,17 @@
 
 public class CacheSpecificationBuilder<T> : ICacheSpecificationBuilder<T> where T : class
 {
-    public Specification<T> Specification { get; }
+    public SpecificationContext<T> Context { get; }
     public bool IsChainDiscarded { get; set; }
 
-    public CacheSpecificationBuilder(Specification<T> specification)
-        : this(specification, false)
+    public CacheSpecificationBuilder(SpecificationContext<T> context)
+        : this(context, false)
     {
     }
 
-    public CacheSpecificationBuilder(Specification<T> specification, bool isChainDiscarded)
+    public CacheSpecificationBuilder(SpecificationContext<T> context, bool isChainDiscarded)
     {
-        Specification = specification;
+        Context = context;
         IsChainDiscarded = isChainDiscarded;
     }
 }

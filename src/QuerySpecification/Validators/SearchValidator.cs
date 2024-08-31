@@ -7,7 +7,7 @@ public class SearchValidator : IValidator
 
     public bool IsValid<T>(T entity, Specification<T> specification)
     {
-        foreach (var searchGroup in specification.SearchCriterias.GroupBy(x => x.SearchGroup))
+        foreach (var searchGroup in specification.Context.SearchCriterias.GroupBy(x => x.SearchGroup))
         {
             if (searchGroup.Any(c => c.SelectorFunc(entity).Like(c.SearchTerm)) == false) return false;
         }

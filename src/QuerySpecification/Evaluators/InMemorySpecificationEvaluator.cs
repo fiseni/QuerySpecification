@@ -24,18 +24,18 @@ public class InMemorySpecificationEvaluator : IInMemorySpecificationEvaluator
 
     public virtual IEnumerable<TResult> Evaluate<T, TResult>(IEnumerable<T> source, Specification<T, TResult> specification)
     {
-        if (specification.Selector is null && specification.SelectorMany is null) throw new SelectorNotFoundException();
-        if (specification.Selector != null && specification.SelectorMany != null) throw new ConcurrentSelectorsException();
+        if (specification.Context.Selector is null && specification.Context.SelectorMany is null) throw new SelectorNotFoundException();
+        if (specification.Context.Selector != null && specification.Context.SelectorMany != null) throw new ConcurrentSelectorsException();
 
         var baseQuery = Evaluate(source, (Specification<T>)specification);
 
-        var resultQuery = specification.Selector != null
-          ? baseQuery.Select(specification.Selector.Compile())
-          : baseQuery.SelectMany(specification.SelectorMany!.Compile());
+        var resultQuery = specification.Context.Selector != null
+          ? baseQuery.Select(specification.Context.Selector.Compile())
+          : baseQuery.SelectMany(specification.Context.SelectorMany!.Compile());
 
-        return specification.PostProcessingAction == null
+        return specification.Context.PostProcessingAction == null
             ? resultQuery
-            : specification.PostProcessingAction(resultQuery);
+            : specification.Context.PostProcessingAction(resultQuery);
     }
 
     public virtual IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)
@@ -45,8 +45,8 @@ public class InMemorySpecificationEvaluator : IInMemorySpecificationEvaluator
             source = evaluator.Evaluate(source, specification);
         }
 
-        return specification.PostProcessingAction == null
+        return specification.Context.PostProcessingAction == null
             ? source
-            : specification.PostProcessingAction(source);
+            : specification.Context.PostProcessingAction(source);
     }
 }

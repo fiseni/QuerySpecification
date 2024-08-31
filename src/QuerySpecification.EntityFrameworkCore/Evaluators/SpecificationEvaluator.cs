@@ -33,14 +33,14 @@ public class SpecificationEvaluator : ISpecificationEvaluator
     public virtual IQueryable<TResult> GetQuery<T, TResult>(IQueryable<T> query, Specification<T, TResult> specification) where T : class
     {
         if (specification is null) throw new ArgumentNullException(nameof(specification));
-        if (specification.Selector is null && specification.SelectorMany is null) throw new SelectorNotFoundException();
-        if (specification.Selector is not null && specification.SelectorMany is not null) throw new ConcurrentSelectorsException();
+        if (specification.Context.Selector is null && specification.Context.SelectorMany is null) throw new SelectorNotFoundException();
+        if (specification.Context.Selector is not null && specification.Context.SelectorMany is not null) throw new ConcurrentSelectorsException();
 
         query = GetQuery(query, (Specification<T>)specification);
 
-        return specification.Selector is not null
-          ? query.Select(specification.Selector)
-          : query.SelectMany(specification.SelectorMany!);
+        return specification.Context.Selector is not null
+          ? query.Select(specification.Context.Selector)
+          : query.SelectMany(specification.Context.SelectorMany!);
     }
 
     public virtual IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification, bool evaluateCriteriaOnly = false) where T : class

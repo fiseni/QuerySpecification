@@ -2,17 +2,17 @@
 
 public class IncludableSpecificationBuilder<T, TProperty> : IIncludableSpecificationBuilder<T, TProperty> where T : class
 {
-    public Specification<T> Specification { get; }
+    public SpecificationContext<T> Context { get; }
     public bool IsChainDiscarded { get; set; }
 
-    public IncludableSpecificationBuilder(Specification<T> specification)
-        : this(specification, false)
+    public IncludableSpecificationBuilder(SpecificationContext<T> context)
+        : this(context, false)
     {
     }
 
-    public IncludableSpecificationBuilder(Specification<T> specification, bool isChainDiscarded)
+    public IncludableSpecificationBuilder(SpecificationContext<T> context, bool isChainDiscarded)
     {
-        Specification = specification;
+        Context = context;
         IsChainDiscarded = isChainDiscarded;
     }
 }

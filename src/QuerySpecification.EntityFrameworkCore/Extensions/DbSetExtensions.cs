@@ -12,9 +12,9 @@ public static class DbSetExtensions
     {
         var result = await SpecificationEvaluator.Default.GetQuery(source, specification).ToListAsync(cancellationToken);
 
-        return specification.PostProcessingAction == null
+        return specification.Context.PostProcessingAction == null
             ? result
-            : specification.PostProcessingAction(result).ToList();
+            : specification.Context.PostProcessingAction(result).ToList();
     }
 
     public static async Task<IEnumerable<TSource>> ToEnumerableAsync<TSource>(
@@ -25,9 +25,9 @@ public static class DbSetExtensions
     {
         var result = await SpecificationEvaluator.Default.GetQuery(source, specification).ToListAsync(cancellationToken);
 
-        return specification.PostProcessingAction == null
+        return specification.Context.PostProcessingAction == null
             ? result
-            : specification.PostProcessingAction(result);
+            : specification.Context.PostProcessingAction(result);
     }
 
     public static IQueryable<TSource> WithSpecification<TSource>(
