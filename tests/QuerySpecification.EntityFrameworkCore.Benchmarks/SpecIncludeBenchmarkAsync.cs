@@ -1,18 +1,18 @@
 ﻿using BenchmarkDotNet.Attributes;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using PozitronDev.QuerySpecification;
-using PozitronDev.QuerySpecification.EntityFrameworkCore;
-using PozitronDev.QuerySpecification.EntityFrameworkCore.IntegrationTests.Fixture;
-using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities;
-using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities.Seeds;
+using Pozitron.QuerySpecification;
+using Pozitron.QuerySpecification.EntityFrameworkCore;
+using Pozitron.QuerySpecification.EntityFrameworkCore.Tests.Fixture;
+using Pozitron.QuerySpecification.Tests.Fixture.Entities;
+using Pozitron.QuerySpecification.Tests.Fixture.Entities.Seeds;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuerySpecification.Benchmark
+namespace Pozitron.QuerySpecification.EntityFrameworkCore.Benchmarks
 {
     [MemoryDiagnoser]
     public class SpecIncludeBenchmarkAsync

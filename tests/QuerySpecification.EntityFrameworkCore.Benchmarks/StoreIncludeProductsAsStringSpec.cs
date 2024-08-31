@@ -1,8 +1,8 @@
-﻿using PozitronDev.QuerySpecification;
-using PozitronDev.QuerySpecification.EntityFrameworkCore;
-using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities;
+﻿using Pozitron.QuerySpecification;
+using Pozitron.QuerySpecification.EntityFrameworkCore;
+using Pozitron.QuerySpecification.Tests.Fixture.Entities;
 
-namespace QuerySpecification.Benchmark
+namespace Pozitron.QuerySpecification.EntityFrameworkCore.Benchmarks
 {
     public class StoreIncludeProductsAsStringSpec : Specification<Store>
     {

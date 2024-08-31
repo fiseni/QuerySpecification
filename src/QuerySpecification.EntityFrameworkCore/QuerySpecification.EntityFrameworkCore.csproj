@@ -1,14 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <PackageId>PozitronDev.QuerySpecification.EntityFrameworkCore</PackageId>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Pozitron.QuerySpecification</RootNamespace>
+    <PackageId>Pozitron.QuerySpecification.EntityFrameworkCore</PackageId>
     <Authors>Fati Iseni</Authors>
     <Company>Pozitron Group LLC</Company>
     <Product>Pozitron Query Specification (EntityFramework Core latest plugin)</Product>
-    <Title>PozitronDev.QuerySpecification.EntityFrameworkCore</Title>
-    <Description>EntityFramework Core (latest) plugin to PozitronDev.QuerySpecification containing the EF evaluator and abstract repository.</Description>
-    <Summary>EntityFramework Core (latest) plugin to PozitronDev.QuerySpecification containing the EF evaluator and abstract repository.</Summary>
+    <Title>Pozitron.QuerySpecification.EntityFrameworkCore</Title>
+    <Description>EntityFramework Core (latest) plugin to Pozitron.QuerySpecification containing the EF evaluator and abstract repository.</Description>
+    <Summary>EntityFramework Core (latest) plugin to Pozitron.QuerySpecification containing the EF evaluator and abstract repository.</Summary>
     <Copyright>Copyright © 2021 Pozitron Group LLC</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>Check release notes on github.</PackageReleaseNotes>
@@ -18,7 +19,7 @@
     <PackageTags>pozitron specification efcore repository cleanarchitecture</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Version>5.0.4</Version>
-    <!--<DocumentationFile>bin\$(Configuration)\PozitronDev.QuerySpecification.EntityFrameworkCore.xml</DocumentationFile>-->
+    <!--<DocumentationFile>bin\$(Configuration)\Pozitron.QuerySpecification.EntityFrameworkCore.xml</DocumentationFile>-->
     <RepositoryUrl>https://github.com/fiseni/QuerySpecification</RepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
@@ -32,9 +33,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.4" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.8" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>

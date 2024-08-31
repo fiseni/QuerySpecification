@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PozitronDev.QuerySpecification.EntityFrameworkCore
+namespace Pozitron.QuerySpecification
 {
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {

@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Running;
 
-namespace QuerySpecification.Benchmark
+namespace Pozitron.QuerySpecification.EntityFrameworkCore.Benchmarks
 {
     class Program
     {

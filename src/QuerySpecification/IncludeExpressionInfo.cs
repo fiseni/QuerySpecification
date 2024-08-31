@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace PozitronDev.QuerySpecification
+namespace Pozitron.QuerySpecification
 {
     public class IncludeExpressionInfo
     {

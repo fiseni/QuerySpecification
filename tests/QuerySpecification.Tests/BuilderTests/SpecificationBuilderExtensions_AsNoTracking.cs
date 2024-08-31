@@ -1,11 +1,11 @@
 ﻿using FluentAssertions;
-using PozitronDev.QuerySpecification.UnitTests.Fixture.Specs;
+using Pozitron.QuerySpecification.Tests.Fixture.Specs;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace PozitronDev.QuerySpecification.UnitTests.BuilderTests
+namespace Pozitron.QuerySpecification.Tests.BuilderTests
 {
     public class SpecificationBuilderExtensions_AsNoTracking
     {

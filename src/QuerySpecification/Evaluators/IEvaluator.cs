@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PozitronDev.QuerySpecification
+namespace Pozitron.QuerySpecification
 {
     public interface IEvaluator
     {

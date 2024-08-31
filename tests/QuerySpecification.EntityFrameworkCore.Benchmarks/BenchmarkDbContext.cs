@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities;
+using Pozitron.QuerySpecification.Tests.Fixture.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace QuerySpecification.Benchmark
+namespace Pozitron.QuerySpecification.EntityFrameworkCore.Benchmarks
 {
     public class BenchmarkDbContext : DbContext
     {

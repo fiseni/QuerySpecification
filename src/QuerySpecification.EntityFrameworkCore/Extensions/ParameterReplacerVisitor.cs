@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace PozitronDev.QuerySpecification.EntityFrameworkCore
+namespace Pozitron.QuerySpecification
 {
     internal class ParameterReplacerVisitor : ExpressionVisitor
     {

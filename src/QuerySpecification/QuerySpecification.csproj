@@ -1,12 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>PozitronDev.QuerySpecification</PackageId>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Pozitron.QuerySpecification</RootNamespace>
+    <PackageId>Pozitron.QuerySpecification</PackageId>
     <Authors>Fati Iseni</Authors>
     <Company>Pozitron Group LLC</Company>
     <Product>Pozitron Query Specification</Product>
-    <Title>PozitronDev.QuerySpecification</Title>
+    <Title>Pozitron.QuerySpecification</Title>
     <Description>Abstract package for building query specifications in your domain model.</Description>
     <Summary>Abstract package for building query specifications in your domain model.</Summary>
     <Copyright>Copyright © 2021 Pozitron Group LLC</Copyright>
@@ -18,7 +19,7 @@
     <PackageTags>pozitron specification efcore repository cleanarchitecture</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Version>5.0.4</Version>
-    <!--<DocumentationFile>bin\$(Configuration)\PozitronDev.QuerySpecification.xml</DocumentationFile>-->
+    <!--<DocumentationFile>bin\$(Configuration)\Pozitron.QuerySpecification.xml</DocumentationFile>-->
     <RepositoryUrl>https://github.com/fiseni/QuerySpecification</RepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
@@ -33,7 +34,7 @@
 
   <ItemGroup>
     <PackageReference Include="PozitronDev.Validations" Version="1.2.0" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>
   
 </Project>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PozitronDev.QuerySpecification
+namespace Pozitron.QuerySpecification
 {
     public class DuplicateTakeException : Exception
     {

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 
-namespace PozitronDev.QuerySpecification
+namespace Pozitron.QuerySpecification
 {
     public abstract class Specification<T, TResult> : Specification<T>, ISpecification<T, TResult>
     {
@@ -14,7 +13,7 @@ namespace PozitronDev.QuerySpecification
         {
         }
 
-        protected Specification(IInMemorySpecificationEvaluator inMemorySpecificationEvaluator) 
+        protected Specification(IInMemorySpecificationEvaluator inMemorySpecificationEvaluator)
             : base(inMemorySpecificationEvaluator)
         {
             this.Query = new SpecificationBuilder<T, TResult>(this);
@@ -35,7 +34,7 @@ namespace PozitronDev.QuerySpecification
         protected IInMemorySpecificationEvaluator Evaluator { get; }
         protected virtual ISpecificationBuilder<T> Query { get; }
 
-        protected Specification() 
+        protected Specification()
             : this(InMemorySpecificationEvaluator.Default)
         {
         }
@@ -60,7 +59,7 @@ namespace PozitronDev.QuerySpecification
 
         public IEnumerable<string> IncludeStrings { get; } = new List<string>();
 
-        public IEnumerable<(Expression<Func<T, string>> Selector, string SearchTerm, int SearchGroup)> SearchCriterias { get; } = 
+        public IEnumerable<(Expression<Func<T, string>> Selector, string SearchTerm, int SearchGroup)> SearchCriterias { get; } =
             new List<(Expression<Func<T, string>> Selector, string SearchTerm, int SearchGroup)>();
 
 
@@ -70,7 +69,7 @@ namespace PozitronDev.QuerySpecification
 
         public bool IsPagingEnabled { get; internal set; } = false;
 
-        
+
         public Func<IEnumerable<T>, IEnumerable<T>>? PostProcessingAction { get; internal set; } = null;
 
         public string? CacheKey { get; internal set; }

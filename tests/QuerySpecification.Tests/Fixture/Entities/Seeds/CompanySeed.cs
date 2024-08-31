@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PozitronDev.QuerySpecification.UnitTests.Fixture.Entities.Seeds
+namespace Pozitron.QuerySpecification.Tests.Fixture.Entities.Seeds
 {
     public class CompanySeed
     {

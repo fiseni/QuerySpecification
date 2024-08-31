@@ -1,12 +1,12 @@
 ﻿using BenchmarkDotNet.Attributes;
-using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities;
-using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities.Seeds;
+using Pozitron.QuerySpecification.Tests.Fixture.Entities;
+using Pozitron.QuerySpecification.Tests.Fixture.Entities.Seeds;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace QuerySpecification.Benchmark
+namespace Pozitron.QuerySpecification.EntityFrameworkCore.Benchmarks
 {
     [MemoryDiagnoser]
     public class CastingBenchmark

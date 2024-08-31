@@ -1,11 +1,11 @@
-﻿using PozitronDev.QuerySpecification.UnitTests.Fixture;
+﻿using Pozitron.QuerySpecification.Tests.Fixture;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xunit;
 
-namespace PozitronDev.QuerySpecification.UnitTests
+namespace Pozitron.QuerySpecification.Tests
 {
     public class SpecificationEvaluator_GetQuery
     {

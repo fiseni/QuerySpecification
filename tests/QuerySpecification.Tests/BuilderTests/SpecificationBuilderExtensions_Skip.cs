@@ -1,13 +1,13 @@
 ﻿using FluentAssertions;
-using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities;
-using PozitronDev.QuerySpecification.UnitTests.Fixture.Specs;
+using Pozitron.QuerySpecification.Tests.Fixture.Entities;
+using Pozitron.QuerySpecification.Tests.Fixture.Specs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xunit;
 
-namespace PozitronDev.QuerySpecification.UnitTests
+namespace Pozitron.QuerySpecification.Tests
 {
     public class SpecificationBuilderExtensions_Skip
     {

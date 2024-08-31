@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PozitronDev.QuerySpecification.EntityFrameworkCore.IntegrationTests.Fixture
+namespace Pozitron.QuerySpecification.EntityFrameworkCore.Tests.Fixture
 {
     public class Repository<T> : RepositoryBase<T> where T : class
     {

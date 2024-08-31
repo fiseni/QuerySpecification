@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
-using PozitronDev.QuerySpecification.EntityFrameworkCore.IntegrationTests.Fixture;
-using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities.Seeds;
-using PozitronDev.QuerySpecification.UnitTests.Fixture.Specs;
+using Pozitron.QuerySpecification.EntityFrameworkCore.Tests.Fixture;
+using Pozitron.QuerySpecification.Tests.Fixture.Entities.Seeds;
+using Pozitron.QuerySpecification.Tests.Fixture.Specs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace PozitronDev.QuerySpecification.EntityFrameworkCore.IntegrationTests
+namespace Pozitron.QuerySpecification.EntityFrameworkCore.Tests
 {
     public class Repository_GetById : IntegrationTestBase
     {

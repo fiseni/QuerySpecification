@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace PozitronDev.QuerySpecification.UnitTests
+namespace Pozitron.QuerySpecification.Tests
 {
     public class SelectorNotFoundExceptionTests
     {

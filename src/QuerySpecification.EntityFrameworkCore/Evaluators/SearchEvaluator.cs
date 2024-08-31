@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PozitronDev.QuerySpecification.EntityFrameworkCore
+namespace Pozitron.QuerySpecification
 {
     public class SearchEvaluator : IEvaluator
     {

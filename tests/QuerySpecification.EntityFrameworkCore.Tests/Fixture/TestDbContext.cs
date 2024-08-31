@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities;
-using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities.Seeds;
+using Pozitron.QuerySpecification.Tests.Fixture.Entities;
+using Pozitron.QuerySpecification.Tests.Fixture.Entities.Seeds;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PozitronDev.QuerySpecification.EntityFrameworkCore.IntegrationTests.Fixture
+namespace Pozitron.QuerySpecification.EntityFrameworkCore.Tests.Fixture
 {
     public class TestDbContext : DbContext
     {

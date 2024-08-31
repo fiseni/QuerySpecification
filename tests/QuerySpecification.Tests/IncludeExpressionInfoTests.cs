@@ -1,11 +1,11 @@
-﻿using PozitronDev.QuerySpecification.UnitTests.Fixture.Entities;
+﻿using Pozitron.QuerySpecification.Tests.Fixture.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 using Xunit;
 
-namespace PozitronDev.QuerySpecification.UnitTests
+namespace Pozitron.QuerySpecification.Tests
 {
     public class IncludeExpressionInfoTests
     {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Text;
 
-namespace PozitronDev.QuerySpecification.EntityFrameworkCore.IntegrationTests.Fixture
+namespace Pozitron.QuerySpecification.EntityFrameworkCore.Tests.Fixture
 {
     public class SharedDatabaseFixture : IDisposable
     {
