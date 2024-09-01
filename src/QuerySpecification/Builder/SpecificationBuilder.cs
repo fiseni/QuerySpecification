@@ -2,21 +2,21 @@
 
 public class SpecificationBuilder<T, TResult> : SpecificationBuilder<T>, ISpecificationBuilder<T, TResult>
 {
-    public new SpecificationContext<T, TResult> Context { get; }
+    public new Specification<T, TResult> Specification { get; }
 
-    public SpecificationBuilder(SpecificationContext<T, TResult> context)
-        : base(context)
+    public SpecificationBuilder(Specification<T, TResult> specification)
+        : base(specification)
     {
-        Context = context;
+        Specification = specification;
     }
 }
 
 public class SpecificationBuilder<T> : ISpecificationBuilder<T>
 {
-    public SpecificationContext<T> Context { get; }
+    public Specification<T> Specification { get; }
 
-    public SpecificationBuilder(SpecificationContext<T> context)
+    public SpecificationBuilder(Specification<T> specification)
     {
-        Context = context;
+        Specification = specification;
     }
 }

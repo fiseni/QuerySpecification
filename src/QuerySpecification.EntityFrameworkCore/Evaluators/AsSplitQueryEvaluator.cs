@@ -11,7 +11,7 @@ public class AsSplitQueryEvaluator : IEvaluator
 
     public IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
     {
-        if (specification.Context.AsSplitQuery)
+        if (specification.AsSplitQuery)
         {
             query = query.AsSplitQuery();
         }

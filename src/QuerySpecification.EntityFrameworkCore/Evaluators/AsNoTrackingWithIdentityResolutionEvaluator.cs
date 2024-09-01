@@ -11,7 +11,7 @@ public class AsNoTrackingWithIdentityResolutionEvaluator : IEvaluator
 
     public IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
     {
-        if (specification.Context.AsNoTrackingWithIdentityResolution)
+        if (specification.AsNoTrackingWithIdentityResolution)
         {
             query = query.AsNoTrackingWithIdentityResolution();
         }

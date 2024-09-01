@@ -53,12 +53,12 @@ public class IncludeEvaluator : IEvaluator
 
     public IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
     {
-        foreach (var includeString in specification.Context.IncludeStrings)
+        foreach (var includeString in specification.IncludeStrings)
         {
             query = query.Include(includeString);
         }
 
-        foreach (var includeInfo in specification.Context.IncludeExpressions)
+        foreach (var includeInfo in specification.IncludeExpressions)
         {
             if (includeInfo.Type == IncludeTypeEnum.Include)
             {

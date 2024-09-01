@@ -16,7 +16,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            (specificationBuilder.Context._whereExpressions ??= []).Add(new WhereExpressionInfo<T>(criteria));
+            (specificationBuilder.Specification._whereExpressions ??= []).Add(new WhereExpressionInfo<T>(criteria));
         }
 
         return specificationBuilder;
@@ -34,10 +34,10 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            (specificationBuilder.Context._orderExpressions ??= []).Add(new OrderExpressionInfo<T>(keySelector, OrderTypeEnum.OrderBy));
+            (specificationBuilder.Specification._orderExpressions ??= []).Add(new OrderExpressionInfo<T>(keySelector, OrderTypeEnum.OrderBy));
         }
 
-        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T>(specificationBuilder.Context, !condition);
+        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T>(specificationBuilder.Specification, !condition);
 
         return orderedSpecificationBuilder;
     }
@@ -54,10 +54,10 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            (specificationBuilder.Context._orderExpressions ??= []).Add(new OrderExpressionInfo<T>(keySelector, OrderTypeEnum.OrderByDescending));
+            (specificationBuilder.Specification._orderExpressions ??= []).Add(new OrderExpressionInfo<T>(keySelector, OrderTypeEnum.OrderByDescending));
         }
 
-        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T>(specificationBuilder.Context, !condition);
+        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T>(specificationBuilder.Specification, !condition);
 
         return orderedSpecificationBuilder;
     }
@@ -76,10 +76,10 @@ public static class SpecificationBuilderExtensions
         {
             var info = new IncludeExpressionInfo(includeExpression, typeof(T), typeof(TProperty));
 
-            (specificationBuilder.Context._includeExpressions ??= []).Add(info);
+            (specificationBuilder.Specification._includeExpressions ??= []).Add(info);
         }
 
-        var includeBuilder = new IncludableSpecificationBuilder<T, TProperty>(specificationBuilder.Context, !condition);
+        var includeBuilder = new IncludableSpecificationBuilder<T, TProperty>(specificationBuilder.Specification, !condition);
 
         return includeBuilder;
     }
@@ -96,7 +96,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            (specificationBuilder.Context._includeStrings ??= []).Add(includeString);
+            (specificationBuilder.Specification._includeStrings ??= []).Add(includeString);
         }
 
         return specificationBuilder;
@@ -118,7 +118,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            (specificationBuilder.Context._searchExpressions ??= []).Add(new SearchExpressionInfo<T>(selector, searchTerm, searchGroup));
+            (specificationBuilder.Specification._searchExpressions ??= []).Add(new SearchExpressionInfo<T>(selector, searchTerm, searchGroup));
         }
 
         return specificationBuilder;
@@ -136,9 +136,9 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            if (specificationBuilder.Context.Take != null) throw new DuplicateTakeException();
+            if (specificationBuilder.Specification.Take != null) throw new DuplicateTakeException();
 
-            specificationBuilder.Context.Take = take;
+            specificationBuilder.Specification.Take = take;
         }
 
         return specificationBuilder;
@@ -156,9 +156,9 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            if (specificationBuilder.Context.Skip != null) throw new DuplicateSkipException();
+            if (specificationBuilder.Specification.Skip != null) throw new DuplicateSkipException();
 
-            specificationBuilder.Context.Skip = skip;
+            specificationBuilder.Specification.Skip = skip;
         }
 
         return specificationBuilder;
@@ -168,7 +168,7 @@ public static class SpecificationBuilderExtensions
         this ISpecificationBuilder<T, TResult> specificationBuilder,
         Expression<Func<T, TResult>> selector)
     {
-        specificationBuilder.Context.Selector = selector;
+        specificationBuilder.Specification.Selector = selector;
 
         return specificationBuilder;
     }
@@ -177,7 +177,7 @@ public static class SpecificationBuilderExtensions
         this ISpecificationBuilder<T, TResult> specificationBuilder,
         Expression<Func<T, IEnumerable<TResult>>> selector)
     {
-        specificationBuilder.Context.SelectorMany = selector;
+        specificationBuilder.Specification.SelectorMany = selector;
 
         return specificationBuilder;
     }
@@ -192,7 +192,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            specificationBuilder.Context.IgnoreQueryFilters = true;
+            specificationBuilder.Specification.IgnoreQueryFilters = true;
         }
 
         return specificationBuilder;
@@ -208,7 +208,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            specificationBuilder.Context.AsSplitQuery = true;
+            specificationBuilder.Specification.AsSplitQuery = true;
         }
 
         return specificationBuilder;
@@ -224,8 +224,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            specificationBuilder.Context.AsNoTrackingWithIdentityResolution = false;
-            specificationBuilder.Context.AsNoTracking = true;
+            specificationBuilder.Specification.AsNoTrackingWithIdentityResolution = false;
+            specificationBuilder.Specification.AsNoTracking = true;
         }
 
         return specificationBuilder;
@@ -241,8 +241,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            specificationBuilder.Context.AsNoTracking = false;
-            specificationBuilder.Context.AsNoTrackingWithIdentityResolution = true;
+            specificationBuilder.Specification.AsNoTracking = false;
+            specificationBuilder.Specification.AsNoTrackingWithIdentityResolution = true;
         }
 
         return specificationBuilder;

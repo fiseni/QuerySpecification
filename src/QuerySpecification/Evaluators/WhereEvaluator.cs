@@ -9,7 +9,7 @@ public class WhereEvaluator : IEvaluator, IInMemoryEvaluator
 
     public IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
     {
-        foreach (var info in specification.Context.WhereExpressions)
+        foreach (var info in specification.WhereExpressions)
         {
             query = query.Where(info.Filter);
         }
@@ -19,7 +19,7 @@ public class WhereEvaluator : IEvaluator, IInMemoryEvaluator
 
     public IEnumerable<T> Evaluate<T>(IEnumerable<T> query, Specification<T> specification)
     {
-        foreach (var info in specification.Context.WhereExpressions)
+        foreach (var info in specification.WhereExpressions)
         {
             query = query.Where(info.FilterFunc);
         }

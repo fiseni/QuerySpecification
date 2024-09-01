@@ -9,16 +9,16 @@ public class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 
     public IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
     {
-        if (specification.Context.OrderExpressions != null)
+        if (specification.OrderExpressions != null)
         {
-            if (specification.Context.OrderExpressions.Count(x => x.OrderType == OrderTypeEnum.OrderBy
+            if (specification.OrderExpressions.Count(x => x.OrderType == OrderTypeEnum.OrderBy
                     || x.OrderType == OrderTypeEnum.OrderByDescending) > 1)
             {
                 throw new DuplicateOrderChainException();
             }
 
             IOrderedQueryable<T>? orderedQuery = null;
-            foreach (var orderExpression in specification.Context.OrderExpressions)
+            foreach (var orderExpression in specification.OrderExpressions)
             {
                 if (orderExpression.OrderType == OrderTypeEnum.OrderBy)
                 {
@@ -49,16 +49,16 @@ public class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 
     public IEnumerable<T> Evaluate<T>(IEnumerable<T> query, Specification<T> specification)
     {
-        if (specification.Context.OrderExpressions != null)
+        if (specification.OrderExpressions != null)
         {
-            if (specification.Context.OrderExpressions.Count(x => x.OrderType == OrderTypeEnum.OrderBy
+            if (specification.OrderExpressions.Count(x => x.OrderType == OrderTypeEnum.OrderBy
                     || x.OrderType == OrderTypeEnum.OrderByDescending) > 1)
             {
                 throw new DuplicateOrderChainException();
             }
 
             IOrderedEnumerable<T>? orderedQuery = null;
-            foreach (var orderExpression in specification.Context.OrderExpressions)
+            foreach (var orderExpression in specification.OrderExpressions)
             {
                 if (orderExpression.OrderType == OrderTypeEnum.OrderBy)
                 {

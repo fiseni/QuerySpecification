@@ -11,7 +11,7 @@ public class AsNoTrackingEvaluator : IEvaluator
 
     public IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
     {
-        if (specification.Context.AsNoTracking)
+        if (specification.AsNoTracking)
         {
             query = query.AsNoTracking();
         }

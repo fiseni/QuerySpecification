@@ -2,17 +2,17 @@
 
 public class OrderedSpecificationBuilder<T> : IOrderedSpecificationBuilder<T>
 {
-    public SpecificationContext<T> Context { get; }
+    public Specification<T> Specification { get; }
     public bool IsChainDiscarded { get; set; }
 
-    public OrderedSpecificationBuilder(SpecificationContext<T> context)
-        : this(context, false)
+    public OrderedSpecificationBuilder(Specification<T> specification)
+        : this(specification, false)
     {
     }
 
-    public OrderedSpecificationBuilder(SpecificationContext<T> context, bool isChainDiscarded)
+    public OrderedSpecificationBuilder(Specification<T> specification, bool isChainDiscarded)
     {
-        Context = context;
+        Specification = specification;
         IsChainDiscarded = isChainDiscarded;
     }
 }

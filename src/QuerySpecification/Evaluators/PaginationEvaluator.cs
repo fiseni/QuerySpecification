@@ -10,14 +10,14 @@ public class PaginationEvaluator : IEvaluator, IInMemoryEvaluator
     public IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
     {
         // If skip is 0, avoid adding to the IQueryable. It will generate more optimized SQL that way.
-        if (specification.Context.Skip != null && specification.Context.Skip != 0)
+        if (specification.Skip != null && specification.Skip != 0)
         {
-            query = query.Skip(specification.Context.Skip.Value);
+            query = query.Skip(specification.Skip.Value);
         }
 
-        if (specification.Context.Take != null)
+        if (specification.Take != null)
         {
-            query = query.Take(specification.Context.Take.Value);
+            query = query.Take(specification.Take.Value);
         }
 
         return query;
@@ -25,14 +25,14 @@ public class PaginationEvaluator : IEvaluator, IInMemoryEvaluator
 
     public IEnumerable<T> Evaluate<T>(IEnumerable<T> query, Specification<T> specification)
     {
-        if (specification.Context.Skip != null && specification.Context.Skip != 0)
+        if (specification.Skip != null && specification.Skip != 0)
         {
-            query = query.Skip(specification.Context.Skip.Value);
+            query = query.Skip(specification.Skip.Value);
         }
 
-        if (specification.Context.Take != null)
+        if (specification.Take != null)
         {
-            query = query.Take(specification.Context.Take.Value);
+            query = query.Take(specification.Take.Value);
         }
 
         return query;

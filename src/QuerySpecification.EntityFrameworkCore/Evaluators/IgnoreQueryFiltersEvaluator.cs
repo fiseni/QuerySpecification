@@ -11,7 +11,7 @@ public class IgnoreQueryFiltersEvaluator : IEvaluator
 
     public IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
     {
-        if (specification.Context.IgnoreQueryFilters)
+        if (specification.IgnoreQueryFilters)
         {
             query = query.IgnoreQueryFilters();
         }
