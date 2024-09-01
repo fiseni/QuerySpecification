@@ -46,10 +46,9 @@ public class SpecificationEvaluator
     {
         ArgumentNullException.ThrowIfNull(specification);
 
-        var evaluators = evaluateCriteriaOnly ? Evaluators.Where(x => x.IsCriteriaEvaluator) : Evaluators;
-
-        foreach (var evaluator in evaluators)
+        foreach (var evaluator in Evaluators)
         {
+            if (evaluateCriteriaOnly && !evaluator.IsCriteriaEvaluator) continue;
             query = evaluator.GetQuery(query, specification);
         }
 

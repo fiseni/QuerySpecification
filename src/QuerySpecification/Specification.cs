@@ -11,8 +11,8 @@ public class Specification<T, TResult> : Specification<T>
         Query = new SpecificationBuilder<T, TResult>(this);
     }
 
-    protected Specification(InMemorySpecificationEvaluator inMemorySpecificationEvaluator)
-        : base(inMemorySpecificationEvaluator)
+    protected Specification(SpecificationInMemoryEvaluator specificationInMemoryEvaluator)
+        : base(specificationInMemoryEvaluator)
     {
         Query = new SpecificationBuilder<T, TResult>(this);
     }
@@ -23,7 +23,7 @@ public class Specification<T, TResult> : Specification<T>
 
 public class Specification<T>
 {
-    private InMemorySpecificationEvaluator? _evaluator;
+    private SpecificationInMemoryEvaluator? _evaluator;
     private SpecificationValidator? _validator;
     public ISpecificationBuilder<T> Query { get; }
 
@@ -32,10 +32,10 @@ public class Specification<T>
         Query = new SpecificationBuilder<T>(this);
     }
 
-    protected Specification(InMemorySpecificationEvaluator inMemorySpecificationEvaluator) 
+    protected Specification(SpecificationInMemoryEvaluator specificationInMemoryEvaluator) 
         : this()
     {
-        _evaluator = inMemorySpecificationEvaluator;
+        _evaluator = specificationInMemoryEvaluator;
     }
 
     protected Specification(SpecificationValidator specificationValidator) 
@@ -44,16 +44,16 @@ public class Specification<T>
         _validator = specificationValidator;
     }
 
-    protected Specification(InMemorySpecificationEvaluator inMemorySpecificationEvaluator, SpecificationValidator specificationValidator)
+    protected Specification(SpecificationInMemoryEvaluator specificationInMemoryEvaluator, SpecificationValidator specificationValidator)
         : this()
     {
-        _evaluator = inMemorySpecificationEvaluator;
+        _evaluator = specificationInMemoryEvaluator;
         _validator = specificationValidator;
     }
 
     public virtual IEnumerable<T> Evaluate(IEnumerable<T> entities)
     {
-        _evaluator ??= InMemorySpecificationEvaluator.Default;
+        _evaluator ??= SpecificationInMemoryEvaluator.Default;
         return _evaluator.Evaluate(entities, this);
     }
 
@@ -64,10 +64,10 @@ public class Specification<T>
     }
 
     internal List<WhereExpressionInfo<T>>? _whereExpressions;
+    internal List<SearchExpressionInfo<T>>? _searchExpressions;
     internal List<OrderExpressionInfo<T>>? _orderExpressions;
     internal List<IncludeExpressionInfo>? _includeExpressions;
     internal List<string>? _includeStrings;
-    internal List<SearchExpressionInfo<T>>? _searchExpressions;
 
     public IEnumerable<WhereExpressionInfo<T>> WhereExpressions => _whereExpressions ?? Enumerable.Empty<WhereExpressionInfo<T>>();
     public IEnumerable<SearchExpressionInfo<T>> SearchExpressions => _searchExpressions ?? Enumerable.Empty<SearchExpressionInfo<T>>();

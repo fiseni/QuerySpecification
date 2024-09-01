@@ -1,13 +1,13 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public class InMemorySpecificationEvaluator
+public class SpecificationInMemoryEvaluator
 {
     // Will use singleton for default configuration. Yet, it can be instantiated if necessary, with default or provided evaluators.
-    public static InMemorySpecificationEvaluator Default = new();
+    public static SpecificationInMemoryEvaluator Default = new();
 
     protected List<IInMemoryEvaluator> Evaluators { get; }
 
-    public InMemorySpecificationEvaluator()
+    public SpecificationInMemoryEvaluator()
     {
         Evaluators =
         [
@@ -17,7 +17,7 @@ public class InMemorySpecificationEvaluator
             PaginationEvaluator.Instance
         ];
     }
-    public InMemorySpecificationEvaluator(IEnumerable<IInMemoryEvaluator> evaluators)
+    public SpecificationInMemoryEvaluator(IEnumerable<IInMemoryEvaluator> evaluators)
     {
         Evaluators = evaluators.ToList();
     }
@@ -25,11 +25,11 @@ public class InMemorySpecificationEvaluator
     public virtual IEnumerable<TResult> Evaluate<T, TResult>(IEnumerable<T> source, Specification<T, TResult> specification)
     {
         if (specification.Selector is null && specification.SelectorMany is null) throw new SelectorNotFoundException();
-        if (specification.Selector != null && specification.SelectorMany != null) throw new ConcurrentSelectorsException();
+        if (specification.Selector is not null && specification.SelectorMany is not null) throw new ConcurrentSelectorsException();
 
         var baseQuery = Evaluate(source, (Specification<T>)specification);
 
-        var resultQuery = specification.Selector != null
+        var resultQuery = specification.Selector is not null
           ? baseQuery.Select(specification.Selector.Compile())
           : baseQuery.SelectMany(specification.SelectorMany!.Compile());
 
