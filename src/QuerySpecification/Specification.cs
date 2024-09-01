@@ -16,17 +16,12 @@ public class Specification<T, TResult> : Specification<T>
         Context = new SpecificationContext<T, TResult>();
         Query = new SpecificationBuilder<T, TResult>(Context);
     }
-
-    public new virtual IEnumerable<TResult> Evaluate(IEnumerable<T> entities)
-    {
-        return Evaluator.Evaluate(entities, this);
-    }
 }
 
 public class Specification<T>
 {
-    protected InMemorySpecificationEvaluator Evaluator { get; }
-    protected SpecificationValidator Validator { get; }
+    private readonly InMemorySpecificationEvaluator _evaluator;
+    private readonly SpecificationValidator _validator;
     public SpecificationContext<T> Context { get; }
     public ISpecificationBuilder<T> Query { get; }
 
@@ -47,19 +42,19 @@ public class Specification<T>
 
     protected Specification(InMemorySpecificationEvaluator inMemorySpecificationEvaluator, SpecificationValidator specificationValidator)
     {
-        Evaluator = inMemorySpecificationEvaluator;
-        Validator = specificationValidator;
+        _evaluator = inMemorySpecificationEvaluator;
+        _validator = specificationValidator;
         Context = new SpecificationContext<T>();
         Query = new SpecificationBuilder<T>(Context);
     }
 
     public virtual IEnumerable<T> Evaluate(IEnumerable<T> entities)
     {
-        return Evaluator.Evaluate(entities, this);
+        return _evaluator.Evaluate(entities, this);
     }
 
     public virtual bool IsSatisfiedBy(T entity)
     {
-        return Validator.IsValid(entity, this);
+        return _validator.IsValid(entity, this);
     }
 }

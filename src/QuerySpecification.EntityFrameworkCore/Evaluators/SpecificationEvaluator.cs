@@ -19,7 +19,6 @@ public class SpecificationEvaluator
             PaginationEvaluator.Instance,
             AsNoTrackingEvaluator.Instance,
             AsNoTrackingWithIdentityResolutionEvaluator.Instance,
-            AsTrackingEvaluator.Instance,
             IgnoreQueryFiltersEvaluator.Instance,
             AsSplitQueryEvaluator.Instance
         ];

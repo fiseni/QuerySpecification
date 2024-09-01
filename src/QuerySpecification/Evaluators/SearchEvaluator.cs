@@ -7,7 +7,7 @@ public class SearchEvaluator : IInMemoryEvaluator
 
     public IEnumerable<T> Evaluate<T>(IEnumerable<T> query, Specification<T> specification)
     {
-        foreach (var searchGroup in specification.Context.SearchCriterias.GroupBy(x => x.SearchGroup))
+        foreach (var searchGroup in specification.Context.SearchExpressions.GroupBy(x => x.SearchGroup))
         {
             query = query.Where(x => searchGroup.Any(c => c.SelectorFunc(x).Like(c.SearchTerm)));
         }

@@ -16,7 +16,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            ((List<WhereExpressionInfo<T>>)specificationBuilder.Context.WhereExpressions).Add(new WhereExpressionInfo<T>(criteria));
+            (specificationBuilder.Context._whereExpressions ??= []).Add(new WhereExpressionInfo<T>(criteria));
         }
 
         return specificationBuilder;
@@ -24,17 +24,17 @@ public static class SpecificationBuilderExtensions
 
     public static IOrderedSpecificationBuilder<T> OrderBy<T>(
         this ISpecificationBuilder<T> specificationBuilder,
-        Expression<Func<T, object?>> orderExpression)
-        => OrderBy(specificationBuilder, orderExpression, true);
+        Expression<Func<T, object?>> keySelector)
+        => OrderBy(specificationBuilder, keySelector, true);
 
     public static IOrderedSpecificationBuilder<T> OrderBy<T>(
         this ISpecificationBuilder<T> specificationBuilder,
-        Expression<Func<T, object?>> orderExpression,
+        Expression<Func<T, object?>> keySelector,
         bool condition)
     {
         if (condition)
         {
-            ((List<OrderExpressionInfo<T>>)specificationBuilder.Context.OrderExpressions).Add(new OrderExpressionInfo<T>(orderExpression, OrderTypeEnum.OrderBy));
+            (specificationBuilder.Context._orderExpressions ??= []).Add(new OrderExpressionInfo<T>(keySelector, OrderTypeEnum.OrderBy));
         }
 
         var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T>(specificationBuilder.Context, !condition);
@@ -44,17 +44,17 @@ public static class SpecificationBuilderExtensions
 
     public static IOrderedSpecificationBuilder<T> OrderByDescending<T>(
         this ISpecificationBuilder<T> specificationBuilder,
-        Expression<Func<T, object?>> orderExpression)
-        => OrderByDescending(specificationBuilder, orderExpression, true);
+        Expression<Func<T, object?>> keySelector)
+        => OrderByDescending(specificationBuilder, keySelector, true);
 
     public static IOrderedSpecificationBuilder<T> OrderByDescending<T>(
         this ISpecificationBuilder<T> specificationBuilder,
-        Expression<Func<T, object?>> orderExpression,
+        Expression<Func<T, object?>> keySelector,
         bool condition)
     {
         if (condition)
         {
-            ((List<OrderExpressionInfo<T>>)specificationBuilder.Context.OrderExpressions).Add(new OrderExpressionInfo<T>(orderExpression, OrderTypeEnum.OrderByDescending));
+            (specificationBuilder.Context._orderExpressions ??= []).Add(new OrderExpressionInfo<T>(keySelector, OrderTypeEnum.OrderByDescending));
         }
 
         var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T>(specificationBuilder.Context, !condition);
@@ -76,7 +76,7 @@ public static class SpecificationBuilderExtensions
         {
             var info = new IncludeExpressionInfo(includeExpression, typeof(T), typeof(TProperty));
 
-            ((List<IncludeExpressionInfo>)specificationBuilder.Context.IncludeExpressions).Add(info);
+            (specificationBuilder.Context._includeExpressions ??= []).Add(info);
         }
 
         var includeBuilder = new IncludableSpecificationBuilder<T, TProperty>(specificationBuilder.Context, !condition);
@@ -96,7 +96,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            ((List<string>)specificationBuilder.Context.IncludeStrings).Add(includeString);
+            (specificationBuilder.Context._includeStrings ??= []).Add(includeString);
         }
 
         return specificationBuilder;
@@ -118,7 +118,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            ((List<SearchExpressionInfo<T>>)specificationBuilder.Context.SearchCriterias).Add(new SearchExpressionInfo<T>(selector, searchTerm, searchGroup));
+            (specificationBuilder.Context._searchExpressions ??= []).Add(new SearchExpressionInfo<T>(selector, searchTerm, searchGroup));
         }
 
         return specificationBuilder;
@@ -182,19 +182,33 @@ public static class SpecificationBuilderExtensions
         return specificationBuilder;
     }
 
-    public static ISpecificationBuilder<T> AsTracking<T>(
-        this ISpecificationBuilder<T> specificationBuilder) where T : class
-        => AsTracking(specificationBuilder, true);
+    public static ISpecificationBuilder<T> IgnoreQueryFilters<T>(
+    this ISpecificationBuilder<T> specificationBuilder) where T : class
+    => IgnoreQueryFilters(specificationBuilder, true);
 
-    public static ISpecificationBuilder<T> AsTracking<T>(
+    public static ISpecificationBuilder<T> IgnoreQueryFilters<T>(
         this ISpecificationBuilder<T> specificationBuilder,
         bool condition) where T : class
     {
         if (condition)
         {
-            specificationBuilder.Context.AsNoTracking = false;
-            specificationBuilder.Context.AsNoTrackingWithIdentityResolution = false;
-            specificationBuilder.Context.AsTracking = true;
+            specificationBuilder.Context.IgnoreQueryFilters = true;
+        }
+
+        return specificationBuilder;
+    }
+
+    public static ISpecificationBuilder<T> AsSplitQuery<T>(
+    this ISpecificationBuilder<T> specificationBuilder) where T : class
+    => AsSplitQuery(specificationBuilder, true);
+
+    public static ISpecificationBuilder<T> AsSplitQuery<T>(
+        this ISpecificationBuilder<T> specificationBuilder,
+        bool condition) where T : class
+    {
+        if (condition)
+        {
+            specificationBuilder.Context.AsSplitQuery = true;
         }
 
         return specificationBuilder;
@@ -210,25 +224,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            specificationBuilder.Context.AsTracking = false;
             specificationBuilder.Context.AsNoTrackingWithIdentityResolution = false;
             specificationBuilder.Context.AsNoTracking = true;
-        }
-
-        return specificationBuilder;
-    }
-
-    public static ISpecificationBuilder<T> AsSplitQuery<T>(
-        this ISpecificationBuilder<T> specificationBuilder) where T : class
-        => AsSplitQuery(specificationBuilder, true);
-
-    public static ISpecificationBuilder<T> AsSplitQuery<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
-        bool condition) where T : class
-    {
-        if (condition)
-        {
-            specificationBuilder.Context.AsSplitQuery = true;
         }
 
         return specificationBuilder;
@@ -244,25 +241,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            specificationBuilder.Context.AsTracking = false;
             specificationBuilder.Context.AsNoTracking = false;
             specificationBuilder.Context.AsNoTrackingWithIdentityResolution = true;
-        }
-
-        return specificationBuilder;
-    }
-
-    public static ISpecificationBuilder<T> IgnoreQueryFilters<T>(
-        this ISpecificationBuilder<T> specificationBuilder) where T : class
-        => IgnoreQueryFilters(specificationBuilder, true);
-
-    public static ISpecificationBuilder<T> IgnoreQueryFilters<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
-        bool condition) where T : class
-    {
-        if (condition)
-        {
-            specificationBuilder.Context.IgnoreQueryFilters = true;
         }
 
         return specificationBuilder;

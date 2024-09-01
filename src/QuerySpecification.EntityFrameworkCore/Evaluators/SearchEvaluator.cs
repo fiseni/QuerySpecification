@@ -9,7 +9,7 @@ public class SearchEvaluator : IEvaluator
 
     public IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
     {
-        foreach (var searchCriteria in specification.Context.SearchCriterias.GroupBy(x => x.SearchGroup))
+        foreach (var searchCriteria in specification.Context.SearchExpressions.GroupBy(x => x.SearchGroup))
         {
             query = query.Search(searchCriteria);
         }
