@@ -51,10 +51,10 @@ public class Specification<T>
         _validator = specificationValidator;
     }
 
-    public virtual IEnumerable<T> Evaluate(IEnumerable<T> entities)
+    public virtual IEnumerable<T> Evaluate(IEnumerable<T> entities, bool evaluateCriteriaOnly = false)
     {
         _evaluator ??= SpecificationInMemoryEvaluator.Default;
-        return _evaluator.Evaluate(entities, this);
+        return _evaluator.Evaluate(entities, this, evaluateCriteriaOnly);
     }
 
     public virtual bool IsSatisfiedBy(T entity)
