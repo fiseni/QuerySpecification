@@ -5,7 +5,7 @@ namespace Pozitron.QuerySpecification.EntityFrameworkCore;
 public class AsNoTrackingEvaluator : IEvaluator
 {
     private AsNoTrackingEvaluator() { }
-    public static AsNoTrackingEvaluator Instance { get; } = new AsNoTrackingEvaluator();
+    public static AsNoTrackingEvaluator Instance = new();
 
     public bool IsCriteriaEvaluator { get; } = true;
 

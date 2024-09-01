@@ -3,7 +3,7 @@
 public class SearchEvaluator : IInMemoryEvaluator
 {
     private SearchEvaluator() { }
-    public static SearchEvaluator Instance { get; } = new SearchEvaluator();
+    public static SearchEvaluator Instance = new();
 
     public IEnumerable<T> Evaluate<T>(IEnumerable<T> query, Specification<T> specification)
     {

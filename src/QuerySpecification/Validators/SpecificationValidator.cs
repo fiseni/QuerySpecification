@@ -3,7 +3,7 @@
 public class SpecificationValidator
 {
     // Will use singleton for default configuration. Yet, it can be instantiated if necessary, with default or provided validators.
-    public static SpecificationValidator Default { get; } = new SpecificationValidator();
+    public static SpecificationValidator Default = new();
 
     private readonly List<IValidator> _validators;
 

@@ -3,7 +3,7 @@
 public class SearchValidator : IValidator
 {
     private SearchValidator() { }
-    public static SearchValidator Instance { get; } = new SearchValidator();
+    public static SearchValidator Instance = new();
 
     public bool IsValid<T>(T entity, Specification<T> specification)
     {

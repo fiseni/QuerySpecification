@@ -2,9 +2,9 @@
 
 public class SpecificationEvaluator
 {
-    public static SpecificationEvaluator Default { get; } = new SpecificationEvaluator();
+    public static SpecificationEvaluator Default = new();
 
-    public static SpecificationEvaluator Cached { get; } = new SpecificationEvaluator(true);
+    public static SpecificationEvaluator Cached = new(true);
 
     protected List<IEvaluator> Evaluators { get; }
 

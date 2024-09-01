@@ -3,7 +3,7 @@
 public class SearchEvaluator : IEvaluator
 {
     private SearchEvaluator() { }
-    public static SearchEvaluator Instance { get; } = new SearchEvaluator();
+    public static SearchEvaluator Instance = new();
 
     public bool IsCriteriaEvaluator { get; } = true;
 

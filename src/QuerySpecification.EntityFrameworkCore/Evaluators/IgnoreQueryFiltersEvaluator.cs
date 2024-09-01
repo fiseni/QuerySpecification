@@ -5,7 +5,7 @@ namespace Pozitron.QuerySpecification.EntityFrameworkCore;
 public class IgnoreQueryFiltersEvaluator : IEvaluator
 {
     private IgnoreQueryFiltersEvaluator() { }
-    public static IgnoreQueryFiltersEvaluator Instance { get; } = new IgnoreQueryFiltersEvaluator();
+    public static IgnoreQueryFiltersEvaluator Instance = new();
 
     public bool IsCriteriaEvaluator { get; } = true;
 

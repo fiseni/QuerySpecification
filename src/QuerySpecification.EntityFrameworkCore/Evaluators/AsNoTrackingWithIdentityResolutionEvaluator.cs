@@ -5,7 +5,7 @@ namespace Pozitron.QuerySpecification.EntityFrameworkCore;
 public class AsNoTrackingWithIdentityResolutionEvaluator : IEvaluator
 {
     private AsNoTrackingWithIdentityResolutionEvaluator() { }
-    public static AsNoTrackingWithIdentityResolutionEvaluator Instance { get; } = new AsNoTrackingWithIdentityResolutionEvaluator();
+    public static AsNoTrackingWithIdentityResolutionEvaluator Instance = new();
 
     public bool IsCriteriaEvaluator { get; } = true;
 

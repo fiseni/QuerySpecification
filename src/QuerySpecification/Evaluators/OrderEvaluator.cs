@@ -3,7 +3,7 @@
 public class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 {
     private OrderEvaluator() { }
-    public static OrderEvaluator Instance { get; } = new OrderEvaluator();
+    public static OrderEvaluator Instance = new();
 
     public bool IsCriteriaEvaluator { get; } = false;
 

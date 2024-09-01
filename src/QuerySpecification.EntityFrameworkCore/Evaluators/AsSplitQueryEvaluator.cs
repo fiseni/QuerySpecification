@@ -5,7 +5,7 @@ namespace Pozitron.QuerySpecification.EntityFrameworkCore;
 public class AsSplitQueryEvaluator : IEvaluator
 {
     private AsSplitQueryEvaluator() { }
-    public static AsSplitQueryEvaluator Instance { get; } = new AsSplitQueryEvaluator();
+    public static AsSplitQueryEvaluator Instance = new();
 
     public bool IsCriteriaEvaluator { get; } = true;
 

@@ -51,11 +51,11 @@ dotnet_style_require_accessibility_modifiers = for_non_interface_members:warning
 dotnet_style_readonly_field = true:suggestion
 # Expression-level preferences
 dotnet_style_object_initializer = true:suggestion
-dotnet_style_collection_initializer = true:silent
+dotnet_style_collection_initializer = true:suggestion
 dotnet_style_explicit_tuple_names = true:suggestion
 dotnet_style_null_propagation = true:suggestion
 dotnet_style_coalesce_expression = true:suggestion
-dotnet_style_prefer_is_null_check_over_reference_equality_method = true:warning
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
 dotnet_style_prefer_inferred_tuple_names = true:suggestion
 dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
 dotnet_style_prefer_auto_properties = true:suggestion
@@ -65,7 +65,7 @@ dotnet_style_operator_placement_when_wrapping = beginning_of_line
 dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
 dotnet_style_prefer_compound_assignment = true:warning
 dotnet_style_prefer_simplified_interpolation = true:warning
-dotnet_style_namespace_match_folder = true:suggestion
+dotnet_style_namespace_match_folder = false:suggestion
 dotnet_style_allow_multiple_blank_lines_experimental = true:silent
 dotnet_style_allow_statement_immediately_after_block_experimental = true:silent
 dotnet_code_quality_unused_parameters = non_public:warning
@@ -125,7 +125,7 @@ dotnet_naming_style.local_function_style.capitalization = pascal_case
 # Type Parameters
 dotnet_naming_style.type_parameter_style.capitalization = pascal_case
 dotnet_naming_rule.type_parameter_naming.symbols = type_parameter_symbol
-dotnet_naming_rule.type_parameter_naming.style = type_parameter_style
+dotnet_naming_rule.type_parameter_naming.style = non_private_static_field_style
 dotnet_naming_rule.type_parameter_naming.severity = error
 dotnet_naming_symbols.type_parameter_symbol.applicable_kinds = type_parameter
 dotnet_naming_symbols.type_parameter_symbol.applicable_accessibilities = *
@@ -135,6 +135,7 @@ dotnet_naming_rule.members_should_be_pascal_case.symbols = all_members
 dotnet_naming_rule.members_should_be_pascal_case.style = non_private_static_field_style
 dotnet_naming_symbols.all_members.applicable_kinds = *
 dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+dotnet_diagnostic.CA2211.severity = none
 ###############################
 # C# Coding Conventions       #
 ###############################
@@ -178,7 +179,7 @@ csharp_new_line_between_query_expression_clauses = true
 # Indentation preferences
 csharp_indent_case_contents = true
 csharp_indent_switch_labels = true
-csharp_indent_labels = flush_left
+csharp_indent_labels = one_less_than_current
 # Space preferences
 csharp_space_after_cast = false
 csharp_space_after_keywords_in_control_flow_statements = true
@@ -194,9 +195,9 @@ csharp_space_between_method_call_empty_parameter_list_parentheses = false
 # Wrapping preferences
 csharp_preserve_single_line_statements = true
 csharp_preserve_single_line_blocks = true
-csharp_using_directive_placement = outside_namespace:warning
-csharp_style_namespace_declarations = file_scoped:warning
-csharp_prefer_simple_using_statement = true:silent
+csharp_using_directive_placement = outside_namespace:silent
+csharp_style_namespace_declarations = file_scoped:silent
+csharp_prefer_simple_using_statement = true:suggestion
 csharp_style_expression_bodied_lambdas = true:silent
 csharp_style_expression_bodied_local_functions = false:silent
 csharp_style_prefer_null_check_over_type_check = true:suggestion
@@ -218,4 +219,5 @@ csharp_style_prefer_extended_property_pattern = true:suggestion
 csharp_style_prefer_method_group_conversion = true:silent
 csharp_style_prefer_parameter_null_checking = true:suggestion
 csharp_style_prefer_top_level_statements = true:silent
-csharp_style_prefer_primary_constructors = true:silent
+csharp_style_prefer_primary_constructors = true:suggestion
+csharp_prefer_system_threading_lock = true:suggestion

@@ -45,9 +45,9 @@ public class IncludeEvaluator : IEvaluator
         _cacheEnabled = cacheEnabled;
     }
 
-    public static IncludeEvaluator Default { get; } = new IncludeEvaluator(false);
+    public static IncludeEvaluator Default = new(false);
 
-    public static IncludeEvaluator Cached { get; } = new IncludeEvaluator(true);
+    public static IncludeEvaluator Cached = new(true);
 
     public bool IsCriteriaEvaluator => false;
 

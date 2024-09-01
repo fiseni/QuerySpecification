@@ -3,7 +3,7 @@
 public class WhereEvaluator : IEvaluator, IInMemoryEvaluator
 {
     private WhereEvaluator() { }
-    public static WhereEvaluator Instance { get; } = new WhereEvaluator();
+    public static WhereEvaluator Instance = new();
 
     public bool IsCriteriaEvaluator { get; } = true;
 

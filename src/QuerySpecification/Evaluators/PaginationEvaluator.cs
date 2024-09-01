@@ -3,7 +3,7 @@
 public class PaginationEvaluator : IEvaluator, IInMemoryEvaluator
 {
     private PaginationEvaluator() { }
-    public static PaginationEvaluator Instance { get; } = new PaginationEvaluator();
+    public static PaginationEvaluator Instance = new();
 
     public bool IsCriteriaEvaluator { get; } = false;
 
