@@ -136,8 +136,6 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            if (specificationBuilder.Specification.Take != null) throw new DuplicateTakeException();
-
             specificationBuilder.Specification.Take = take;
         }
 
@@ -156,8 +154,6 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            if (specificationBuilder.Specification.Skip != null) throw new DuplicateSkipException();
-
             specificationBuilder.Specification.Skip = skip;
         }
 

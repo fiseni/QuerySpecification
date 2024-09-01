@@ -6,9 +6,9 @@ public class Specification<T, TResult> : Specification<T>
 {
     public new ISpecificationBuilder<T, TResult> Query { get; }
 
-    protected Specification()
-        : this(InMemorySpecificationEvaluator.Default)
+    protected Specification() : base()
     {
+        Query = new SpecificationBuilder<T, TResult>(this);
     }
 
     protected Specification(InMemorySpecificationEvaluator inMemorySpecificationEvaluator)
@@ -23,39 +23,43 @@ public class Specification<T, TResult> : Specification<T>
 
 public class Specification<T>
 {
-    private readonly InMemorySpecificationEvaluator _evaluator;
-    private readonly SpecificationValidator _validator;
+    private InMemorySpecificationEvaluator? _evaluator;
+    private SpecificationValidator? _validator;
     public ISpecificationBuilder<T> Query { get; }
 
     protected Specification()
-        : this(InMemorySpecificationEvaluator.Default, SpecificationValidator.Default)
     {
+        Query = new SpecificationBuilder<T>(this);
     }
 
-    protected Specification(InMemorySpecificationEvaluator inMemorySpecificationEvaluator)
-        : this(inMemorySpecificationEvaluator, SpecificationValidator.Default)
+    protected Specification(InMemorySpecificationEvaluator inMemorySpecificationEvaluator) 
+        : this()
     {
+        _evaluator = inMemorySpecificationEvaluator;
     }
 
-    protected Specification(SpecificationValidator specificationValidator)
-        : this(InMemorySpecificationEvaluator.Default, specificationValidator)
+    protected Specification(SpecificationValidator specificationValidator) 
+        : this()
     {
+        _validator = specificationValidator;
     }
 
     protected Specification(InMemorySpecificationEvaluator inMemorySpecificationEvaluator, SpecificationValidator specificationValidator)
+        : this()
     {
         _evaluator = inMemorySpecificationEvaluator;
         _validator = specificationValidator;
-        Query = new SpecificationBuilder<T>(this);
     }
 
     public virtual IEnumerable<T> Evaluate(IEnumerable<T> entities)
     {
+        _evaluator ??= InMemorySpecificationEvaluator.Default;
         return _evaluator.Evaluate(entities, this);
     }
 
     public virtual bool IsSatisfiedBy(T entity)
     {
+        _validator ??= SpecificationValidator.Default;
         return _validator.IsValid(entity, this);
     }
 
@@ -73,8 +77,8 @@ public class Specification<T>
 
     public Dictionary<string, object>? Items { get; set; } = null;
 
-    public int? Take { get; internal set; } = null;
-    public int? Skip { get; internal set; } = null;
+    public int Take { get; internal set; } = -1;
+    public int Skip { get; internal set; } = -1;
     public bool IgnoreQueryFilters { get; internal set; } = false;
     public bool AsSplitQuery { get; internal set; } = false;
     public bool AsNoTracking { get; internal set; } = false;
