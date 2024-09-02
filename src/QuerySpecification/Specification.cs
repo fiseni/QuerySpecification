@@ -23,44 +23,28 @@ public class Specification<T, TResult> : Specification<T>
 
 public class Specification<T>
 {
-    private SpecificationInMemoryEvaluator? _evaluator;
-    private SpecificationValidator? _validator;
+    private SpecificationInMemoryEvaluator _evaluator;
     public ISpecificationBuilder<T> Query { get; }
 
     protected Specification()
+        : this(SpecificationInMemoryEvaluator.Default)
     {
+    }
+
+    protected Specification(SpecificationInMemoryEvaluator specificationInMemoryEvaluator)
+    {
+        _evaluator = specificationInMemoryEvaluator;
         Query = new SpecificationBuilder<T>(this);
-    }
-
-    protected Specification(SpecificationInMemoryEvaluator specificationInMemoryEvaluator) 
-        : this()
-    {
-        _evaluator = specificationInMemoryEvaluator;
-    }
-
-    protected Specification(SpecificationValidator specificationValidator) 
-        : this()
-    {
-        _validator = specificationValidator;
-    }
-
-    protected Specification(SpecificationInMemoryEvaluator specificationInMemoryEvaluator, SpecificationValidator specificationValidator)
-        : this()
-    {
-        _evaluator = specificationInMemoryEvaluator;
-        _validator = specificationValidator;
     }
 
     public virtual IEnumerable<T> Evaluate(IEnumerable<T> entities, bool evaluateCriteriaOnly = false)
     {
-        _evaluator ??= SpecificationInMemoryEvaluator.Default;
         return _evaluator.Evaluate(entities, this, evaluateCriteriaOnly);
     }
 
     public virtual bool IsSatisfiedBy(T entity)
     {
-        _validator ??= SpecificationValidator.Default;
-        return _validator.IsValid(entity, this);
+        return SpecificationValidator.Default.IsValid(entity, this);
     }
 
     internal List<WhereExpressionInfo<T>>? _whereExpressions;
