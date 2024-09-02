@@ -20,7 +20,7 @@ public static class IncludableBuilderExtensions
         {
             var info = new IncludeExpressionInfo(thenIncludeExpression, typeof(TEntity), typeof(TProperty), typeof(TPreviousProperty));
 
-            ((List<IncludeExpressionInfo>)previousBuilder.Specification.IncludeExpressions).Add(info);
+            (previousBuilder.Specification._includeExpressions ??= []).Add(info);
         }
 
         var includeBuilder = new IncludableSpecificationBuilder<TEntity, TProperty>(previousBuilder.Specification, !condition || previousBuilder.IsChainDiscarded);
@@ -44,7 +44,7 @@ public static class IncludableBuilderExtensions
         {
             var info = new IncludeExpressionInfo(thenIncludeExpression, typeof(TEntity), typeof(TProperty), typeof(IEnumerable<TPreviousProperty>));
 
-            ((List<IncludeExpressionInfo>)previousBuilder.Specification.IncludeExpressions).Add(info);
+            (previousBuilder.Specification._includeExpressions ??= []).Add(info);
         }
 
         var includeBuilder = new IncludableSpecificationBuilder<TEntity, TProperty>(previousBuilder.Specification, !condition || previousBuilder.IsChainDiscarded);
