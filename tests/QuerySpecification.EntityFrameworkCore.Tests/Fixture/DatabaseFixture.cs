@@ -1,5 +1,4 @@
 ﻿using MartinCostello.SqlLocalDb;
-using Microsoft.EntityFrameworkCore;
 
 namespace Pozitron.QuerySpecification.EntityFrameworkCore.Tests.Fixture;
 
