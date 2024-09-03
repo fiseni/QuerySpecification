@@ -17,7 +17,7 @@ public class Specification<T, TResult> : Specification<T>
         Query = new SpecificationBuilder<T, TResult>(this);
     }
 
-    public virtual IEnumerable<TResult> Evaluate(IEnumerable<T> entities, bool evaluateCriteriaOnly = false)
+    public new virtual IEnumerable<TResult> Evaluate(IEnumerable<T> entities, bool evaluateCriteriaOnly = false)
     {
         return Evaluator.Evaluate(entities, this, evaluateCriteriaOnly);
     }

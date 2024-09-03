@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 
 namespace Pozitron.QuerySpecification;
 
@@ -36,6 +37,7 @@ public static class SearchExtension
     // It covers almost all of the scenarios, and it's faster than regex based implementations.
     // It may fail/throw in some very specific and edge cases, hence, wrap it in try/catch.
     // UPDATE: it returns incorrect results for some obvious cases.
+    [ExcludeFromCodeCoverage]
     private static bool SqlLikeOption2(string str, string pattern)
     {
         var isMatch = true;

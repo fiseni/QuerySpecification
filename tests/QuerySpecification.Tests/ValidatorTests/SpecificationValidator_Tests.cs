@@ -4,6 +4,7 @@ public class SpecificationValidator_Tests
 {
     private readonly Store _store = StoreSeed.Get().Single(x => x.Id == StoreSeed.VALID_Search_ID);
 
+    [Fact]
     public void ReturnsTrue_GivenStoreByIdSearchByNameAndCitySpec_WithValidValues()
     {
         var spec = new StoreByIdSearchByNameAndCitySpec(StoreSeed.VALID_Search_ID, StoreSeed.VALID_Search_City_Name_Key);
@@ -13,6 +14,7 @@ public class SpecificationValidator_Tests
         result.Should().BeTrue();
     }
 
+    [Fact]
     public void ReturnsFalse_GivenStoreByIdSearchByNameAndCitySpec_WithInvalidId()
     {
         var spec = new StoreByIdSearchByNameAndCitySpec(1, StoreSeed.VALID_Search_City_Name_Key);
@@ -22,6 +24,7 @@ public class SpecificationValidator_Tests
         result.Should().BeFalse();
     }
 
+    [Fact]
     public void ReturnsFalse_GivenStoreByIdSearchByNameAndCitySpec_WithInvalidNameSearchString()
     {
         var spec = new StoreByIdSearchByNameAndCitySpec(StoreSeed.VALID_Search_ID, StoreSeed.VALID_Search_City_Key);
@@ -31,6 +34,7 @@ public class SpecificationValidator_Tests
         result.Should().BeFalse();
     }
 
+    [Fact]
     public void ReturnsFalse_GivenStoreByIdSearchByNameAndCitySpec_WithInvalidCitySearchString()
     {
         var spec = new StoreByIdSearchByNameAndCitySpec(StoreSeed.VALID_Search_ID, StoreSeed.VALID_Search_Name_Key);
@@ -40,6 +44,7 @@ public class SpecificationValidator_Tests
         result.Should().BeFalse();
     }
 
+    [Fact]
     public void ReturnsFalse_StoreByIdSearchByNameAndCitySpecSpec_WithInvalidCityAndNameSearchString()
     {
         var spec = new StoreByIdSearchByNameAndCitySpec(StoreSeed.VALID_Search_ID, "random");
@@ -49,6 +54,7 @@ public class SpecificationValidator_Tests
         result.Should().BeFalse();
     }
 
+    [Fact]
     public void ReturnsTrue_StoreByIdSearchByNameOrCitySpecSpec_WithValidValues()
     {
         var spec = new StoreByIdSearchByNameOrCitySpec(StoreSeed.VALID_Search_ID, StoreSeed.VALID_Search_City_Name_Key);
@@ -58,6 +64,7 @@ public class SpecificationValidator_Tests
         result.Should().BeTrue();
     }
 
+    [Fact]
     public void ReturnsTrue_StoreByIdSearchByNameOrCitySpecSpec_WithInvalidNameSearchString()
     {
         var spec = new StoreByIdSearchByNameOrCitySpec(StoreSeed.VALID_Search_ID, StoreSeed.VALID_Search_City_Key);
@@ -67,6 +74,7 @@ public class SpecificationValidator_Tests
         result.Should().BeTrue();
     }
 
+    [Fact]
     public void ReturnsTrue_StoreByIdSearchByNameOrCitySpecSpec_WithInvalidCitySearchString()
     {
         var spec = new StoreByIdSearchByNameOrCitySpec(StoreSeed.VALID_Search_ID, StoreSeed.VALID_Search_Name_Key);
@@ -76,6 +84,7 @@ public class SpecificationValidator_Tests
         result.Should().BeTrue();
     }
 
+    [Fact]
     public void ReturnsFalse_StoreByIdSearchByNameOrCitySpecSpec_WithInvalidCityAndNameSearchString()
     {
         var spec = new StoreByIdSearchByNameOrCitySpec(StoreSeed.VALID_Search_ID, "random");
