@@ -6,7 +6,7 @@ public class IncludeExpressionInfoTests
 
     public IncludeExpressionInfoTests()
     {
-        _expr = x => x.Country!;
+        _expr = x => x.Country;
     }
 
     [Fact]

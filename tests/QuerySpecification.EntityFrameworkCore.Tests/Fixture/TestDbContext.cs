@@ -20,6 +20,6 @@ public class TestDbContext : DbContext
         modelBuilder.Entity<Product>().Property(x => x.Id).ValueGeneratedNever();
         modelBuilder.Entity<Store>().Property(x => x.Id).ValueGeneratedNever();
 
-        modelBuilder.Entity<Store>().HasOne(x => x.Address).WithOne(x => x!.Store!).HasForeignKey<Address>(x => x.StoreId);
+        modelBuilder.Entity<Store>().HasOne(x => x.Address).WithOne(x => x.Store).HasForeignKey<Address>(x => x.StoreId);
     }
 }

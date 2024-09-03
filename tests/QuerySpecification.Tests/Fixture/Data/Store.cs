@@ -7,10 +7,9 @@ public class Store
     public string? City { get; set; }
 
     public int CompanyId { get; set; }
-    public Company? Company { get; set; }
+    public Company Company { get; set; } = default!;
 
-    public int AddressId { get; set; }
-    public Address? Address { get; set; }
+    public Address Address { get; set; } = default!;
 
     public List<Product> Products { get; set; } = new List<Product>();
 

@@ -37,7 +37,6 @@ public class StoreSeed
                 Id = i,
                 Name = $"Store {i}",
                 City = $"City {i}",
-                AddressId = i,
                 CompanyId = 1,
             });
         }
@@ -48,7 +47,6 @@ public class StoreSeed
                 Id = i,
                 Name = $"Store {i}",
                 City = $"City {i}",
-                AddressId = i,
                 CompanyId = 2,
             });
         }

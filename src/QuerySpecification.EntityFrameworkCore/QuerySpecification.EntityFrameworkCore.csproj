@@ -16,7 +16,7 @@
     <Copyright>Copyright © 2024 Pozitron Group</Copyright>
     
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>10.0.0</Version>
+    <Version>10.0.0-beta1</Version>
     <PackageTags>pozitron query specification efcore</PackageTags>
     <PackageReleaseNotes>Check release notes on github.</PackageReleaseNotes>
     

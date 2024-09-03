@@ -4,6 +4,6 @@ public class StoreIncludeMethodOfNavigationSpec : Specification<Store>
 {
     public StoreIncludeMethodOfNavigationSpec()
     {
-        Query.Include(x => x.Address!.GetSomethingFromAddress());
+        Query.Include(x => x.Address.GetSomethingFromAddress());
     }
 }

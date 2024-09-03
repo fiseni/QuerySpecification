@@ -4,6 +4,6 @@ public class StoreIncludeCompanyCountryDotSeparatedSpec : Specification<Store>
 {
     public StoreIncludeCompanyCountryDotSeparatedSpec()
     {
-        Query.Include(x => x.Company!.Country);
+        Query.Include(x => x.Company.Country);
     }
 }
