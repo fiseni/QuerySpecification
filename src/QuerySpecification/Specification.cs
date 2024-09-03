@@ -52,19 +52,19 @@ public class Specification<T>
         return SpecificationValidator.Default.IsValid(entity, this);
     }
 
-    internal List<WhereExpressionInfo<T>>? _whereExpressions;
-    internal List<SearchExpressionInfo<T>>? _searchExpressions;
-    internal List<OrderExpressionInfo<T>>? _orderExpressions;
-    internal List<IncludeExpressionInfo>? _includeExpressions;
-    internal List<string>? _includeStrings;
+    internal List<WhereExpressionInfo<T>>? _whereExpressions = null;
+    internal List<SearchExpressionInfo<T>>? _searchExpressions = null;
+    internal List<OrderExpressionInfo<T>>? _orderExpressions = null;
+    internal List<IncludeExpressionInfo>? _includeExpressions = null;
+    internal List<string>? _includeStrings = null;
+    internal Dictionary<string, object>? _items = null;
 
     public IEnumerable<WhereExpressionInfo<T>> WhereExpressions => _whereExpressions ?? Enumerable.Empty<WhereExpressionInfo<T>>();
     public IEnumerable<SearchExpressionInfo<T>> SearchExpressions => _searchExpressions ?? Enumerable.Empty<SearchExpressionInfo<T>>();
     public IEnumerable<OrderExpressionInfo<T>> OrderExpressions => _orderExpressions ?? Enumerable.Empty<OrderExpressionInfo<T>>();
     public IEnumerable<IncludeExpressionInfo> IncludeExpressions => _includeExpressions ?? Enumerable.Empty<IncludeExpressionInfo>();
     public IEnumerable<string> IncludeStrings => _includeStrings ?? Enumerable.Empty<string>();
-
-    public Dictionary<string, object>? Items { get; set; } = null;
+    public Dictionary<string, object> Items => _items ??= [];
 
     public int Take { get; internal set; } = -1;
     public int Skip { get; internal set; } = -1;
