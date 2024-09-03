@@ -1,4 +1,4 @@
-﻿namespace Pozitron.QuerySpecification.Tests.Fixture.Entities;
+﻿namespace Pozitron.QuerySpecification.Tests.Fixture;
 
 public class Store
 {
@@ -14,7 +14,7 @@ public class Store
 
     public List<Product> Products { get; set; } = new List<Product>();
 
-    public object GetSomethingFromStore()
+    public static object GetSomethingFromStore()
     {
         return new object();
     }

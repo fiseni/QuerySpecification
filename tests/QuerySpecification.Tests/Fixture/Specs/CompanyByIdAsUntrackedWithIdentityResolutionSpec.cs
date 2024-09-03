@@ -1,8 +1,6 @@
-﻿using Pozitron.QuerySpecification.Tests.Fixture.Entities;
+﻿namespace Pozitron.QuerySpecification.Tests.Fixture;
 
-namespace Pozitron.QuerySpecification.Tests.Fixture.Specs;
-
-public class CompanyByIdAsUntrackedWithIdentityResolutionSpec : Specification<Company>, ISingleResultSpecification
+public class CompanyByIdAsUntrackedWithIdentityResolutionSpec : Specification<Company>
 {
     public CompanyByIdAsUntrackedWithIdentityResolutionSpec(int id)
     {

@@ -1,11 +1,10 @@
 ﻿using BenchmarkDotNet.Running;
 using Pozitron.QuerySpecification.EntityFrameworkCore.Benchmarks;
 
-BenchmarkRunner.Run<QueryStringBenchmark>();
+//BenchmarkRunner.Run<QueryStringBenchmark>();
 //BenchmarkRunner.Run<DbQueryBenchmark>();
 //BenchmarkRunner.Run<ExpressionBenchmark>();
-
-return;
+//return;
 
 var benchmark = new QueryStringBenchmark();
 

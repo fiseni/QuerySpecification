@@ -1,11 +1,6 @@
-﻿using FluentAssertions;
-using Pozitron.QuerySpecification.Tests.Fixture.Entities.Seeds;
-using Pozitron.QuerySpecification.Tests.Fixture.Specs;
-using Xunit;
+﻿namespace Pozitron.QuerySpecification.Tests;
 
-namespace Pozitron.QuerySpecification.Tests;
-
-public class SpecificationEvaluatorTests
+public class InMemorySpecificationEvaluatorTests
 {
     [Fact]
     public void ReturnsStoreWithId10_GivenStoreByIdSpec()
@@ -33,8 +28,8 @@ public class SpecificationEvaluatorTests
     [Fact]
     public void ReturnsSecondPageOfStoreNames_GivenStoreNamesPaginatedSpec()
     {
-        int take = 10; // pagesize 10
-        int skip = (2 - 1) * 10; // page 2
+        var take = 10; // pagesize 10
+        var skip = (2 - 1) * 10; // page 2
 
         var spec = new StoreNamesPaginatedSpec(skip, take);
 
@@ -48,8 +43,8 @@ public class SpecificationEvaluatorTests
     [Fact]
     public void ReturnsSecondPageOfStores_GivenStoresPaginatedSpec()
     {
-        int take = 10; // pagesize 10
-        int skip = (2 - 1) * 10; // page 2
+        var take = 10; // pagesize 10
+        var skip = (2 - 1) * 10; // page 2
 
         var spec = new StoresPaginatedSpec(skip, take);
 
@@ -85,8 +80,8 @@ public class SpecificationEvaluatorTests
     [Fact]
     public void ReturnsSecondPageOfStoresForCompanyWithId2_GivenStoresByCompanyPaginatedOrderedDescByNameSpec()
     {
-        int take = 10; // pagesize 10
-        int skip = (2 - 1) * 10; // page 2
+        var take = 10; // pagesize 10
+        var skip = (2 - 1) * 10; // page 2
 
         var spec = new StoresByCompanyPaginatedOrderedDescByNameSpec(2, skip, take);
 
@@ -100,8 +95,8 @@ public class SpecificationEvaluatorTests
     [Fact]
     public void ReturnsSecondPageOfStoresForCompanyWithId2_GivenStoresByCompanyPaginatedSpec()
     {
-        int take = 10; // pagesize 10
-        int skip = (2 - 1) * 10; // page 2
+        var take = 10; // pagesize 10
+        var skip = (2 - 1) * 10; // page 2
 
         var spec = new StoresByCompanyPaginatedSpec(2, skip, take);
 

@@ -1,8 +1,4 @@
-﻿using FluentAssertions;
-using Pozitron.QuerySpecification.Tests.Fixture.Specs;
-using Xunit;
-
-namespace Pozitron.QuerySpecification.Tests;
+﻿namespace Pozitron.QuerySpecification.Tests;
 
 public class IncludableBuilderExtensions_ThenInclude
 {
@@ -17,5 +13,35 @@ public class IncludableBuilderExtensions_ThenInclude
         includeExpressions.Should().HaveCount(2);
 
         includeExpressions[1].Type.Should().Be(IncludeTypeEnum.ThenInclude);
+    }
+
+    [Fact]
+    public void AddsNothingToList_GivenDiscardedIncludeChain()
+    {
+        var spec = new CompanyByIdWithFalseConditions(1);
+
+        spec.IncludeExpressions.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void AddsNothingToList_GivenThenIncludeExpressionWithFalseCondition()
+    {
+        var spec = new CompanyByIdWithFalseConditionsForInnerChains(1);
+
+        spec.IncludeExpressions.Should().HaveCount(1);
+        spec.IncludeExpressions.First().Type.Should().Be(IncludeTypeEnum.Include);
+        spec.IncludeExpressions.Where(x => x.Type == IncludeTypeEnum.ThenInclude).Should().BeEmpty();
+    }
+
+    [Fact]
+    public void ThenInclude_Append_IncludeExpressionInfo_With_EnumerablePreviousPropertyType()
+    {
+        var spec = new StoreIncludeCompanyThenStoresSpec();
+
+        var includeExpressions = spec.IncludeExpressions.ToList();
+
+        includeExpressions.Should().HaveCount(3);
+
+        includeExpressions[2].PreviousPropertyType.Should().Be(typeof(IEnumerable<Store>));
     }
 }

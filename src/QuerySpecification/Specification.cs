@@ -6,9 +6,9 @@ public class Specification<T, TResult> : Specification<T>
 {
     public new ISpecificationBuilder<T, TResult> Query { get; }
 
-    protected Specification() : base()
+    protected Specification()
+        : this(SpecificationInMemoryEvaluator.Default)
     {
-        Query = new SpecificationBuilder<T, TResult>(this);
     }
 
     protected Specification(SpecificationInMemoryEvaluator specificationInMemoryEvaluator)
@@ -17,13 +17,18 @@ public class Specification<T, TResult> : Specification<T>
         Query = new SpecificationBuilder<T, TResult>(this);
     }
 
+    public virtual IEnumerable<TResult> Evaluate(IEnumerable<T> entities, bool evaluateCriteriaOnly = false)
+    {
+        return Evaluator.Evaluate(entities, this, evaluateCriteriaOnly);
+    }
+
     public Expression<Func<T, TResult>>? Selector { get; internal set; }
     public Expression<Func<T, IEnumerable<TResult>>>? SelectorMany { get; internal set; }
 }
 
 public class Specification<T>
 {
-    private SpecificationInMemoryEvaluator _evaluator;
+    protected SpecificationInMemoryEvaluator Evaluator { get; }
     public ISpecificationBuilder<T> Query { get; }
 
     protected Specification()
@@ -33,13 +38,13 @@ public class Specification<T>
 
     protected Specification(SpecificationInMemoryEvaluator specificationInMemoryEvaluator)
     {
-        _evaluator = specificationInMemoryEvaluator;
+        Evaluator = specificationInMemoryEvaluator;
         Query = new SpecificationBuilder<T>(this);
     }
 
     public virtual IEnumerable<T> Evaluate(IEnumerable<T> entities, bool evaluateCriteriaOnly = false)
     {
-        return _evaluator.Evaluate(entities, this, evaluateCriteriaOnly);
+        return Evaluator.Evaluate(entities, this, evaluateCriteriaOnly);
     }
 
     public virtual bool IsSatisfiedBy(T entity)
@@ -63,6 +68,9 @@ public class Specification<T>
 
     public int Take { get; internal set; } = -1;
     public int Skip { get; internal set; } = -1;
+    
+    // Based on the alignment of 8 bytes we can store 8 flags
+    // So, we have space for 4 more flags for free.
     public bool IgnoreQueryFilters { get; internal set; } = false;
     public bool AsSplitQuery { get; internal set; } = false;
     public bool AsNoTracking { get; internal set; } = false;

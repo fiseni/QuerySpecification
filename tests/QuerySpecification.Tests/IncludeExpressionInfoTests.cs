@@ -1,8 +1,4 @@
-﻿using Pozitron.QuerySpecification.Tests.Fixture.Entities;
-using System.Linq.Expressions;
-using Xunit;
-
-namespace Pozitron.QuerySpecification.Tests;
+﻿namespace Pozitron.QuerySpecification.Tests;
 
 public class IncludeExpressionInfoTests
 {
@@ -16,24 +12,36 @@ public class IncludeExpressionInfoTests
     [Fact]
     public void ThrowsArgumentNullException_GivenNullForLambdaExpression()
     {
-        Assert.Throws<ArgumentNullException>(() => new IncludeExpressionInfo(null!, typeof(Company), typeof(Country)));
+        Action sutAction = () => new IncludeExpressionInfo(null!, typeof(Company), typeof(Country));
+
+        sutAction.Should()
+            .Throw<ArgumentNullException>();
     }
 
     [Fact]
     public void ThrowsArgumentNullException_GivenNullForEntityType()
     {
-        Assert.Throws<ArgumentNullException>(() => new IncludeExpressionInfo(_expr, null!, typeof(Country)));
+        Action sutAction = () => new IncludeExpressionInfo(_expr, null!, typeof(Country));
+
+        sutAction.Should()
+            .Throw<ArgumentNullException>();
     }
 
     [Fact]
     public void ThrowsArgumentNullException_GivenNullForPropertyType()
     {
-        Assert.Throws<ArgumentNullException>(() => new IncludeExpressionInfo(_expr, typeof(Company), null!));
+        Action sutAction = () => new IncludeExpressionInfo(_expr, typeof(Company), null!);
+
+        sutAction.Should()
+            .Throw<ArgumentNullException>();
     }
 
     [Fact]
     public void ThrowsArgumentNullException_GivenNullForPreviousPropertyType()
     {
-        Assert.Throws<ArgumentNullException>(() => new IncludeExpressionInfo(_expr, typeof(Company), typeof(Country), null!));
+        Action sutAction = () => new IncludeExpressionInfo(_expr, typeof(Company), typeof(Country), null!);
+
+        sutAction.Should()
+            .Throw<ArgumentNullException>();
     }
 }

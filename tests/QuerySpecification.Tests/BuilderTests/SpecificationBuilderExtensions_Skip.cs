@@ -1,8 +1,4 @@
-﻿using FluentAssertions;
-using Pozitron.QuerySpecification.Tests.Fixture.Specs;
-using Xunit;
-
-namespace Pozitron.QuerySpecification.Tests;
+﻿namespace Pozitron.QuerySpecification.Tests;
 
 public class SpecificationBuilderExtensions_Skip
 {
@@ -13,13 +9,15 @@ public class SpecificationBuilderExtensions_Skip
 
         var spec = new StoreNamesPaginatedSpec(skip, 10);
 
-        spec.Skip.Should().Be(skip);
-        spec.IsPagingEnabled.Should().BeTrue();
+        spec.Skip.Should()
+            .Be(skip);
     }
 
     [Fact]
-    public void ThrowsDuplicateSkipException_GivenSkipUsedMoreThanOnce()
+    public void DoesNothing_GivenSkipWithFalseCondition()
     {
-        Assert.Throws<DuplicateSkipException>(() => new StoreDuplicateSkipSpec());
+        var spec = new CompanyByIdWithFalseConditions(1);
+
+        spec.Skip.Should().BeLessThan(0);
     }
 }

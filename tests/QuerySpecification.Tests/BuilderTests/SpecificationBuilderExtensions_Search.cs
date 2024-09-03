@@ -1,8 +1,4 @@
-﻿using FluentAssertions;
-using Pozitron.QuerySpecification.Tests.Fixture.Specs;
-using Xunit;
-
-namespace Pozitron.QuerySpecification.Tests;
+﻿namespace Pozitron.QuerySpecification.Tests;
 
 public class SpecificationBuilderExtensions_Search
 {
@@ -11,7 +7,15 @@ public class SpecificationBuilderExtensions_Search
     {
         var spec = new StoreEmptySpec();
 
-        spec.SearchCriterias.Should().BeEmpty();
+        spec.SearchExpressions.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void AddsNothingToList_GivenSearchExpressionWithFalseCondition()
+    {
+        var spec = new CompanyByIdWithFalseConditions(1);
+
+        spec.SearchExpressions.Should().BeEmpty();
     }
 
     [Fact]
@@ -19,9 +23,9 @@ public class SpecificationBuilderExtensions_Search
     {
         var spec = new StoreSearchByNameSpec("test");
 
-        spec.SearchCriterias.Should().ContainSingle();
-        spec.SearchCriterias.Single().SearchTerm.Should().Be("%test%");
-        spec.SearchCriterias.Single().SearchGroup.Should().Be(1);
+        spec.SearchExpressions.Should().ContainSingle();
+        spec.SearchExpressions.Single().SearchTerm.Should().Be("%test%");
+        spec.SearchExpressions.Single().SearchGroup.Should().Be(1);
     }
 
     [Fact]
@@ -29,7 +33,7 @@ public class SpecificationBuilderExtensions_Search
     {
         var spec = new StoreSearchByNameOrCitySpec("test");
 
-        var criterias = spec.SearchCriterias.ToList();
+        var criterias = spec.SearchExpressions.ToList();
 
         criterias.Should().HaveCount(2);
         criterias.ForEach(x => x.SearchTerm.Should().Be("%test%"));
@@ -41,7 +45,7 @@ public class SpecificationBuilderExtensions_Search
     {
         var spec = new StoreSearchByNameAndCitySpec("test");
 
-        var criterias = spec.SearchCriterias.ToList();
+        var criterias = spec.SearchExpressions.ToList();
 
         criterias.Should().HaveCount(2);
         criterias.ForEach(x => x.SearchTerm.Should().Be("%test%"));

@@ -1,8 +1,4 @@
-﻿using FluentAssertions;
-using Pozitron.QuerySpecification.Tests.Fixture.Specs;
-using Xunit;
-
-namespace Pozitron.QuerySpecification.Tests;
+﻿namespace Pozitron.QuerySpecification.Tests;
 
 public class SpecificationBuilderExtensions_Where
 {
@@ -10,6 +6,14 @@ public class SpecificationBuilderExtensions_Where
     public void AddsNothingToList_GivenNoWhereExpression()
     {
         var spec = new StoreEmptySpec();
+
+        spec.WhereExpressions.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void AddsNothingToList_GivenWhereExpressionWithFalseCondition()
+    {
+        var spec = new CompanyByIdWithFalseConditions(1);
 
         spec.WhereExpressions.Should().BeEmpty();
     }

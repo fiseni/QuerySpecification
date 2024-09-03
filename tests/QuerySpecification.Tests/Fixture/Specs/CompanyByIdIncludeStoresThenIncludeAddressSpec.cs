@@ -1,8 +1,6 @@
-﻿using Pozitron.QuerySpecification.Tests.Fixture.Entities;
+﻿namespace Pozitron.QuerySpecification.Tests.Fixture;
 
-namespace Pozitron.QuerySpecification.Tests.Fixture.Specs;
-
-public class CompanyByIdIncludeStoresThenIncludeAddressSpec : Specification<Company>, ISingleResultSpecification
+public class CompanyByIdIncludeStoresThenIncludeAddressSpec : Specification<Company>
 {
     public CompanyByIdIncludeStoresThenIncludeAddressSpec(int id)
     {

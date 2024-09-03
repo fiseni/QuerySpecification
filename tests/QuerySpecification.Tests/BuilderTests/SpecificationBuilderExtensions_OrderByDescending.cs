@@ -1,8 +1,4 @@
-﻿using FluentAssertions;
-using Pozitron.QuerySpecification.Tests.Fixture.Specs;
-using Xunit;
-
-namespace Pozitron.QuerySpecification.Tests;
+﻿namespace Pozitron.QuerySpecification.Tests;
 
 public class SpecificationBuilderExtensions_OrderByDescending
 {
@@ -10,6 +6,14 @@ public class SpecificationBuilderExtensions_OrderByDescending
     public void AddsNothingToList_GivenNoOrderExpression()
     {
         var spec = new StoreEmptySpec();
+
+        spec.OrderExpressions.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void AddsNothingToList_GivenOrderExpressionWithFalseCondition()
+    {
+        var spec = new CompanyByIdWithFalseConditions(1);
 
         spec.OrderExpressions.Should().BeEmpty();
     }

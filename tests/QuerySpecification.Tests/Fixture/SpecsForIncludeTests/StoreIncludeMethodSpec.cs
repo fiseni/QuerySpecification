@@ -1,11 +1,9 @@
-﻿using Pozitron.QuerySpecification.Tests.Fixture.Entities;
-
-namespace Pozitron.QuerySpecification.Tests.Fixture.Specs;
+﻿namespace Pozitron.QuerySpecification.Tests.Fixture;
 
 public class StoreIncludeMethodSpec : Specification<Store>
 {
     public StoreIncludeMethodSpec()
     {
-        Query.Include(x => x.GetSomethingFromStore());
+        Query.Include(x => Store.GetSomethingFromStore());
     }
 }

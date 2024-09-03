@@ -1,13 +1,16 @@
-﻿namespace Pozitron.QuerySpecification.Tests.Fixture.Entities.Seeds;
+﻿namespace Pozitron.QuerySpecification.Tests.Fixture;
 
 public class StoreSeed
 {
+#pragma warning disable IDE1006 // Naming Styles
     public const int VALID_STORE_ID = 1;
     public const string VALID_STORE_NAME = "Store 1";
     public const string VALID_STORE_City = "City 1";
 
-    public const int VALID_Search_City_ID = 50;
+    public const int VALID_Search_ID = 50;
     public const string VALID_Search_City_Key = "BCD";
+    public const string VALID_Search_Name_Key = "BCE";
+    public const string VALID_Search_City_Name_Key = "BC";
 
 
     public const int ORDERED_BY_NAME_FIRST_ID = 48;
@@ -21,14 +24,15 @@ public class StoreSeed
     public const int ORDERED_BY_NAME_DESC_FOR_COMPANY2_LAST_ID = 98;
     public const int ORDERED_BY_NAME_DESC_FOR_COMPANY2_PAGE2_FIRST_ID = 89;
     public const int ORDERED_BY_NAME_DESC_FOR_COMPANY2_PAGE2_LAST_ID = 80;
+#pragma warning restore IDE1006 // Naming Styles
 
     public static List<Store> Get()
     {
         var stores = new List<Store>();
 
-        for (int i = 1; i <= 50; i++)
+        for (var i = 1; i <= 50; i++)
         {
-            stores.Add(new Store()
+            stores.Add(new()
             {
                 Id = i,
                 Name = $"Store {i}",
@@ -37,9 +41,9 @@ public class StoreSeed
                 CompanyId = 1,
             });
         }
-        for (int i = 51; i <= 100; i++)
+        for (var i = 51; i <= 100; i++)
         {
-            stores.Add(new Store()
+            stores.Add(new()
             {
                 Id = i,
                 Name = $"Store {i}",
@@ -57,12 +61,8 @@ public class StoreSeed
         stores[100 - 1].Name = "Store 999";
 
         stores[50 - 1].City = "ABCDEFGH";
+        stores[50 - 1].Name = "ABCEFGH";
 
         return stores;
-    }
-
-    internal static IQueryable<Store> AsQueryable()
-    {
-        return Get().AsQueryable();
     }
 }

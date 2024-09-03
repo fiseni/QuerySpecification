@@ -22,13 +22,13 @@ public class SpecificationInMemoryEvaluator
         Evaluators = evaluators.ToList();
     }
 
-    public virtual IEnumerable<TResult> Evaluate<T, TResult>(IEnumerable<T> source, Specification<T, TResult> specification)
+    public virtual IEnumerable<TResult> Evaluate<T, TResult>(IEnumerable<T> source, Specification<T, TResult> specification, bool evaluateCriteriaOnly = false)
     {
         ArgumentNullException.ThrowIfNull(specification);
         if (specification.Selector is null && specification.SelectorMany is null) throw new SelectorNotFoundException();
         if (specification.Selector is not null && specification.SelectorMany is not null) throw new ConcurrentSelectorsException();
 
-        var baseQuery = Evaluate(source, (Specification<T>)specification);
+        var baseQuery = Evaluate(source, (Specification<T>)specification, evaluateCriteriaOnly);
 
         var resultQuery = specification.Selector is not null
           ? baseQuery.Select(specification.Selector.Compile())

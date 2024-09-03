@@ -1,8 +1,4 @@
-﻿using FluentAssertions;
-using Pozitron.QuerySpecification.Tests.Fixture.Specs;
-using Xunit;
-
-namespace Pozitron.QuerySpecification.Tests;
+﻿namespace Pozitron.QuerySpecification.Tests;
 
 public class SpecificationBuilderExtensions_Include
 {
@@ -10,6 +6,14 @@ public class SpecificationBuilderExtensions_Include
     public void AddsNothingToList_GivenNoIncludeExpression()
     {
         var spec = new StoreEmptySpec();
+
+        spec.IncludeExpressions.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void AddsNothingToList_GivenIncludeExpressionWithFalseCondition()
+    {
+        var spec = new CompanyByIdWithFalseConditions(1);
 
         spec.IncludeExpressions.Should().BeEmpty();
     }

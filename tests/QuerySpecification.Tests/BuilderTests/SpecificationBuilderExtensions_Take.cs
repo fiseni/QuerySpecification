@@ -1,8 +1,4 @@
-﻿using FluentAssertions;
-using Pozitron.QuerySpecification.Tests.Fixture.Specs;
-using Xunit;
-
-namespace Pozitron.QuerySpecification.Tests;
+﻿namespace Pozitron.QuerySpecification.Tests;
 
 public class SpecificationBuilderExtensions_Take
 {
@@ -13,12 +9,13 @@ public class SpecificationBuilderExtensions_Take
         var spec = new StoreNamesPaginatedSpec(0, take);
 
         spec.Take.Should().Be(take);
-        spec.IsPagingEnabled.Should().BeTrue();
     }
 
     [Fact]
-    public void ThrowsDuplicateTakeException_GivenTakeUsedMoreThanOnce()
+    public void DoesNothing_GivenTakeWithFalseCondition()
     {
-        Assert.Throws<DuplicateTakeException>(() => new StoreDuplicateTakeSpec());
+        var spec = new CompanyByIdWithFalseConditions(1);
+
+        spec.Take.Should().BeLessThan(0);
     }
 }

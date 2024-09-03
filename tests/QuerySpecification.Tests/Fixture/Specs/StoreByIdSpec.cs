@@ -1,11 +1,9 @@
-﻿using Pozitron.QuerySpecification.Tests.Fixture.Entities;
-
-namespace Pozitron.QuerySpecification.Tests.Fixture.Specs;
+﻿namespace Pozitron.QuerySpecification.Tests.Fixture;
 
 public class StoreByIdSpec : Specification<Store>
 {
-    public StoreByIdSpec(int Id)
+    public StoreByIdSpec(int id)
     {
-        Query.Where(x => x.Id == Id);
+        Query.Where(x => x.Id == id);
     }
 }

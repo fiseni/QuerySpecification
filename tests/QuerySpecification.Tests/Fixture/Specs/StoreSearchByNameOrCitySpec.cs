@@ -1,6 +1,4 @@
-﻿using Pozitron.QuerySpecification.Tests.Fixture.Entities;
-
-namespace Pozitron.QuerySpecification.Tests.Fixture.Specs;
+﻿namespace Pozitron.QuerySpecification.Tests.Fixture;
 
 public class StoreSearchByNameOrCitySpec : Specification<Store>
 {
