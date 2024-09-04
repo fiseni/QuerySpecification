@@ -5,8 +5,6 @@ public class OrderEvaluator : IEvaluator, IInMemoryEvaluator
     private OrderEvaluator() { }
     public static OrderEvaluator Instance = new();
 
-    public bool IsCriteriaEvaluator { get; } = false;
-
     public IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
     {
         IOrderedQueryable<T>? orderedQuery = null;

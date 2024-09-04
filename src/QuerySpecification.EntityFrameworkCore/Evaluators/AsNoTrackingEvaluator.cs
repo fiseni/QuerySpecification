@@ -7,8 +7,6 @@ public class AsNoTrackingEvaluator : IEvaluator
     private AsNoTrackingEvaluator() { }
     public static AsNoTrackingEvaluator Instance = new();
 
-    public bool IsCriteriaEvaluator { get; } = true;
-
     public IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
     {
         if (specification.AsNoTracking)

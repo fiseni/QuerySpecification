@@ -15,9 +15,9 @@ public class Specification<T, TResult> : Specification<T>
     public Expression<Func<T, TResult>>? Selector { get; internal set; }
     public Expression<Func<T, IEnumerable<TResult>>>? SelectorMany { get; internal set; }
 
-    public new virtual IEnumerable<TResult> Evaluate(IEnumerable<T> entities, bool evaluateCriteriaOnly = false)
+    public new virtual IEnumerable<TResult> Evaluate(IEnumerable<T> entities)
     {
-        return _evaluator.Evaluate(entities, this, evaluateCriteriaOnly);
+        return _evaluator.Evaluate(entities, this);
     }
 }
 
@@ -59,9 +59,9 @@ public class Specification<T>
     public IEnumerable<IncludeExpressionInfo> IncludeExpressions => _includeExpressions ?? [];
     public IEnumerable<string> IncludeStrings => _includeStrings ?? [];
 
-    public virtual IEnumerable<T> Evaluate(IEnumerable<T> entities, bool evaluateCriteriaOnly = false)
+    public virtual IEnumerable<T> Evaluate(IEnumerable<T> entities)
     {
-        return _evaluator.Evaluate(entities, this, evaluateCriteriaOnly);
+        return _evaluator.Evaluate(entities, this);
     }
 
     public virtual bool IsSatisfiedBy(T entity)

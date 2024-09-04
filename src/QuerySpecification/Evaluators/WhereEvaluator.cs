@@ -5,8 +5,6 @@ public class WhereEvaluator : IEvaluator, IInMemoryEvaluator
     private WhereEvaluator() { }
     public static WhereEvaluator Instance = new();
 
-    public bool IsCriteriaEvaluator { get; } = true;
-
     public IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
     {
         foreach (var info in specification.WhereExpressions)

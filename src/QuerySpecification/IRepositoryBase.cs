@@ -21,6 +21,8 @@ public interface IRepositoryBase<T> where T : class
     Task<List<TResult>> ListAsync<TResult>(Specification<T, TResult> specification, CancellationToken cancellationToken = default);
     Task<int> CountAsync(CancellationToken cancellationToken = default);
     Task<int> CountAsync(Specification<T> specification, CancellationToken cancellationToken = default);
+    Task<int> CountAsync<TResult>(Specification<T, TResult> specification, CancellationToken cancellationToken = default);
     Task<bool> AnyAsync(CancellationToken cancellationToken = default);
     Task<bool> AnyAsync(Specification<T> specification, CancellationToken cancellationToken = default);
+    Task<bool> AnyAsync<TResult>(Specification<T, TResult> specification, CancellationToken cancellationToken = default);
 }

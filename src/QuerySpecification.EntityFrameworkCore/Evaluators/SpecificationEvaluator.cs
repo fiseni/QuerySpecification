@@ -40,13 +40,12 @@ public class SpecificationEvaluator
           : query.SelectMany(specification.SelectorMany!);
     }
 
-    public virtual IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification, bool evaluateCriteriaOnly = false) where T : class
+    public virtual IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
     {
         ArgumentNullException.ThrowIfNull(specification);
 
         foreach (var evaluator in Evaluators)
         {
-            if (evaluateCriteriaOnly && !evaluator.IsCriteriaEvaluator) continue;
             query = evaluator.GetQuery(query, specification);
         }
 

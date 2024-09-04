@@ -39,8 +39,6 @@ public class IncludeEvaluator : IEvaluator
     private IncludeEvaluator() { }
     public static IncludeEvaluator Instance = new();
 
-    public bool IsCriteriaEvaluator => false;
-
     public IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
     {
         foreach (var includeString in specification.IncludeStrings)

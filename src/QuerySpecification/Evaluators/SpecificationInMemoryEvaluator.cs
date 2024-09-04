@@ -21,13 +21,13 @@ public class SpecificationInMemoryEvaluator
         Evaluators = evaluators.ToList();
     }
 
-    public virtual IEnumerable<TResult> Evaluate<T, TResult>(IEnumerable<T> source, Specification<T, TResult> specification, bool evaluateCriteriaOnly = false)
+    public virtual IEnumerable<TResult> Evaluate<T, TResult>(IEnumerable<T> source, Specification<T, TResult> specification)
     {
         ArgumentNullException.ThrowIfNull(specification);
         if (specification.Selector is null && specification.SelectorMany is null) throw new SelectorNotFoundException();
         if (specification.Selector is not null && specification.SelectorMany is not null) throw new ConcurrentSelectorsException();
 
-        var baseQuery = Evaluate(source, (Specification<T>)specification, evaluateCriteriaOnly);
+        var baseQuery = Evaluate(source, (Specification<T>)specification);
 
         var resultQuery = specification.Selector is not null
           ? baseQuery.Select(specification.Selector.Compile())
@@ -36,13 +36,12 @@ public class SpecificationInMemoryEvaluator
         return resultQuery;
     }
 
-    public virtual IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification, bool evaluateCriteriaOnly = false)
+    public virtual IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)
     {
         ArgumentNullException.ThrowIfNull(specification);
 
         foreach (var evaluator in Evaluators)
         {
-            if (evaluateCriteriaOnly && !evaluator.IsCriteriaEvaluator) continue;
             source = evaluator.Evaluate(source, specification);
         }
 
