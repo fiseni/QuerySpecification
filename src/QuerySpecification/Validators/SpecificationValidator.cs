@@ -1,9 +1,8 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public class SpecificationValidator
+internal class SpecificationValidator
 {
-    // Will use singleton for default configuration. Yet, it can be instantiated if necessary, with default or provided validators.
-    public static SpecificationValidator Default = new();
+    internal static SpecificationValidator Default = new();
 
     private readonly List<IValidator> _validators;
 

@@ -2,8 +2,7 @@
 
 public class SpecificationInMemoryEvaluator
 {
-    // Will use singleton for default configuration. Yet, it can be instantiated if necessary, with default or provided evaluators.
-    public static SpecificationInMemoryEvaluator Default = new();
+    internal static SpecificationInMemoryEvaluator Default = new();
 
     protected List<IInMemoryEvaluator> Evaluators { get; }
 

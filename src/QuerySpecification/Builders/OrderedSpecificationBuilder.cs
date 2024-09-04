@@ -1,6 +1,6 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public class OrderedSpecificationBuilder<T> : IOrderedSpecificationBuilder<T>
+internal class OrderedSpecificationBuilder<T> : IOrderedSpecificationBuilder<T>
 {
     public Specification<T> Specification { get; }
     public bool IsChainDiscarded { get; set; }

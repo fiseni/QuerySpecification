@@ -2,5 +2,5 @@
 
 public interface IOrderedSpecificationBuilder<T> : ISpecificationBuilder<T>
 {
-    bool IsChainDiscarded { get; set; }
+    internal bool IsChainDiscarded { get; set; }
 }

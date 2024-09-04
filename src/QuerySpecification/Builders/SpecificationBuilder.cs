@@ -1,6 +1,6 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public class SpecificationBuilder<T, TResult> : SpecificationBuilder<T>, ISpecificationBuilder<T, TResult>
+internal class SpecificationBuilder<T, TResult> : SpecificationBuilder<T>, ISpecificationBuilder<T, TResult>
 {
     public new Specification<T, TResult> Specification { get; }
 
@@ -11,7 +11,7 @@ public class SpecificationBuilder<T, TResult> : SpecificationBuilder<T>, ISpecif
     }
 }
 
-public class SpecificationBuilder<T> : ISpecificationBuilder<T>
+internal class SpecificationBuilder<T> : ISpecificationBuilder<T>
 {
     public Specification<T> Specification { get; }
 

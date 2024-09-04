@@ -2,8 +2,7 @@
 
 public class SpecificationEvaluator
 {
-    // Will use singleton for default configuration. Yet, it can be instantiated if necessary, with default or provided evaluators.
-    public static SpecificationEvaluator Default = new();
+    internal static SpecificationEvaluator Default = new();
 
     protected List<IEvaluator> Evaluators { get; }
 
