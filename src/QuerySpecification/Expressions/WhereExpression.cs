@@ -2,12 +2,12 @@
 
 namespace Pozitron.QuerySpecification;
 
-public class WhereExpressionInfo<T>
+public class WhereExpression<T>
 {
     private Func<T, bool>? _filterFunc;
     public Expression<Func<T, bool>> Filter { get; }
 
-    public WhereExpressionInfo(Expression<Func<T, bool>> filter)
+    public WhereExpression(Expression<Func<T, bool>> filter)
     {
         ArgumentNullException.ThrowIfNull(filter);
         Filter = filter;

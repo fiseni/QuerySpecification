@@ -2,14 +2,14 @@
 
 namespace Pozitron.QuerySpecification;
 
-public class SearchExpressionInfo<T>
+public class SearchExpression<T>
 {
     private Func<T, string>? _selectorFunc;
     public Expression<Func<T, string>> Selector { get; }
     public string SearchTerm { get; }
     public int SearchGroup { get; }
 
-    public SearchExpressionInfo(Expression<Func<T, string>> selector, string searchTerm, int searchGroup = 1)
+    public SearchExpression(Expression<Func<T, string>> selector, string searchTerm, int searchGroup = 1)
     {
         ArgumentNullException.ThrowIfNull(selector);
         ArgumentException.ThrowIfNullOrEmpty(searchTerm);

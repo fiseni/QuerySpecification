@@ -30,8 +30,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var info = new WhereExpressionInfo<T>(criteria);
-            builder.Specification.Add(info);
+            var expr = new WhereExpression<T>(criteria);
+            builder.Specification.Add(expr);
         }
         return builder;
     }
@@ -48,8 +48,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var info = new WhereExpressionInfo<T>(criteria);
-            builder.Specification.Add(info);
+            var expr = new WhereExpression<T>(criteria);
+            builder.Specification.Add(expr);
         }
         return builder;
     }
@@ -66,8 +66,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var info = new OrderExpressionInfo<T>(keySelector, OrderTypeEnum.OrderBy);
-            builder.Specification.Add(info);
+            var expr = new OrderExpression<T>(keySelector, OrderTypeEnum.OrderBy);
+            builder.Specification.Add(expr);
         }
 
         var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T, TResult>(builder.Specification, !condition);
@@ -86,8 +86,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var info = new OrderExpressionInfo<T>(keySelector, OrderTypeEnum.OrderBy);
-            builder.Specification.Add(info);
+            var expr = new OrderExpression<T>(keySelector, OrderTypeEnum.OrderBy);
+            builder.Specification.Add(expr);
         }
 
         var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T>(builder.Specification, !condition);
@@ -106,8 +106,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var info = new OrderExpressionInfo<T>(keySelector, OrderTypeEnum.OrderByDescending);
-            builder.Specification.Add(info);
+            var expr = new OrderExpression<T>(keySelector, OrderTypeEnum.OrderByDescending);
+            builder.Specification.Add(expr);
         }
 
         var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T, TResult>(builder.Specification, !condition);
@@ -126,8 +126,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var info = new OrderExpressionInfo<T>(keySelector, OrderTypeEnum.OrderByDescending);
-            builder.Specification.Add(info);
+            var expr = new OrderExpression<T>(keySelector, OrderTypeEnum.OrderByDescending);
+            builder.Specification.Add(expr);
         }
 
         var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T>(builder.Specification, !condition);
@@ -146,8 +146,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var info = new IncludeExpressionInfo(includeExpression, typeof(T), typeof(TProperty));
-            builder.Specification.Add(info);
+            var expr = new IncludeExpression(includeExpression, typeof(T), typeof(TProperty));
+            builder.Specification.Add(expr);
         }
 
         var includeBuilder = new IncludableSpecificationBuilder<T, TResult, TProperty>(builder.Specification, !condition);
@@ -166,8 +166,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var info = new IncludeExpressionInfo(includeExpression, typeof(T), typeof(TProperty));
-            builder.Specification.Add(info);
+            var expr = new IncludeExpression(includeExpression, typeof(T), typeof(TProperty));
+            builder.Specification.Add(expr);
         }
 
         var includeBuilder = new IncludableSpecificationBuilder<T, TProperty>(builder.Specification, !condition);
@@ -223,8 +223,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var info = new SearchExpressionInfo<T>(selector, searchTerm, searchGroup);
-            builder.Specification.Add(info);
+            var expr = new SearchExpression<T>(selector, searchTerm, searchGroup);
+            builder.Specification.Add(expr);
         }
         return builder;
     }
@@ -245,8 +245,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var info = new SearchExpressionInfo<T>(selector, searchTerm, searchGroup);
-            builder.Specification.Add(info);
+            var expr = new SearchExpression<T>(selector, searchTerm, searchGroup);
+            builder.Specification.Add(expr);
         }
         return builder;
     }

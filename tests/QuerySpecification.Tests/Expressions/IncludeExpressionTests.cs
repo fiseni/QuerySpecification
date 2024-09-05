@@ -1,10 +1,10 @@
 ﻿namespace Pozitron.QuerySpecification.Tests;
 
-public class IncludeExpressionInfoTests
+public class IncludeExpressionTests
 {
     private readonly Expression<Func<Company, Country>> _expr;
 
-    public IncludeExpressionInfoTests()
+    public IncludeExpressionTests()
     {
         _expr = x => x.Country;
     }
@@ -12,7 +12,7 @@ public class IncludeExpressionInfoTests
     [Fact]
     public void ThrowsArgumentNullException_GivenNullForLambdaExpression()
     {
-        Action sutAction = () => new IncludeExpressionInfo(null!, typeof(Company), typeof(Country));
+        Action sutAction = () => new IncludeExpression(null!, typeof(Company), typeof(Country));
 
         sutAction.Should()
             .Throw<ArgumentNullException>();
@@ -21,7 +21,7 @@ public class IncludeExpressionInfoTests
     [Fact]
     public void ThrowsArgumentNullException_GivenNullForEntityType()
     {
-        Action sutAction = () => new IncludeExpressionInfo(_expr, null!, typeof(Country));
+        Action sutAction = () => new IncludeExpression(_expr, null!, typeof(Country));
 
         sutAction.Should()
             .Throw<ArgumentNullException>();
@@ -30,7 +30,7 @@ public class IncludeExpressionInfoTests
     [Fact]
     public void ThrowsArgumentNullException_GivenNullForPropertyType()
     {
-        Action sutAction = () => new IncludeExpressionInfo(_expr, typeof(Company), null!);
+        Action sutAction = () => new IncludeExpression(_expr, typeof(Company), null!);
 
         sutAction.Should()
             .Throw<ArgumentNullException>();
@@ -39,7 +39,7 @@ public class IncludeExpressionInfoTests
     [Fact]
     public void ThrowsArgumentNullException_GivenNullForPreviousPropertyType()
     {
-        Action sutAction = () => new IncludeExpressionInfo(_expr, typeof(Company), typeof(Country), null!);
+        Action sutAction = () => new IncludeExpression(_expr, typeof(Company), typeof(Country), null!);
 
         sutAction.Should()
             .Throw<ArgumentNullException>();

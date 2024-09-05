@@ -7,9 +7,9 @@ public class WhereValidator : IValidator
 
     public bool IsValid<T>(T entity, Specification<T> specification)
     {
-        foreach (var info in specification.WhereExpressions)
+        foreach (var whereExpression in specification.WhereExpressions)
         {
-            if (info.FilterFunc(entity) == false) return false;
+            if (whereExpression.FilterFunc(entity) == false) return false;
         }
 
         return true;

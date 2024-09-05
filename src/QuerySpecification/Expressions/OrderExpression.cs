@@ -2,13 +2,13 @@
 
 namespace Pozitron.QuerySpecification;
 
-public class OrderExpressionInfo<T>
+public class OrderExpression<T>
 {
     private Func<T, object?>? _keySelectorFunc;
     public Expression<Func<T, object?>> KeySelector { get; }
     public OrderTypeEnum OrderType { get; }
 
-    public OrderExpressionInfo(Expression<Func<T, object?>> keySelector, OrderTypeEnum orderType)
+    public OrderExpression(Expression<Func<T, object?>> keySelector, OrderTypeEnum orderType)
     {
         ArgumentNullException.ThrowIfNull(keySelector);
         KeySelector = keySelector;

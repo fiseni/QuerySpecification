@@ -3,7 +3,7 @@
 public class IncludableBuilderExtensions_ThenInclude
 {
     [Fact]
-    public void AppendIncludeExpressionInfoToListWithTypeThenInclude_GivenThenIncludeExpression()
+    public void AppendIncludeExpressionToListWithTypeThenInclude_GivenThenIncludeExpression()
     {
         var spec = new StoreIncludeCompanyThenCountrySpec();
 
@@ -34,7 +34,7 @@ public class IncludableBuilderExtensions_ThenInclude
     }
 
     [Fact]
-    public void ThenInclude_Append_IncludeExpressionInfo_With_EnumerablePreviousPropertyType()
+    public void ThenInclude_Append_IncludeExpression_With_EnumerablePreviousPropertyType()
     {
         var spec = new StoreIncludeCompanyThenStoresSpec();
 

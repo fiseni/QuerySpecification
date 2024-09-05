@@ -14,7 +14,7 @@ public static class SearchExtension
     private static readonly MemberExpression _functions = Expression.Property(null, typeof(EF).GetProperty(nameof(EF.Functions))
         ?? throw new TargetException("The EF.Functions not found!"));
 
-    public static IQueryable<T> Search<T>(this IQueryable<T> source, IEnumerable<SearchExpressionInfo<T>> criterias)
+    public static IQueryable<T> Search<T>(this IQueryable<T> source, IEnumerable<SearchExpression<T>> criterias)
     {
         Expression? expr = null;
         var parameter = Expression.Parameter(typeof(T), "x");

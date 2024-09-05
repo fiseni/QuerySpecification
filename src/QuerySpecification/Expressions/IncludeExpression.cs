@@ -2,7 +2,7 @@
 
 namespace Pozitron.QuerySpecification;
 
-public class IncludeExpressionInfo
+public class IncludeExpression
 {
     public LambdaExpression LambdaExpression { get; }
     public Type EntityType { get; }
@@ -10,7 +10,7 @@ public class IncludeExpressionInfo
     public Type? PreviousPropertyType { get; }
     public IncludeTypeEnum Type { get; }
 
-    private IncludeExpressionInfo(
+    private IncludeExpression(
         LambdaExpression expression,
         Type entityType,
         Type propertyType,
@@ -34,7 +34,7 @@ public class IncludeExpressionInfo
         Type = includeType;
     }
 
-    public IncludeExpressionInfo(
+    public IncludeExpression(
         LambdaExpression expression,
         Type entityType,
         Type propertyType)
@@ -42,7 +42,7 @@ public class IncludeExpressionInfo
     {
     }
 
-    public IncludeExpressionInfo(
+    public IncludeExpression(
         LambdaExpression expression,
         Type entityType,
         Type propertyType,

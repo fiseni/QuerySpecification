@@ -19,7 +19,7 @@ public class SpecificationBuilderExtensions_Include
     }
 
     [Fact]
-    public void AddsIncludeExpressionInfoToListWithTypeInclude_GivenIncludeExpression()
+    public void AddsIncludeExpressionToListWithTypeInclude_GivenIncludeExpression()
     {
         var spec = new StoreIncludeAddressSpec();
 

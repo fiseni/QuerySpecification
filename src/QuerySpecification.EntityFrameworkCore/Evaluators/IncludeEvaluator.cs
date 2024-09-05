@@ -46,42 +46,42 @@ public class IncludeEvaluator : IEvaluator
             query = query.Include(includeString);
         }
 
-        foreach (var includeInfo in specification.IncludeExpressions)
+        foreach (var includeExpression in specification.IncludeExpressions)
         {
-            if (includeInfo.Type == IncludeTypeEnum.Include)
+            if (includeExpression.Type == IncludeTypeEnum.Include)
             {
-                query = BuildInclude<T>(query, includeInfo);
+                query = BuildInclude<T>(query, includeExpression);
             }
-            else if (includeInfo.Type == IncludeTypeEnum.ThenInclude)
+            else if (includeExpression.Type == IncludeTypeEnum.ThenInclude)
             {
-                query = BuildThenInclude<T>(query, includeInfo);
+                query = BuildThenInclude<T>(query, includeExpression);
             }
         }
 
         return query;
     }
 
-    private IQueryable<T> BuildInclude<T>(IQueryable query, IncludeExpressionInfo includeInfo)
+    private IQueryable<T> BuildInclude<T>(IQueryable query, IncludeExpression includeExpression)
     {
-        ArgumentNullException.ThrowIfNull(includeInfo);
+        ArgumentNullException.ThrowIfNull(includeExpression);
 
-        var result = _includeMethodInfo.MakeGenericMethod(includeInfo.EntityType, includeInfo.PropertyType).Invoke(null, [query, includeInfo.LambdaExpression]);
+        var result = _includeMethodInfo.MakeGenericMethod(includeExpression.EntityType, includeExpression.PropertyType).Invoke(null, [query, includeExpression.LambdaExpression]);
 
         if (result is null) throw new TargetException();
 
         return (IQueryable<T>)result;
     }
 
-    private IQueryable<T> BuildThenInclude<T>(IQueryable query, IncludeExpressionInfo includeInfo)
+    private IQueryable<T> BuildThenInclude<T>(IQueryable query, IncludeExpression includeExpression)
     {
-        ArgumentNullException.ThrowIfNull(includeInfo);
-        ArgumentNullException.ThrowIfNull(includeInfo.PreviousPropertyType);
+        ArgumentNullException.ThrowIfNull(includeExpression);
+        ArgumentNullException.ThrowIfNull(includeExpression.PreviousPropertyType);
 
-        var result = (IsGenericEnumerable(includeInfo.PreviousPropertyType, out var previousPropertyType)
+        var result = (IsGenericEnumerable(includeExpression.PreviousPropertyType, out var previousPropertyType)
                             ? _thenIncludeAfterEnumerableMethodInfo
                             : _thenIncludeAfterReferenceMethodInfo)
-                    .MakeGenericMethod(includeInfo.EntityType, previousPropertyType, includeInfo.PropertyType)
-                    .Invoke(null, [query, includeInfo.LambdaExpression,]);
+                    .MakeGenericMethod(includeExpression.EntityType, previousPropertyType, includeExpression.PropertyType)
+                    .Invoke(null, [query, includeExpression.LambdaExpression,]);
 
         if (result is null) throw new TargetException();
 
