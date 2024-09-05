@@ -4,21 +4,16 @@ namespace Pozitron.QuerySpecification;
 
 public class OrderExpressionInfo<T>
 {
-    private readonly Lazy<Func<T, object?>> _keySelectorFunc;
+    private Func<T, object?>? _keySelectorFunc;
+    public Expression<Func<T, object?>> KeySelector { get; }
+    public OrderTypeEnum OrderType { get; }
 
     public OrderExpressionInfo(Expression<Func<T, object?>> keySelector, OrderTypeEnum orderType)
     {
-        _ = keySelector ?? throw new ArgumentNullException(nameof(keySelector));
-
+        ArgumentNullException.ThrowIfNull(keySelector);
         KeySelector = keySelector;
         OrderType = orderType;
-
-        _keySelectorFunc = new Lazy<Func<T, object?>>(KeySelector.Compile);
     }
 
-    public Expression<Func<T, object?>> KeySelector { get; }
-
-    public OrderTypeEnum OrderType { get; }
-
-    public Func<T, object?> KeySelectorFunc => _keySelectorFunc.Value;
+    public Func<T, object?> KeySelectorFunc => _keySelectorFunc ??= KeySelector.Compile();
 }
