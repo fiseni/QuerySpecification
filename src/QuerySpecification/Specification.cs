@@ -23,6 +23,10 @@ public class Specification<T, TResult> : Specification<T>
 
 public class Specification<T>
 {
+    // The state is null initially, but we're spending 8 bytes per reference on x64.
+    // I considered keeping the whole state as a Dictionary<int, object>, and that reduces the footprint for empty specs.
+    // But, specs are never empty, and the overhead of the dictionary compensates the saved space. Also casting back and forth is a pain.
+    // Refer to SpecificationSizeTests for more details.
     private List<WhereExpression<T>>? _whereExpressions;
     private List<LikeExpression<T>>? _likeExpressions;
     private List<OrderExpression<T>>? _orderExpressions;
@@ -47,20 +51,20 @@ public class Specification<T>
     public bool AsNoTracking { get; internal set; } = false;
     public bool AsNoTrackingWithIdentityResolution { get; internal set; } = false;
 
-    internal void Add(WhereExpression<T> whereExpression) => (_whereExpressions ??= []).Add(whereExpression);
-    internal void Add(LikeExpression<T> likeExpression) => (_likeExpressions ??= []).Add(likeExpression);
-    internal void Add(OrderExpression<T> orderExpression) => (_orderExpressions ??= []).Add(orderExpression);
-    internal void Add(IncludeExpression includeExpression) => (_includeExpressions ??= []).Add(includeExpression);
-    internal void Add(string includeString) => (_includeStrings ??= []).Add(includeString);
+    internal void Add(WhereExpression<T> whereExpression) => (_whereExpressions ??= new(2)).Add(whereExpression);
+    internal void Add(LikeExpression<T> likeExpression) => (_likeExpressions ??= new(2)).Add(likeExpression);
+    internal void Add(OrderExpression<T> orderExpression) => (_orderExpressions ??= new(2)).Add(orderExpression);
+    internal void Add(IncludeExpression includeExpression) => (_includeExpressions ??= new(2)).Add(includeExpression);
+    internal void Add(string includeString) => (_includeStrings ??= new(1)).Add(includeString);
 
 
     // Specs are not intended to be thread-safe, so we don't need to worry about thread-safety here.
     public Dictionary<string, object> Items => _items ??= [];
-    public IEnumerable<WhereExpression<T>> WhereExpressions => _whereExpressions ?? [];
-    public IEnumerable<LikeExpression<T>> LikeExpressions => _likeExpressions ?? [];
-    public IEnumerable<OrderExpression<T>> OrderExpressions => _orderExpressions ?? [];
-    public IEnumerable<IncludeExpression> IncludeExpressions => _includeExpressions ?? [];
-    public IEnumerable<string> IncludeStrings => _includeStrings ?? [];
+    public IEnumerable<WhereExpression<T>> WhereExpressions => _whereExpressions ?? Enumerable.Empty<WhereExpression<T>>();
+    public IEnumerable<LikeExpression<T>> LikeExpressions => _likeExpressions ?? Enumerable.Empty<LikeExpression<T>>();
+    public IEnumerable<OrderExpression<T>> OrderExpressions => _orderExpressions ?? Enumerable.Empty<OrderExpression<T>>();
+    public IEnumerable<IncludeExpression> IncludeExpressions => _includeExpressions ?? Enumerable.Empty<IncludeExpression>();
+    public IEnumerable<string> IncludeStrings => _includeStrings ?? Enumerable.Empty<string>();
 
     public virtual IEnumerable<T> Evaluate(IEnumerable<T> entities)
     {
