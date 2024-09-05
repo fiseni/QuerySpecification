@@ -4,26 +4,25 @@ namespace Pozitron.QuerySpecification;
 
 public class Specification<T, TResult> : Specification<T>
 {
-    public Specification() : this(SpecificationInMemoryEvaluator.Default) { }
-    public Specification(SpecificationInMemoryEvaluator specificationInMemoryEvaluator)
-        : base(specificationInMemoryEvaluator)
+    public Specification()
     {
         Query = new SpecificationBuilder<T, TResult>(this);
     }
 
     public new ISpecificationBuilder<T, TResult> Query { get; }
+
     public Expression<Func<T, TResult>>? Selector { get; internal set; }
     public Expression<Func<T, IEnumerable<TResult>>>? SelectorMany { get; internal set; }
 
     public new virtual IEnumerable<TResult> Evaluate(IEnumerable<T> entities)
     {
-        return _evaluator.Evaluate(entities, this);
+        var evaluator = SpecificationInMemoryEvaluator.Default;
+        return evaluator.Evaluate(entities, this);
     }
 }
 
 public class Specification<T>
 {
-    private protected readonly SpecificationInMemoryEvaluator _evaluator;
     internal List<WhereExpressionInfo<T>>? _whereExpressions;
     internal List<SearchExpressionInfo<T>>? _searchExpressions;
     internal List<OrderExpressionInfo<T>>? _orderExpressions;
@@ -31,10 +30,8 @@ public class Specification<T>
     internal List<string>? _includeStrings;
     internal Dictionary<string, object>? _items;
 
-    public Specification() : this(SpecificationInMemoryEvaluator.Default) { }
-    public Specification(SpecificationInMemoryEvaluator specificationInMemoryEvaluator)
+    public Specification()
     {
-        _evaluator = specificationInMemoryEvaluator;
         Query = new SpecificationBuilder<T>(this);
     }
 
@@ -61,7 +58,8 @@ public class Specification<T>
 
     public virtual IEnumerable<T> Evaluate(IEnumerable<T> entities)
     {
-        return _evaluator.Evaluate(entities, this);
+        var evaluator = SpecificationInMemoryEvaluator.Default;
+        return evaluator.Evaluate(entities, this);
     }
 
     public virtual bool IsSatisfiedBy(T entity)

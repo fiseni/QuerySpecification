@@ -2,7 +2,7 @@
 
 public class SpecificationEvaluator
 {
-    internal static SpecificationEvaluator Default = new();
+    public static SpecificationEvaluator Default = new();
 
     protected List<IEvaluator> Evaluators { get; }
 

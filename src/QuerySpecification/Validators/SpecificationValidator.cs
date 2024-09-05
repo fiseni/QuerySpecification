@@ -1,14 +1,14 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-internal class SpecificationValidator
+public class SpecificationValidator
 {
-    internal static SpecificationValidator Default = new();
+    public static SpecificationValidator Default = new();
 
-    private readonly List<IValidator> _validators;
+    protected List<IValidator> Validators { get; }
 
     public SpecificationValidator()
     {
-        _validators =
+        Validators =
         [
             WhereValidator.Instance,
             SearchValidator.Instance
@@ -16,12 +16,12 @@ internal class SpecificationValidator
     }
     public SpecificationValidator(IEnumerable<IValidator> validators)
     {
-        _validators = validators.ToList();
+        Validators = validators.ToList();
     }
 
     public virtual bool IsValid<T>(T entity, Specification<T> specification)
     {
-        foreach (var partialValidator in _validators)
+        foreach (var partialValidator in Validators)
         {
             if (partialValidator.IsValid(entity, specification) == false) return false;
         }

@@ -2,7 +2,7 @@
 
 public class SpecificationInMemoryEvaluator
 {
-    internal static SpecificationInMemoryEvaluator Default = new();
+    public static SpecificationInMemoryEvaluator Default = new();
 
     protected List<IInMemoryEvaluator> Evaluators { get; }
 
