@@ -1,6 +1,6 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public class PagedResponse<T>
+public record PagedResponse<T>
 {
     public Pagination Pagination { get; }
     public List<T> Data { get; }

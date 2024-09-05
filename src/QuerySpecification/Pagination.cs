@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Pozitron.QuerySpecification;
 
-public class Pagination
+public record Pagination
 {
     private readonly PaginationSettings _paginationSettings;
 

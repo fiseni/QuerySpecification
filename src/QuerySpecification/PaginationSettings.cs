@@ -1,6 +1,6 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public class PaginationSettings
+public record PaginationSettings
 {
     public int DefaultPage { get; } = 1;
     public int DefaultPageSize { get; } = 10;

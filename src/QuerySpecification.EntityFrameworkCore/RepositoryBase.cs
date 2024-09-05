@@ -188,9 +188,9 @@ public abstract class RepositoryBase<T> where T : class
     {
         if (excludePaging && (specification.Skip >= 0 || specification.Take >= 0))
         {
-            var paging = RemovePaging(specification);
+            var specPaging = RemoveSpecPaging(specification);
             var query = _evaluator.GetQuery(_dbContext.Set<T>(), specification);
-            RestorePaging(specification, paging);
+            RestoreSpecPaging(specification, specPaging);
             return query;
         }
         else
@@ -203,9 +203,9 @@ public abstract class RepositoryBase<T> where T : class
     {
         if (excludePaging && (specification.Skip >= 0 || specification.Take >= 0))
         {
-            var paging = RemovePaging(specification);
+            var specPaging = RemoveSpecPaging(specification);
             var query = _evaluator.GetQuery(_dbContext.Set<T>(), specification);
-            RestorePaging(specification, paging);
+            RestoreSpecPaging(specification, specPaging);
             return query;
         }
         else
@@ -215,21 +215,21 @@ public abstract class RepositoryBase<T> where T : class
         }
     }
 
-    private static PagingInfo RemovePaging(Specification<T> specification)
+    private static SpecPaging RemoveSpecPaging(Specification<T> specification)
     {
-        var paging = new PagingInfo(specification.Skip, specification.Take);
+        var paging = new SpecPaging(specification.Skip, specification.Take);
         specification.Query.Skip(-1);
         specification.Query.Take(-1);
         return paging;
     }
 
-    private static void RestorePaging(Specification<T> specification, PagingInfo paging)
+    private static void RestoreSpecPaging(Specification<T> specification, SpecPaging paging)
     {
         specification.Query.Skip(paging.Skip);
         specification.Query.Take(paging.Take);
     }
 
-    private ref struct PagingInfo(int skip, int take)
+    private ref struct SpecPaging(int skip, int take)
     {
         public int Skip = skip;
         public int Take = take;
