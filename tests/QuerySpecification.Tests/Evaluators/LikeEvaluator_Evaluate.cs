@@ -1,6 +1,6 @@
 ﻿namespace Pozitron.QuerySpecification.Tests;
 
-public class SearchEvaluator_Evaluate
+public class LikeEvaluator_Evaluate
 {
     private static readonly List<Person> _people = new()
   {
@@ -19,9 +19,9 @@ public class SearchEvaluator_Evaluate
     [InlineData("M%", 2)]
     [InlineData("[RM]%", 3)]
     [InlineData("_[IA]%", 5)]
-    public void ReturnsFilteredList_GivenSearchExpression(string searchTerm, int expectedCount)
+    public void ReturnsFilteredList_GivenLikeExpression(string pattern, int expectedCount)
     {
-        var result = SearchEvaluator.Instance.Evaluate(_people, new PersonSpecification(searchTerm));
+        var result = LikeEvaluator.Instance.Evaluate(_people, new PersonSpecification(pattern));
 
         result.Should().HaveCount(expectedCount);
     }
@@ -29,9 +29,9 @@ public class SearchEvaluator_Evaluate
 
 public class PersonSpecification : Specification<Person>
 {
-    public PersonSpecification(string searchTerm)
+    public PersonSpecification(string likePattern)
     {
-        Query.Search(x => x.Name, searchTerm);
+        Query.Like(x => x.Name, likePattern);
     }
 }
 

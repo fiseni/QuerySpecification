@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Pozitron.QuerySpecification.EntityFrameworkCore;
 
-public static class SearchExtension
+public static class LikeExtension
 {
     private static readonly MethodInfo _likeMethodInfo = typeof(DbFunctionsExtensions)
         .GetMethod(nameof(DbFunctionsExtensions.Like), new Type[] { typeof(DbFunctions), typeof(string), typeof(string) })
@@ -14,29 +14,29 @@ public static class SearchExtension
     private static readonly MemberExpression _functions = Expression.Property(null, typeof(EF).GetProperty(nameof(EF.Functions))
         ?? throw new TargetException("The EF.Functions not found!"));
 
-    public static IQueryable<T> Search<T>(this IQueryable<T> source, IEnumerable<SearchExpression<T>> criterias)
+    public static IQueryable<T> Like<T>(this IQueryable<T> source, IEnumerable<LikeExpression<T>> likeExpressions)
     {
         Expression? expr = null;
         var parameter = Expression.Parameter(typeof(T), "x");
 
-        foreach (var criteria in criterias)
+        foreach (var likeExpression in likeExpressions)
         {
-            if (string.IsNullOrEmpty(criteria.SearchTerm))
+            if (string.IsNullOrEmpty(likeExpression.Pattern))
                 continue;
 
-            var propertySelector = ParameterReplacerVisitor.Replace(criteria.Selector, criteria.Selector.Parameters[0], parameter) as LambdaExpression;
+            var propertySelector = ParameterReplacerVisitor.Replace(likeExpression.KeySelector, likeExpression.KeySelector.Parameters[0], parameter) as LambdaExpression;
             _ = propertySelector ?? throw new InvalidExpressionException();
 
-            var searchTermAsExpression = ((Expression<Func<string>>)(() => criteria.SearchTerm)).Body;
+            var patternAsExpression = ((Expression<Func<string>>)(() => likeExpression.Pattern)).Body;
 
-            var likeExpression = Expression.Call(
+            var EFLikeExpression = Expression.Call(
                                     null,
                                     _likeMethodInfo,
                                     _functions,
                                     propertySelector.Body,
-                                    searchTermAsExpression);
+                                    patternAsExpression);
 
-            expr = expr == null ? (Expression)likeExpression : Expression.OrElse(expr, likeExpression);
+            expr = expr == null ? (Expression)EFLikeExpression : Expression.OrElse(expr, EFLikeExpression);
         }
 
         return expr == null

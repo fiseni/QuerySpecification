@@ -11,7 +11,7 @@ public class SpecificationValidator
         Validators =
         [
             WhereValidator.Instance,
-            SearchValidator.Instance
+            LikeValidator.Instance
         ];
     }
     public SpecificationValidator(IEnumerable<IValidator> validators)

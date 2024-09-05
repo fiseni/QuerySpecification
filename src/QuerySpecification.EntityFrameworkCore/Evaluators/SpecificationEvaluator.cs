@@ -11,7 +11,7 @@ public class SpecificationEvaluator
         Evaluators =
         [
             WhereEvaluator.Instance,
-            SearchEvaluator.Instance,
+            LikeEvaluator.Instance,
             IncludeEvaluator.Instance,
             OrderEvaluator.Instance,
             PaginationEvaluator.Instance,

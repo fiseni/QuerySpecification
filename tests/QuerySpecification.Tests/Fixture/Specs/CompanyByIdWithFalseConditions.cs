@@ -20,6 +20,6 @@ public class CompanyByIdWithFalseConditions : Specification<Company>
             .AsNoTrackingWithIdentityResolution(false)
             .AsSplitQuery(false)
             .IgnoreQueryFilters(false)
-            .Search(x => x.Name!, "asd", false);
+            .Like(x => x.Name!, "asd", false);
     }
 }

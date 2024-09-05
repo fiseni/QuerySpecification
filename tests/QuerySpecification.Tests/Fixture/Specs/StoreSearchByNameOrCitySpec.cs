@@ -4,7 +4,7 @@ public class StoreSearchByNameOrCitySpec : Specification<Store>
 {
     public StoreSearchByNameOrCitySpec(string searchTerm)
     {
-        Query.Search(x => x.Name!, "%" + searchTerm + "%")
-            .Search(x => x.City!, "%" + searchTerm + "%");
+        Query.Like(x => x.Name!, "%" + searchTerm + "%")
+            .Like(x => x.City!, "%" + searchTerm + "%");
     }
 }

@@ -207,45 +207,45 @@ public static class SpecificationBuilderExtensions
         return builder;
     }
 
-    public static ISpecificationBuilder<T, TResult> Search<T, TResult>(
+    public static ISpecificationBuilder<T, TResult> Like<T, TResult>(
         this ISpecificationBuilder<T, TResult> builder,
-        Expression<Func<T, string>> selector,
-        string searchTerm,
-        int searchGroup = 1) where T : class
-        => Search(builder, selector, searchTerm, true, searchGroup);
+        Expression<Func<T, string>> keySelector,
+        string pattern,
+        int group = 1) where T : class
+        => Like(builder, keySelector, pattern, true, group);
 
-    public static ISpecificationBuilder<T, TResult> Search<T, TResult>(
+    public static ISpecificationBuilder<T, TResult> Like<T, TResult>(
         this ISpecificationBuilder<T, TResult> builder,
-        Expression<Func<T, string>> selector,
-        string searchTerm,
+        Expression<Func<T, string>> keySelector,
+        string pattern,
         bool condition,
-        int searchGroup = 1) where T : class
+        int group = 1) where T : class
     {
         if (condition)
         {
-            var expr = new SearchExpression<T>(selector, searchTerm, searchGroup);
+            var expr = new LikeExpression<T>(keySelector, pattern, group);
             builder.Specification.Add(expr);
         }
         return builder;
     }
 
-    public static ISpecificationBuilder<T> Search<T>(
+    public static ISpecificationBuilder<T> Like<T>(
         this ISpecificationBuilder<T> builder,
-        Expression<Func<T, string>> selector,
-        string searchTerm,
-        int searchGroup = 1) where T : class
-        => Search(builder, selector, searchTerm, true, searchGroup);
+        Expression<Func<T, string>> keySelector,
+        string pattern,
+        int group = 1) where T : class
+        => Like(builder, keySelector, pattern, true, group);
 
-    public static ISpecificationBuilder<T> Search<T>(
+    public static ISpecificationBuilder<T> Like<T>(
         this ISpecificationBuilder<T> builder,
-        Expression<Func<T, string>> selector,
-        string searchTerm,
+        Expression<Func<T, string>> keySelector,
+        string pattern,
         bool condition,
-        int searchGroup = 1) where T : class
+        int group = 1) where T : class
     {
         if (condition)
         {
-            var expr = new SearchExpression<T>(selector, searchTerm, searchGroup);
+            var expr = new LikeExpression<T>(keySelector, pattern, group);
             builder.Specification.Add(expr);
         }
         return builder;

@@ -4,6 +4,6 @@ public class StoreSearchByNameSpec : Specification<Store>
 {
     public StoreSearchByNameSpec(string searchTerm)
     {
-        Query.Search(x => x.Name!, "%" + searchTerm + "%");
+        Query.Like(x => x.Name!, "%" + searchTerm + "%");
     }
 }

@@ -11,7 +11,7 @@ public class SpecificationInMemoryEvaluator
         Evaluators =
         [
             WhereEvaluator.Instance,
-            SearchEvaluator.Instance,
+            LikeEvaluator.Instance,
             OrderEvaluator.Instance,
             PaginationEvaluator.Instance
         ];

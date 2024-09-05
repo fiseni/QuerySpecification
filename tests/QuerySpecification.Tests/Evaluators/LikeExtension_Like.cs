@@ -1,6 +1,6 @@
 ﻿namespace Pozitron.QuerySpecification.Tests;
 
-public class SearchExtension_Like
+public class LikeExtension_Like
 {
     [Theory]
     [InlineData(true, "%", "")]
@@ -86,10 +86,10 @@ public class SearchExtension_Like
     [Theory]
     [InlineData("[", "asd")]
     [InlineData("[]", "asd")]
-    public void ShouldThrowInvalidSearchPattern_GivenInvalidPattern(string pattern, string input)
+    public void ShouldThrowInvalidLikePattern_GivenInvalidPattern(string pattern, string input)
     {
         Action action = () => input.Like(pattern);
 
-        action.Should().Throw<InvalidSearchPatternException>().WithMessage($"Invalid search pattern: {pattern}");
+        action.Should().Throw<InvalidLikePatternException>().WithMessage($"Invalid like pattern: {pattern}");
     }
 }

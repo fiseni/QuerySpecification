@@ -24,7 +24,7 @@ public class Specification<T, TResult> : Specification<T>
 public class Specification<T>
 {
     private List<WhereExpression<T>>? _whereExpressions;
-    private List<SearchExpression<T>>? _searchExpressions;
+    private List<LikeExpression<T>>? _likeExpressions;
     private List<OrderExpression<T>>? _orderExpressions;
     private List<IncludeExpression>? _includeExpressions;
     private List<string>? _includeStrings;
@@ -48,7 +48,7 @@ public class Specification<T>
     public bool AsNoTrackingWithIdentityResolution { get; internal set; } = false;
 
     internal void Add(WhereExpression<T> whereExpression) => (_whereExpressions ??= []).Add(whereExpression);
-    internal void Add(SearchExpression<T> searchExpression) => (_searchExpressions ??= []).Add(searchExpression);
+    internal void Add(LikeExpression<T> likeExpression) => (_likeExpressions ??= []).Add(likeExpression);
     internal void Add(OrderExpression<T> orderExpression) => (_orderExpressions ??= []).Add(orderExpression);
     internal void Add(IncludeExpression includeExpression) => (_includeExpressions ??= []).Add(includeExpression);
     internal void Add(string includeString) => (_includeStrings ??= []).Add(includeString);
@@ -57,7 +57,7 @@ public class Specification<T>
     // Specs are not intended to be thread-safe, so we don't need to worry about thread-safety here.
     public Dictionary<string, object> Items => _items ??= [];
     public IEnumerable<WhereExpression<T>> WhereExpressions => _whereExpressions ?? [];
-    public IEnumerable<SearchExpression<T>> SearchExpressions => _searchExpressions ?? [];
+    public IEnumerable<LikeExpression<T>> LikeExpressions => _likeExpressions ?? [];
     public IEnumerable<OrderExpression<T>> OrderExpressions => _orderExpressions ?? [];
     public IEnumerable<IncludeExpression> IncludeExpressions => _includeExpressions ?? [];
     public IEnumerable<string> IncludeStrings => _includeStrings ?? [];
