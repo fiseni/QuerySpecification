@@ -4,111 +4,218 @@ namespace Pozitron.QuerySpecification;
 
 public static class SpecificationBuilderExtensions
 {
-    public static ISpecificationBuilder<T> Where<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
-        Expression<Func<T, bool>> criteria)
-        => Where(specificationBuilder, criteria, true);
+    public static void Select<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
+        Expression<Func<T, TResult>> selector)
+    {
+        builder.Specification.Selector = selector;
+    }
 
-    public static ISpecificationBuilder<T> Where<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
+    public static void SelectMany<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
+        Expression<Func<T, IEnumerable<TResult>>> selector)
+    {
+        builder.Specification.SelectorMany = selector;
+    }
+
+    public static ISpecificationBuilder<T, TResult> Where<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
+        Expression<Func<T, bool>> criteria)
+        => Where(builder, criteria, true);
+
+    public static ISpecificationBuilder<T, TResult> Where<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
         Expression<Func<T, bool>> criteria,
         bool condition)
     {
         if (condition)
         {
             var info = new WhereExpressionInfo<T>(criteria);
-            specificationBuilder.Specification.Add(info);
+            builder.Specification.Add(info);
         }
-        return specificationBuilder;
+        return builder;
     }
 
-    public static IOrderedSpecificationBuilder<T> OrderBy<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
-        Expression<Func<T, object?>> keySelector)
-        => OrderBy(specificationBuilder, keySelector, true);
+    public static ISpecificationBuilder<T> Where<T>(
+        this ISpecificationBuilder<T> builder,
+        Expression<Func<T, bool>> criteria)
+        => Where(builder, criteria, true);
 
-    public static IOrderedSpecificationBuilder<T> OrderBy<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
+    public static ISpecificationBuilder<T> Where<T>(
+        this ISpecificationBuilder<T> builder,
+        Expression<Func<T, bool>> criteria,
+        bool condition)
+    {
+        if (condition)
+        {
+            var info = new WhereExpressionInfo<T>(criteria);
+            builder.Specification.Add(info);
+        }
+        return builder;
+    }
+
+    public static IOrderedSpecificationBuilder<T, TResult> OrderBy<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
+        Expression<Func<T, object?>> keySelector)
+        => OrderBy(builder, keySelector, true);
+
+    public static IOrderedSpecificationBuilder<T, TResult> OrderBy<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
         Expression<Func<T, object?>> keySelector,
         bool condition)
     {
         if (condition)
         {
             var info = new OrderExpressionInfo<T>(keySelector, OrderTypeEnum.OrderBy);
-            specificationBuilder.Specification.Add(info);
+            builder.Specification.Add(info);
         }
 
-        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T>(specificationBuilder.Specification, !condition);
+        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T, TResult>(builder.Specification, !condition);
         return orderedSpecificationBuilder;
     }
 
-    public static IOrderedSpecificationBuilder<T> OrderByDescending<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
+    public static IOrderedSpecificationBuilder<T> OrderBy<T>(
+        this ISpecificationBuilder<T> builder,
         Expression<Func<T, object?>> keySelector)
-        => OrderByDescending(specificationBuilder, keySelector, true);
+        => OrderBy(builder, keySelector, true);
 
-    public static IOrderedSpecificationBuilder<T> OrderByDescending<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
+    public static IOrderedSpecificationBuilder<T> OrderBy<T>(
+        this ISpecificationBuilder<T> builder,
+        Expression<Func<T, object?>> keySelector,
+        bool condition)
+    {
+        if (condition)
+        {
+            var info = new OrderExpressionInfo<T>(keySelector, OrderTypeEnum.OrderBy);
+            builder.Specification.Add(info);
+        }
+
+        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T>(builder.Specification, !condition);
+        return orderedSpecificationBuilder;
+    }
+
+    public static IOrderedSpecificationBuilder<T, TResult> OrderByDescending<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
+        Expression<Func<T, object?>> keySelector)
+        => OrderByDescending(builder, keySelector, true);
+
+    public static IOrderedSpecificationBuilder<T, TResult> OrderByDescending<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
         Expression<Func<T, object?>> keySelector,
         bool condition)
     {
         if (condition)
         {
             var info = new OrderExpressionInfo<T>(keySelector, OrderTypeEnum.OrderByDescending);
-            specificationBuilder.Specification.Add(info);
+            builder.Specification.Add(info);
         }
 
-        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T>(specificationBuilder.Specification, !condition);
+        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T, TResult>(builder.Specification, !condition);
         return orderedSpecificationBuilder;
     }
 
-    public static IIncludableSpecificationBuilder<T, TProperty> Include<T, TProperty>(
-        this ISpecificationBuilder<T> specificationBuilder,
-        Expression<Func<T, TProperty>> includeExpression) where T : class
-        => Include(specificationBuilder, includeExpression, true);
+    public static IOrderedSpecificationBuilder<T> OrderByDescending<T>(
+        this ISpecificationBuilder<T> builder,
+        Expression<Func<T, object?>> keySelector)
+        => OrderByDescending(builder, keySelector, true);
 
-    public static IIncludableSpecificationBuilder<T, TProperty> Include<T, TProperty>(
-        this ISpecificationBuilder<T> specificationBuilder,
+    public static IOrderedSpecificationBuilder<T> OrderByDescending<T>(
+        this ISpecificationBuilder<T> builder,
+        Expression<Func<T, object?>> keySelector,
+        bool condition)
+    {
+        if (condition)
+        {
+            var info = new OrderExpressionInfo<T>(keySelector, OrderTypeEnum.OrderByDescending);
+            builder.Specification.Add(info);
+        }
+
+        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T>(builder.Specification, !condition);
+        return orderedSpecificationBuilder;
+    }
+
+    public static IIncludableSpecificationBuilder<T, TResult, TProperty> Include<T, TResult, TProperty>(
+        this ISpecificationBuilder<T, TResult> builder,
+        Expression<Func<T, TProperty>> includeExpression) where T : class
+        => Include(builder, includeExpression, true);
+
+    public static IIncludableSpecificationBuilder<T, TResult, TProperty> Include<T, TResult, TProperty>(
+        this ISpecificationBuilder<T, TResult> builder,
         Expression<Func<T, TProperty>> includeExpression,
         bool condition) where T : class
     {
         if (condition)
         {
             var info = new IncludeExpressionInfo(includeExpression, typeof(T), typeof(TProperty));
-            specificationBuilder.Specification.Add(info);
+            builder.Specification.Add(info);
         }
 
-        var includeBuilder = new IncludableSpecificationBuilder<T, TProperty>(specificationBuilder.Specification, !condition);
+        var includeBuilder = new IncludableSpecificationBuilder<T, TResult, TProperty>(builder.Specification, !condition);
         return includeBuilder;
     }
 
-    public static ISpecificationBuilder<T> Include<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
-        string includeString) where T : class
-        => Include(specificationBuilder, includeString, true);
+    public static IIncludableSpecificationBuilder<T, TProperty> Include<T, TProperty>(
+        this ISpecificationBuilder<T> builder,
+        Expression<Func<T, TProperty>> includeExpression) where T : class
+        => Include(builder, includeExpression, true);
 
-    public static ISpecificationBuilder<T> Include<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
+    public static IIncludableSpecificationBuilder<T, TProperty> Include<T, TProperty>(
+        this ISpecificationBuilder<T> builder,
+        Expression<Func<T, TProperty>> includeExpression,
+        bool condition) where T : class
+    {
+        if (condition)
+        {
+            var info = new IncludeExpressionInfo(includeExpression, typeof(T), typeof(TProperty));
+            builder.Specification.Add(info);
+        }
+
+        var includeBuilder = new IncludableSpecificationBuilder<T, TProperty>(builder.Specification, !condition);
+        return includeBuilder;
+    }
+
+    public static ISpecificationBuilder<T, TResult> Include<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
+        string includeString) where T : class
+        => Include(builder, includeString, true);
+
+    public static ISpecificationBuilder<T, TResult> Include<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
         string includeString,
         bool condition) where T : class
     {
         if (condition)
         {
-            specificationBuilder.Specification.Add(includeString);
+            builder.Specification.Add(includeString);
         }
+        return builder;
+    }
+    public static ISpecificationBuilder<T> Include<T>(
+        this ISpecificationBuilder<T> builder,
+        string includeString) where T : class
+        => Include(builder, includeString, true);
 
-        return specificationBuilder;
+    public static ISpecificationBuilder<T> Include<T>(
+        this ISpecificationBuilder<T> builder,
+        string includeString,
+        bool condition) where T : class
+    {
+        if (condition)
+        {
+            builder.Specification.Add(includeString);
+        }
+        return builder;
     }
 
-    public static ISpecificationBuilder<T> Search<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
+    public static ISpecificationBuilder<T, TResult> Search<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
         Expression<Func<T, string>> selector,
         string searchTerm,
         int searchGroup = 1) where T : class
-        => Search(specificationBuilder, selector, searchTerm, true, searchGroup);
+        => Search(builder, selector, searchTerm, true, searchGroup);
 
-    public static ISpecificationBuilder<T> Search<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
+    public static ISpecificationBuilder<T, TResult> Search<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
         Expression<Func<T, string>> selector,
         string searchTerm,
         bool condition,
@@ -117,123 +224,222 @@ public static class SpecificationBuilderExtensions
         if (condition)
         {
             var info = new SearchExpressionInfo<T>(selector, searchTerm, searchGroup);
-            specificationBuilder.Specification.Add(info);
+            builder.Specification.Add(info);
         }
-
-        return specificationBuilder;
+        return builder;
     }
 
-    public static ISpecificationBuilder<T> Take<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
-        int take)
-        => Take(specificationBuilder, take, true);
+    public static ISpecificationBuilder<T> Search<T>(
+        this ISpecificationBuilder<T> builder,
+        Expression<Func<T, string>> selector,
+        string searchTerm,
+        int searchGroup = 1) where T : class
+        => Search(builder, selector, searchTerm, true, searchGroup);
 
-    public static ISpecificationBuilder<T> Take<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
+    public static ISpecificationBuilder<T> Search<T>(
+        this ISpecificationBuilder<T> builder,
+        Expression<Func<T, string>> selector,
+        string searchTerm,
+        bool condition,
+        int searchGroup = 1) where T : class
+    {
+        if (condition)
+        {
+            var info = new SearchExpressionInfo<T>(selector, searchTerm, searchGroup);
+            builder.Specification.Add(info);
+        }
+        return builder;
+    }
+
+    public static ISpecificationBuilder<T, TResult> Take<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
+        int take)
+        => Take(builder, take, true);
+
+    public static ISpecificationBuilder<T, TResult> Take<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
         int take,
         bool condition)
     {
         if (condition)
         {
-            specificationBuilder.Specification.Take = take;
+            builder.Specification.Take = take;
         }
-
-        return specificationBuilder;
+        return builder;
     }
 
-    public static ISpecificationBuilder<T> Skip<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
-        int skip)
-        => Skip(specificationBuilder, skip, true);
+    public static ISpecificationBuilder<T> Take<T>(
+        this ISpecificationBuilder<T> builder,
+        int take)
+        => Take(builder, take, true);
 
-    public static ISpecificationBuilder<T> Skip<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
+    public static ISpecificationBuilder<T> Take<T>(
+        this ISpecificationBuilder<T> builder,
+        int take,
+        bool condition)
+    {
+        if (condition)
+        {
+            builder.Specification.Take = take;
+        }
+        return builder;
+    }
+
+    public static ISpecificationBuilder<T, TResult> Skip<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
+        int skip)
+        => Skip(builder, skip, true);
+
+    public static ISpecificationBuilder<T, TResult> Skip<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
         int skip,
         bool condition)
     {
         if (condition)
         {
-            specificationBuilder.Specification.Skip = skip;
+            builder.Specification.Skip = skip;
         }
-
-        return specificationBuilder;
+        return builder;
     }
 
-    public static ISpecificationBuilder<T, TResult> Select<T, TResult>(
-        this ISpecificationBuilder<T, TResult> specificationBuilder,
-        Expression<Func<T, TResult>> selector)
+    public static ISpecificationBuilder<T> Skip<T>(
+        this ISpecificationBuilder<T> builder,
+        int skip)
+        => Skip(builder, skip, true);
+
+    public static ISpecificationBuilder<T> Skip<T>(
+        this ISpecificationBuilder<T> builder,
+        int skip,
+        bool condition)
     {
-        specificationBuilder.Specification.Selector = selector;
-        return specificationBuilder;
+        if (condition)
+        {
+            builder.Specification.Skip = skip;
+        }
+        return builder;
     }
 
-    public static ISpecificationBuilder<T, TResult> SelectMany<T, TResult>(
-        this ISpecificationBuilder<T, TResult> specificationBuilder,
-        Expression<Func<T, IEnumerable<TResult>>> selector)
+    public static ISpecificationBuilder<T, TResult> IgnoreQueryFilters<T, TResult>(
+    this ISpecificationBuilder<T, TResult> builder) where T : class
+        => IgnoreQueryFilters(builder, true);
+
+    public static ISpecificationBuilder<T, TResult> IgnoreQueryFilters<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
+        bool condition) where T : class
     {
-        specificationBuilder.Specification.SelectorMany = selector;
-        return specificationBuilder;
+        if (condition)
+        {
+            builder.Specification.IgnoreQueryFilters = true;
+        }
+        return builder;
     }
 
     public static ISpecificationBuilder<T> IgnoreQueryFilters<T>(
-    this ISpecificationBuilder<T> specificationBuilder) where T : class
-    => IgnoreQueryFilters(specificationBuilder, true);
+    this ISpecificationBuilder<T> builder) where T : class
+    => IgnoreQueryFilters(builder, true);
 
     public static ISpecificationBuilder<T> IgnoreQueryFilters<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
+        this ISpecificationBuilder<T> builder,
         bool condition) where T : class
     {
         if (condition)
         {
-            specificationBuilder.Specification.IgnoreQueryFilters = true;
+            builder.Specification.IgnoreQueryFilters = true;
         }
-        return specificationBuilder;
+        return builder;
+    }
+
+    public static ISpecificationBuilder<T, TResult> AsSplitQuery<T, TResult>(
+    this ISpecificationBuilder<T, TResult> builder) where T : class
+        => AsSplitQuery(builder, true);
+
+    public static ISpecificationBuilder<T, TResult> AsSplitQuery<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
+        bool condition) where T : class
+    {
+        if (condition)
+        {
+            builder.Specification.AsSplitQuery = true;
+        }
+        return builder;
     }
 
     public static ISpecificationBuilder<T> AsSplitQuery<T>(
-    this ISpecificationBuilder<T> specificationBuilder) where T : class
-    => AsSplitQuery(specificationBuilder, true);
+    this ISpecificationBuilder<T> builder) where T : class
+    => AsSplitQuery(builder, true);
 
     public static ISpecificationBuilder<T> AsSplitQuery<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
+        this ISpecificationBuilder<T> builder,
         bool condition) where T : class
     {
         if (condition)
         {
-            specificationBuilder.Specification.AsSplitQuery = true;
+            builder.Specification.AsSplitQuery = true;
         }
-        return specificationBuilder;
+        return builder;
+    }
+
+    public static ISpecificationBuilder<T, TResult> AsNoTracking<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder) where T : class
+        => AsNoTracking(builder, true);
+
+    public static ISpecificationBuilder<T, TResult> AsNoTracking<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
+        bool condition) where T : class
+    {
+        if (condition)
+        {
+            builder.Specification.AsNoTrackingWithIdentityResolution = false;
+            builder.Specification.AsNoTracking = true;
+        }
+        return builder;
     }
 
     public static ISpecificationBuilder<T> AsNoTracking<T>(
-        this ISpecificationBuilder<T> specificationBuilder) where T : class
-        => AsNoTracking(specificationBuilder, true);
+        this ISpecificationBuilder<T> builder) where T : class
+        => AsNoTracking(builder, true);
 
     public static ISpecificationBuilder<T> AsNoTracking<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
+        this ISpecificationBuilder<T> builder,
         bool condition) where T : class
     {
         if (condition)
         {
-            specificationBuilder.Specification.AsNoTrackingWithIdentityResolution = false;
-            specificationBuilder.Specification.AsNoTracking = true;
+            builder.Specification.AsNoTrackingWithIdentityResolution = false;
+            builder.Specification.AsNoTracking = true;
         }
-        return specificationBuilder;
+        return builder;
+    }
+
+    public static ISpecificationBuilder<T, TResult> AsNoTrackingWithIdentityResolution<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder) where T : class
+        => AsNoTrackingWithIdentityResolution(builder, true);
+
+    public static ISpecificationBuilder<T, TResult> AsNoTrackingWithIdentityResolution<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
+        bool condition) where T : class
+    {
+        if (condition)
+        {
+            builder.Specification.AsNoTracking = false;
+            builder.Specification.AsNoTrackingWithIdentityResolution = true;
+        }
+        return builder;
     }
 
     public static ISpecificationBuilder<T> AsNoTrackingWithIdentityResolution<T>(
-        this ISpecificationBuilder<T> specificationBuilder) where T : class
-        => AsNoTrackingWithIdentityResolution(specificationBuilder, true);
+        this ISpecificationBuilder<T> builder) where T : class
+        => AsNoTrackingWithIdentityResolution(builder, true);
 
     public static ISpecificationBuilder<T> AsNoTrackingWithIdentityResolution<T>(
-        this ISpecificationBuilder<T> specificationBuilder,
+        this ISpecificationBuilder<T> builder,
         bool condition) where T : class
     {
         if (condition)
         {
-            specificationBuilder.Specification.AsNoTracking = false;
-            specificationBuilder.Specification.AsNoTrackingWithIdentityResolution = true;
+            builder.Specification.AsNoTracking = false;
+            builder.Specification.AsNoTrackingWithIdentityResolution = true;
         }
-        return specificationBuilder;
+        return builder;
     }
 }
