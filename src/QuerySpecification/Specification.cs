@@ -23,12 +23,12 @@ public class Specification<T, TResult> : Specification<T>
 
 public class Specification<T>
 {
-    internal List<WhereExpressionInfo<T>>? _whereExpressions;
-    internal List<SearchExpressionInfo<T>>? _searchExpressions;
-    internal List<OrderExpressionInfo<T>>? _orderExpressions;
-    internal List<IncludeExpressionInfo>? _includeExpressions;
-    internal List<string>? _includeStrings;
-    internal Dictionary<string, object>? _items;
+    private List<WhereExpressionInfo<T>>? _whereExpressions;
+    private List<SearchExpressionInfo<T>>? _searchExpressions;
+    private List<OrderExpressionInfo<T>>? _orderExpressions;
+    private List<IncludeExpressionInfo>? _includeExpressions;
+    private List<string>? _includeStrings;
+    private Dictionary<string, object>? _items;
 
     public Specification()
     {
@@ -47,7 +47,13 @@ public class Specification<T>
     public bool AsNoTracking { get; internal set; } = false;
     public bool AsNoTrackingWithIdentityResolution { get; internal set; } = false;
 
-    // The Items is for custom state and is rarely used (if at all). Create the dictionary on first access.
+    internal void Add(WhereExpressionInfo<T> whereExpression) => (_whereExpressions ??= []).Add(whereExpression);
+    internal void Add(SearchExpressionInfo<T> searchExpression) => (_searchExpressions ??= []).Add(searchExpression);
+    internal void Add(OrderExpressionInfo<T> orderExpression) => (_orderExpressions ??= []).Add(orderExpression);
+    internal void Add(IncludeExpressionInfo includeExpression) => (_includeExpressions ??= []).Add(includeExpression);
+    internal void Add(string includeString) => (_includeStrings ??= []).Add(includeString);
+
+
     // Specs are not intended to be thread-safe, so we don't need to worry about thread-safety here.
     public Dictionary<string, object> Items => _items ??= [];
     public IEnumerable<WhereExpressionInfo<T>> WhereExpressions => _whereExpressions ?? [];
