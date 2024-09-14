@@ -11,8 +11,7 @@ public class DbQueryBenchmark
     [GlobalSetup]
     public async Task Setup()
     {
-        // Initialize caches.
-        await BenchmarkDbContext.InitializeAsync();
+        await BenchmarkDbContext.SeedAsync();
     }
 
     [Benchmark(Baseline = true)]
@@ -43,5 +42,16 @@ public class DbQueryBenchmark
             .FirstAsync();
 
         return result;
+    }
+
+    private sealed class StoreIncludeProductsSpec : Specification<Store>
+    {
+        public StoreIncludeProductsSpec(int id)
+        {
+            Query
+                .Where(x => x.Id == id)
+                .Include(x => x.Products)
+                .Include(x => x.Company).ThenInclude(x => x.Country);
+        }
     }
 }

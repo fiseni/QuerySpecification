@@ -2,27 +2,45 @@
 
 public class SpecificationBuilderExtensions_IgnoreQueryFilters
 {
-    [Fact]
-    public void DoesNothing_GivenSpecWithoutIgnoreQueryFilters()
-    {
-        var spec = new StoreEmptySpec();
+    public record Customer(int Id, string Name);
 
-        spec.IgnoreQueryFilters.Should().Be(false);
+    [Fact]
+    public void DoesNothing_GivenNoIgnoreQueryFilters()
+    {
+        var spec1 = new Specification<Customer>();
+        var spec2 = new Specification<Customer, string>();
+
+        spec1.IgnoreQueryFilters.Should().Be(false);
+        spec2.IgnoreQueryFilters.Should().Be(false);
     }
 
     [Fact]
     public void DoesNothing_GivenIgnoreQueryFiltersWithFalseCondition()
     {
-        var spec = new CompanyByIdWithFalseConditions(1);
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .IgnoreQueryFilters(false);
 
-        spec.IgnoreQueryFilters.Should().Be(false);
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .IgnoreQueryFilters(false);
+
+        spec1.IgnoreQueryFilters.Should().Be(false);
+        spec2.IgnoreQueryFilters.Should().Be(false);
     }
 
     [Fact]
-    public void FlagsIgnoreQueryFilters_GivenSpecWithIgnoreQueryFilters()
+    public void SetsIgnoreQueryFilters_GivenIgnoreQueryFilters()
     {
-        var spec = new CompanyByIdIgnoreQueryFilters(1);
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .IgnoreQueryFilters();
 
-        spec.IgnoreQueryFilters.Should().Be(true);
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .IgnoreQueryFilters();
+
+        spec1.IgnoreQueryFilters.Should().Be(true);
+        spec2.IgnoreQueryFilters.Should().Be(true);
     }
 }

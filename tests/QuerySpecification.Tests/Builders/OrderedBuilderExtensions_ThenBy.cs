@@ -2,35 +2,135 @@
 
 public class OrderedBuilderExtensions_ThenBy
 {
+    public record Customer(int Id, string FirstName, string LastName, string Email);
+
     [Fact]
-    public void AppendOrderExpressionToListWithThenByType_GivenThenByExpression()
+    public void DoesNothing_GivenThenByWithFalseCondition()
     {
-        var spec = new StoresByCompanyOrderedDescByNameThenByIdSpec(1);
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .OrderBy(x => x.FirstName)
+            .ThenBy(x => x.LastName, false);
 
-        var orderExpressions = spec.OrderExpressions.ToList();
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .OrderBy(x => x.FirstName)
+            .ThenBy(x => x.LastName, false);
 
-        // The list must have two items, since Then can be applied once the first level is applied.
-        orderExpressions.Should().HaveCount(2);
-
-        orderExpressions[1].OrderType.Should().Be(OrderTypeEnum.ThenBy);
+        spec1.OrderExpressions.Should().ContainSingle();
+        spec1.OrderExpressions.Should().AllSatisfy(x => x.OrderType.Should().Be(OrderTypeEnum.OrderBy));
+        spec2.OrderExpressions.Should().ContainSingle();
+        spec2.OrderExpressions.Should().AllSatisfy(x => x.OrderType.Should().Be(OrderTypeEnum.OrderBy));
     }
 
     [Fact]
-    public void AddsNothingToList_GivenDiscardedOrderChain()
+    public void DoesNothing_GivenThenByWithDiscardedTopChain()
     {
-        var spec = new CompanyByIdWithFalseConditions(1);
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .OrderBy(x => x.FirstName, false)
+            .ThenBy(x => x.LastName);
 
-        spec.OrderExpressions.Should().BeEmpty();
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .OrderBy(x => x.FirstName, false)
+            .ThenBy(x => x.LastName);
+
+        spec1.OrderExpressions.Should().BeEmpty();
+        spec2.OrderExpressions.Should().BeEmpty();
     }
 
     [Fact]
-    public void AddsNothingToList_GivenThenByExpressionWithFalseCondition()
+    public void DoesNothing_GivenThenByWithDiscardedNestedChain()
     {
-        var spec = new CompanyByIdWithFalseConditionsForInnerChains(1);
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .OrderBy(x => x.FirstName)
+            .ThenBy(x => x.LastName, false)
+            .ThenBy(x => x.Email);
 
-        spec.OrderExpressions.Should().HaveCount(2);
-        spec.OrderExpressions.First().OrderType.Should().Be(OrderTypeEnum.OrderBy);
-        spec.OrderExpressions.Skip(1).First().OrderType.Should().Be(OrderTypeEnum.OrderByDescending);
-        spec.OrderExpressions.Where(x => x.OrderType == OrderTypeEnum.ThenBy).Should().BeEmpty();
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .OrderBy(x => x.FirstName)
+            .ThenBy(x => x.LastName, false)
+            .ThenBy(x => x.Email);
+
+        spec1.OrderExpressions.Should().ContainSingle();
+        spec1.OrderExpressions.Should().AllSatisfy(x => x.OrderType.Should().Be(OrderTypeEnum.OrderBy));
+        spec2.OrderExpressions.Should().ContainSingle();
+        spec2.OrderExpressions.Should().AllSatisfy(x => x.OrderType.Should().Be(OrderTypeEnum.OrderBy));
+    }
+
+    [Fact]
+    public void AddsThenBy_GivenThenBy()
+    {
+        Expression<Func<Customer, object?>> expr = x => x.LastName;
+
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .OrderBy(x => x.FirstName)
+            .ThenBy(expr);
+
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .OrderBy(x => x.FirstName)
+            .ThenBy(expr);
+
+        spec1.OrderExpressions.Should().HaveCount(2);
+        spec1.OrderExpressions.Last().KeySelector.Should().BeSameAs(expr);
+        spec1.OrderExpressions.First().OrderType.Should().Be(OrderTypeEnum.OrderBy);
+        spec1.OrderExpressions.Last().OrderType.Should().Be(OrderTypeEnum.ThenBy);
+        spec2.OrderExpressions.Should().HaveCount(2);
+        spec2.OrderExpressions.Last().KeySelector.Should().BeSameAs(expr);
+        spec2.OrderExpressions.First().OrderType.Should().Be(OrderTypeEnum.OrderBy);
+        spec2.OrderExpressions.Last().OrderType.Should().Be(OrderTypeEnum.ThenBy);
+    }
+
+    [Fact]
+    public void AddsThenBy_GivenMultipleThenBy()
+    {
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .OrderBy(x => x.FirstName)
+            .ThenBy(x => x.LastName)
+            .ThenBy(x => x.Email);
+
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .OrderBy(x => x.FirstName)
+            .ThenBy(x => x.LastName)
+            .ThenBy(x => x.Email);
+
+        spec1.OrderExpressions.Should().HaveCount(3);
+        spec1.OrderExpressions.First().OrderType.Should().Be(OrderTypeEnum.OrderBy);
+        spec1.OrderExpressions.Skip(1).Should().AllSatisfy(x => x.OrderType.Should().Be(OrderTypeEnum.ThenBy));
+        spec2.OrderExpressions.Should().HaveCount(3);
+        spec2.OrderExpressions.First().OrderType.Should().Be(OrderTypeEnum.OrderBy);
+        spec2.OrderExpressions.Skip(1).Should().AllSatisfy(x => x.OrderType.Should().Be(OrderTypeEnum.ThenBy));
+    }
+
+    [Fact]
+    public void AddsThenBy_GivenThenByThenByDescending()
+    {
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .OrderBy(x => x.FirstName)
+            .ThenBy(x => x.LastName)
+            .ThenByDescending(x => x.Email);
+
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .OrderBy(x => x.FirstName)
+            .ThenBy(x => x.LastName)
+            .ThenByDescending(x => x.Email);
+
+        spec1.OrderExpressions.Should().HaveCount(3);
+        spec1.OrderExpressions.First().OrderType.Should().Be(OrderTypeEnum.OrderBy);
+        spec1.OrderExpressions.Skip(1).First().OrderType.Should().Be(OrderTypeEnum.ThenBy);
+        spec1.OrderExpressions.Last().OrderType.Should().Be(OrderTypeEnum.ThenByDescending);
+        spec2.OrderExpressions.Should().HaveCount(3);
+        spec2.OrderExpressions.First().OrderType.Should().Be(OrderTypeEnum.OrderBy);
+        spec2.OrderExpressions.Skip(1).First().OrderType.Should().Be(OrderTypeEnum.ThenBy);
+        spec2.OrderExpressions.Last().OrderType.Should().Be(OrderTypeEnum.ThenByDescending);
     }
 }

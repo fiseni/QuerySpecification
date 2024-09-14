@@ -15,11 +15,6 @@ internal class OrderedSpecificationBuilder<T, TResult> : IOrderedSpecificationBu
     public Specification<T, TResult> Specification { get; }
     public bool IsChainDiscarded { get; set; }
 
-    public OrderedSpecificationBuilder(Specification<T, TResult> specification)
-        : this(specification, false)
-    {
-    }
-
     public OrderedSpecificationBuilder(Specification<T, TResult> specification, bool isChainDiscarded)
     {
         Specification = specification;
@@ -31,11 +26,6 @@ internal class OrderedSpecificationBuilder<T> : IOrderedSpecificationBuilder<T>
 {
     public Specification<T> Specification { get; }
     public bool IsChainDiscarded { get; set; }
-
-    public OrderedSpecificationBuilder(Specification<T> specification)
-        : this(specification, false)
-    {
-    }
 
     public OrderedSpecificationBuilder(Specification<T> specification, bool isChainDiscarded)
     {

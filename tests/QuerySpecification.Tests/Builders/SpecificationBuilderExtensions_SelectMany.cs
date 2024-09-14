@@ -2,19 +2,41 @@
 
 public class SpecificationBuilderExtensions_SelectMany
 {
+    public record Customer(int Id, List<string> FirstName, List<string> LastName);
+
     [Fact]
-    public void SetsNothing_GivenNoSelectManyExpression()
+    public void DoesNothing_GivenNoSelectMany()
     {
-        var spec = new StoreProductNamesEmptySpec();
+        var spec = new Specification<Customer, string>();
 
         spec.SelectorMany.Should().BeNull();
     }
 
     [Fact]
-    public void SetsSelectorMany_GivenSelectManyExpression()
+    public void AddsSelectorMany_GivenSelectMany()
     {
-        var spec = new StoreProductNamesSpec();
+        Expression<Func<Customer, IEnumerable<string>>> expr = x => x.FirstName;
+
+        var spec = new Specification<Customer, string>();
+        spec.Query
+            .SelectMany(expr);
 
         spec.SelectorMany.Should().NotBeNull();
+        spec.SelectorMany.Should().BeSameAs(expr);
+    }
+
+    [Fact]
+    public void OverwritesSelectorMany_GivenMultipleSelectMany()
+    {
+        Expression<Func<Customer, IEnumerable<string>>> expr = x => x.FirstName;
+
+        var spec = new Specification<Customer, string>();
+        spec.Query
+            .SelectMany(x => x.LastName);
+        spec.Query
+            .SelectMany(expr);
+
+        spec.SelectorMany.Should().NotBeNull();
+        spec.SelectorMany.Should().BeSameAs(expr);
     }
 }

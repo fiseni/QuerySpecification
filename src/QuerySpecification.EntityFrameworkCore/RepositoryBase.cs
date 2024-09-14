@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Pozitron.QuerySpecification.EntityFrameworkCore;
-using Pozitron.QuerySpecification.Exceptions;
 
 namespace Pozitron.QuerySpecification;
 

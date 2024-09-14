@@ -10,7 +10,8 @@ public class InvalidLikePatternExceptionTests
     {
         Action action = () => throw new InvalidLikePatternException(_pattern);
 
-        action.Should().Throw<InvalidLikePatternException>(_pattern).WithMessage(_defaultMessage);
+        action.Should().Throw<InvalidLikePatternException>()
+            .WithMessage(_defaultMessage);
     }
 
     [Fact]
@@ -19,6 +20,9 @@ public class InvalidLikePatternExceptionTests
         var inner = new Exception("test");
         Action action = () => throw new InvalidLikePatternException(_pattern, inner);
 
-        action.Should().Throw<InvalidLikePatternException>(_pattern).WithMessage(_defaultMessage).WithInnerException<Exception>().WithMessage("test");
+        action.Should().Throw<InvalidLikePatternException>()
+            .WithMessage(_defaultMessage)
+            .WithInnerException<Exception>()
+            .WithMessage("test");
     }
 }

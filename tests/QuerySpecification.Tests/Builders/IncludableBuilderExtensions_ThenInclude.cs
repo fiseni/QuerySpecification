@@ -2,46 +2,181 @@
 
 public class IncludableBuilderExtensions_ThenInclude
 {
+    public record Customer(int Id, Address Address, List<Address> Addresses);
+    public record Address(int Id, Contact Contact, List<Contact> Contacts);
+    public record Contact(int Id, Phone Phone, List<Phone> Phones);
+    public record Phone(int Id, string Number);
+
     [Fact]
-    public void AppendIncludeExpressionToListWithTypeThenInclude_GivenThenIncludeExpression()
+    public void DoesNothing_GivenIncludeThenWithFalseCondition()
     {
-        var spec = new StoreIncludeCompanyThenCountrySpec();
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .Include(x => x.Address)
+                .ThenInclude(x => x.Contact, false)
+            .Include(x => x.Address)
+                .ThenInclude(x => x.Contacts, false)
+            .Include(x => x.Addresses)
+                .ThenInclude(x => x.Contact, false)
+            .Include(x => x.Addresses)
+                .ThenInclude(x => x.Contacts, false);
 
-        var includeExpressions = spec.IncludeExpressions.ToList();
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .Include(x => x.Address)
+                .ThenInclude(x => x.Contact, false)
+            .Include(x => x.Address)
+                .ThenInclude(x => x.Contacts, false)
+            .Include(x => x.Addresses)
+                .ThenInclude(x => x.Contact, false)
+            .Include(x => x.Addresses)
+                .ThenInclude(x => x.Contacts, false);
 
-        // The list must have two items, since ThenInclude can be applied once the first level is applied.
-        includeExpressions.Should().HaveCount(2);
-
-        includeExpressions[1].Type.Should().Be(IncludeTypeEnum.ThenInclude);
+        spec1.IncludeExpressions.Should().HaveCount(4);
+        spec1.IncludeExpressions.Should().AllSatisfy(x => x.Type.Should().Be(IncludeTypeEnum.Include));
+        spec2.IncludeExpressions.Should().HaveCount(4);
+        spec2.IncludeExpressions.Should().AllSatisfy(x => x.Type.Should().Be(IncludeTypeEnum.Include));
     }
 
     [Fact]
-    public void AddsNothingToList_GivenDiscardedIncludeChain()
+    public void DoesNothing_GivenIncludeThenWithDiscardedTopChain()
     {
-        var spec = new CompanyByIdWithFalseConditions(1);
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .Include(x => x.Address, false)
+                .ThenInclude(x => x.Contact)
+                .ThenInclude(x => x.Phone)
+            .Include(x => x.Address, false)
+                .ThenInclude(x => x.Contacts)
+                .ThenInclude(x => x.Phone)
+            .Include(x => x.Addresses, false)
+                .ThenInclude(x => x.Contact)
+                .ThenInclude(x => x.Phone)
+            .Include(x => x.Addresses, false)
+                .ThenInclude(x => x.Contacts)
+                .ThenInclude(x => x.Phone);
 
-        spec.IncludeExpressions.Should().BeEmpty();
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .Include(x => x.Address, false)
+                .ThenInclude(x => x.Contact)
+                .ThenInclude(x => x.Phone)
+            .Include(x => x.Address, false)
+                .ThenInclude(x => x.Contacts)
+                .ThenInclude(x => x.Phone)
+            .Include(x => x.Addresses, false)
+                .ThenInclude(x => x.Contact)
+                .ThenInclude(x => x.Phone)
+            .Include(x => x.Addresses, false)
+                .ThenInclude(x => x.Contacts)
+                .ThenInclude(x => x.Phone);
+
+        spec1.IncludeExpressions.Should().BeEmpty();
+        spec2.IncludeExpressions.Should().BeEmpty();
     }
 
     [Fact]
-    public void AddsNothingToList_GivenThenIncludeExpressionWithFalseCondition()
+    public void DoesNothing_GivenIncludeThenWithDiscardedNestedChain()
     {
-        var spec = new CompanyByIdWithFalseConditionsForInnerChains(1);
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .Include(x => x.Address)
+                .ThenInclude(x => x.Contact, false)
+                .ThenInclude(x => x.Phone)
+            .Include(x => x.Address)
+                .ThenInclude(x => x.Contacts, false)
+                .ThenInclude(x => x.Phone)
+            .Include(x => x.Addresses)
+                .ThenInclude(x => x.Contact, false)
+                .ThenInclude(x => x.Phone)
+            .Include(x => x.Addresses)
+                .ThenInclude(x => x.Contacts, false)
+                .ThenInclude(x => x.Phone);
 
-        spec.IncludeExpressions.Should().HaveCount(1);
-        spec.IncludeExpressions.First().Type.Should().Be(IncludeTypeEnum.Include);
-        spec.IncludeExpressions.Where(x => x.Type == IncludeTypeEnum.ThenInclude).Should().BeEmpty();
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .Include(x => x.Address)
+                .ThenInclude(x => x.Contact, false)
+                .ThenInclude(x => x.Phone)
+            .Include(x => x.Address)
+                .ThenInclude(x => x.Contacts, false)
+                .ThenInclude(x => x.Phone)
+            .Include(x => x.Addresses)
+                .ThenInclude(x => x.Contact, false)
+                .ThenInclude(x => x.Phone)
+            .Include(x => x.Addresses)
+                .ThenInclude(x => x.Contacts, false)
+                .ThenInclude(x => x.Phone);
+
+        spec1.IncludeExpressions.Should().HaveCount(4);
+        spec1.IncludeExpressions.Should().AllSatisfy(x => x.Type.Should().Be(IncludeTypeEnum.Include));
+        spec2.IncludeExpressions.Should().HaveCount(4);
+        spec2.IncludeExpressions.Should().AllSatisfy(x => x.Type.Should().Be(IncludeTypeEnum.Include));
     }
 
     [Fact]
-    public void ThenInclude_Append_IncludeExpression_With_EnumerablePreviousPropertyType()
+    public void AddsIncludeThen_GivenIncludeThen()
     {
-        var spec = new StoreIncludeCompanyThenStoresSpec();
+        Expression<Func<Address, Contact>> expr = x => x.Contact;
 
-        var includeExpressions = spec.IncludeExpressions.ToList();
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .Include(x => x.Address)
+            .ThenInclude(expr);
 
-        includeExpressions.Should().HaveCount(3);
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .Include(x => x.Address)
+            .ThenInclude(expr);
 
-        includeExpressions[2].PreviousPropertyType.Should().Be(typeof(IEnumerable<Store>));
+        spec1.IncludeExpressions.Should().HaveCount(2);
+        spec1.IncludeExpressions.Last().LambdaExpression.Should().BeSameAs(expr);
+        spec1.IncludeExpressions.First().Type.Should().Be(IncludeTypeEnum.Include);
+        spec1.IncludeExpressions.Last().Type.Should().Be(IncludeTypeEnum.ThenInclude);
+        spec2.IncludeExpressions.Should().HaveCount(2);
+        spec2.IncludeExpressions.Last().LambdaExpression.Should().BeSameAs(expr);
+        spec2.IncludeExpressions.First().Type.Should().Be(IncludeTypeEnum.Include);
+        spec2.IncludeExpressions.Last().Type.Should().Be(IncludeTypeEnum.ThenInclude);
+    }
+
+    [Fact]
+    public void AddsIncludeThen_GivenMultipleIncludeThen()
+    {
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .Include(x => x.Address)
+                .ThenInclude(x => x.Contact)
+                .ThenInclude(x => x.Phone)
+            .Include(x => x.Address)
+                .ThenInclude(x => x.Contacts)
+                .ThenInclude(x => x.Phone)
+            .Include(x => x.Addresses)
+                .ThenInclude(x => x.Contact)
+                .ThenInclude(x => x.Phone)
+            .Include(x => x.Addresses)
+                .ThenInclude(x => x.Contacts)
+                .ThenInclude(x => x.Phone);
+
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .Include(x => x.Address)
+                .ThenInclude(x => x.Contact)
+                .ThenInclude(x => x.Phone)
+            .Include(x => x.Address)
+                .ThenInclude(x => x.Contacts)
+                .ThenInclude(x => x.Phone)
+            .Include(x => x.Addresses)
+                .ThenInclude(x => x.Contact)
+                .ThenInclude(x => x.Phone)
+            .Include(x => x.Addresses)
+                .ThenInclude(x => x.Contacts)
+                .ThenInclude(x => x.Phone);
+
+        spec1.IncludeExpressions.Should().HaveCount(12);
+        spec1.IncludeExpressions.OrderBy(x => x.Type).Take(4).Should().AllSatisfy(x => x.Type.Should().Be(IncludeTypeEnum.Include));
+        spec1.IncludeExpressions.OrderBy(x => x.Type).Skip(4).Should().AllSatisfy(x => x.Type.Should().Be(IncludeTypeEnum.ThenInclude));
+        spec2.IncludeExpressions.Should().HaveCount(12);
+        spec2.IncludeExpressions.OrderBy(x => x.Type).Take(4).Should().AllSatisfy(x => x.Type.Should().Be(IncludeTypeEnum.Include));
+        spec2.IncludeExpressions.OrderBy(x => x.Type).Skip(4).Should().AllSatisfy(x => x.Type.Should().Be(IncludeTypeEnum.ThenInclude));
     }
 }

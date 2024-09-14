@@ -11,50 +11,15 @@ public class BenchmarkDbContext : DbContext
     public DbSet<Address> Addresses { get; set; }
     public DbSet<Product> Products { get; set; }
 
-    public BenchmarkDbContext()
-    {
-    }
-    public BenchmarkDbContext(DbContextOptions options) : base(options)
-    {
-    }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=QuerySpecificationBenchmark;ConnectRetryCount=0");
-        //optionsBuilder.LogTo(Console.WriteLine, LogLevel.Debug);
-        base.OnConfiguring(optionsBuilder);
-    }
+        => optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=QuerySpecificationBenchmark;ConnectRetryCount=0");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
-
         modelBuilder.Entity<Store>().HasOne(x => x.Address).WithOne(x => x.Store).HasForeignKey<Address>(x => x.StoreId);
     }
 
-    public static async Task InitializeAsync()
-    {
-        await SeedAsync();
-
-        using var context = new BenchmarkDbContext();
-
-        // Initialize caches.
-
-        var id = 1;
-        _ = await context
-            .Stores
-            .Where(x => x.Id == id)
-            .Include(x => x.Products)
-            .Include(x => x.Company).ThenInclude(x => x.Country)
-            .ToListAsync();
-
-        _ = await context
-            .Stores
-            .WithSpecification(new StoreIncludeProductsSpec(id))
-            .ToListAsync();
-    }
-
-    private static async Task SeedAsync()
+    public static async Task SeedAsync()
     {
         using var context = new BenchmarkDbContext();
         var created = await context.Database.EnsureCreatedAsync();

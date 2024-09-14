@@ -2,30 +2,67 @@
 
 public class SpecificationBuilderExtensions_IncludeString
 {
-    [Fact]
-    public void AddsNothingToList_GivenNoIncludeStringExpression()
-    {
-        var spec = new StoreEmptySpec();
+    public record Customer(int Id, Address Address, Contact Contact);
+    public record Address(int Id, string City);
+    public record Contact(int Id, string Email);
 
-        spec.WhereExpressions.Should().BeEmpty();
+    [Fact]
+    public void DoesNothing_GivenNoIncludeString()
+    {
+        var spec1 = new Specification<Customer>();
+        var spec2 = new Specification<Customer, string>();
+
+        spec1.IncludeStrings.Should().BeEmpty();
+        spec2.IncludeStrings.Should().BeEmpty();
     }
 
     [Fact]
-    public void AddsNothingToList_GivenIncludeStringWithFalseCondition()
+    public void DoesNothing_GivenIncludeStringWithFalseCondition()
     {
-        var spec = new CompanyByIdWithFalseConditions(1);
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .Include(nameof(Address), false);
 
-        spec.IncludeStrings.Should().BeEmpty();
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .Include(nameof(Address), false);
+
+        spec1.IncludeStrings.Should().BeEmpty();
+        spec2.IncludeStrings.Should().BeEmpty();
     }
 
     [Fact]
-    public void AddsIncludeStringToList_GivenString()
+    public void AddsIncludeString_GivenIncludeString()
     {
-        var spec = new StoreIncludeCompanyThenCountryAsStringSpec();
+        var includeString = nameof(Address);
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .Include(includeString);
 
-        var expected = $"{nameof(Company)}.{nameof(Company.Country)}";
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .Include(includeString);
 
-        spec.IncludeStrings.Should().ContainSingle();
-        spec.IncludeStrings.Single().Should().Be(expected);
+        spec1.IncludeStrings.Should().ContainSingle();
+        spec1.IncludeStrings.First().Should().BeSameAs(includeString);
+        spec2.IncludeStrings.Should().ContainSingle();
+        spec2.IncludeStrings.First().Should().BeSameAs(includeString);
+    }
+
+    [Fact]
+    public void AddsIncludeString_GivenMultipleIncludeString()
+    {
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .Include(nameof(Address))
+            .Include(nameof(Contact));
+
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .Include(nameof(Address))
+            .Include(nameof(Contact));
+
+        spec1.IncludeStrings.Should().HaveCount(2);
+        spec2.IncludeStrings.Should().HaveCount(2);
     }
 }

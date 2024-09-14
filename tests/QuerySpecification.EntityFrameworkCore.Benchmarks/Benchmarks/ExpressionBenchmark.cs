@@ -11,11 +11,8 @@ public class ExpressionBenchmark
     private IQueryable<Store> _queryable = default!;
 
     [GlobalSetup]
-    public async Task Setup()
+    public void Setup()
     {
-        // Initialize caches.
-        await BenchmarkDbContext.InitializeAsync();
-
         _queryable = new BenchmarkDbContext().Stores.AsQueryable();
     }
 
@@ -41,5 +38,16 @@ public class ExpressionBenchmark
             .WithSpecification(new StoreIncludeProductsSpec(id));
 
         return result;
+    }
+
+    private sealed class StoreIncludeProductsSpec : Specification<Store>
+    {
+        public StoreIncludeProductsSpec(int id)
+        {
+            Query
+                .Where(x => x.Id == id)
+                .Include(x => x.Products)
+                .Include(x => x.Company).ThenInclude(x => x.Country);
+        }
     }
 }

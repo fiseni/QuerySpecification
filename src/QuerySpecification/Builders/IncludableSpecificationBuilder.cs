@@ -15,11 +15,6 @@ internal class IncludableSpecificationBuilder<T, TResult, TProperty> : IIncludab
     public Specification<T, TResult> Specification { get; }
     public bool IsChainDiscarded { get; set; }
 
-    public IncludableSpecificationBuilder(Specification<T, TResult> specification)
-        : this(specification, false)
-    {
-    }
-
     public IncludableSpecificationBuilder(Specification<T, TResult> specification, bool isChainDiscarded)
     {
         Specification = specification;
@@ -31,11 +26,6 @@ internal class IncludableSpecificationBuilder<T, TProperty> : IIncludableSpecifi
 {
     public Specification<T> Specification { get; }
     public bool IsChainDiscarded { get; set; }
-
-    public IncludableSpecificationBuilder(Specification<T> specification)
-        : this(specification, false)
-    {
-    }
 
     public IncludableSpecificationBuilder(Specification<T> specification, bool isChainDiscarded)
     {

@@ -2,46 +2,68 @@
 
 public class IncludeExpressionTests
 {
-    private readonly Expression<Func<Company, Country>> _expr;
-
-    public IncludeExpressionTests()
-    {
-        _expr = x => x.Country;
-    }
+    public record Customer(int Id, Address Address);
+    public record Address(int Id, City City);
+    public record City(int Id);
 
     [Fact]
     public void ThrowsArgumentNullException_GivenNullForLambdaExpression()
     {
-        Action sutAction = () => new IncludeExpression(null!, typeof(Company), typeof(Country));
+        Action sutAction = () => new IncludeExpression(null!, typeof(Customer), typeof(Address));
 
-        sutAction.Should()
-            .Throw<ArgumentNullException>();
+        sutAction.Should().Throw<ArgumentNullException>().WithParameterName("expression");
     }
 
     [Fact]
     public void ThrowsArgumentNullException_GivenNullForEntityType()
     {
-        Action sutAction = () => new IncludeExpression(_expr, null!, typeof(Country));
+        Expression<Func<Customer, Address>> expr = x => x.Address;
+        Action sutAction = () => new IncludeExpression(expr, null!, typeof(Address));
 
-        sutAction.Should()
-            .Throw<ArgumentNullException>();
+        sutAction.Should().Throw<ArgumentNullException>().WithParameterName("entityType");
     }
 
     [Fact]
     public void ThrowsArgumentNullException_GivenNullForPropertyType()
     {
-        Action sutAction = () => new IncludeExpression(_expr, typeof(Company), null!);
+        Expression<Func<Customer, Address>> expr = x => x.Address;
+        Action sutAction = () => new IncludeExpression(expr, typeof(Company), null!);
 
-        sutAction.Should()
-            .Throw<ArgumentNullException>();
+        sutAction.Should().Throw<ArgumentNullException>().WithParameterName("propertyType");
     }
 
     [Fact]
     public void ThrowsArgumentNullException_GivenNullForPreviousPropertyType()
     {
-        Action sutAction = () => new IncludeExpression(_expr, typeof(Company), typeof(Country), null!);
+        Expression<Func<Customer, Address>> expr = x => x.Address;
+        Action sutAction = () => new IncludeExpression(expr, typeof(Customer), typeof(Address), null!);
 
-        sutAction.Should()
-            .Throw<ArgumentNullException>();
+        sutAction.Should().Throw<ArgumentNullException>().WithParameterName("previousPropertyType");
+    }
+
+    [Fact]
+    public void SetsType_ForIncludeExpression()
+    {
+        Expression<Func<Customer, Address>> expr = x => x.Address;
+        var sut = new IncludeExpression(expr, typeof(Customer), typeof(Address));
+
+        sut.Type.Should().Be(IncludeTypeEnum.Include);
+        sut.LambdaExpression.Should().Be(expr);
+        sut.EntityType.Should().Be(typeof(Customer));
+        sut.PropertyType.Should().Be(typeof(Address));
+        sut.PreviousPropertyType.Should().BeNull();
+    }
+
+    [Fact]
+    public void SetsType_ForIncludeThenExpression()
+    {
+        Expression<Func<Address, City>> expr = x => x.City;
+        var sut = new IncludeExpression(expr, typeof(Customer), typeof(City), typeof(Address));
+
+        sut.Type.Should().Be(IncludeTypeEnum.ThenInclude);
+        sut.LambdaExpression.Should().Be(expr);
+        sut.EntityType.Should().Be(typeof(Customer));
+        sut.PropertyType.Should().Be(typeof(City));
+        sut.PreviousPropertyType.Should().Be(typeof(Address));
     }
 }

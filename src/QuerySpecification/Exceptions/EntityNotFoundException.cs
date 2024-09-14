@@ -1,4 +1,4 @@
-﻿namespace Pozitron.QuerySpecification.Exceptions;
+﻿namespace Pozitron.QuerySpecification;
 
 public class EntityNotFoundException : Exception
 {

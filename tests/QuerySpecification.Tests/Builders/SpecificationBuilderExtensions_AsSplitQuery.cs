@@ -2,27 +2,45 @@
 
 public class SpecificationBuilderExtensions_AsSplitQuery
 {
-    [Fact]
-    public void DoesNothing_GivenSpecWithoutAsSplitQuery()
-    {
-        var spec = new StoreEmptySpec();
+    public record Customer(int Id, string Name);
 
-        spec.AsSplitQuery.Should().Be(false);
+    [Fact]
+    public void DoesNothing_GivenNoAsSplitQuery()
+    {
+        var spec1 = new Specification<Customer>();
+        var spec2 = new Specification<Customer, string>();
+
+        spec1.AsSplitQuery.Should().Be(false);
+        spec2.AsSplitQuery.Should().Be(false);
     }
 
     [Fact]
     public void DoesNothing_GivenAsSplitQueryWithFalseCondition()
     {
-        var spec = new CompanyByIdWithFalseConditions(1);
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .AsSplitQuery(false);
 
-        spec.AsSplitQuery.Should().Be(false);
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .AsSplitQuery(false);
+
+        spec1.AsSplitQuery.Should().Be(false);
+        spec2.AsSplitQuery.Should().Be(false);
     }
 
     [Fact]
-    public void FlagsAsNoTracking_GivenSpecWithAsSplitQuery()
+    public void SetsAsSplitQuery_GivenAsSplitQuery()
     {
-        var spec = new CompanyByIdAsSplitQuery(1);
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .AsSplitQuery();
 
-        spec.AsSplitQuery.Should().Be(true);
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .AsSplitQuery();
+
+        spec1.AsSplitQuery.Should().Be(true);
+        spec2.AsSplitQuery.Should().Be(true);
     }
 }

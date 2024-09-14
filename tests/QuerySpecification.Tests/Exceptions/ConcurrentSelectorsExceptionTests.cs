@@ -9,7 +9,8 @@ public class ConcurrentSelectorsExceptionTests
     {
         Action action = () => throw new ConcurrentSelectorsException();
 
-        action.Should().Throw<ConcurrentSelectorsException>().WithMessage(_defaultMessage);
+        action.Should().Throw<ConcurrentSelectorsException>()
+            .WithMessage(_defaultMessage);
     }
 
     [Fact]
@@ -18,6 +19,9 @@ public class ConcurrentSelectorsExceptionTests
         var inner = new Exception("test");
         Action action = () => throw new ConcurrentSelectorsException(inner);
 
-        action.Should().Throw<ConcurrentSelectorsException>().WithMessage(_defaultMessage).WithInnerException<Exception>().WithMessage("test");
+        action.Should().Throw<ConcurrentSelectorsException>()
+            .WithMessage(_defaultMessage)
+            .WithInnerException<Exception>()
+            .WithMessage("test");
     }
 }

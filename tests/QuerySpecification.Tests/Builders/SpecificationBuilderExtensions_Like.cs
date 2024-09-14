@@ -2,54 +2,92 @@
 
 public class SpecificationBuilderExtensions_Like
 {
-    [Fact]
-    public void AddsNothingToList_GivenNoWhereExpression()
-    {
-        var spec = new StoreEmptySpec();
+    public record Customer(int Id, string FirstName, string LastName);
 
-        spec.LikeExpressions.Should().BeEmpty();
+    [Fact]
+    public void DoesNothing_GivenNoLike()
+    {
+        var spec1 = new Specification<Customer>();
+        var spec2 = new Specification<Customer, string>();
+
+        spec1.LikeExpressions.Should().BeEmpty();
+        spec2.LikeExpressions.Should().BeEmpty();
     }
 
     [Fact]
-    public void AddsNothingToList_GivenLikeExpressionWithFalseCondition()
+    public void DoesNothing_GivenLikeWithFalseCondition()
     {
-        var spec = new CompanyByIdWithFalseConditions(1);
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .Like(x => x.FirstName, "%a%", false);
 
-        spec.LikeExpressions.Should().BeEmpty();
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .Like(x => x.FirstName, "%a%", false);
+
+        spec1.LikeExpressions.Should().BeEmpty();
+        spec2.LikeExpressions.Should().BeEmpty();
     }
 
     [Fact]
-    public void AddsOneCriteriaWithDefaultGroupToList_GivenOneLikeExpressionWithNoGroup()
+    public void AddsLike_GivenSingleLike()
     {
-        var spec = new StoreSearchByNameSpec("test");
+        Expression<Func<Customer, string>> expr = x => x.FirstName;
+        var pattern = "%a%";
 
-        spec.LikeExpressions.Should().ContainSingle();
-        spec.LikeExpressions.Single().Pattern.Should().Be("%test%");
-        spec.LikeExpressions.Single().Group.Should().Be(1);
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .Like(expr, pattern);
+
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .Like(expr, pattern);
+
+        spec1.LikeExpressions.Should().ContainSingle();
+        spec1.LikeExpressions.First().KeySelector.Should().BeSameAs(expr);
+        spec1.LikeExpressions.First().Pattern.Should().Be(pattern);
+        spec1.LikeExpressions.First().Group.Should().Be(1);
+        spec2.LikeExpressions.Should().ContainSingle();
+        spec2.LikeExpressions.First().KeySelector.Should().BeSameAs(expr);
+        spec2.LikeExpressions.First().Pattern.Should().Be(pattern);
+        spec2.LikeExpressions.First().Group.Should().Be(1);
     }
 
     [Fact]
-    public void AddsTwoCriteriaWithSameGroupToList_GivenTwoLikeExpressionWithNoGroup()
+    public void AddsLike_GivenMultipleLikeInSameGroup()
     {
-        var spec = new StoreSearchByNameOrCitySpec("test");
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .Like(x => x.FirstName, "%a%")
+            .Like(x => x.LastName, "%a%");
 
-        var criterias = spec.LikeExpressions.ToList();
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .Like(x => x.FirstName, "%a%")
+            .Like(x => x.LastName, "%a%");
 
-        criterias.Should().HaveCount(2);
-        criterias.ForEach(x => x.Pattern.Should().Be("%test%"));
-        criterias.ForEach(x => x.Group.Should().Be(1));
+        spec1.LikeExpressions.Should().HaveCount(2);
+        spec1.LikeExpressions.Should().AllSatisfy(x => x.Group.Should().Be(1));
+        spec2.LikeExpressions.Should().HaveCount(2);
+        spec2.LikeExpressions.Should().AllSatisfy(x => x.Group.Should().Be(1));
     }
 
     [Fact]
-    public void AddsTwoCriteriaWithDifferentGroupToList_GivenTwoLikeExpressionWithDistinctGroup()
+    public void AddsLike_GivenMultipleLikeInDifferentGroups()
     {
-        var spec = new StoreSearchByNameAndCitySpec("test");
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .Like(x => x.FirstName, "%a%", 1)
+            .Like(x => x.LastName, "%a%", 2);
 
-        var criterias = spec.LikeExpressions.ToList();
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .Like(x => x.FirstName, "%a%", 1)
+            .Like(x => x.LastName, "%a%", 2);
 
-        criterias.Should().HaveCount(2);
-        criterias.ForEach(x => x.Pattern.Should().Be("%test%"));
-        criterias[0].Group.Should().Be(1);
-        criterias[1].Group.Should().Be(2);
+        spec1.LikeExpressions.Should().HaveCount(2);
+        spec1.LikeExpressions.Should().OnlyHaveUniqueItems(x => x.Group);
+        spec2.LikeExpressions.Should().HaveCount(2);
+        spec2.LikeExpressions.Should().OnlyHaveUniqueItems(x => x.Group);
     }
 }

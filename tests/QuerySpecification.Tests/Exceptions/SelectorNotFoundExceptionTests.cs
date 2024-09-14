@@ -9,7 +9,8 @@ public class SelectorNotFoundExceptionTests
     {
         Action action = () => throw new SelectorNotFoundException();
 
-        action.Should().Throw<SelectorNotFoundException>().WithMessage(_defaultMessage);
+        action.Should().Throw<SelectorNotFoundException>()
+            .WithMessage(_defaultMessage);
     }
 
     [Fact]
@@ -18,6 +19,9 @@ public class SelectorNotFoundExceptionTests
         var inner = new Exception("test");
         Action action = () => throw new SelectorNotFoundException(inner);
 
-        action.Should().Throw<SelectorNotFoundException>().WithMessage(_defaultMessage).WithInnerException<Exception>().WithMessage("test");
+        action.Should().Throw<SelectorNotFoundException>()
+            .WithMessage(_defaultMessage)
+            .WithInnerException<Exception>()
+            .WithMessage("test");
     }
 }

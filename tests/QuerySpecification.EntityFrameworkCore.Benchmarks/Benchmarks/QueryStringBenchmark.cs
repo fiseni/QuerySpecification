@@ -8,13 +8,6 @@ namespace Pozitron.QuerySpecification.EntityFrameworkCore.Benchmarks;
 [MemoryDiagnoser]
 public class QueryStringBenchmark
 {
-    [GlobalSetup]
-    public async Task Setup()
-    {
-        // Initialize caches.
-        await BenchmarkDbContext.InitializeAsync();
-    }
-
     [Benchmark(Baseline = true)]
     public string EFIncludeExpression()
     {
@@ -73,5 +66,27 @@ public class QueryStringBenchmark
             .ToQueryString();
 
         return queryString;
+    }
+
+    private sealed class StoreIncludeProductsSpec : Specification<Store>
+    {
+        public StoreIncludeProductsSpec(int id)
+        {
+            Query
+                .Where(x => x.Id == id)
+                .Include(x => x.Products)
+                .Include(x => x.Company).ThenInclude(x => x.Country);
+        }
+    }
+
+    private sealed class StoreIncludeProductsAsStringSpec : Specification<Store>
+    {
+        public StoreIncludeProductsAsStringSpec(int id)
+        {
+            Query
+                .Where(x => x.Id == id)
+                .Include(nameof(Store.Products))
+                .Include($"{nameof(Store.Company)}.{nameof(Company.Country)}");
+        }
     }
 }

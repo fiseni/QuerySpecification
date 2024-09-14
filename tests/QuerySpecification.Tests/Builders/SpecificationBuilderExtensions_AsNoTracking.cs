@@ -2,34 +2,64 @@
 
 public class SpecificationBuilderExtensions_AsNoTracking
 {
-    [Fact]
-    public void DoesNothing_GivenSpecWithoutAsNoTracking()
-    {
-        var spec = new StoreEmptySpec();
+    public record Customer(int Id, string Name);
 
-        spec.AsNoTracking.Should().Be(false);
+    [Fact]
+    public void DoesNothing_GivenNoAsNoTracking()
+    {
+        var spec1 = new Specification<Customer>();
+        var spec2 = new Specification<Customer, string>();
+
+        spec1.AsNoTracking.Should().Be(false);
+        spec2.AsNoTracking.Should().Be(false);
     }
 
     [Fact]
     public void DoesNothing_GivenAsNoTrackingWithFalseCondition()
     {
-        var spec = new CompanyByIdWithFalseConditions(1);
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .AsNoTracking(false);
 
-        spec.AsNoTracking.Should().Be(false);
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .AsNoTracking(false);
+
+        spec1.AsNoTracking.Should().Be(false);
+        spec2.AsNoTracking.Should().Be(false);
     }
 
     [Fact]
-    public void FlagsAsNoTracking_GivenSpecWithAsNoTracking()
+    public void SetsAsNoTracking_GivenAsNoTracking()
     {
-        var spec = new CompanyByIdAsUntrackedSpec(1);
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .AsNoTracking();
 
-        spec.AsNoTracking.Should().Be(true);
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .AsNoTracking();
+
+        spec1.AsNoTracking.Should().Be(true);
+        spec2.AsNoTracking.Should().Be(true);
     }
 
     [Fact]
-    // TODO: Finish SpecificationBuilderExtensions_AsNoTracking. [fatii, 03/09/2024]
-    public void FlagsAsNoTracking_GivenSpecWithAsTrackingAndEndWithAsNoTracking()
+    public void SetsAsNoTracking_GivenAsNoTrackingAndAsNoTrackingWithIdentityResolution()
     {
-        Assert.Equal(1, 1);
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking();
+
+        var spec2 = new Specification<Customer>();
+        spec2.Query
+            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking();
+
+        spec1.AsNoTrackingWithIdentityResolution.Should().Be(false);
+        spec1.AsNoTracking.Should().Be(true);
+        spec2.AsNoTrackingWithIdentityResolution.Should().Be(false);
+        spec2.AsNoTracking.Should().Be(true);
     }
 }

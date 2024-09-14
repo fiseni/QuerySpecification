@@ -9,7 +9,8 @@ public class DatabaseFixture : IDisposable
 
     public DatabaseFixture()
     {
-        var databaseName = $"QuerySpecificationTestsDB_{Guid.NewGuid().ToString().Replace('-', '_')}";
+        var guid = Guid.NewGuid().ToString().Replace('-', '_');
+        var databaseName = $"QuerySpecificationTestsDB_{guid}";
 
         using (var localDB = new SqlLocalDbApi())
         {
