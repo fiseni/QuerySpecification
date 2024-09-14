@@ -1,5 +1,4 @@
 ﻿global using FluentAssertions;
-global using Pozitron.QuerySpecification.Tests.Fixture;
-global using Xunit;
-global using System.Linq.Expressions;
 global using Microsoft.EntityFrameworkCore;
+global using Pozitron.QuerySpecification.EntityFrameworkCore.Tests.Fixture;
+global using Xunit;
