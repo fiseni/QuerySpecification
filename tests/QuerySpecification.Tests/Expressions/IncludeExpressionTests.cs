@@ -27,7 +27,7 @@ public class IncludeExpressionTests
     public void ThrowsArgumentNullException_GivenNullForPropertyType()
     {
         Expression<Func<Customer, Address>> expr = x => x.Address;
-        Action sutAction = () => new IncludeExpression(expr, typeof(Company), null!);
+        Action sutAction = () => new IncludeExpression(expr, typeof(Customer), null!);
 
         sutAction.Should().Throw<ArgumentNullException>().WithParameterName("propertyType");
     }
