@@ -23,7 +23,21 @@ public class IntegrationTest(TestFactory testFactory) : IAsyncLifetime
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task SeedAsync(params object[] entities)
+    public async Task SeedRangeAsync<TEntity>(TEntity[] entities) where TEntity : class
+    {
+        using var dbContext = new TestDbContext(testFactory.DbContextOptions);
+        dbContext.AddRange(entities);
+        await dbContext.SaveChangesAsync();
+    }
+
+    public async Task SeedRangeAsync(IEnumerable<object> entities)
+    {
+        using var dbContext = new TestDbContext(testFactory.DbContextOptions);
+        dbContext.AddRange(entities);
+        await dbContext.SaveChangesAsync();
+    }
+
+    public async Task SeedRangeAsync(params object[] entities)
     {
         using var dbContext = new TestDbContext(testFactory.DbContextOptions);
         dbContext.AddRange(entities);

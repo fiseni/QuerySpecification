@@ -1,6 +1,6 @@
 ﻿namespace Pozitron.QuerySpecification.EntityFrameworkCore.Tests.Fixture;
 
-public class Address
+public record Address
 {
     public int Id { get; set; }
     public string? Street { get; set; }

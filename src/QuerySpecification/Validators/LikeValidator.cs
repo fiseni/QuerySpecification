@@ -9,7 +9,7 @@ public class LikeValidator : IValidator
     {
         foreach (var likeGroup in specification.LikeExpressions.GroupBy(x => x.Group))
         {
-            if (likeGroup.Any(c => c.KeySelectorFunc(entity).Like(c.Pattern)) == false) return false;
+            if (likeGroup.Any(c => c.KeySelectorFunc(entity)?.Like(c.Pattern) ?? false) == false) return false;
         }
 
         return true;

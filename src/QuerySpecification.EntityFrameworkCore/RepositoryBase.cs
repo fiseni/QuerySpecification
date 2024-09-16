@@ -2,7 +2,7 @@
 
 namespace Pozitron.QuerySpecification.EntityFrameworkCore;
 
-public abstract class RepositoryBase<T> where T : class
+public abstract class RepositoryBase<T> : IRepositoryBase<T>, IReadRepositoryBase<T> where T : class
 {
     private readonly DbContext _dbContext;
     private readonly SpecificationEvaluator _evaluator;

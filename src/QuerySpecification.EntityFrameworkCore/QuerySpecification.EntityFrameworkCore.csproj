@@ -47,5 +47,9 @@
   <ItemGroup>
     <ProjectReference Include="..\QuerySpecification\QuerySpecification.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="QuerySpecification.EntityFrameworkCore.Tests" />
+  </ItemGroup>
 </Project>
 

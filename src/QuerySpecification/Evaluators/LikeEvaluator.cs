@@ -9,7 +9,7 @@ public class LikeEvaluator : IInMemoryEvaluator
     {
         foreach (var likeGroup in specification.LikeExpressions.GroupBy(x => x.Group))
         {
-            query = query.Where(x => likeGroup.Any(c => c.KeySelectorFunc(x).Like(c.Pattern)));
+            query = query.Where(x => likeGroup.Any(c => c.KeySelectorFunc(x)?.Like(c.Pattern) ?? false));
         }
 
         return query;

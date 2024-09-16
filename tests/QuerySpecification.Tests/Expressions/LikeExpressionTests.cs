@@ -17,7 +17,7 @@ public class LikeExpressionTests
     [Fact]
     public void ThrowsArgumentNullException_GivenNullPattern()
     {
-        Expression<Func<Customer, string>> expr = x => x.Name;
+        Expression<Func<Customer, string?>> expr = x => x.Name;
         Action sutAction = () => new LikeExpression<Customer>(expr, null!);
 
         sutAction.Should().Throw<ArgumentNullException>().WithParameterName("pattern");
@@ -26,7 +26,7 @@ public class LikeExpressionTests
     [Fact]
     public void SetsStateAndFunc()
     {
-        Expression<Func<Customer, string>> expr = x => x.Name;
+        Expression<Func<Customer, string?>> expr = x => x.Name;
 
         var sut = new LikeExpression<Customer>(expr, "x", 99);
 

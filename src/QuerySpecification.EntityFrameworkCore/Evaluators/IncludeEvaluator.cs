@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -67,7 +68,7 @@ public class IncludeEvaluator : IEvaluator
 
         var result = _includeMethodInfo.MakeGenericMethod(includeExpression.EntityType, includeExpression.PropertyType).Invoke(null, [query, includeExpression.LambdaExpression]);
 
-        if (result is null) throw new TargetException();
+        Debug.Assert(result is not null);
 
         return (IQueryable<T>)result;
     }
@@ -83,7 +84,7 @@ public class IncludeEvaluator : IEvaluator
                     .MakeGenericMethod(includeExpression.EntityType, previousPropertyType, includeExpression.PropertyType)
                     .Invoke(null, [query, includeExpression.LambdaExpression,]);
 
-        if (result is null) throw new TargetException();
+        Debug.Assert(result is not null);
 
         return (IQueryable<T>)result;
     }

@@ -32,7 +32,7 @@ public class SpecificationBuilderExtensions_Like
     [Fact]
     public void AddsLike_GivenSingleLike()
     {
-        Expression<Func<Customer, string>> expr = x => x.FirstName;
+        Expression<Func<Customer, string?>> expr = x => x.FirstName;
         var pattern = "%a%";
 
         var spec1 = new Specification<Customer>();

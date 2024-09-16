@@ -10,6 +10,17 @@ public class TestDbContext(DbContextOptions options) : DbContext(options)
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Store>().HasOne(x => x.Address).WithOne(x => x.Store).HasForeignKey<Address>(x => x.StoreId);
+        modelBuilder.Entity<Store>()
+            .HasOne(x => x.Address)
+            .WithOne(x => x.Store)
+            .HasForeignKey<Address>(x => x.StoreId);
+
+        modelBuilder.Entity<Country>()
+            .HasMany<Company>()
+            .WithOne(x => x.Country)
+            .HasForeignKey(x => x.CountryId);
+
+        modelBuilder.Entity<Country>()
+            .HasQueryFilter(x => !x.IsDeleted);
     }
 }

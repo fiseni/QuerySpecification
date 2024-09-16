@@ -10,7 +10,7 @@ public class PagedResponseTests
 
         var pagedResponse = new PagedResponse<int>(data, pagination);
 
-        pagedResponse.Data.Should().BeEquivalentTo(data);
-        pagedResponse.Pagination.Should().BeEquivalentTo(pagination);
+        pagedResponse.Data.Should().Equal(data);
+        pagedResponse.Pagination.Should().Be(pagination);
     }
 }

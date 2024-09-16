@@ -1,6 +1,6 @@
 ﻿namespace Pozitron.QuerySpecification.EntityFrameworkCore.Tests.Fixture;
 
-public class Store
+public record Store
 {
     public int Id { get; set; }
     public string? Name { get; set; }
