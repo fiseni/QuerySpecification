@@ -1,4 +1,4 @@
-﻿namespace Pozitron.QuerySpecification.EntityFrameworkCore.Tests.Evaluators;
+﻿namespace QuerySpecification.EntityFrameworkCore.Tests.Evaluators;
 
 [Collection("SharedCollection")]
 public class AsSplitQueryEvaluatorTests(TestFactory factory) : IntegrationTest(factory)

@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-
-namespace Pozitron.QuerySpecification.EntityFrameworkCore.Benchmarks;
+﻿namespace QuerySpecification.EntityFrameworkCore.Benchmarks;
 
 public class BenchmarkDbContext : DbContext
 {

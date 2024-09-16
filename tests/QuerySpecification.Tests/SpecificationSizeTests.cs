@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using Xunit.Abstractions;
 
-namespace Pozitron.QuerySpecification.Tests;
+namespace QuerySpecification.Tests;
 
 public class SpecificationSizeTests
 {

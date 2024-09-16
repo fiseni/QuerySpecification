@@ -1,4 +1,4 @@
-﻿namespace Pozitron.QuerySpecification.EntityFrameworkCore.Benchmarks;
+﻿namespace QuerySpecification.EntityFrameworkCore.Benchmarks;
 
 public class Product
 {

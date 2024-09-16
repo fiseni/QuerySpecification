@@ -1,7 +1,7 @@
 ﻿using MartinCostello.SqlLocalDb;
 using Respawn;
 
-namespace Pozitron.QuerySpecification.EntityFrameworkCore.Tests.Fixture;
+namespace QuerySpecification.EntityFrameworkCore.Tests.Fixture;
 
 public class TestFactory : IAsyncLifetime
 {

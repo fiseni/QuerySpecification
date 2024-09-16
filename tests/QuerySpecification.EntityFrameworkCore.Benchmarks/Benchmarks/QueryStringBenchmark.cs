@@ -1,8 +1,4 @@
-﻿using BenchmarkDotNet.Attributes;
-using Microsoft.EntityFrameworkCore;
-using Pozitron.QuerySpecification;
-
-namespace Pozitron.QuerySpecification.EntityFrameworkCore.Benchmarks;
+﻿namespace QuerySpecification.EntityFrameworkCore.Benchmarks;
 
 // Benchmarks excluding roundtrip to the database, just evaluating the query string.
 [MemoryDiagnoser]

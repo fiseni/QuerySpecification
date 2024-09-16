@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Pozitron.QuerySpecification.Tests;
+namespace QuerySpecification.Tests;
 
 public class SpecificationTests
 {

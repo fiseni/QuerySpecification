@@ -1,9 +1,9 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public class LikeEvaluator : IInMemoryEvaluator
+public class LikeMemoryEvaluator : IInMemoryEvaluator
 {
-    private LikeEvaluator() { }
-    public static LikeEvaluator Instance = new();
+    private LikeMemoryEvaluator() { }
+    public static LikeMemoryEvaluator Instance = new();
 
     public IEnumerable<T> Evaluate<T>(IEnumerable<T> query, Specification<T> specification)
     {

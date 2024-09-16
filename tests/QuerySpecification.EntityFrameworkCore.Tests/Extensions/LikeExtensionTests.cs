@@ -1,4 +1,4 @@
-﻿namespace Pozitron.QuerySpecification.EntityFrameworkCore.Tests.Extensions;
+﻿namespace QuerySpecification.EntityFrameworkCore.Tests.Extensions;
 
 [Collection("SharedCollection")]
 public class LikeExtensionTests(TestFactory factory) : IntegrationTest(factory)

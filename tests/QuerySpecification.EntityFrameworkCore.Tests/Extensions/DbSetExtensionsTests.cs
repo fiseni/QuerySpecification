@@ -1,4 +1,4 @@
-﻿namespace Pozitron.QuerySpecification.EntityFrameworkCore.Tests.Extensions;
+﻿namespace QuerySpecification.EntityFrameworkCore.Tests.Extensions;
 
 [Collection("SharedCollection")]
 public class DbSetExtensionsTests(TestFactory factory) : IntegrationTest(factory)

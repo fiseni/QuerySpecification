@@ -1,18 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>Pozitron.QuerySpecification</RootNamespace>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    
+    <RootNamespace>Pozitron.QuerySpecification</RootNamespace>
+    <AssemblyName>Pozitron.QuerySpecification</AssemblyName>
     
     <PackageId>Pozitron.QuerySpecification</PackageId>
     <Title>Pozitron.QuerySpecification</Title>
     <Authors>Fati Iseni</Authors>
     <Company>Pozitron Group</Company>
     <Product>Pozitron QuerySpecification</Product>
-    <Description>Abstract package for building query specifications in your domain model.</Description>
-    <Summary>Abstract package for building query specifications in your domain model.</Summary>
+    <Description>Abstract package for building query specifications.</Description>
+    <Summary>Abstract package for building query specifications.</Summary>
     <Copyright>Copyright © 2024 Pozitron Group</Copyright>
     
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -41,5 +43,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="QuerySpecification.Tests" />
+  </ItemGroup>
 </Project>

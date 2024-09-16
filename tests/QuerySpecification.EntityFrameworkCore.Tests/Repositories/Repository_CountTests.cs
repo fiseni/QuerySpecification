@@ -1,4 +1,4 @@
-﻿namespace Pozitron.QuerySpecification.EntityFrameworkCore.Tests.Repositories;
+﻿namespace QuerySpecification.EntityFrameworkCore.Tests.Repositories;
 
 [Collection("SharedCollection")]
 public class Repository_CountTests(TestFactory factory) : IntegrationTest(factory)

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Pozitron.QuerySpecification.Tests.Validators;
+namespace QuerySpecification.Tests.Validators;
 
 public class SpecificationValidatorTests
 {

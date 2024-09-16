@@ -1,6 +1,4 @@
-﻿using Pozitron.QuerySpecification;
-
-namespace Pozitron.QuerySpecification.EntityFrameworkCore.Tests;
+﻿namespace QuerySpecification.EntityFrameworkCore.Tests;
 
 [Collection("SharedCollection")]
 public class QueryTests(TestFactory factory) : IntegrationTest(factory)

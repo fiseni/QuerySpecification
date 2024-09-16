@@ -1,18 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>Pozitron.QuerySpecification</RootNamespace>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    
+    <RootNamespace>Pozitron.QuerySpecification.EntityFrameworkCore</RootNamespace>
+    <AssemblyName>Pozitron.QuerySpecification.EntityFrameworkCore</AssemblyName>
     
     <PackageId>Pozitron.QuerySpecification.EntityFrameworkCore</PackageId>
     <Title>Pozitron.QuerySpecification.EntityFrameworkCore</Title>
     <Authors>Fati Iseni</Authors>
     <Company>Pozitron Group</Company>
     <Product>Pozitron QuerySpecification (EntityFrameworkCore plugin)</Product>
-    <Description>EntityFrameworkCore plugin to Pozitron.QuerySpecification containing the EF evaluators.</Description>
-    <Summary>EntityFrameworkCore plugin to Pozitron.QuerySpecification containing the EF evaluators.</Summary>
+    <Description>EntityFrameworkCore plugin to Pozitron.QuerySpecification containing EF evaluators.</Description>
+    <Summary>EntityFrameworkCore plugin to Pozitron.QuerySpecification containing EF evaluators.</Summary>
     <Copyright>Copyright © 2024 Pozitron Group</Copyright>
     
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

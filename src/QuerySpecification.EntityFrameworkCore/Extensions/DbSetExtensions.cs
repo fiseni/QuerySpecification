@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Pozitron.QuerySpecification.EntityFrameworkCore;
+﻿namespace Pozitron.QuerySpecification.EntityFrameworkCore;
 
 public static class DbSetExtensions
 {

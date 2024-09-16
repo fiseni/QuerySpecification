@@ -1,5 +1,4 @@
 ﻿using BenchmarkDotNet.Running;
-using Pozitron.QuerySpecification.EntityFrameworkCore.Benchmarks;
 
 BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
 

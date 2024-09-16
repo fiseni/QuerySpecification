@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Pozitron.QuerySpecification;
 
-public static class LikeExtension
+internal static class LikeExtension
 {
     public static bool Like(this string input, string pattern)
     {

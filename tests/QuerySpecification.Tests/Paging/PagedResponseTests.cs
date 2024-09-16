@@ -1,4 +1,4 @@
-﻿namespace Pozitron.QuerySpecification.Tests.Paging;
+﻿namespace QuerySpecification.Tests.Paging;
 
 public class PagedResponseTests
 {

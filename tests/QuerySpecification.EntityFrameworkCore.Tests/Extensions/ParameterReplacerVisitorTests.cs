@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Pozitron.QuerySpecification.EntityFrameworkCore.Tests.Extensions;
+namespace QuerySpecification.EntityFrameworkCore.Tests.Extensions;
 
 public class ParameterReplacerVisitorTests
 {

@@ -1,4 +1,4 @@
-﻿namespace Pozitron.QuerySpecification.Tests.Evaluators;
+﻿namespace QuerySpecification.Tests.Evaluators;
 
 public class PaginationEvaluatorTests
 {

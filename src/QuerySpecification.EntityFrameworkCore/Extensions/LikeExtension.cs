@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Pozitron.QuerySpecification.EntityFrameworkCore;
 
-public static class LikeExtension
+internal static class LikeExtension
 {
     private static readonly MethodInfo _likeMethodInfo = typeof(DbFunctionsExtensions)
         .GetMethod(nameof(DbFunctionsExtensions.Like), [typeof(DbFunctions), typeof(string), typeof(string)])!;
@@ -28,8 +28,8 @@ public static class LikeExtension
                 continue;
 
             var propertySelector = ParameterReplacerVisitor.Replace(
-                likeExpression.KeySelector, 
-                likeExpression.KeySelector.Parameters[0], 
+                likeExpression.KeySelector,
+                likeExpression.KeySelector.Parameters[0],
                 parameter) as LambdaExpression;
 
             Debug.Assert(propertySelector is not null);

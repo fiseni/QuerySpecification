@@ -1,8 +1,8 @@
-﻿namespace Pozitron.QuerySpecification.Tests.Evaluators;
+﻿namespace QuerySpecification.Tests.Evaluators;
 
-public class LikeEvaluatorTests
+public class LikeMemoryEvaluatorTests
 {
-    private static readonly LikeEvaluator _evaluator = LikeEvaluator.Instance;
+    private static readonly LikeMemoryEvaluator _evaluator = LikeMemoryEvaluator.Instance;
 
     public record Customer(int Id, string FirstName, string? LastName);
 

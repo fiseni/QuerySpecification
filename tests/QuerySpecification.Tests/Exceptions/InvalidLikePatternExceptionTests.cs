@@ -1,4 +1,4 @@
-﻿namespace Pozitron.QuerySpecification.Tests;
+﻿namespace QuerySpecification.Tests.Exceptions;
 
 public class InvalidLikePatternExceptionTests
 {

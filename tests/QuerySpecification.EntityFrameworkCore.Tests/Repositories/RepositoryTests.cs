@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Pozitron.QuerySpecification.EntityFrameworkCore.Tests.Repositories;
+namespace QuerySpecification.EntityFrameworkCore.Tests.Repositories;
 
 [Collection("SharedCollection")]
 public class RepositoryTests(TestFactory factory) : IntegrationTest(factory)

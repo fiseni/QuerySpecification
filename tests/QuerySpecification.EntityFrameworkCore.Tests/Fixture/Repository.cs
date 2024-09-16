@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 
-namespace Pozitron.QuerySpecification.EntityFrameworkCore.Tests.Fixture;
+namespace QuerySpecification.EntityFrameworkCore.Tests.Fixture;
 
 public class Repository<T> : RepositoryBase<T> where T : class
 {

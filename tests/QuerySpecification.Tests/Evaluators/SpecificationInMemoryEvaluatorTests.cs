@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Pozitron.QuerySpecification.Tests.Evaluators;
+namespace QuerySpecification.Tests.Evaluators;
 
 public class SpecificationInMemoryEvaluatorTests
 {
@@ -148,9 +148,9 @@ public class SpecificationInMemoryEvaluatorTests
 
         var state = EvaluatorsOf(evaluator);
         state.Should().HaveCount(6);
-        state[0].Should().BeOfType<LikeEvaluator>();
+        state[0].Should().BeOfType<LikeMemoryEvaluator>();
         state[1].Should().BeOfType<WhereEvaluator>();
-        state[2].Should().BeOfType<LikeEvaluator>();
+        state[2].Should().BeOfType<LikeMemoryEvaluator>();
         state[3].Should().BeOfType<OrderEvaluator>();
         state[4].Should().BeOfType<PaginationEvaluator>();
         state[5].Should().BeOfType<WhereEvaluator>();
@@ -161,7 +161,7 @@ public class SpecificationInMemoryEvaluatorTests
         public SpecificationEvaluatorDerived()
         {
             Evaluators.Add(WhereEvaluator.Instance);
-            Evaluators.Insert(0, LikeEvaluator.Instance);
+            Evaluators.Insert(0, LikeMemoryEvaluator.Instance);
         }
     }
 

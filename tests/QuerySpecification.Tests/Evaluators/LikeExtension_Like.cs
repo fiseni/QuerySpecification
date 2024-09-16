@@ -1,4 +1,4 @@
-﻿namespace Pozitron.QuerySpecification.Tests;
+﻿namespace QuerySpecification.Tests.Evaluators;
 
 public class LikeExtension_Like
 {

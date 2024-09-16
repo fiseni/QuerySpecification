@@ -1,4 +1,4 @@
-﻿namespace Pozitron.QuerySpecification.Tests;
+﻿namespace QuerySpecification.Tests.Builders;
 
 public class SpecificationBuilderExtensions_Take
 {

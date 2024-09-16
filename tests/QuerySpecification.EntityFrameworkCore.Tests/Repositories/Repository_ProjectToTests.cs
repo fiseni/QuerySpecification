@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace Pozitron.QuerySpecification.EntityFrameworkCore.Tests.Repositories;
+namespace QuerySpecification.EntityFrameworkCore.Tests.Repositories;
 
 [Collection("SharedCollection")]
 public class Repository_ProjectToTests(TestFactory factory) : IntegrationTest(factory)

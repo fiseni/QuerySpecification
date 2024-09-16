@@ -1,4 +1,4 @@
-﻿namespace Pozitron.QuerySpecification.Tests.Validators;
+﻿namespace QuerySpecification.Tests.Validators;
 
 public class WhereValidatorTests
 {

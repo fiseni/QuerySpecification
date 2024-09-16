@@ -1,4 +1,4 @@
-﻿namespace Pozitron.QuerySpecification.EntityFrameworkCore.Tests.Fixture;
+﻿namespace QuerySpecification.EntityFrameworkCore.Tests.Fixture;
 
 public record Address
 {
