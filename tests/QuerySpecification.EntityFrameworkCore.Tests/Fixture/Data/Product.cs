@@ -8,5 +8,5 @@ public record Product
     public int StoreId { get; set; }
     public Store Store { get; set; } = default!;
 
-    public List<ProductImage> Images { get; set; } = [];
+    public List<ProductImage>? Images { get; set; }
 }

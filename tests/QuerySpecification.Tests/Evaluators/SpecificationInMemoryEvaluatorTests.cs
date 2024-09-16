@@ -6,7 +6,8 @@ public class SpecificationInMemoryEvaluatorTests
 {
     private static readonly SpecificationInMemoryEvaluator _evaluator = SpecificationInMemoryEvaluator.Default;
 
-    public record Customer(int Id, string FirstName, string LastName, List<string>? Emails = null);
+    public record Customer(int Id, string FirstName, string LastName);
+    public record CustomerWithMails(int Id, string FirstName, string LastName, List<string> Emails);
 
     [Fact]
     public void Evaluate_ThrowsArgumentNullException_GivenNullSpec()
@@ -37,7 +38,7 @@ public class SpecificationInMemoryEvaluatorTests
     [Fact]
     public void Evaluate_ThrowsConcurrentSelectorsException_GivenBothSelectAndSelectMany()
     {
-        var spec = new Specification<Customer, string>();
+        var spec = new Specification<CustomerWithMails, string>();
         spec.Query
             .Select(x => x.FirstName);
         spec.Query
@@ -86,16 +87,16 @@ public class SpecificationInMemoryEvaluatorTests
     [Fact]
     public void Evaluate_GivenSpecWithSelectMany_ReturnsFilteredItems()
     {
-        List<Customer> input = [new(1, "axxa", "axya"), new(2, "aaaa", "axya"), new(3, "aaaa", "axya", ["zzz"]), new(4, "aaaa", "axya")];
-        List<string> expected = ["zzz"];
+        List<CustomerWithMails> input = [new(1, "axxa", "axya", []), new(2, "aaaa", "axya", []), new(3, "aaaa", "axya", ["zzz"]), new(4, "aaaa", "axya", ["yyy"])];
+        List<string> expected = ["zzz", "yyy"];
 
-        var spec = new Specification<Customer, string>();
+        var spec = new Specification<CustomerWithMails, string>();
         spec.Query
             .Where(x => x.Id > 1)
             .Like(x => x.LastName, "%xy%")
             .OrderBy(x => x.Id)
             .Skip(1)
-            .Take(1)
+            .Take(2)
             .SelectMany(x => x.Emails);
 
         AssertForEvaluate(spec, input, expected);

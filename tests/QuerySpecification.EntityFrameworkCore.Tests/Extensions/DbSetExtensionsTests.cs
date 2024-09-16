@@ -4,6 +4,7 @@
 public class DbSetExtensionsTests(TestFactory factory) : IntegrationTest(factory)
 {
     public record CountryDto(string? Name);
+    public record ProductImageDto(string? ImageUrl);
 
     [Fact]
     public async Task WithSpecification_AppliesSpec()
@@ -59,6 +60,58 @@ public class DbSetExtensionsTests(TestFactory factory) : IntegrationTest(factory
             .Select(x => new CountryDto(x.Name));
 
         var result = await DbContext.Countries
+            .WithSpecification(spec)
+            .ToListAsync();
+
+        result.Should().HaveSameCount(expected);
+        result.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public async Task WithSpecification_AppliesProjectionSpecWithSelectMany()
+    {
+        var expected = new List<ProductImageDto>
+        {
+            new("b"),
+            new("b"),
+            new("b"),
+        };
+        var store = new Store
+        {
+            Name = "Store1",
+            Company = new Company
+            {
+                Name = "Company1",
+                Country = new Country { Name = "b" }
+            },
+        };
+        await SeedRangeAsync(
+            [
+                new Product()
+                {
+                    Store = store,
+                    Images =
+                    [
+                        new() { ImageUrl = "a" },
+                        new() { ImageUrl = null },
+                        new() { ImageUrl = "b" },
+                        new() { ImageUrl = "b" },
+                        new() { ImageUrl = "b" },
+                        new() { ImageUrl = "d" },
+                    ]
+                },
+                new Product()
+                {
+                    Store = store,
+                    Images = null
+                }
+            ]);
+
+        var spec = new Specification<Product, ProductImageDto>();
+        spec.Query
+            .SelectMany(x => x.Images!.Where(x => x.ImageUrl == "b").Select(x => new ProductImageDto(x.ImageUrl)));
+
+        var result = await DbContext.Products
             .WithSpecification(spec)
             .ToListAsync();
 

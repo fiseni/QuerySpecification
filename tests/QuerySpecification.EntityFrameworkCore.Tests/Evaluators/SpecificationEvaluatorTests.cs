@@ -50,10 +50,62 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     }
 
     [Fact]
+    public void QueriesMatch_GivenFullQuery()
+    {
+        var id = 2;
+        var name = "Store1";
+        var storeTerm = "ab";
+        var companyTerm = "ab";
+        var streetTerm = "ab";
+
+        var spec = new Specification<Store>();
+        spec.Query
+            .Where(x => x.Id > id)
+            .Where(x => x.Name == name)
+            .Like(x => x.Name, $"%{storeTerm}%")
+            .Like(x => x.Company.Name, $"%{companyTerm}%")
+            .Like(x => x.Address.Street, $"%{streetTerm}%", 2)
+            .Include(nameof(Address))
+            .Include(x => x.Products.Where(x => x.Id > 10))
+                .ThenInclude(x => x.Images)
+            .Include(x => x.Company)
+                .ThenInclude(x => x.Country)
+            .OrderBy(x => x.Id)
+                .ThenByDescending(x => x.Name)
+            .Skip(1)
+            .Take(10)
+            .IgnoreQueryFilters();
+
+        var actual = _evaluator.GetQuery(DbContext.Stores, spec)
+            .ToQueryString()
+            .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
+
+        var expected = DbContext.Stores
+            .Where(x => x.Id > id)
+            .Where(x => x.Name == name)
+            .Where(x => EF.Functions.Like(x.Name, $"%{storeTerm}%")
+                    || EF.Functions.Like(x.Company.Name, $"%{companyTerm}%"))
+            .Where(x => EF.Functions.Like(x.Address.Street, $"%{streetTerm}%"))
+            .Include(nameof(Address))
+            .Include(x => x.Products.Where(x => x.Id > 10))
+                .ThenInclude(x => x.Images)
+            .Include(x => x.Company)
+                .ThenInclude(x => x.Country)
+            .OrderBy(x => x.Id)
+                .ThenByDescending(x => x.Name)
+            .Skip(1)
+            .Take(10)
+            .IgnoreQueryFilters()
+            .ToQueryString();
+
+        actual.Should().Be(expected);
+    }
+
+    [Fact]
     public void QueriesMatch_GivenFullQueryWithSelect()
     {
         var id = 2;
-        var name = "US";
+        var name = "Store1";
         var storeTerm = "ab";
         var companyTerm = "ab";
         var streetTerm = "ab";
@@ -107,7 +159,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     public void QueriesMatch_GivenFullQueryWithSelectMany()
     {
         var id = 2;
-        var name = "US";
+        var name = "Store1";
         var storeTerm = "ab";
         var companyTerm = "ab";
         var streetTerm = "ab";

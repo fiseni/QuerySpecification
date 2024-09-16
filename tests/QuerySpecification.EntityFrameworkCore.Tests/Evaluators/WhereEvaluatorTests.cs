@@ -9,7 +9,7 @@ public class WhereEvaluatorTests(TestFactory factory) : IntegrationTest(factory)
     public void QueriesMatch_GivenWhereExpressions()
     {
         var id = 10;
-        var name = "US";
+        var name = "Country1";
 
         var spec = new Specification<Country>();
         spec.Query
@@ -37,7 +37,7 @@ public class WhereEvaluatorTests(TestFactory factory) : IntegrationTest(factory)
 
         var expected = DbContext.Countries
             .Where(x => x.Id > 10)
-            .Where(x => x.Name == "US")
+            .Where(x => x.Name == "Country1")
             .ToQueryString();
 
         actual.Should().NotBe(expected);
