@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace QuerySpecification.Tests.Evaluators;
+namespace Tests.Evaluators;
 
 public class SpecificationInMemoryEvaluatorTests
 {

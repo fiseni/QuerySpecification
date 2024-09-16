@@ -1,4 +1,4 @@
-﻿namespace QuerySpecification.Tests.Paging;
+﻿namespace Tests.Paging;
 
 public class PagedResponseTests
 {

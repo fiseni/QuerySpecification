@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace QuerySpecification.EntityFrameworkCore.Tests.Extensions;
+namespace Tests.Extensions;
 
 public class ParameterReplacerVisitorTests
 {

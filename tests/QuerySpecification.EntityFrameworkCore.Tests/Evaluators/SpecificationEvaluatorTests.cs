@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace QuerySpecification.EntityFrameworkCore.Tests.Evaluators;
+namespace Tests.Evaluators;
 
 [Collection("SharedCollection")]
 public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(factory)

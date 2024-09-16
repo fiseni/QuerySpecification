@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace QuerySpecification.Tests.Expressions;
+namespace Tests.Expressions;
 
 public class LikeExpressionTests
 {

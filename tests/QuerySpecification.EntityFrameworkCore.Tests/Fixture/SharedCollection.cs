@@ -1,4 +1,4 @@
-﻿namespace QuerySpecification.EntityFrameworkCore.Tests.Fixture;
+﻿namespace Tests.Fixture;
 
 [CollectionDefinition("SharedCollection")]
 public class SharedCollection : ICollectionFixture<TestFactory>

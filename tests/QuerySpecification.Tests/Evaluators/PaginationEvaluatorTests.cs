@@ -1,4 +1,4 @@
-﻿namespace QuerySpecification.Tests.Evaluators;
+﻿namespace Tests.Evaluators;
 
 public class PaginationEvaluatorTests
 {

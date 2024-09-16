@@ -1,4 +1,4 @@
-﻿namespace QuerySpecification.Tests.Builders;
+﻿namespace Tests.Builders;
 
 public class SpecificationBuilderExtensions_OrderByDescending
 {

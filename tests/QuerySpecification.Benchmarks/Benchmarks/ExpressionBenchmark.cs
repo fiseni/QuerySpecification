@@ -1,4 +1,4 @@
-﻿namespace QuerySpecification.EntityFrameworkCore.Benchmarks;
+﻿namespace QuerySpecification.Benchmarks;
 
 // Benchmarks measuring only building the IQueryable.
 [MemoryDiagnoser]

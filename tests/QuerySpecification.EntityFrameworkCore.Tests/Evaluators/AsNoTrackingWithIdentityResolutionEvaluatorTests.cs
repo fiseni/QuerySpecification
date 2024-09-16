@@ -1,4 +1,4 @@
-﻿namespace QuerySpecification.EntityFrameworkCore.Tests.Evaluators;
+﻿namespace Tests.Evaluators;
 
 [Collection("SharedCollection")]
 public class AsNoTrackingWithIdentityResolutionEvaluatorTests(TestFactory factory) : IntegrationTest(factory)

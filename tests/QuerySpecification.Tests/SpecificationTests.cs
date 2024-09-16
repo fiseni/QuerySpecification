@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace QuerySpecification.Tests;
+namespace Tests;
 
 public class SpecificationTests
 {

@@ -1,4 +1,4 @@
-﻿namespace QuerySpecification.EntityFrameworkCore.Benchmarks;
+﻿namespace QuerySpecification.Benchmarks;
 
 // Benchmarks excluding roundtrip to the database, just evaluating the query string.
 [MemoryDiagnoser]

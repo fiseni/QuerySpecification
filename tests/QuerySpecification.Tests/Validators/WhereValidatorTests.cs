@@ -1,4 +1,4 @@
-﻿namespace QuerySpecification.Tests.Validators;
+﻿namespace Tests.Validators;
 
 public class WhereValidatorTests
 {

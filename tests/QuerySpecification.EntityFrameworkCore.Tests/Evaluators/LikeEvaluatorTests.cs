@@ -1,4 +1,4 @@
-﻿namespace QuerySpecification.EntityFrameworkCore.Tests.Evaluators;
+﻿namespace Tests.Evaluators;
 
 [Collection("SharedCollection")]
 public class LikeEvaluatorTests(TestFactory factory) : IntegrationTest(factory)

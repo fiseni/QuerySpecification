@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification.Tests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification.EntityFrameworkCore.Tests", "tests\QuerySpecification.EntityFrameworkCore.Tests\QuerySpecification.EntityFrameworkCore.Tests.csproj", "{F85A5DB8-DB84-430A-8DA1-43A613FBD0CC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification.EntityFrameworkCore.Benchmarks", "tests\QuerySpecification.EntityFrameworkCore.Benchmarks\QuerySpecification.EntityFrameworkCore.Benchmarks.csproj", "{F25DE99A-0BE4-41C6-9D1C-570CCE6B0BB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuerySpecification.Benchmarks", "tests\QuerySpecification.Benchmarks\QuerySpecification.Benchmarks.csproj", "{F25DE99A-0BE4-41C6-9D1C-570CCE6B0BB9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{670F5387-F816-409B-8048-183F2608EDB3}"
 EndProject

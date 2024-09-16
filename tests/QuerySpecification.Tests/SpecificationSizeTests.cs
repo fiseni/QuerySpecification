@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using Xunit.Abstractions;
 
-namespace QuerySpecification.Tests;
+namespace Tests;
 
 public class SpecificationSizeTests
 {

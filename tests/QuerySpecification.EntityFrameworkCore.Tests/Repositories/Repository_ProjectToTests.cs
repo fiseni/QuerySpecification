@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace QuerySpecification.EntityFrameworkCore.Tests.Repositories;
+namespace Tests.Repositories;
 
 [Collection("SharedCollection")]
 public class Repository_ProjectToTests(TestFactory factory) : IntegrationTest(factory)

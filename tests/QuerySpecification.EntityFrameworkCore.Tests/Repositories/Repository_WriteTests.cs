@@ -1,4 +1,4 @@
-﻿namespace QuerySpecification.EntityFrameworkCore.Tests.Repositories;
+﻿namespace Tests.Repositories;
 
 [Collection("SharedCollection")]
 public class Repository_WriteTests(TestFactory factory) : IntegrationTest(factory)

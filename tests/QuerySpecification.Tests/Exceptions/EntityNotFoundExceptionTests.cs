@@ -1,4 +1,4 @@
-﻿namespace QuerySpecification.Tests.Exceptions;
+﻿namespace Tests.Exceptions;
 
 public class EntityNotFoundExceptionTests
 {

@@ -1,4 +1,4 @@
-﻿namespace QuerySpecification.Tests.Expressions;
+﻿namespace Tests.Expressions;
 
 public class IncludeExpressionTests
 {

@@ -1,4 +1,4 @@
-﻿namespace QuerySpecification.EntityFrameworkCore.Tests.Extensions;
+﻿namespace Tests.Extensions;
 
 [Collection("SharedCollection")]
 public class DbSetExtensionsTests(TestFactory factory) : IntegrationTest(factory)

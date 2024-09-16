@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace QuerySpecification.EntityFrameworkCore.Tests.Repositories;
+namespace Tests.Repositories;
 
 [Collection("SharedCollection")]
 public class RepositoryTests(TestFactory factory) : IntegrationTest(factory)

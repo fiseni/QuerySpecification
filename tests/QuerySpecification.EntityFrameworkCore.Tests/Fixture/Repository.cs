@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 
-namespace QuerySpecification.EntityFrameworkCore.Tests.Fixture;
+namespace Tests.Fixture;
 
 public class Repository<T> : RepositoryBase<T> where T : class
 {
