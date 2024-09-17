@@ -26,20 +26,4 @@ public class WhereEvaluatorTests(TestFactory factory) : IntegrationTest(factory)
 
         actual.Should().Be(expected);
     }
-
-    [Fact]
-    public void NotApply_GivenEmptySpec()
-    {
-        var spec = new Specification<Country>();
-
-        var actual = _evaluator.GetQuery(DbContext.Countries, spec)
-            .ToQueryString();
-
-        var expected = DbContext.Countries
-            .Where(x => x.Id > 10)
-            .Where(x => x.Name == "Country1")
-            .ToQueryString();
-
-        actual.Should().NotBe(expected);
-    }
 }

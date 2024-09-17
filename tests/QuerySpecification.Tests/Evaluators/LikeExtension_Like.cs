@@ -76,7 +76,7 @@ public class LikeExtension_Like
     [InlineData(true, "%ab%", "aaaab")]
     [InlineData(true, "%ab%", "aaaaab")]
     [InlineData(true, "%ab%", "aab")]
-    public void ReturnsExpectedResult_GivenPatternAndInput(bool expectedResult, string pattern, string input)
+    public void ReturnsExpected_GivenPatternAndInput(bool expectedResult, string pattern, string input)
     {
         var result = input.Like(pattern);
 
@@ -86,7 +86,7 @@ public class LikeExtension_Like
     [Theory]
     [InlineData("[", "asd")]
     [InlineData("[]", "asd")]
-    public void ShouldThrowInvalidLikePattern_GivenInvalidPattern(string pattern, string input)
+    public void ThrowsInvalidLikePattern_GivenInvalidPattern(string pattern, string input)
     {
         Action action = () => input.Like(pattern);
 

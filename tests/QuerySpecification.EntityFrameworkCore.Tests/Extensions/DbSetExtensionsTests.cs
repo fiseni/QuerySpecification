@@ -7,179 +7,212 @@ public class DbSetExtensionsTests(TestFactory factory) : IntegrationTest(factory
     public record ProductImageDto(string? ImageUrl);
 
     [Fact]
-    public async Task WithSpecification_AppliesSpec()
+    public void WithSpecification_GivenFullQuery()
     {
-        var expected = new List<Country>
-        {
-            new() { Name = "b" },
-            new() { Name = "b" },
-            new() { Name = "b" },
-        };
-        await SeedRangeAsync(
-        [
-            new() { Name = "a" },
-            new() { Name = "c" },
-            .. expected,
-            new() { Name = "d" },
-        ]);
+        var id = 1;
+        var name = "Store1";
+        var storeTerm = "ab";
+        var companyTerm = "ab";
+        var streetTerm = "ab";
 
-        var spec = new Specification<Country>();
+        var spec = new Specification<Store>();
         spec.Query
-            .Where(x => x.Name == "b");
+            .Where(x => x.Id > id)
+            .Where(x => x.Name == name)
+            .Like(x => x.Name, $"%{storeTerm}%")
+            .Like(x => x.Company.Name, $"%{companyTerm}%")
+            .Like(x => x.Address.Street, $"%{streetTerm}%", 2)
+            .Include(nameof(Address))
+            .Include(x => x.Products.Where(x => x.Id > 10))
+                .ThenInclude(x => x.Images)
+            .Include(x => x.Company)
+                .ThenInclude(x => x.Country)
+            .OrderBy(x => x.Id)
+                .ThenByDescending(x => x.Name)
+            .Skip(1)
+            .Take(10)
+        .IgnoreQueryFilters();
 
-        var result = await DbContext.Countries
+        var actual = DbContext.Stores
             .WithSpecification(spec)
-            .ToListAsync();
+            .ToQueryString()
+            .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
 
-        result.Should().HaveSameCount(expected);
-        result.Should().BeEquivalentTo(expected);
+        var expected = DbContext.Stores
+            .Where(x => x.Id > id)
+            .Where(x => x.Name == name)
+            .Where(x => EF.Functions.Like(x.Name, $"%{storeTerm}%")
+                    || EF.Functions.Like(x.Company.Name, $"%{companyTerm}%"))
+            .Where(x => EF.Functions.Like(x.Address.Street, $"%{streetTerm}%"))
+            .Include(nameof(Address))
+            .Include(x => x.Products.Where(x => x.Id > 10))
+                .ThenInclude(x => x.Images)
+            .Include(x => x.Company)
+                .ThenInclude(x => x.Country)
+            .OrderBy(x => x.Id)
+                .ThenByDescending(x => x.Name)
+            .Skip(1)
+            .Take(10)
+            .IgnoreQueryFilters()
+            .ToQueryString();
+
+        actual.Should().Be(expected);
     }
 
     [Fact]
-    public async Task WithSpecification_AppliesProjectionSpec()
+    public void WithSpecification_GivenFullQueryWithSelect()
     {
-        var expected = new List<CountryDto>
-        {
-            new("b"),
-            new("b"),
-            new("b"),
-        };
-        await SeedRangeAsync<Country>(
-        [
-            new() { Name = "a" },
-            new() { Name = "c" },
-            new() { Name = "b" },
-            new() { Name = "b" },
-            new() { Name = "b" },
-            new() { Name = "d" },
-        ]);
+        var id = 1;
+        var name = "Store1";
+        var storeTerm = "ab";
+        var companyTerm = "ab";
+        var streetTerm = "ab";
 
-        var spec = new Specification<Country, CountryDto>();
+        var spec = new Specification<Store, string?>();
         spec.Query
-            .Where(x => x.Name == "b")
+            .Where(x => x.Id > id)
+            .Where(x => x.Name == name)
+            .Like(x => x.Name, $"%{storeTerm}%")
+            .Like(x => x.Company.Name, $"%{companyTerm}%")
+            .Like(x => x.Address.Street, $"%{streetTerm}%", 2)
+            .Include(nameof(Address))
+            .Include(x => x.Products.Where(x => x.Id > 10))
+                .ThenInclude(x => x.Images)
+            .Include(x => x.Company)
+                .ThenInclude(x => x.Country)
+            .OrderBy(x => x.Id)
+                .ThenByDescending(x => x.Name)
+            .Skip(1)
+            .Take(10)
+            .IgnoreQueryFilters()
+        .Select(x => x.Name);
+
+        var actual = DbContext.Stores
+            .WithSpecification(spec)
+            .ToQueryString()
+            .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
+
+        var expected = DbContext.Stores
+            .Where(x => x.Id > id)
+            .Where(x => x.Name == name)
+            .Where(x => EF.Functions.Like(x.Name, $"%{storeTerm}%")
+                    || EF.Functions.Like(x.Company.Name, $"%{companyTerm}%"))
+            .Where(x => EF.Functions.Like(x.Address.Street, $"%{streetTerm}%"))
+            .Include(nameof(Address))
+            .Include(x => x.Products.Where(x => x.Id > 10))
+                .ThenInclude(x => x.Images)
+            .Include(x => x.Company)
+                .ThenInclude(x => x.Country)
+            .OrderBy(x => x.Id)
+                .ThenByDescending(x => x.Name)
+            .Skip(1)
+            .Take(10)
+            .IgnoreQueryFilters()
+            .Select(x => x.Name)
+            .ToQueryString();
+
+        actual.Should().Be(expected);
+    }
+
+    [Fact]
+    public void WithSpecification_GivenFullQueryWithSelectMany()
+    {
+        var id = 1;
+        var name = "Store1";
+        var storeTerm = "ab";
+        var companyTerm = "ab";
+        var streetTerm = "ab";
+
+        var spec = new Specification<Store, string?>();
+        spec.Query
+            .Where(x => x.Id > id)
+            .Where(x => x.Name == name)
+            .Like(x => x.Name, $"%{storeTerm}%")
+            .Like(x => x.Company.Name, $"%{companyTerm}%")
+            .Like(x => x.Address.Street, $"%{streetTerm}%", 2)
+            .Include(nameof(Address))
+            .Include(x => x.Products.Where(x => x.Id > 10))
+                .ThenInclude(x => x.Images)
+            .Include(x => x.Company)
+                .ThenInclude(x => x.Country)
+            .OrderBy(x => x.Id)
+                .ThenByDescending(x => x.Name)
+            .Skip(1)
+            .Take(10)
+            .IgnoreQueryFilters()
+            .SelectMany(x => x.Products.Select(x => x.Name));
+
+        var actual = DbContext.Stores
+            .WithSpecification(spec)
+            .ToQueryString()
+            .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
+
+        var expected = DbContext.Stores
+            .Where(x => x.Id > id)
+            .Where(x => x.Name == name)
+            .Where(x => EF.Functions.Like(x.Name, $"%{storeTerm}%")
+                    || EF.Functions.Like(x.Company.Name, $"%{companyTerm}%"))
+            .Where(x => EF.Functions.Like(x.Address.Street, $"%{streetTerm}%"))
+            .Include(nameof(Address))
+            .Include(x => x.Products.Where(x => x.Id > 10))
+                .ThenInclude(x => x.Images)
+            .Include(x => x.Company)
+                .ThenInclude(x => x.Country)
+            .OrderBy(x => x.Id)
+                .ThenByDescending(x => x.Name)
+            .Skip(1)
+            .Take(10)
+            .IgnoreQueryFilters()
+            .SelectMany(x => x.Products.Select(x => x.Name))
+            .ToQueryString();
+
+        actual.Should().Be(expected);
+    }
+
+    [Fact]
+    public void WithSpecification_GivenCustomEvaluator()
+    {
+        var id = 1;
+
+        var spec = new Specification<Store>();
+        spec.Query
+            .Where(x => x.Id > id)
+            .Skip(1)
+            .Take(10); // should be ignored by the custom evaluator
+
+        var actual = DbContext.Stores
+            .WithSpecification(spec, new MySpecificationEvaluator())
+            .ToQueryString();
+
+        var expected = DbContext.Stores
+            .Where(x => x.Id > id)
+            .ToQueryString();
+
+        actual.Should().Be(expected);
+    }
+
+    [Fact]
+    public void WithSpecification_GivenSelectorAndCustomEvaluator()
+    {
+        var id = 1;
+
+        var spec = new Specification<Store, CountryDto>();
+        spec.Query
+            .Where(x => x.Id > id)
+            .Skip(1)
+            .Take(10) // should be ignored by the custom evaluator
             .Select(x => new CountryDto(x.Name));
 
-        var result = await DbContext.Countries
-            .WithSpecification(spec)
-            .ToListAsync();
-
-        result.Should().HaveSameCount(expected);
-        result.Should().BeEquivalentTo(expected);
-    }
-
-    [Fact]
-    public async Task WithSpecification_AppliesProjectionSpecWithSelectMany()
-    {
-        var expected = new List<ProductImageDto>
-        {
-            new("b"),
-            new("b"),
-            new("b"),
-        };
-        var store = new Store
-        {
-            Name = "Store1",
-            Company = new Company
-            {
-                Name = "Company1",
-                Country = new Country { Name = "b" }
-            },
-        };
-        await SeedRangeAsync(
-            [
-                new Product()
-                {
-                    Store = store,
-                    Images =
-                    [
-                        new() { ImageUrl = "a" },
-                        new() { ImageUrl = null },
-                        new() { ImageUrl = "b" },
-                        new() { ImageUrl = "b" },
-                        new() { ImageUrl = "b" },
-                        new() { ImageUrl = "d" },
-                    ]
-                },
-                new Product()
-                {
-                    Store = store,
-                    Images = null
-                }
-            ]);
-
-        var spec = new Specification<Product, ProductImageDto>();
-        spec.Query
-            .SelectMany(x => x.Images!.Where(x => x.ImageUrl == "b").Select(x => new ProductImageDto(x.ImageUrl)));
-
-        var result = await DbContext.Products
-            .WithSpecification(spec)
-            .ToListAsync();
-
-        result.Should().HaveSameCount(expected);
-        result.Should().BeEquivalentTo(expected);
-    }
-
-    [Fact]
-    public async Task WithSpecification_AppliesSpec_GivenCustomEvaluator()
-    {
-        var expected = new List<Country>
-        {
-            new() { Name = "b" },
-            new() { Name = "b" },
-            new() { Name = "b" },
-        };
-        await SeedRangeAsync(
-        [
-            new() { Name = "a" },
-            new() { Name = "c" },
-            .. expected,
-            new() { Name = "d" },
-        ]);
-
-        var spec = new Specification<Country>();
-        spec.Query
-            .Where(x => x.Name == "b")
-            .Take(1); // should be ignores by the custom evaluator
-
-        var result = await DbContext.Countries
+        var actual = DbContext.Stores
             .WithSpecification(spec, new MySpecificationEvaluator())
-            .ToListAsync();
+            .ToQueryString();
 
-        result.Should().HaveSameCount(expected);
-        result.Should().BeEquivalentTo(expected);
-    }
+        var expected = DbContext.Stores
+            .Where(x => x.Id > id)
+            .Select(x => new CountryDto(x.Name))
+            .ToQueryString();
 
-    [Fact]
-    public async Task WithSpecification_AppliesProjectionSpec_GivenCustomEvaluator()
-    {
-        var expected = new List<CountryDto>
-        {
-            new("b"),
-            new("b"),
-            new("b"),
-        };
-        await SeedRangeAsync<Country>(
-        [
-            new() { Name = "a" },
-            new() { Name = "c" },
-            new() { Name = "b" },
-            new() { Name = "b" },
-            new() { Name = "b" },
-            new() { Name = "d" },
-        ]);
-
-        var spec = new Specification<Country, CountryDto>();
-        spec.Query
-            .Where(x => x.Name == "b")
-            .Take(1) // should be ignores by the custom evaluator
-            .Select(x => new CountryDto(x.Name));
-
-        var result = await DbContext.Countries
-            .WithSpecification(spec, new MySpecificationEvaluator())
-            .ToListAsync();
-
-        result.Should().HaveSameCount(expected);
-        result.Should().BeEquivalentTo(expected);
+        actual.Should().Be(expected);
     }
 
     public class MySpecificationEvaluator : SpecificationEvaluator

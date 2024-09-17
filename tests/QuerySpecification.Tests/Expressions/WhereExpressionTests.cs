@@ -7,7 +7,7 @@ public class WhereExpressionTests
     public record Customer(int Id);
 
     [Fact]
-    public void ThrowsArgumentNullException_GivenNullExpression()
+    public void Constructor_ThrowsArgumentNullException_GivenNullExpression()
     {
         Action sutAction = () => new WhereExpression<Customer>(null!);
 
@@ -15,7 +15,7 @@ public class WhereExpressionTests
     }
 
     [Fact]
-    public void SetsExpressionAndFunc()
+    public void Constructor_GivenValidValues()
     {
         Expression<Func<Customer, bool>> expr = x => x.Id == 1;
 

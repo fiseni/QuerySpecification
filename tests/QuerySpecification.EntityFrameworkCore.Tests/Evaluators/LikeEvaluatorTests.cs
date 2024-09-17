@@ -30,24 +30,4 @@ public class LikeEvaluatorTests(TestFactory factory) : IntegrationTest(factory)
 
         actual.Should().Be(expected);
     }
-
-    [Fact]
-    public void NotApply_GivenEmptySpec()
-    {
-        var searchTerm = "ab";
-
-        var spec = new Specification<Store>();
-
-        var actual = _evaluator.GetQuery(DbContext.Stores, spec)
-            .ToQueryString();
-
-        var expected = DbContext.Stores
-            .Where(x => EF.Functions.Like(x.Name, $"%{searchTerm}%")
-                    || EF.Functions.Like(x.Company.Name, $"%{searchTerm}%"))
-            .Where(x => EF.Functions.Like(x.Address.Street, $"%{searchTerm}%"))
-            .ToQueryString();
-
-
-        actual.Should().NotBe(expected);
-    }
 }

@@ -36,11 +36,4 @@ public class IntegrationTest(TestFactory testFactory) : IAsyncLifetime
         dbContext.AddRange(entities);
         await dbContext.SaveChangesAsync();
     }
-
-    public async Task SeedRangeAsync(params object[] entities)
-    {
-        using var dbContext = new TestDbContext(testFactory.DbContextOptions);
-        dbContext.AddRange(entities);
-        await dbContext.SaveChangesAsync();
-    }
 }

@@ -7,7 +7,7 @@ public class WhereEvaluatorTests
     public record Customer(int Id);
 
     [Fact]
-    public void WithWhereExpression_ReturnsFilteredItems()
+    public void FiltersItems_GivenWhereExpression()
     {
         List<Customer> input = [new(1), new(2), new(3), new(4), new(5)];
         List<Customer> expected = [new(4), new(5)];
@@ -21,7 +21,7 @@ public class WhereEvaluatorTests
     }
 
     [Fact]
-    public void WithoutWhereExpression_ReturnsNonFilteredItems()
+    public void DoesNotFilter_GivenNoWhereExpression()
     {
         List<Customer> input = [new(1), new(2), new(3), new(4), new(5)];
         List<Customer> expected = [new(1), new(2), new(3), new(4), new(5)];

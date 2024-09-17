@@ -7,7 +7,7 @@ public class OrderEvaluatorTests
     public record Customer(int Id, string? Name = null);
 
     [Fact]
-    public void WithOrderBy_ReturnsAscendingItems()
+    public void OrdersItemsAscending_GivenOrderBy()
     {
         List<Customer> input = [new(3), new(1), new(2), new(5), new(4)];
         List<Customer> expected = [new(1), new(2), new(3), new(4), new(5)];
@@ -21,7 +21,7 @@ public class OrderEvaluatorTests
     }
 
     [Fact]
-    public void WithOrderByDescending_ReturnsDescendingItems()
+    public void OrdersItemsDescending_GivenOrderByDescending()
     {
         List<Customer> input = [new(3), new(1), new(2), new(5), new(4)];
         List<Customer> expected = [new(5), new(4), new(3), new(2), new(1)];
@@ -35,7 +35,7 @@ public class OrderEvaluatorTests
     }
 
     [Fact]
-    public void WithOrderByThenBy_ReturnsOrderedItems()
+    public void OrdersItems_GivenOrderByThenBy()
     {
         List<Customer> input = [new(3, "c"), new(1, "b"), new(1, "a")];
         List<Customer> expected = [new(1, "a"), new(1, "b"), new(3, "c")];
@@ -50,7 +50,7 @@ public class OrderEvaluatorTests
     }
 
     [Fact]
-    public void WithOrderByThenByDescending_ReturnsOrderedItems()
+    public void OrdersItems_GivenOrderByThenByDescending()
     {
         List<Customer> input = [new(3, "c"), new(1, "a"), new(1, "b")];
         List<Customer> expected = [new(1, "b"), new(1, "a"), new(3, "c")];
@@ -65,7 +65,7 @@ public class OrderEvaluatorTests
     }
 
     [Fact]
-    public void WithOrderByDescendingThenBy_ReturnsOrderedItems()
+    public void OrdersItems_GivenOrderByDescendingThenBy()
     {
         List<Customer> input = [new(1, "b"), new(1, "a"), new(3, "c")];
         List<Customer> expected = [new(3, "c"), new(1, "a"), new(1, "b")];
@@ -80,7 +80,7 @@ public class OrderEvaluatorTests
     }
 
     [Fact]
-    public void WithOrderByDescendingThenByDescending_ReturnsOrderedItems()
+    public void OrdersItems_GivenOrderByDescendingThenByDescending()
     {
         List<Customer> input = [new(1, "a"), new(1, "b"), new(3, "c")];
         List<Customer> expected = [new(3, "c"), new(1, "b"), new(1, "a")];
@@ -95,7 +95,7 @@ public class OrderEvaluatorTests
     }
 
     [Fact]
-    public void WithoutOrder_ReturnsNonOrderedItems()
+    public void DoesNotOrder_GivenNoOrder()
     {
         List<Customer> input = [new(3), new(1), new(2), new(5), new(4)];
         List<Customer> expected = [new(3), new(1), new(2), new(5), new(4)];

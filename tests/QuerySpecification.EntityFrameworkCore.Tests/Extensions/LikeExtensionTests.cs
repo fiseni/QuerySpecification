@@ -4,7 +4,7 @@
 public class LikeExtensionTests(TestFactory factory) : IntegrationTest(factory)
 {
     [Fact]
-    public void QueriesMatch_GivenLikeExpressions()
+    public void Like_GivenSpecWithMultipleLike()
     {
         var storeTerm = "ab";
         var companyTerm = "ab";
@@ -15,7 +15,6 @@ public class LikeExtensionTests(TestFactory factory) : IntegrationTest(factory)
             .Like(x22 => x22.Company.Name, $"%{companyTerm}%");
 
         var actual = DbContext.Stores
-            .AsQueryable()
             .Like(spec.LikeExpressions)
             .ToQueryString()
             .Replace("__likeExpression_Pattern_", "__Format_"); //expr parameter names are different
@@ -29,12 +28,11 @@ public class LikeExtensionTests(TestFactory factory) : IntegrationTest(factory)
     }
 
     [Fact]
-    public void QueriesMatch_GivenEmptySpec()
+    public void Like_GivenEmptySpec()
     {
         var spec = new Specification<Store>();
 
         var actual = DbContext.Stores
-            .AsQueryable()
             .Like(spec.LikeExpressions)
             .ToQueryString()
             .Replace("__likeExpression_Pattern_", "__Format_"); //expr parameter names are different

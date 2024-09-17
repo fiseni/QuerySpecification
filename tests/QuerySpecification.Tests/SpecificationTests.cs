@@ -7,7 +7,7 @@ public class SpecificationTests
     public record Customer(int Id, string Name);
 
     [Fact]
-    public void CollectionFieldsAreNull_GivenEmptySpec()
+    public void CollectionFields_AreNull_GivenEmptySpec()
     {
         var spec = new Specification<Customer>();
 
@@ -20,7 +20,7 @@ public class SpecificationTests
     }
 
     [Fact]
-    public void CollectionsPropertiesReturnEmptyEnumerable_GivenEmptySpec()
+    public void CollectionsProperties_ReturnEmptyEnumerable_GivenEmptySpec()
     {
         var spec = new Specification<Customer>();
 
@@ -32,7 +32,7 @@ public class SpecificationTests
     }
 
     [Fact]
-    public void ItemsReturnsNewDictionaryOnFirstAccess()
+    public void Items_ReturnsNewDictionaryOnFirstAccess()
     {
         var spec = new Specification<Customer>();
 

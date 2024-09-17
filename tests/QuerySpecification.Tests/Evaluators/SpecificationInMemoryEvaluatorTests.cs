@@ -50,10 +50,20 @@ public class SpecificationInMemoryEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_Given_ReturnsFilteredItems()
+    public void Evaluate_FiltersItems_GivenSpec()
     {
-        List<Customer> input = [new(1, "axxa", "axya"), new(2, "aaaa", "axya"), new(3, "aaaa", "axya"), new(4, "aaaa", "axya")];
-        List<Customer> expected = [new(3, "aaaa", "axya")];
+        List<Customer> input =
+        [
+            new(1, "axxa", "axya"),
+            new(2, "aaaa", "axya"),
+            new(3, "aaaa", "axya"),
+            new(4, "aaaa", "axya")
+        ];
+
+        List<Customer> expected = 
+        [
+            new(3, "aaaa", "axya")
+        ];
 
         var spec = new Specification<Customer>();
         spec.Query
@@ -67,9 +77,16 @@ public class SpecificationInMemoryEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_GivenSpecWithSelect_ReturnsFilteredItems()
+    public void Evaluate_FiltersItems_GivenSpecWithSelect()
     {
-        List<Customer> input = [new(1, "axxa", "axya"), new(2, "aaaa", "axya"), new(3, "vvvv", "axya"), new(4, "aaaa", "axya")];
+        List<Customer> input =
+        [
+            new(1, "axxa", "axya"),
+            new(2, "aaaa", "axya"),
+            new(3, "vvvv", "axya"),
+            new(4, "aaaa", "axya")
+        ];
+
         List<string> expected = ["vvvv"];
 
         var spec = new Specification<Customer, string>();
@@ -85,9 +102,16 @@ public class SpecificationInMemoryEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_GivenSpecWithSelectMany_ReturnsFilteredItems()
+    public void Evaluate_FiltersItems_GivenSpecWithSelectMany()
     {
-        List<CustomerWithMails> input = [new(1, "axxa", "axya", []), new(2, "aaaa", "axya", []), new(3, "aaaa", "axya", ["zzz"]), new(4, "aaaa", "axya", ["yyy"])];
+        List<CustomerWithMails> input =
+        [
+            new(1, "axxa", "axya", []),
+            new(2, "aaaa", "axya", []),
+            new(3, "aaaa", "axya", ["zzz"]),
+            new(4, "aaaa", "axya", ["yyy"])
+        ];
+
         List<string> expected = ["zzz", "yyy"];
 
         var spec = new Specification<CustomerWithMails, string>();
@@ -125,7 +149,7 @@ public class SpecificationInMemoryEvaluatorTests
     }
 
     [Fact]
-    public void ConstructorSetsProvidedEvaluators()
+    public void Constructor_SetsProvidedEvaluators()
     {
         var evaluators = new List<IInMemoryEvaluator>
         {

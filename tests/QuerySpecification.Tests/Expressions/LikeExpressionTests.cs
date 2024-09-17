@@ -7,7 +7,7 @@ public class LikeExpressionTests
     public record Customer(int Id, string Name);
 
     [Fact]
-    public void ThrowsArgumentNullException_GivenNullExpression()
+    public void Constructor_ThrowsArgumentNullException_GivenNullExpression()
     {
         Action sutAction = () => new LikeExpression<Customer>(null!, "x");
 
@@ -15,7 +15,7 @@ public class LikeExpressionTests
     }
 
     [Fact]
-    public void ThrowsArgumentNullException_GivenNullPattern()
+    public void Constructor_ThrowsArgumentNullException_GivenNullPattern()
     {
         Expression<Func<Customer, string?>> expr = x => x.Name;
         Action sutAction = () => new LikeExpression<Customer>(expr, null!);
@@ -24,7 +24,7 @@ public class LikeExpressionTests
     }
 
     [Fact]
-    public void SetsStateAndFunc()
+    public void Constructor_GivenValidValues()
     {
         Expression<Func<Customer, string?>> expr = x => x.Name;
 

@@ -7,10 +7,21 @@ public class LikeMemoryEvaluatorTests
     public record Customer(int Id, string FirstName, string? LastName);
 
     [Fact]
-    public void WithLikeSameGroup_ReturnsFilteredItems()
+    public void FiltersItems_GivenLikeInSameGroup()
     {
-        List<Customer> input = [new(1, "axxa", "axya"), new(2, "aaaa", "aaaa"), new(3, "aaaa", "axya"), new(4, "aaaa", null)];
-        List<Customer> expected = [new(1, "axxa", "axya"), new(3, "aaaa", "axya")];
+        List<Customer> input =
+        [
+            new(1, "axxa", "axya"),
+            new(2, "aaaa", "aaaa"),
+            new(3, "aaaa", "axya"),
+            new(4, "aaaa", null)
+        ];
+
+        List<Customer> expected =
+        [
+            new(1, "axxa", "axya"),
+            new(3, "aaaa", "axya")
+        ];
 
         var spec = new Specification<Customer>();
         spec.Query
@@ -21,10 +32,20 @@ public class LikeMemoryEvaluatorTests
     }
 
     [Fact]
-    public void WithLikeDifferentGroup_ReturnsFilteredItems()
+    public void FiltersItems_GivenLikeInDifferentGroup()
     {
-        List<Customer> input = [new(1, "axxa", "axya"), new(2, "aaaa", "aaaa"), new(3, "aaaa", "axya"), new(4, "aaaa", null)];
-        List<Customer> expected = [new(1, "axxa", "axya")];
+        List<Customer> input =
+        [
+            new(1, "axxa", "axya"),
+            new(2, "aaaa", "aaaa"),
+            new(3, "aaaa", "axya"),
+            new(4, "aaaa", null)
+        ];
+
+        List<Customer> expected = 
+        [
+            new(1, "axxa", "axya")
+        ];
 
         var spec = new Specification<Customer>();
         spec.Query
@@ -35,10 +56,22 @@ public class LikeMemoryEvaluatorTests
     }
 
     [Fact]
-    public void WithoutLike_ReturnsNonFilteredItems()
+    public void DoesNotFilter_GivenNoLike()
     {
-        List<Customer> input = [new(1, "axxa", "axya"), new(2, "aaaa", "aaaa"), new(3, "aaaa", "axya")];
-        List<Customer> expected = [new(1, "axxa", "axya"), new(2, "aaaa", "aaaa"), new(3, "aaaa", "axya")];
+        List<Customer> input =
+        [
+            new(1, "axxa", "axya"),
+            new(2, "aaaa", "aaaa"),
+            new(3, "aaaa", "axya")
+        ];
+
+        List<Customer> expected =
+        [
+            new(1, "axxa", "axya"),
+            new(2, "aaaa", "aaaa"),
+            new(3, "aaaa", "axya")
+        ];
+
         var spec = new Specification<Customer>();
 
         AssertForEvaluate(spec, input, expected);

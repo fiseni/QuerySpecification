@@ -5,7 +5,7 @@ namespace Tests.Extensions;
 public class ParameterReplacerVisitorTests
 {
     [Fact]
-    public void Replace_ParameterExpression_ReturnsNewExpression()
+    public void Replace_ReturnsExpressionWithReplacedParameter()
     {
         Expression<Func<int, decimal, bool>> expected = (y, z) => y == 1;
 

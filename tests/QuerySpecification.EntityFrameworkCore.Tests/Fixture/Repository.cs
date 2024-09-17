@@ -3,7 +3,7 @@ using AutoMapper.QueryableExtensions;
 
 namespace Tests.Fixture;
 
-public class Repository<T> : RepositoryBase<T> where T : class
+public class Repository<T>(DbContext context) : RepositoryBase<T>(context) where T : class
 {
     private static readonly Lazy<IMapper> _mapper = new(() =>
     {
@@ -13,10 +13,6 @@ public class Repository<T> : RepositoryBase<T> where T : class
         });
         return config.CreateMapper();
     });
-
-    public Repository(DbContext context) : base(context)
-    {
-    }
 
     protected override IQueryable<TResult> Map<TResult>(IQueryable<T> queryable)
     {

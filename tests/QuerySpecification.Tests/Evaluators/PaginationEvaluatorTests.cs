@@ -7,7 +7,7 @@ public class PaginationEvaluatorTests
     public record Customer(int Id);
 
     [Fact]
-    public void WithPagination_ReturnsFilteredItems()
+    public void FiltersItems_GivenPagination()
     {
         List<Customer> input = [new(1), new(2), new(3), new(4), new(5)];
         List<Customer> expected = [new(3), new(4)];
@@ -22,7 +22,7 @@ public class PaginationEvaluatorTests
     }
 
     [Fact]
-    public void WithoutPagination_ReturnsNonFilteredItems()
+    public void FiltersItems_GivenNoPagination()
     {
         List<Customer> input = [new(1), new(2), new(3), new(4), new(5)];
         List<Customer> expected = [new(1), new(2), new(3), new(4), new(5)];
@@ -35,7 +35,7 @@ public class PaginationEvaluatorTests
 
 
     [Fact]
-    public void WithNegativeTakeSkip_ReturnsNonFilteredItems()
+    public void DoesNotFilter_GivenNegativeTakeSkip()
     {
         List<Customer> input = [new(1), new(2), new(3), new(4), new(5)];
         List<Customer> expected = [new(1), new(2), new(3), new(4), new(5)];
@@ -51,7 +51,7 @@ public class PaginationEvaluatorTests
 
 
     [Fact]
-    public void WithZeroSkip_ReturnsNonFilteredItems()
+    public void DoesNotFilter_GivenZeroSkip()
     {
         List<Customer> input = [new(1), new(2), new(3), new(4), new(5)];
         List<Customer> expected = [new(1), new(2), new(3), new(4), new(5)];

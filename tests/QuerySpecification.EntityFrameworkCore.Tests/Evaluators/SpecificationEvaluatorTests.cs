@@ -10,7 +10,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     public record Customer(int Id, string FirstName, string LastName, List<string>? Emails = null);
 
     [Fact]
-    public void Evaluate_ThrowsArgumentNullException_GivenNullSpec()
+    public void GetQuery_ThrowsArgumentNullException_GivenNullSpec()
     {
         Action sutAction = () => _evaluator.GetQuery(DbContext.Countries, (Specification<Country>)null!);
 
@@ -18,7 +18,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     }
 
     [Fact]
-    public void Evaluate_ThrowsArgumentNullException_GivenNullSpecificationWithSelector()
+    public void GetQuery_ThrowsArgumentNullException_GivenNullSpecificationWithSelector()
     {
         Action sutAction = () => _evaluator.GetQuery(DbContext.Countries, (Specification<Country, string>)null!);
 
@@ -26,7 +26,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     }
 
     [Fact]
-    public void Evaluate_ThrowsSelectorNotFoundException_GivenNoSelector()
+    public void GetQuery_ThrowsSelectorNotFoundException_GivenNoSelector()
     {
         var spec = new Specification<Country, string>();
 
@@ -36,7 +36,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     }
 
     [Fact]
-    public void Evaluate_ThrowsConcurrentSelectorsException_GivenBothSelectAndSelectMany()
+    public void GetQuery_ThrowsConcurrentSelectorsException_GivenBothSelectAndSelectMany()
     {
         var spec = new Specification<Store, string?>();
         spec.Query
@@ -50,7 +50,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     }
 
     [Fact]
-    public void QueriesMatch_GivenFullQuery()
+    public void GetQuery_GivenFullQuery()
     {
         var id = 2;
         var name = "Store1";
@@ -102,7 +102,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     }
 
     [Fact]
-    public void QueriesMatch_GivenFullQueryWithSelect()
+    public void GetQuery_GivenFullQueryWithSelect()
     {
         var id = 2;
         var name = "Store1";
@@ -156,7 +156,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     }
 
     [Fact]
-    public void QueriesMatch_GivenFullQueryWithSelectMany()
+    public void GetQuery_GivenFullQueryWithSelectMany()
     {
         var id = 2;
         var name = "Store1";
@@ -210,7 +210,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     }
 
     [Fact]
-    public void ConstructorSetsProvidedEvaluators()
+    public void Constructor_SetsProvidedEvaluators()
     {
         var evaluators = new List<IEvaluator>
         {

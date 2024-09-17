@@ -32,7 +32,7 @@ public class PaginationTests
 
     [Theory]
     [MemberData(nameof(TheoryData))]
-    public void TestPagination_GivenMostInnerConstructor(int itemsCountInput, int? pageSizeInput, int? pageInput, Expected expected)
+    public void CalculatesValues_GivenMostInnerConstructor(int itemsCountInput, int? pageSizeInput, int? pageInput, Expected expected)
     {
         var pagination = new Pagination(_settings, itemsCountInput, pageSizeInput, pageInput);
         AssertPaginationValues(pagination, expected);
@@ -40,7 +40,7 @@ public class PaginationTests
 
     [Theory]
     [MemberData(nameof(TheoryData))]
-    public void TestPagination_GivenConstructorWithPagingFilter(int itemsCountInput, int? pageSizeInput, int? pageInput, Expected expected)
+    public void CalculatesValues_GivenConstructorWithPagingFilter(int itemsCountInput, int? pageSizeInput, int? pageInput, Expected expected)
     {
         var filter = new PagingFilter { PageSize = pageSizeInput, Page = pageInput };
         var pagination = new Pagination(_settings, itemsCountInput, filter);
@@ -49,7 +49,7 @@ public class PaginationTests
 
     [Theory]
     [MemberData(nameof(TheoryData))]
-    public void TestPagination_GivenConstructorWithDefaultSettings(int itemsCountInput, int? pageSizeInput, int? pageInput, Expected expected)
+    public void CalculatesValues_GivenConstructorWithDefaultSettings(int itemsCountInput, int? pageSizeInput, int? pageInput, Expected expected)
     {
         var pagination = new Pagination(itemsCountInput, pageSizeInput, pageInput);
         AssertPaginationValues(pagination, expected);
@@ -57,19 +57,11 @@ public class PaginationTests
 
     [Theory]
     [MemberData(nameof(TheoryData))]
-    public void TestPagination_GivenConstructorWithDefaultSettingsAndPagingFilter(int itemsCountInput, int? pageSizeInput, int? pageInput, Expected expected)
+    public void CalculatesValues_GivenConstructorWithDefaultSettingsAndPagingFilter(int itemsCountInput, int? pageSizeInput, int? pageInput, Expected expected)
     {
         var filter = new PagingFilter { PageSize = pageSizeInput, Page = pageInput };
         var pagination = new Pagination(itemsCountInput, filter);
         AssertPaginationValues(pagination, expected);
-    }
-
-    [Fact]
-    public void TestDefaultPagination()
-    {
-        var pagination = Pagination.Default;
-        var pageSize = PaginationSettings.Default.DefaultPageSize;
-        AssertPaginationValues(pagination, new Expected( 0, 1, pageSize, 1, 0, 0, false, false, pageSize, 0));
     }
 
     [Theory]
@@ -77,10 +69,18 @@ public class PaginationTests
     [InlineData(50, 1, 50, 1, 1, 50, true, false)]
     [InlineData(50, 5, 10, 1, 1, 10, false, true)]
     [InlineData(50, 5, 10, 3, 21, 30, true, true)]
-    public void TestPagination_GivenJsonConstructor(int totalItems, int totalPages, int pageSize, int page, int startItem, int endItem, bool hasPrevious, bool hasNext)
+    public void CalculatesValues_GivenJsonConstructor(int totalItems, int totalPages, int pageSize, int page, int startItem, int endItem, bool hasPrevious, bool hasNext)
     {
         var pagination = new Pagination(totalItems, totalPages, pageSize, page, startItem, endItem, hasPrevious, hasNext);
         AssertPaginationValues(pagination, new Expected(totalItems, totalPages, pageSize, page, startItem, endItem, hasPrevious, hasNext, 0, 0));
+    }
+
+    [Fact]
+    public void DefaultPagination_SetsDefaultValues()
+    {
+        var pagination = Pagination.Default;
+        var pageSize = PaginationSettings.Default.DefaultPageSize;
+        AssertPaginationValues(pagination, new Expected( 0, 1, pageSize, 1, 0, 0, false, false, pageSize, 0));
     }
 
     [Fact]

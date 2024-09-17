@@ -7,7 +7,7 @@ public class OrderExpressionTests
     public record Customer(int Id, string Name);
 
     [Fact]
-    public void ThrowsArgumentNullException_GivenNullExpression()
+    public void Constructor_ThrowsArgumentNullException_GivenNullExpression()
     {
         Action sutAction = () => new OrderExpression<Customer>(null!, OrderTypeEnum.OrderBy);
 
@@ -15,7 +15,7 @@ public class OrderExpressionTests
     }
 
     [Fact]
-    public void SetsStateAndFunc()
+    public void Constructor_GivenValidValues()
     {
         Expression<Func<Customer, object?>> expr = x => x.Name;
 

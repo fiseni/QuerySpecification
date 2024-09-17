@@ -3,19 +3,19 @@
 public class WhereValidatorTests
 {
     private static readonly WhereValidator _validator = WhereValidator.Instance;
-    private static readonly Customer _customer = new(1, "Customer1");
 
     public record Customer(int Id, string Name);
 
     [Fact]
     public void ReturnsTrue_GivenSpecWithSingleWhere_WithValidEntity()
     {
-        var id = 1;
+        var customer = new Customer(1, "Customer1");
+
         var spec = new Specification<Customer>();
         spec.Query
-            .Where(x => x.Id == id);
+            .Where(x => x.Id == 1);
 
-        var result = _validator.IsValid(_customer, spec);
+        var result = _validator.IsValid(customer, spec);
 
         result.Should().BeTrue();
     }
@@ -23,12 +23,13 @@ public class WhereValidatorTests
     [Fact]
     public void ReturnsFalse_GivenSpecWithSingleWhere_WithInvalidEntity()
     {
-        var id = 2;
+        var customer = new Customer(1, "Customer1");
+
         var spec = new Specification<Customer>();
         spec.Query
-            .Where(x => x.Id == id);
+            .Where(x => x.Id == 2);
 
-        var result = _validator.IsValid(_customer, spec);
+        var result = _validator.IsValid(customer, spec);
         
         result.Should().BeFalse();
     }
@@ -36,12 +37,14 @@ public class WhereValidatorTests
     [Fact]
     public void ReturnsTrue_GivenSpecWithMultipleWhere_WithValidEntity()
     {
-        var id = 1;
+        var customer = new Customer(1, "Customer1");
+
         var spec = new Specification<Customer>();
         spec.Query
-            .Where(x => x.Id == id).Where(x => x.Name == "Customer1");
+            .Where(x => x.Id == 1)
+            .Where(x => x.Name == "Customer1");
 
-        var result = _validator.IsValid(_customer, spec);
+        var result = _validator.IsValid(customer, spec);
         
         result.Should().BeTrue();
     }
@@ -49,12 +52,14 @@ public class WhereValidatorTests
     [Fact]
     public void ReturnsFalse_GivenSpecWithMultipleWhere_WithSingleInvalidValue()
     {
-        var id = 2;
+        var customer = new Customer(1, "Customer1");
+
         var spec = new Specification<Customer>();
         spec.Query
-            .Where(x => x.Id == id).Where(x => x.Name == "Customer1");
+            .Where(x => x.Id == 2)
+            .Where(x => x.Name == "Customer1");
 
-        var result = _validator.IsValid(_customer, spec);
+        var result = _validator.IsValid(customer, spec);
         
         result.Should().BeFalse();
     }
@@ -62,12 +67,14 @@ public class WhereValidatorTests
     [Fact]
     public void ReturnsFalse_GivenSpecWithMultipleWhere_WithAllInvalidValues()
     {
-        var id = 2;
+        var customer = new Customer(1, "Customer1");
+
         var spec = new Specification<Customer>();
         spec.Query
-            .Where(x => x.Id == id).Where(x => x.Name == "Customer2");
+            .Where(x => x.Id == 2)
+            .Where(x => x.Name == "Customer2");
 
-        var result = _validator.IsValid(_customer, spec);
+        var result = _validator.IsValid(customer, spec);
         
         result.Should().BeFalse();
     }

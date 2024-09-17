@@ -7,7 +7,7 @@ public class IncludeExpressionTests
     public record City(int Id);
 
     [Fact]
-    public void ThrowsArgumentNullException_GivenNullForLambdaExpression()
+    public void Constructor_ThrowsArgumentNullException_GivenNullForLambdaExpression()
     {
         Action sutAction = () => new IncludeExpression(null!, typeof(Customer), typeof(Address));
 
@@ -15,7 +15,7 @@ public class IncludeExpressionTests
     }
 
     [Fact]
-    public void ThrowsArgumentNullException_GivenNullForEntityType()
+    public void Constructor_ThrowsArgumentNullException_GivenNullForEntityType()
     {
         Expression<Func<Customer, Address>> expr = x => x.Address;
         Action sutAction = () => new IncludeExpression(expr, null!, typeof(Address));
@@ -24,7 +24,7 @@ public class IncludeExpressionTests
     }
 
     [Fact]
-    public void ThrowsArgumentNullException_GivenNullForPropertyType()
+    public void Constructor_ThrowsArgumentNullException_GivenNullForPropertyType()
     {
         Expression<Func<Customer, Address>> expr = x => x.Address;
         Action sutAction = () => new IncludeExpression(expr, typeof(Customer), null!);
@@ -33,7 +33,7 @@ public class IncludeExpressionTests
     }
 
     [Fact]
-    public void ThrowsArgumentNullException_GivenNullForPreviousPropertyType()
+    public void Constructor_ThrowsArgumentNullException_GivenNullForPreviousPropertyType()
     {
         Expression<Func<Customer, Address>> expr = x => x.Address;
         Action sutAction = () => new IncludeExpression(expr, typeof(Customer), typeof(Address), null!);
@@ -42,7 +42,7 @@ public class IncludeExpressionTests
     }
 
     [Fact]
-    public void SetsType_ForIncludeExpression()
+    public void Constructor_GivenIncludeExpression()
     {
         Expression<Func<Customer, Address>> expr = x => x.Address;
         var sut = new IncludeExpression(expr, typeof(Customer), typeof(Address));
@@ -55,7 +55,7 @@ public class IncludeExpressionTests
     }
 
     [Fact]
-    public void SetsType_ForIncludeThenExpression()
+    public void Constructor_GivenIncludeThenExpression()
     {
         Expression<Func<Address, City>> expr = x => x.City;
         var sut = new IncludeExpression(expr, typeof(Customer), typeof(City), typeof(Address));

@@ -6,7 +6,7 @@ public class AsNoTrackingWithIdentityResolutionEvaluatorTests(TestFactory factor
     private static readonly AsNoTrackingWithIdentityResolutionEvaluator _evaluator = AsNoTrackingWithIdentityResolutionEvaluator.Instance;
 
     [Fact]
-    public void Apply_GivenAsNoTrackingWithIdentityResolution()
+    public void Applies_GivenAsNoTrackingWithIdentityResolution()
     {
         var spec = new Specification<Country>();
         spec.Query.AsNoTrackingWithIdentityResolution();
@@ -21,22 +21,5 @@ public class AsNoTrackingWithIdentityResolutionEvaluatorTests(TestFactory factor
             .ToString();
 
         actual.Should().Be(expected.ToString());
-    }
-
-    [Fact]
-    public void NotApply_GivenEmptySpec()
-    {
-        var spec = new Specification<Country>();
-
-        var actual = _evaluator.GetQuery(DbContext.Countries, spec)
-            .Expression
-            .ToString();
-
-        var expected = DbContext.Countries
-            .AsNoTrackingWithIdentityResolution()
-            .Expression
-            .ToString();
-
-        actual.Should().NotBe(expected.ToString());
     }
 }

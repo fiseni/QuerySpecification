@@ -27,7 +27,7 @@ public class QueryTests(TestFactory factory) : IntegrationTest(factory)
         var invalidCompany = new Company { Name = "Fails", Country = validCountry };
         var invalidAddress = new Address { Street = "Fails" };
 
-        List<Product> NewProducts() =>
+        List<Product> GetProducts() =>
         [
             new() { Name = validProductName, Images = [new() { ImageUrl = validProductImageUrl }] },
             new() { Name = validProductName, Images = null },
@@ -37,12 +37,54 @@ public class QueryTests(TestFactory factory) : IntegrationTest(factory)
         // The second item is expected based on descending city order.
         var stores = new List<Store>
         {
-            new() { Name = validStoreName, City = validCity, Company = invalidCompany, Address = validAddress with { }, Products = NewProducts() }, // this passes, city-company same LIKE group
-            new() { Name = validStoreName, City = "WWW", Company = validCompany, Address = validAddress with { }, Products = NewProducts() }, // this passes, city-company same LIKE group
-            new() { Name = validStoreName, City = "Fails", Company = invalidCompany, Address = validAddress with { }, Products = NewProducts() }, // fails, city and company
-            new() { Name = validStoreName, City = validCity, Company = validCompany, Address = invalidAddress with { }, Products = NewProducts() }, // fails, address
-            new() { Name = "Fails", City = validCity, Company = validCompany, Address = validAddress with { }, Products = NewProducts() }, // fails name
-            new() { Name = validStoreName, City = validCity, Company = validCompany, Address = validAddress with { }, Products = NewProducts() }, // this passes
+            new() // this passes, city-company same LIKE group
+            {
+                Name = validStoreName,
+                City = validCity,
+                Company = invalidCompany,
+                Address = validAddress with { },
+                Products = GetProducts()
+            },
+            new() // this passes, city-company same LIKE group
+            {
+                Name = validStoreName,
+                City = "WWW",
+                Company = validCompany,
+                Address = validAddress with { },
+                Products = GetProducts()
+            },
+            new() // fails, city and company
+            {
+                Name = validStoreName,
+                City = "Fails",
+                Company = invalidCompany,
+                Address = validAddress with { },
+                Products = GetProducts()
+            },
+            new() // fails, address
+            {
+                Name = validStoreName,
+                City = validCity,
+                Company = validCompany,
+                Address = invalidAddress with { },
+                Products = GetProducts()
+            },
+            new() // fails name
+            {
+                Name = "Fails",
+                City = validCity,
+                Company = validCompany,
+                Address = validAddress with { },
+                Products = GetProducts()
+            },
+            new() // this passes
+            {
+                Name = validStoreName,
+                City = validCity,
+                Company = validCompany,
+                Address = validAddress with { },
+                Products = GetProducts()
+            },
         };
 
         await SeedRangeAsync(stores);
@@ -80,5 +122,92 @@ public class QueryTests(TestFactory factory) : IntegrationTest(factory)
         result[0].Products[0].Images![0].ImageUrl.Should().Be(validProductImageUrl);
         result[0].Products[1].Name.Should().Be(validProductName);
         result[0].Products[1].Images.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task QueryWithSelect()
+    {
+        var expected = new List<CountryDto>
+        {
+            new("b"),
+            new("b"),
+            new("b"),
+        };
+        await SeedRangeAsync<Country>(
+        [
+            new() { Name = "a" },
+            new() { Name = "c" },
+            new() { Name = "b" },
+            new() { Name = "b" },
+            new() { Name = "b" },
+            new() { Name = "d" },
+        ]);
+
+        var spec = new Specification<Country, CountryDto>();
+        spec.Query
+            .Where(x => x.Name == "b")
+            .Select(x => new CountryDto(x.Name));
+
+        var result = await DbContext.Countries
+            .WithSpecification(spec)
+            .ToListAsync();
+
+        result.Should().HaveSameCount(expected);
+        result.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public async Task QueryWithSelectMany()
+    {
+        var expected = new List<ProductImageDto>
+        {
+            new("b"),
+            new("b"),
+            new("b"),
+        };
+        var store = new Store
+        {
+            Name = "Store1",
+            Company = new Company
+            {
+                Name = "Company1",
+                Country = new Country { Name = "b" }
+            },
+        };
+        var products = new List<Product>()
+        {
+            new()
+            {
+                Store = store,
+                Images =
+                [
+                    new() { ImageUrl = "a" },
+                    new() { ImageUrl = null },
+                    new() { ImageUrl = "b" },
+                    new() { ImageUrl = "b" },
+                    new() { ImageUrl = "b" },
+                    new() { ImageUrl = "d" },
+                ]
+            },
+            new()
+            {
+                Store = store,
+                Images = null
+            }
+        };
+        await SeedRangeAsync(products);
+
+        var spec = new Specification<Product, ProductImageDto>();
+        spec.Query
+            .SelectMany(x => x.Images!
+                .Where(x => x.ImageUrl == "b")
+                .Select(x => new ProductImageDto(x.ImageUrl)));
+
+        var result = await DbContext.Products
+            .WithSpecification(spec)
+            .ToListAsync();
+
+        result.Should().HaveSameCount(expected);
+        result.Should().BeEquivalentTo(expected);
     }
 }

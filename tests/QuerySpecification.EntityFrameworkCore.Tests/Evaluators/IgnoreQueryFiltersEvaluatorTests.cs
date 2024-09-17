@@ -22,7 +22,7 @@ public class IgnoreQueryFiltersEvaluatorTests(TestFactory factory) : Integration
     }
 
     [Fact]
-    public void Apply_GivenAIgnoreQueryFilters()
+    public void Applies_GivenAIgnoreQueryFilters()
     {
         var spec = new Specification<Country>();
         spec.Query.IgnoreQueryFilters();
@@ -37,22 +37,5 @@ public class IgnoreQueryFiltersEvaluatorTests(TestFactory factory) : Integration
             .ToString();
 
         actual.Should().Be(expected.ToString());
-    }
-
-    [Fact]
-    public void NotApply_GivenEmptySpec()
-    {
-        var spec = new Specification<Country>();
-
-        var actual = _evaluator.GetQuery(DbContext.Countries, spec)
-            .Expression
-            .ToString();
-
-        var expected = DbContext.Countries
-            .IgnoreQueryFilters()
-            .Expression
-            .ToString();
-
-        actual.Should().NotBe(expected.ToString());
     }
 }

@@ -5,22 +5,22 @@ namespace Tests.Validators;
 public class SpecificationValidatorTests
 {
     private static readonly SpecificationValidator _validatorDefault = SpecificationValidator.Default;
-    private static readonly Customer _customer = new(1, "FirstName1", "LastName1");
 
     public record Customer(int Id, string FirstName, string LastName);
 
     [Fact]
     public void ReturnTrue_GivenAllValidatorsPass()
     {
-        var id = 1;
+        var customer = new Customer(1, "FirstName1", "LastName1");
+
         var likeTerm = "irst";
         var spec = new Specification<Customer>();
         spec.Query
-            .Where(x => x.Id == id)
+            .Where(x => x.Id == 1)
             .Like(x => x.FirstName, $"%{likeTerm}%");
 
-        var result = _validatorDefault.IsValid(_customer, spec);
-        var resultFromSpec = spec.IsSatisfiedBy(_customer);
+        var result = _validatorDefault.IsValid(customer, spec);
+        var resultFromSpec = spec.IsSatisfiedBy(customer);
 
         result.Should().Be(resultFromSpec);
         result.Should().BeTrue();
@@ -29,15 +29,16 @@ public class SpecificationValidatorTests
     [Fact]
     public void ReturnFalse_GivenOneValidatorFails()
     {
-        var id = 1;
+        var customer = new Customer(1, "FirstName1", "LastName1");
+
         var likeTerm = "irst";
         var spec = new Specification<Customer>();
         spec.Query
-            .Where(x => x.Id == id)
+            .Where(x => x.Id == 1)
             .Like(x => x.FirstName, $"%{likeTerm}%");
 
-        var result = _validatorDefault.IsValid(_customer, spec);
-        var resultFromSpec = spec.IsSatisfiedBy(_customer);
+        var result = _validatorDefault.IsValid(customer, spec);
+        var resultFromSpec = spec.IsSatisfiedBy(customer);
 
         result.Should().Be(resultFromSpec);
         result.Should().BeTrue();
@@ -46,22 +47,23 @@ public class SpecificationValidatorTests
     [Fact]
     public void ReturnFalse_GivenAllValidatorsFail()
     {
-        var id = 2;
+        var customer = new Customer(1, "FirstName1", "LastName1");
+
         var likeTerm = "irstt";
         var spec = new Specification<Customer>();
         spec.Query
-            .Where(x => x.Id == id)
+            .Where(x => x.Id == 2)
             .Like(x => x.FirstName, $"%{likeTerm}%");
 
-        var result = _validatorDefault.IsValid(_customer, spec);
-        var resultFromSpec = spec.IsSatisfiedBy(_customer);
+        var result = _validatorDefault.IsValid(customer, spec);
+        var resultFromSpec = spec.IsSatisfiedBy(customer);
 
         result.Should().Be(resultFromSpec);
         result.Should().BeFalse();
     }
 
     [Fact]
-    public void ConstructorSetsProvidedValidators()
+    public void Constructor_SetsProvidedValidators()
     {
         var validators = new List<IValidator>
         {
