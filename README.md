@@ -1,10 +1,9 @@
-<img align="left" src="docs/pozitronlogo.png" width="120" height="120">
+<img align="left" src="docs/pozitronlogo.png" width="100" height="100">
 
 &nbsp; [![NuGet](https://img.shields.io/nuget/v/Pozitron.QuerySpecification.svg)](https://www.nuget.org/packages/Pozitron.QuerySpecification)[![NuGet](https://img.shields.io/nuget/dt/Pozitron.QuerySpecification.svg)](https://www.nuget.org/packages/Pozitron.QuerySpecification)
 
 &nbsp;
-&nbsp;
-&nbsp;
+---
 
 A .NET library for building query specifications.
 
