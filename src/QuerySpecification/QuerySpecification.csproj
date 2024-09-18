@@ -23,11 +23,11 @@
     <PackageReleaseNotes>
       - Dropped support for old TFMs. Support only .NET 8.
       - Dropped support for old plugin packages. Support only EntityFrameworkCore 8.
-      - Redesigned the infrastructure and refactore the internals.
+      - Redesigned the infrastructure and refactored the internals.
       - Removed all specification interfaces.
       - Minimized the memory footprint.
       - Removed obsolete features.
-      - Improved query building capabilities.
+      - Improved query-building capabilities.
       - Added full support for pagination.
       - Added support for paginated responses.
       - Added arbitrary projection capabilities in repositories.
