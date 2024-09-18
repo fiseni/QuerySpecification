@@ -1,23 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    
     <AssemblyName>Pozitron.QuerySpecification.EntityFrameworkCore</AssemblyName>
-    <RootNamespace>Pozitron.QuerySpecification</RootNamespace>
     
     <PackageId>Pozitron.QuerySpecification.EntityFrameworkCore</PackageId>
     <Title>Pozitron.QuerySpecification.EntityFrameworkCore</Title>
-    <Authors>Fati Iseni</Authors>
-    <Company>Pozitron Group</Company>
-    <Product>Pozitron QuerySpecification (EntityFrameworkCore plugin)</Product>
     <Description>EntityFrameworkCore plugin to Pozitron.QuerySpecification containing EF evaluators.</Description>
     <Summary>EntityFrameworkCore plugin to Pozitron.QuerySpecification containing EF evaluators.</Summary>
-    <Copyright>Copyright © 2024 Pozitron Group</Copyright>
     
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>10.0.0</Version>
     <PackageTags>pozitron query specification efcore</PackageTags>
     <PackageReleaseNotes>
@@ -32,23 +22,8 @@
       - Added support for paginated responses.
       - Added arbitrary projection capabilities in repositories.
     </PackageReleaseNotes>
-    
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageProjectUrl>https://github.com/fiseni/QuerySpecification</PackageProjectUrl>
-    <PackageIconUrl>https://pozitrongroup.com/PozitronLogo.png</PackageIconUrl>
-    <PackageIcon>pozitronicon.png</PackageIcon>
-    <RepositoryUrl>https://github.com/fiseni/QuerySpecification</RepositoryUrl>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     <!--<DocumentationFile>bin\$(Configuration)\Pozitron.QuerySpecification.EntityFrameworkCore.xml</DocumentationFile>-->
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="../../docs/pozitronicon.png" Pack="true" PackagePath="\" />
-    <None Include="../../README.md" Pack="true" PackagePath="\" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
