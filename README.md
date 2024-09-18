@@ -6,8 +6,6 @@
 ---
 
 A .NET library for building query specifications.
-
-Packages:
 - [Pozitron.QuerySpecification](https://www.nuget.org/packages/Pozitron.QuerySpecification) - Base package containing the core functionality, in-memory evaluators and validators.
 - [Pozitron.QuerySpecification.EntityFrameworkCore](https://www.nuget.org/packages/Pozitron.QuerySpecification.EntityFrameworkCore) - An `EntityFramework Core` plugin to the base package. It contains EF specific evaluators.
 
