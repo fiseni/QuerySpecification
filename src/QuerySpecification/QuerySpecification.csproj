@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <AssemblyName>Pozitron.QuerySpecification</AssemblyName>
-    
     <PackageId>Pozitron.QuerySpecification</PackageId>
     <Title>Pozitron.QuerySpecification</Title>
     <Description>Abstract package for building query specifications.</Description>
