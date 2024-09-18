@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <AssemblyName>Pozitron.QuerySpecification.EntityFrameworkCore</AssemblyName>
-    
     <PackageId>Pozitron.QuerySpecification.EntityFrameworkCore</PackageId>
     <Title>Pozitron.QuerySpecification.EntityFrameworkCore</Title>
     <Description>EntityFrameworkCore plugin to Pozitron.QuerySpecification containing EF evaluators.</Description>
