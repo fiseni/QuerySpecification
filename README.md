@@ -3,14 +3,13 @@
 &nbsp; [![NuGet](https://img.shields.io/nuget/v/Pozitron.QuerySpecification.svg)](https://www.nuget.org/packages/Pozitron.QuerySpecification)[![NuGet](https://img.shields.io/nuget/dt/Pozitron.QuerySpecification.svg)](https://www.nuget.org/packages/Pozitron.QuerySpecification)
 
 &nbsp;
-
-# Pozitron.QuerySpecification
+&nbsp;
 
 A .NET library for building query specifications.
 
 Packages:
-- <strong>Pozitron.QuerySpecification:</strong> Base package containing the core functionality, in-memory evaluators and validators.
-- <strong>Pozitron.QuerySpecification.EntityFrameworkCore:</strong> An `EntityFramework Core` plugin to the base package. It contains EF specific evaluators.
+- [Pozitron.QuerySpecification](https://www.nuget.org/packages/Pozitron.QuerySpecification) - Base package containing the core functionality, in-memory evaluators and validators.
+- [Pozitron.QuerySpecification.EntityFrameworkCore](https://www.nuget.org/packages/Pozitron.QuerySpecification.EntityFrameworkCore) - An `EntityFramework Core` plugin to the base package. It contains EF specific evaluators.
 
 ## Usage
 
@@ -35,7 +34,7 @@ public class CustomerSpec : Specification<Customer>
 }
 ```
 
-Apply the specification to `DbSet<T>` or any any `IQueryable<T>` source.
+Apply the specification to `DbSet<T>` or any `IQueryable<T>` source.
 
 ```csharp
 var spec = new CustomerSpec(30, "John");
@@ -64,7 +63,7 @@ public class CustomerDtoSpec : Specification<Customer, CustomerDto>
 }
 ```
 
-Apply the specification to `DbSet<T>` or any any `IQueryable<T>` source.
+Apply the specification to `DbSet<T>` or any `IQueryable<T>` source.
 
 ```csharp
 var spec = new CustomerSpec(30, "John");
