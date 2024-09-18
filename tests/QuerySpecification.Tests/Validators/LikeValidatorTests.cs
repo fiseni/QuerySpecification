@@ -17,7 +17,7 @@ public class LikeValidatorTests
             .Like(x => x.FirstName, $"%{term}%");
 
         var result = _validator.IsValid(customer, spec);
-       
+
         result.Should().BeTrue();
     }
 
@@ -32,7 +32,7 @@ public class LikeValidatorTests
             .Like(x => x.FirstName, $"%{term}%");
 
         var result = _validator.IsValid(customer, spec);
-        
+
         result.Should().BeFalse();
     }
 
@@ -48,7 +48,7 @@ public class LikeValidatorTests
             .Like(x => x.LastName, $"%{term}%");
 
         var result = _validator.IsValid(customer, spec);
-        
+
         result.Should().BeTrue();
     }
 
@@ -64,7 +64,7 @@ public class LikeValidatorTests
             .Like(x => x.LastName, $"%{term}%");
 
         var result = _validator.IsValid(customer, spec);
-        
+
         result.Should().BeFalse();
     }
 
@@ -80,7 +80,7 @@ public class LikeValidatorTests
             .Like(x => x.LastName, $"%{term}%", 2);
 
         var result = _validator.IsValid(customer, spec);
-        
+
         result.Should().BeTrue();
     }
 
@@ -96,7 +96,7 @@ public class LikeValidatorTests
             .Like(x => x.LastName, $"%{term}%", 2);
 
         var result = _validator.IsValid(customer, spec);
-        
+
         result.Should().BeFalse();
     }
 

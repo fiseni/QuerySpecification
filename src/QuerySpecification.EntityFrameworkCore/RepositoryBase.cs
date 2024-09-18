@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Pozitron.QuerySpecification.EntityFrameworkCore;
+﻿namespace Pozitron.QuerySpecification;
 
 public abstract class RepositoryBase<T> : IRepositoryBase<T>, IReadRepositoryBase<T> where T : class
 {

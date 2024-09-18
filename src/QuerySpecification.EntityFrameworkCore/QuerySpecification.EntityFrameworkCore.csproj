@@ -5,8 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     
-    <RootNamespace>Pozitron.QuerySpecification.EntityFrameworkCore</RootNamespace>
     <AssemblyName>Pozitron.QuerySpecification.EntityFrameworkCore</AssemblyName>
+    <RootNamespace>Pozitron.QuerySpecification</RootNamespace>
     
     <PackageId>Pozitron.QuerySpecification.EntityFrameworkCore</PackageId>
     <Title>Pozitron.QuerySpecification.EntityFrameworkCore</Title>
@@ -34,6 +34,7 @@
     </PackageReleaseNotes>
     
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/fiseni/QuerySpecification</PackageProjectUrl>
     <PackageIconUrl>https://pozitrongroup.com/PozitronLogo.png</PackageIconUrl>
     <PackageIcon>pozitronicon.png</PackageIcon>

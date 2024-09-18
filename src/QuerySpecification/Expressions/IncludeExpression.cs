@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Pozitron.QuerySpecification;
+﻿namespace Pozitron.QuerySpecification;
 
 public class IncludeExpression
 {

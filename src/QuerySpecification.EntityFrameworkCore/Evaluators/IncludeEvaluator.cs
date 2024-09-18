@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
+﻿using Microsoft.EntityFrameworkCore.Query;
 using System.Diagnostics;
-using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Pozitron.QuerySpecification.EntityFrameworkCore;
+namespace Pozitron.QuerySpecification;
 
 public class IncludeEvaluator : IEvaluator
 {
