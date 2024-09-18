@@ -104,7 +104,7 @@ public class Repository_ListTests(TestFactory factory) : IntegrationTest(factory
         var spec = new Specification<Country>();
         spec.Query
             .Like(x => x.Name, "b%")
-            .OrderBy(x=>x.Name);
+            .OrderBy(x => x.Name);
 
         var suffix = 1;
         await foreach (var item in repo.AsAsyncEnumerable(spec))

@@ -60,7 +60,7 @@ public class SpecificationInMemoryEvaluatorTests
             new(4, "aaaa", "axya")
         ];
 
-        List<Customer> expected = 
+        List<Customer> expected =
         [
             new(3, "aaaa", "axya")
         ];

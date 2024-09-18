@@ -42,7 +42,7 @@ public class LikeMemoryEvaluatorTests
             new(4, "aaaa", null)
         ];
 
-        List<Customer> expected = 
+        List<Customer> expected =
         [
             new(1, "axxa", "axya")
         ];

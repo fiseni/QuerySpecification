@@ -30,7 +30,7 @@ public class WhereValidatorTests
             .Where(x => x.Id == 2);
 
         var result = _validator.IsValid(customer, spec);
-        
+
         result.Should().BeFalse();
     }
 
@@ -45,7 +45,7 @@ public class WhereValidatorTests
             .Where(x => x.Name == "Customer1");
 
         var result = _validator.IsValid(customer, spec);
-        
+
         result.Should().BeTrue();
     }
 
@@ -60,7 +60,7 @@ public class WhereValidatorTests
             .Where(x => x.Name == "Customer1");
 
         var result = _validator.IsValid(customer, spec);
-        
+
         result.Should().BeFalse();
     }
 
@@ -75,7 +75,7 @@ public class WhereValidatorTests
             .Where(x => x.Name == "Customer2");
 
         var result = _validator.IsValid(customer, spec);
-        
+
         result.Should().BeFalse();
     }
 }

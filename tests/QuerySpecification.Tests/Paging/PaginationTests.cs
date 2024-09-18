@@ -80,7 +80,7 @@ public class PaginationTests
     {
         var pagination = Pagination.Default;
         var pageSize = PaginationSettings.Default.DefaultPageSize;
-        AssertPaginationValues(pagination, new Expected( 0, 1, pageSize, 1, 0, 0, false, false, pageSize, 0));
+        AssertPaginationValues(pagination, new Expected(0, 1, pageSize, 1, 0, 0, false, false, pageSize, 0));
     }
 
     [Fact]

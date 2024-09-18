@@ -17,7 +17,7 @@ public class EntityNotFoundExceptionTests
     {
         var entityName = "test";
         var message = $"The queried entity: test was not found!";
-        
+
         Action action = () => throw new EntityNotFoundException(entityName);
 
         action.Should().Throw<EntityNotFoundException>()
