@@ -18,9 +18,20 @@
     <Copyright>Copyright © 2024 Pozitron Group</Copyright>
     
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>10.0.0-beta1</Version>
+    <Version>10.0.0</Version>
     <PackageTags>pozitron query specification efcore</PackageTags>
-    <PackageReleaseNotes>Check release notes on github.</PackageReleaseNotes>
+    <PackageReleaseNotes>
+      - Dropped support for old TFMs. Support only .NET 8.
+      - Dropped support for old plugin packages. Support only EntityFrameworkCore 8.
+      - Redesigned the infrastructure and refactore the internals.
+      - Removed all specification interfaces.
+      - Minimized the memory footprint.
+      - Removed obsolete features.
+      - Improved query building capabilities.
+      - Added full support for pagination.
+      - Added support for paginated responses.
+      - Added arbitrary projection capabilities in repositories.
+    </PackageReleaseNotes>
     
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/fiseni/QuerySpecification</PackageProjectUrl>

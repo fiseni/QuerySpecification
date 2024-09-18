@@ -21,7 +21,7 @@ find "$WorkingDir/" -type d -name ".vs" -exec rm -rf {} \; > /dev/null 2>&1;
 }
 
 ########## Delete bin and obj directories.
-cleanBinObj()
+deleteBinObj()
 {
 echo "Deleting bin and obj directories...";
 
@@ -30,7 +30,7 @@ find "$WorkingDir/" -type d -name "obj" -exec rm -rf {} \; > /dev/null 2>&1;
 }
 
 ########## Delete Logs directories.
-cleanLogs()
+deleteLogs()
 {
 echo "Deleting Logs directories...";
 
@@ -38,15 +38,23 @@ find "$WorkingDir/" -type d -name "Logs" -exec rm -rf {} \; > /dev/null 2>&1;
 }
 
 ########## Delete .csproj.user files
-cleanUserFiles()
+deleteUserCsprojFiles()
 {
 echo "Deleting *.csproj.user files...";
 
 find "$WorkingDir/" -type f -name "*.csproj.user" -exec rm -rf {} \; > /dev/null 2>&1;
 }
 
+########## Delete test and coverage artifacts
+deleteUserCsprojFiles()
+{
+echo "Deleting test and coverage artifacts...";
+
+find "$WorkingDir/" -type d -name "TestResults" -exec rm -rf {} \; > /dev/null 2>&1;
+}
+
 ########## Delete all unused local branches.
-cleanLocalGitBranches()
+deleteLocalGitBranches()
 {
 echo "Deleting local unused git branches (e.g. no corresponding remote branch)...";
 
@@ -56,14 +64,20 @@ git fetch -p && git branch -vv | awk '/: gone\]/{print $1}' | xargs -I {} git br
 safetyCheck;
 echo "";
 
-if [ "$1" = "vs" ]; then
+if [ "$1" = "help" ]; then
+	echo "Usage: clean.sh [bin|vs|logs|user|coverages|branches]";
+elif [ "$1" = "bin" ]; then
+	deleteBinObj;
+elif [ "$1" = "vs" ]; then
 	deleteVSDir;
 elif [ "$1" = "logs" ]; then
-	cleanLogs;
+	deleteLogs;
 elif [ "$1" = "user" ]; then
-	cleanUserFiles;
+	deleteUserCsprojFiles;
+elif [ "$1" = "coverages" ]; then
+	deleteUserCsprojFiles;
 elif [ "$1" = "branches" ]; then
-	cleanLocalGitBranches;
+	deleteLocalGitBranches;
 else
-	cleanBinObj;
+	deleteBinObj;
 fi
