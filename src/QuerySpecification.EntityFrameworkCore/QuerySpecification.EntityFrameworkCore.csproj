@@ -34,6 +34,7 @@
     </PackageReleaseNotes>
     
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/fiseni/QuerySpecification</PackageProjectUrl>
     <PackageIconUrl>https://pozitrongroup.com/PozitronLogo.png</PackageIconUrl>
     <PackageIcon>pozitronicon.png</PackageIcon>
