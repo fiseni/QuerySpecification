@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Pozitron.QuerySpecification.EntityFrameworkCore;
+﻿namespace Pozitron.QuerySpecification;
 
 internal class ParameterReplacerVisitor : ExpressionVisitor
 {

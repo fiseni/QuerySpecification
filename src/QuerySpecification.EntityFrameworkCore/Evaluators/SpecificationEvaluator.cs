@@ -1,4 +1,4 @@
-﻿namespace Pozitron.QuerySpecification.EntityFrameworkCore;
+﻿namespace Pozitron.QuerySpecification;
 
 public class SpecificationEvaluator
 {

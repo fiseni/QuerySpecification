@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Data;
+﻿using System.Data;
 using System.Diagnostics;
-using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Pozitron.QuerySpecification.EntityFrameworkCore;
+namespace Pozitron.QuerySpecification;
 
 internal static class LikeExtension
 {

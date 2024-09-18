@@ -1,6 +1,6 @@
-﻿namespace Pozitron.QuerySpecification.EntityFrameworkCore;
+﻿namespace Pozitron.QuerySpecification;
 
-public static class DbSetExtensions
+public static class IQueryableExtensions
 {
     public static IQueryable<TSource> WithSpecification<TSource>(
       this IQueryable<TSource> source,
