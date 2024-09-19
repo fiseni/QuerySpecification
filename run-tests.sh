@@ -18,4 +18,4 @@ fi
 
 dotnet build "$testtarget" --configuration Release
 dotnet test "$testtarget" --configuration Release --no-build --no-restore --collect:"xplat code coverage"
-reportgenerator -reports:tests/**/coverage.cobertura.xml -targetdir:TestResults -assemblyfilters:"-*Tests*;"
+reportgenerator -reports:tests/**/coverage.cobertura.xml -targetdir:TestResults -reporttypes:"Html;Badges" -assemblyfilters:-*Tests*
