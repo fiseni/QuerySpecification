@@ -32,11 +32,9 @@ jobs:
         targetdir: 'coveragereport'
         reporttypes: 'Html;Badges'
         assemblyfilters: '-*Tests*'
-    - name: Upload coverage report artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: CoverageReport
-        path: coveragereport
-    - name: Publish coverage in build summary
-      run: cat coveragereport/badge_combined.svg >> $GITHUB_STEP_SUMMARY
-      shell: bash
+    - name: Update Gist with SVG using gh
+      run: gh gist edit $GIST_ID --add coveragereport/badge_combined.svg
+      env:
+        GIST_ID: ${{ secrets.GIST_ID }}
+        GH_TOKEN: ${{ secrets.GIST_TOKEN }}
+
