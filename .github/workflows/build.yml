@@ -30,11 +30,16 @@ jobs:
       with:
         reports: 'tests/**/coverage.cobertura.xml'
         targetdir: 'coveragereport'
-        reporttypes: 'Html;Badges'
+        reporttypes: 'MarkdownSummaryGithub;Badges'
         assemblyfilters: '-*Tests*'
-    - name: Update Gist with SVG using gh
-      run: gh gist edit $env:GIST_ID --add coveragereport/badge_combined.svg --filename badge_combined.svg
+    - name: Publish coverage in build summary
+      run: cat coveragereport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
+      shell: bash
+    - name: Update Gist with SVG and JobId
+      run: |
+        gh gist edit $env:GIST_ID --add coveragereport/badge_combined.svg --filename badge_combined.svg
+        echo $env:JOB_ID | gh gist edit $env:GIST_ID --filename jobId
       env:
-        GIST_ID: ${{ secrets.GIST_ID }}
         GH_TOKEN: ${{ secrets.GIST_TOKEN }}
-
+        GIST_ID: ${{ secrets.GIST_ID }}
+        JOB_ID: ${{ github.run_id }}
