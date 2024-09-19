@@ -2,7 +2,7 @@
 
 &nbsp; [![NuGet](https://img.shields.io/nuget/v/Pozitron.QuerySpecification.svg)](https://www.nuget.org/packages/Pozitron.QuerySpecification)
 
-&nbsp; [![Build and Test](https://github.com/fiseni/QuerySpecification/actions/workflows/ci.yml/badge.svg)](https://github.com/fiseni/QuerySpecification/actions/workflows/ci.yml)
+&nbsp; [![Full Build](https://github.com/fiseni/QuerySpecification/actions/workflows/build.yml/badge.svg)](https://github.com/fiseni/QuerySpecification/actions/workflows/build.yml)
 
 &nbsp; ![Coverage](https://gist.githubusercontent.com/fiseni/1f8772eb794eec3bdc600a69e55fe57f/raw/badge_combined.svg)
 
