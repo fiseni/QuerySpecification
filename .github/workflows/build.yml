@@ -33,7 +33,7 @@ jobs:
         reporttypes: 'Html;Badges'
         assemblyfilters: '-*Tests*'
     - name: Update Gist with SVG using gh
-      run: gh gist edit $env:GIST_ID --add coveragereport/badge_combined.svg --files badge_combined.svg
+      run: gh gist edit $env:GIST_ID --add coveragereport/badge_combined.svg --filename badge_combined.svg
       env:
         GIST_ID: ${{ secrets.GIST_ID }}
         GH_TOKEN: ${{ secrets.GIST_TOKEN }}
