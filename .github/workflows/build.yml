@@ -29,30 +29,27 @@ jobs:
       uses: danielpalme/ReportGenerator-GitHub-Action@5.3.9
       with:
         reports: 'tests/**/coverage.cobertura.xml'
-        targetdir: 'TestResults'
-        reporttypes: 'MarkdownSummaryGithub;Badges'
+        targetdir: 'coveragereport'
+        reporttypes: 'Html;Badges;MarkdownSummaryGithub'
         assemblyfilters: '-*Tests*'
     - name: Publish coverage report in build summary
-      run: cat TestResults/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
+      run: cat coveragereport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
       shell: bash
     - name: Update Gist with coverage report
       run: |
-        gh gist edit $env:GIST_ID --add TestResults/badge_combined.svg --filename badge_combined.svg
-        gh gist edit $env:GIST_ID --add TestResults/SummaryGithub.md --filename SummaryGithub.md
+        gh gist edit $env:GIST_ID --add coveragereport/badge_combined.svg --filename badge_combined.svg
+        gh gist edit $env:GIST_ID --add coveragereport/SummaryGithub.md --filename SummaryGithub.md
       env:
         GH_TOKEN: ${{ secrets.GIST_TOKEN }}
         GIST_ID: ${{ secrets.GIST_ID }}
-    - name: Create coverage-reports branch if doesn't exist
+    - name: Copy report to a temp directory
+      run: cp -rp coveragereport ${{ runner.temp }}/
+    - name: Create coverage-reports branch and push content
       run: |
-          git fetch
-          git switch coverage-reports || git switch --orphan coverage-reports
-          git reset --hard
-    - name: Move coverage report files to root
-      run: cp -r TestResults/* .
-    - name: Commit and push coverage report
-      run: |
-        git config user.name github-actions
-        git config user.email github-actions@github.com
-        git add -A
-        git commit -m "Update coverage reports [skip ci]"
+        git fetch
+        git checkout coverage-reports || git checkout --orphan coverage-reports
+        rm -rf ./*
+        cp -rp ${{ runner.temp }}/coveragereport/* ./
+        git add .
+        git commit -m "Update coverage reports [skip ci]" || echo "No changes to commit"
         git push origin coverage-reports --force
