@@ -4,7 +4,7 @@
 
 &nbsp; [![Full Build](https://github.com/fiseni/QuerySpecification/actions/workflows/build.yml/badge.svg)](https://github.com/fiseni/QuerySpecification/actions/workflows/build.yml)
 
-&nbsp; ![Coverage](https://gist.githubusercontent.com/fiseni/1f8772eb794eec3bdc600a69e55fe57f/raw/badge_combined.svg)
+&nbsp; [![Coverage](https://queryspecification.fiseni.com/badge_combined.svg)](https://queryspecification.fiseni.com)
 
 ---
 
