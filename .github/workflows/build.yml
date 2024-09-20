@@ -49,6 +49,7 @@ jobs:
       run: |
         git fetch
         git checkout coverage-reports || git checkout --orphan coverage-reports
+        git reset --hard
         rm -rf ./*
         cp -rp '${{ runner.temp }}'/coveragereport/* ./
         git config user.name github-actions
