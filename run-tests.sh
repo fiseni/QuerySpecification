@@ -3,7 +3,7 @@
 dotnet tool list -g dotnet-reportgenerator-globaltool > /dev/null 2>&1
 exists=$(echo $?)
 if [ $exists -ne 0 ]; then
-echo "Installing ReportGenerator"
+echo "Installing ReportGenerator..."
 dotnet tool install -g dotnet-reportgenerator-globaltool
 echo "ReportGenerator installed"
 fi

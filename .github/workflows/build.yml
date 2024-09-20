@@ -32,13 +32,27 @@ jobs:
         targetdir: 'TestResults'
         reporttypes: 'MarkdownSummaryGithub;Badges'
         assemblyfilters: '-*Tests*'
-    - name: Publish coverage in build summary
+    - name: Publish coverage report in build summary
       run: cat TestResults/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
       shell: bash
-    - name: Update Gist with Coverage Report
+    - name: Update Gist with coverage report
       run: |
         gh gist edit $env:GIST_ID --add TestResults/badge_combined.svg --filename badge_combined.svg
         gh gist edit $env:GIST_ID --add TestResults/SummaryGithub.md --filename SummaryGithub.md
       env:
         GH_TOKEN: ${{ secrets.GIST_TOKEN }}
         GIST_ID: ${{ secrets.GIST_ID }}
+    - name: Create coverage-reports branch if doesn't exist
+      run: |
+          git fetch
+          git switch coverage-reports || git switch --orphan coverage-reports
+          git reset --hard
+    - name: Move coverage report files to root
+      run: cp -r TestResults/* .
+    - name: Commit and push coverage report
+      run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git add -A
+        git commit -m "Update coverage reports [skip ci]"
+        git push origin coverage-reports --force
