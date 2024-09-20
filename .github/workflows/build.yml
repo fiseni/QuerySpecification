@@ -29,19 +29,19 @@ jobs:
       uses: danielpalme/ReportGenerator-GitHub-Action@5.3.9
       with:
         reports: tests/**/coverage.cobertura.xml
-        targetdir: ${{ runner.temp }}/coveragereport
+        targetdir: ${{ runner.temp }}\coveragereport
         reporttypes: 'Html;Badges;MarkdownSummaryGithub'
         assemblyfilters: -*Tests*
     - name: List content (for debugging)
       run: ls -la
       shell: bash
     - name: Publish coverage report in build summary
-      run: cat ${{ runner.temp }}/coveragereport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
+      run: cat ${{ runner.temp }}\coveragereport\SummaryGithub.md >> $GITHUB_STEP_SUMMARY
       shell: bash
     - name: Update Gist with coverage report
       run: |
-        gh gist edit $env:GIST_ID --add ${{ runner.temp }}/coveragereport/badge_combined.svg --filename badge_combined.svg
-        gh gist edit $env:GIST_ID --add ${{ runner.temp }}/coveragereport/SummaryGithub.md --filename SummaryGithub.md
+        gh gist edit $env:GIST_ID --add ${{ runner.temp }}\coveragereport\badge_combined.svg --filename badge_combined.svg
+        gh gist edit $env:GIST_ID --add ${{ runner.temp }}\coveragereport\SummaryGithub.md --filename SummaryGithub.md
       env:
         GH_TOKEN: ${{ secrets.GIST_TOKEN }}
         GIST_ID: ${{ secrets.GIST_ID }}
