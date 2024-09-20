@@ -29,7 +29,7 @@ jobs:
       uses: danielpalme/ReportGenerator-GitHub-Action@5.3.9
       with:
         reports: 'tests/**/coverage.cobertura.xml'
-        targetdir: 'coveragereport'
+        targetdir: '${{ runner.temp }}/coveragereport'
         reporttypes: 'Html;Badges;MarkdownSummaryGithub'
         assemblyfilters: '-*Tests*'
     - name: Publish coverage report in build summary
@@ -42,8 +42,8 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GIST_TOKEN }}
         GIST_ID: ${{ secrets.GIST_ID }}
-    - name: Copy report to a temp directory
-      run: cp -rp coveragereport ${{ runner.temp }}/
+    # - name: Copy report to a temp directory
+    #   run: cp -rp coveragereport ${{ runner.temp }}/
     - name: Create coverage-reports branch and push content
       run: |
         git fetch
@@ -53,3 +53,4 @@ jobs:
         git add .
         git commit -m "Update coverage reports [skip ci]" || echo "No changes to commit"
         git push origin coverage-reports --force
+      shell: bash
