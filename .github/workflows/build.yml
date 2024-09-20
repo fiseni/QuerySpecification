@@ -50,8 +50,9 @@ jobs:
         git fetch
         git checkout coverage-reports || git checkout --orphan coverage-reports
         git reset --hard
-        rm -rf ./*
+        git clean -fd
         cp -rp '${{ runner.temp }}'/coveragereport/* ./
+        echo "queryspecification.fiseni.com" > CNAME
         git config user.name github-actions
         git config user.email github-actions@github.com
         git add .
