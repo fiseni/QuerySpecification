@@ -28,10 +28,10 @@ jobs:
     - name: ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.3.9
       with:
-        reports: 'tests/**/coverage.cobertura.xml'
-        targetdir: '${{ runner.temp }}/coveragereport'
+        reports: tests/**/coverage.cobertura.xml
+        targetdir: ${{ runner.temp }}/coveragereport
         reporttypes: 'Html;Badges;MarkdownSummaryGithub'
-        assemblyfilters: '-*Tests*'
+        assemblyfilters: -*Tests*
     - name: List content (for debugging)
       run: ls -la
       shell: bash
