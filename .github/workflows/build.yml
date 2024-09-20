@@ -24,22 +24,21 @@ jobs:
     - name: Build
       run: dotnet build QuerySpecification.sln --configuration Release
     - name: Test
-      run: dotnet test QuerySpecification.sln --configuration Release --no-build --no-restore --collect:"xplat code coverage"
+      run: dotnet test QuerySpecification.sln --configuration Release --no-build --no-restore --collect:"XPlat Code Coverage"
     - name: ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.3.9
       with:
         reports: 'tests/**/coverage.cobertura.xml'
-        targetdir: 'coveragereport'
+        targetdir: 'TestResults'
         reporttypes: 'MarkdownSummaryGithub;Badges'
         assemblyfilters: '-*Tests*'
     - name: Publish coverage in build summary
-      run: cat coveragereport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
+      run: cat TestResults/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
       shell: bash
-    - name: Update Gist with SVG and JobId
+    - name: Update Gist with Coverage Report
       run: |
-        gh gist edit $env:GIST_ID --add coveragereport/badge_combined.svg --filename badge_combined.svg
-        echo $env:JOB_ID | gh gist edit $env:GIST_ID --filename jobId
+        gh gist edit $env:GIST_ID --add TestResults/badge_combined.svg --filename badge_combined.svg
+        gh gist edit $env:GIST_ID --add TestResults/SummaryGithub.md --filename SummaryGithub.md
       env:
         GH_TOKEN: ${{ secrets.GIST_TOKEN }}
         GIST_ID: ${{ secrets.GIST_ID }}
-        JOB_ID: ${{ github.run_id }}

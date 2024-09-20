@@ -18,12 +18,16 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{14CC34F1-BFA1-4C3D-A9A1-2B79DF665B02}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		.github\workflows\build.yml = .github\workflows\build.yml
+		.github\workflows\ci.yml = .github\workflows\ci.yml
 		clean.sh = clean.sh
 		src\Directory.Build.props = src\Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
 		exclusion.dic = exclusion.dic
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
+		.github\workflows\release.yml = .github\workflows\release.yml
 		run-tests.sh = run-tests.sh
 		setup-sqllocaldb.ps1 = setup-sqllocaldb.ps1
 	EndProjectSection
