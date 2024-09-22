@@ -7,8 +7,8 @@
     <Description>Abstract package for building query specifications.</Description>
     <Summary>Abstract package for building query specifications.</Summary>
     
-    <Version>10.0.0</Version>
-    <PackageTags>pozitron query specification</PackageTags>
+    <Version>10.1.0</Version>
+    <PackageTags>fiseni pozitron query specification</PackageTags>
     <PackageReleaseNotes>
       - Dropped support for old TFMs. Support only .NET 8.
       - Dropped support for old plugin packages. Support only EntityFrameworkCore 8.

@@ -7,8 +7,8 @@
     <Description>EntityFrameworkCore plugin to Pozitron.QuerySpecification containing EF evaluators.</Description>
     <Summary>EntityFrameworkCore plugin to Pozitron.QuerySpecification containing EF evaluators.</Summary>
     
-    <Version>10.0.0</Version>
-    <PackageTags>pozitron query specification efcore</PackageTags>
+    <Version>10.1.0</Version>
+    <PackageTags>fiseni pozitron query specification efcore</PackageTags>
     <PackageReleaseNotes>
       - Dropped support for old TFMs. Support only .NET 8.
       - Dropped support for old plugin packages. Support only EntityFrameworkCore 8.

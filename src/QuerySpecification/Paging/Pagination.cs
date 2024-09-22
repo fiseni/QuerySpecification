@@ -35,7 +35,7 @@ public record Pagination
         HasNext = hasNext;
     }
 
-    public static Pagination Default { get; } = new Pagination(PaginationSettings.Default, 0, null, null);
+    public static Pagination Empty { get; } = new Pagination(PaginationSettings.Default, 0, null, null);
 
     public Pagination(int itemsCount, PagingFilter filter)
         : this(PaginationSettings.Default, itemsCount, filter.PageSize, filter.Page)

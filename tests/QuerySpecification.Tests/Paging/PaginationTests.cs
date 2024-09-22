@@ -76,9 +76,9 @@ public class PaginationTests
     }
 
     [Fact]
-    public void DefaultPagination_SetsDefaultValues()
+    public void EmptyPagination_SetsDefaultValues()
     {
-        var pagination = Pagination.Default;
+        var pagination = Pagination.Empty;
         var pageSize = PaginationSettings.Default.DefaultPageSize;
         AssertPaginationValues(pagination, new Expected(0, 1, pageSize, 1, 0, 0, false, false, pageSize, 0));
     }

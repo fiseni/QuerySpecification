@@ -73,12 +73,12 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IReadRepositoryBas
     public virtual async Task<T> FirstAsync(Specification<T> specification, CancellationToken cancellationToken = default)
     {
         var result = await ApplySpecification(specification).FirstOrDefaultAsync(cancellationToken);
-        return result is null ? throw new EntityNotFoundException(typeof(T).Name) : result;
+        return result ?? throw new EntityNotFoundException(typeof(T).Name);
     }
     public virtual async Task<TResult> FirstAsync<TResult>(Specification<T, TResult> specification, CancellationToken cancellationToken = default)
     {
         var result = await ApplySpecification(specification).FirstOrDefaultAsync(cancellationToken);
-        return result is null ? throw new EntityNotFoundException(typeof(T).Name) : result;
+        return result ?? throw new EntityNotFoundException(typeof(T).Name);
     }
     public virtual async Task<T?> FirstOrDefaultAsync(Specification<T> specification, CancellationToken cancellationToken = default)
     {
@@ -145,7 +145,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IReadRepositoryBas
 
         var result = await projectedQuery.FirstOrDefaultAsync(cancellationToken);
 
-        return result is null ? throw new EntityNotFoundException(typeof(T).Name) : result;
+        return result ?? throw new EntityNotFoundException(typeof(T).Name);
     }
     public virtual async Task<TResult?> ProjectToFirstOrDefaultAsync<TResult>(Specification<T> specification, CancellationToken cancellationToken = default)
     {
@@ -231,4 +231,3 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IReadRepositoryBas
         public int Take = take;
     }
 }
-
