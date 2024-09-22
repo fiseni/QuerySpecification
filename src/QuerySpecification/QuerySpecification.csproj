@@ -21,15 +21,7 @@
       - Added support for paginated responses.
       - Added arbitrary projection capabilities in repositories.
     </PackageReleaseNotes>
-    <!--<DocumentationFile>bin\$(Configuration)\Pozitron.QuerySpecification.xml</DocumentationFile>-->
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
 
   <ItemGroup>
     <InternalsVisibleTo Include="QuerySpecification.Tests" />

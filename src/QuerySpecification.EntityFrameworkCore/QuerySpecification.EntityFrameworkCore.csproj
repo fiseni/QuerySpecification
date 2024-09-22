@@ -21,16 +21,11 @@
       - Added support for paginated responses.
       - Added arbitrary projection capabilities in repositories.
     </PackageReleaseNotes>
-    <!--<DocumentationFile>bin\$(Configuration)\Pozitron.QuerySpecification.EntityFrameworkCore.xml</DocumentationFile>-->
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
