@@ -266,7 +266,7 @@ var assemblies = [
       { "name": "Pozitron.QuerySpecification.LikeEvaluator", "rp": "Pozitron.QuerySpecification.EntityFrameworkCore_LikeEvaluator.html", "cl": 5, "ucl": 0, "cal": 5, "tl": 17, "cb": 4, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.LikeExtension", "rp": "Pozitron.QuerySpecification.EntityFrameworkCore_LikeExtension.html", "cl": 23, "ucl": 0, "cal": 23, "tl": 51, "cb": 8, "tb": 8, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.ParameterReplacerVisitor", "rp": "Pozitron.QuerySpecification.EntityFrameworkCore_ParameterReplacerVisitor.html", "cl": 6, "ucl": 0, "cal": 6, "tl": 19, "cb": 2, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Pozitron.QuerySpecification.RepositoryBase<T>", "rp": "Pozitron.QuerySpecification.EntityFrameworkCore_RepositoryBase_1.html", "cl": 110, "ucl": 0, "cal": 110, "tl": 234, "cb": 18, "tb": 18, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Pozitron.QuerySpecification.RepositoryBase<T>", "rp": "Pozitron.QuerySpecification.EntityFrameworkCore_RepositoryBase_1.html", "cl": 110, "ucl": 0, "cal": 110, "tl": 233, "cb": 18, "tb": 18, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.SpecificationEvaluator", "rp": "Pozitron.QuerySpecification.EntityFrameworkCore_SpecificationEvaluator.html", "cl": 30, "ucl": 0, "cal": 30, "tl": 54, "cb": 12, "tb": 12, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
     ]},
 ];
