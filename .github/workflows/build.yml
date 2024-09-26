@@ -22,9 +22,9 @@ jobs:
       run: ./setup-sqllocaldb.ps1
       shell: pwsh
     - name: Build
-      run: dotnet build QuerySpecification.sln --configuration Release
+      run: dotnet build --configuration Release
     - name: Test
-      run: dotnet test QuerySpecification.sln --configuration Release --no-build --no-restore --collect:"XPlat Code Coverage"
+      run: dotnet test --configuration Release --no-build --no-restore --collect:"XPlat Code Coverage"
     - name: ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.3.9
       with:

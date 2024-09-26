@@ -13,11 +13,11 @@ find . -type d -name TestResults -exec rm -rf {} \; > /dev/null 2>&1
 testtarget="$1"
 
 if [ "$testtarget" = "" ]; then
-testtarget="QuerySpecification.sln"
+testtarget="*.sln"
 fi
 
-dotnet build "$testtarget" --configuration Release
-dotnet test "$testtarget" --configuration Release --no-build --no-restore --collect:"XPlat Code Coverage"
+dotnet build $testtarget --configuration Release
+dotnet test $testtarget --configuration Release --no-build --no-restore --collect:"XPlat Code Coverage"
 
 reportgenerator \
     -reports:tests/**/coverage.cobertura.xml \
