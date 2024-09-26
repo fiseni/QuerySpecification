@@ -46,7 +46,7 @@ find "$WorkingDir/" -type f -name "*.csproj.user" -exec rm -rf {} \; > /dev/null
 }
 
 ########## Delete test and coverage artifacts
-deleteUserCsprojFiles()
+deleteTestResults()
 {
 echo "Deleting test and coverage artifacts...";
 
@@ -75,7 +75,7 @@ elif [ "$1" = "logs" ]; then
 elif [ "$1" = "user" ]; then
 	deleteUserCsprojFiles;
 elif [ "$1" = "coverages" ]; then
-	deleteUserCsprojFiles;
+	deleteTestResults;
 elif [ "$1" = "branches" ]; then
 	deleteLocalGitBranches;
 else
