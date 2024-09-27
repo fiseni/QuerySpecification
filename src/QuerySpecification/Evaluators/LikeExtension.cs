@@ -33,6 +33,7 @@ internal static class LikeExtension
         return regex.IsMatch(input);
     }
 
+#pragma warning disable IDE0051 // Remove unused private members
     // This C# implementation of SQL Like operator is based on the following SO post https://stackoverflow.com/a/8583383/10577116
     // It covers almost all of the scenarios, and it's faster than regex based implementations.
     // It may fail/throw in some very specific and edge cases, hence, wrap it in try/catch.

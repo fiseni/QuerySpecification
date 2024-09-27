@@ -1,4 +1,6 @@
-﻿namespace Tests.Paging;
+﻿using Xunit.Abstractions;
+
+namespace Tests.Paging;
 
 public class PaginationTests
 {
@@ -6,18 +8,6 @@ public class PaginationTests
     private const int _defaultPageSize = 10;
     private const int _defaultPageSizeLimit = 50;
     private static readonly PaginationSettings _settings = new(_defaultPageSize, _defaultPageSizeLimit);
-
-    public record Expected(
-        int TotalItems,
-        int TotalPages,
-        int PageSize,
-        int Page,
-        int StartItem,
-        int EndItem,
-        bool HasPrevious,
-        bool HasNext,
-        int Take,
-        int Skip);
 
     public static TheoryData<int, int?, int?, Expected> TheoryData => new()
     {
@@ -220,5 +210,72 @@ public class PaginationTests
         var pagination = new Pagination(_settings, itemsCountInput, pageSizeInput, pageInput);
 
         pagination.Skip.Should().Be(skip);
+    }
+
+    public record Expected : IXunitSerializable
+    {
+        public int TotalItems;
+        public int TotalPages;
+        public int PageSize;
+        public int Page;
+        public int StartItem;
+        public int EndItem;
+        public bool HasPrevious;
+        public bool HasNext;
+        public int Take;
+        public int Skip;
+
+        public Expected() { }
+        public Expected(
+            int totalItems,
+            int totalPages,
+            int pageSize,
+            int page,
+            int startItem,
+            int endItem,
+            bool hasPrevious,
+            bool hasNext,
+            int take,
+            int skip)
+        {
+            TotalItems = totalItems;
+            TotalPages = totalPages;
+            PageSize = pageSize;
+            Page = page;
+            StartItem = startItem;
+            EndItem = endItem;
+            HasPrevious = hasPrevious;
+            HasNext = hasNext;
+            Take = take;
+            Skip = skip;
+        }
+
+        public void Deserialize(IXunitSerializationInfo info)
+        {
+            TotalItems = info.GetValue<int>(nameof(TotalItems));
+            TotalPages = info.GetValue<int>(nameof(TotalPages));
+            PageSize = info.GetValue<int>(nameof(PageSize));
+            Page = info.GetValue<int>(nameof(Page));
+            StartItem = info.GetValue<int>(nameof(StartItem));
+            EndItem = info.GetValue<int>(nameof(EndItem));
+            HasPrevious = info.GetValue<bool>(nameof(HasPrevious));
+            HasNext = info.GetValue<bool>(nameof(HasNext));
+            Take = info.GetValue<int>(nameof(Take));
+            Skip = info.GetValue<int>(nameof(Skip));
+        }
+
+        public void Serialize(IXunitSerializationInfo info)
+        {
+            info.AddValue(nameof(TotalItems), TotalItems);
+            info.AddValue(nameof(TotalPages), TotalPages);
+            info.AddValue(nameof(PageSize), PageSize);
+            info.AddValue(nameof(Page), Page);
+            info.AddValue(nameof(StartItem), StartItem);
+            info.AddValue(nameof(EndItem), EndItem);
+            info.AddValue(nameof(HasPrevious), HasPrevious);
+            info.AddValue(nameof(HasNext), HasNext);
+            info.AddValue(nameof(Take), Take);
+            info.AddValue(nameof(Skip), Skip);
+        }
     }
 }
