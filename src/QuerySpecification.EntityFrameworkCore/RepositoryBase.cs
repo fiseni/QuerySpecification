@@ -68,7 +68,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IReadRepositoryBas
 
     public virtual async ValueTask<T?> FindAsync<TId>(TId id, CancellationToken cancellationToken = default) where TId : notnull
     {
-        return await _dbContext.Set<T>().FindAsync(new object[] { id }, cancellationToken: cancellationToken);
+        return await _dbContext.Set<T>().FindAsync([id], cancellationToken: cancellationToken);
     }
     public virtual async Task<T> FirstAsync(Specification<T> specification, CancellationToken cancellationToken = default)
     {

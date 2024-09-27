@@ -60,7 +60,7 @@ public class IncludeEvaluator : IEvaluator
         return query;
     }
 
-    private IQueryable<T> BuildInclude<T>(IQueryable query, IncludeExpression includeExpression)
+    private static IQueryable<T> BuildInclude<T>(IQueryable query, IncludeExpression includeExpression)
     {
         ArgumentNullException.ThrowIfNull(includeExpression);
 
@@ -71,7 +71,7 @@ public class IncludeEvaluator : IEvaluator
         return (IQueryable<T>)result;
     }
 
-    private IQueryable<T> BuildThenInclude<T>(IQueryable query, IncludeExpression includeExpression)
+    private static IQueryable<T> BuildThenInclude<T>(IQueryable query, IncludeExpression includeExpression)
     {
         ArgumentNullException.ThrowIfNull(includeExpression);
         ArgumentNullException.ThrowIfNull(includeExpression.PreviousPropertyType);

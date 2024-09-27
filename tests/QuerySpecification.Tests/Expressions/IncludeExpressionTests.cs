@@ -9,36 +9,36 @@ public class IncludeExpressionTests
     [Fact]
     public void Constructor_ThrowsArgumentNullException_GivenNullForLambdaExpression()
     {
-        Action sutAction = () => new IncludeExpression(null!, typeof(Customer), typeof(Address));
+        var sut = () => new IncludeExpression(null!, typeof(Customer), typeof(Address));
 
-        sutAction.Should().Throw<ArgumentNullException>().WithParameterName("expression");
+        sut.Should().Throw<ArgumentNullException>().WithParameterName("expression");
     }
 
     [Fact]
     public void Constructor_ThrowsArgumentNullException_GivenNullForEntityType()
     {
         Expression<Func<Customer, Address>> expr = x => x.Address;
-        Action sutAction = () => new IncludeExpression(expr, null!, typeof(Address));
+        var sut = () => new IncludeExpression(expr, null!, typeof(Address));
 
-        sutAction.Should().Throw<ArgumentNullException>().WithParameterName("entityType");
+        sut.Should().Throw<ArgumentNullException>().WithParameterName("entityType");
     }
 
     [Fact]
     public void Constructor_ThrowsArgumentNullException_GivenNullForPropertyType()
     {
         Expression<Func<Customer, Address>> expr = x => x.Address;
-        Action sutAction = () => new IncludeExpression(expr, typeof(Customer), null!);
+        var sut = () => new IncludeExpression(expr, typeof(Customer), null!);
 
-        sutAction.Should().Throw<ArgumentNullException>().WithParameterName("propertyType");
+        sut.Should().Throw<ArgumentNullException>().WithParameterName("propertyType");
     }
 
     [Fact]
     public void Constructor_ThrowsArgumentNullException_GivenNullForPreviousPropertyType()
     {
         Expression<Func<Customer, Address>> expr = x => x.Address;
-        Action sutAction = () => new IncludeExpression(expr, typeof(Customer), typeof(Address), null!);
+        var sut = () => new IncludeExpression(expr, typeof(Customer), typeof(Address), null!);
 
-        sutAction.Should().Throw<ArgumentNullException>().WithParameterName("previousPropertyType");
+        sut.Should().Throw<ArgumentNullException>().WithParameterName("previousPropertyType");
     }
 
     [Fact]
@@ -49,8 +49,8 @@ public class IncludeExpressionTests
 
         sut.Type.Should().Be(IncludeTypeEnum.Include);
         sut.LambdaExpression.Should().Be(expr);
-        sut.EntityType.Should().Be(typeof(Customer));
-        sut.PropertyType.Should().Be(typeof(Address));
+        sut.EntityType.Should().Be<Customer>();
+        sut.PropertyType.Should().Be<Address>();
         sut.PreviousPropertyType.Should().BeNull();
     }
 
@@ -62,8 +62,8 @@ public class IncludeExpressionTests
 
         sut.Type.Should().Be(IncludeTypeEnum.ThenInclude);
         sut.LambdaExpression.Should().Be(expr);
-        sut.EntityType.Should().Be(typeof(Customer));
-        sut.PropertyType.Should().Be(typeof(City));
-        sut.PreviousPropertyType.Should().Be(typeof(Address));
+        sut.EntityType.Should().Be<Customer>();
+        sut.PropertyType.Should().Be<City>();
+        sut.PreviousPropertyType.Should().Be<Address>();
     }
 }

@@ -9,9 +9,9 @@ public class OrderExpressionTests
     [Fact]
     public void Constructor_ThrowsArgumentNullException_GivenNullExpression()
     {
-        Action sutAction = () => new OrderExpression<Customer>(null!, OrderTypeEnum.OrderBy);
+        var sut = () => new OrderExpression<Customer>(null!, OrderTypeEnum.OrderBy);
 
-        sutAction.Should().Throw<ArgumentNullException>().WithParameterName("keySelector");
+        sut.Should().Throw<ArgumentNullException>().WithParameterName("keySelector");
     }
 
     [Fact]

@@ -17,21 +17,21 @@ public class BenchmarkDbContext : DbContext
         var store = new Store
         {
             Name = "Store 1",
-            Company = new Company
+            Company = new()
             {
                 Name = "Company 1",
-                Country = new Country
+                Country = new()
                 {
                     Name = "Country 1"
                 }
             },
-            Products = new List<Product>
-            {
-                new Product
+            Products =
+            [
+                new()
                 {
                     Name = "Product 1"
                 }
-            }
+            ]
         };
 
         context.Add(store);

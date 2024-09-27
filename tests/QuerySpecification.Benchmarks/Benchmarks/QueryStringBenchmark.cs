@@ -1,4 +1,5 @@
-﻿namespace QuerySpecification.Benchmarks;
+﻿#pragma warning disable CA1822 // Mark members as static
+namespace QuerySpecification.Benchmarks;
 
 // Benchmarks excluding roundtrip to the database, just evaluating the query string.
 [MemoryDiagnoser]
