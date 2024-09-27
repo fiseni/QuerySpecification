@@ -3,8 +3,8 @@
 
 |||
 |:---|:---|
-| Generated on: | 9/26/2024 - 7:20:30 PM |
-| Coverage date: | 9/26/2024 - 7:19:28 PM - 9/26/2024 - 7:20:15 PM |
+| Generated on: | 9/27/2024 - 8:20:39 AM |
+| Coverage date: | 9/27/2024 - 8:19:41 AM - 9/27/2024 - 8:20:24 AM |
 | Parser: | MultiReport (2x Cobertura) |
 | Assemblies: | 2 |
 | Classes: | 43 |
@@ -18,7 +18,7 @@
 | Covered branches: | 296 |
 | Total branches: | 296 |
 | **Method coverage:** | [Feature is only available for sponsors](https://reportgenerator.io/pro) |
-| Tag: | 29_11058796129 |
+| Tag: | 30_11067077808 |
 
 </details>
 
@@ -44,7 +44,7 @@
 |Pozitron.QuerySpecification.OrderedSpecificationBuilder`2|100%||
 |Pozitron.QuerySpecification.OrderEvaluator|100%|100%|
 |Pozitron.QuerySpecification.OrderExpression`1|100%|100%|
-|Pozitron.QuerySpecification.PagedResponse`1|100%||
+|Pozitron.QuerySpecification.PagedResult`1|100%||
 |Pozitron.QuerySpecification.Pagination|100%|100%|
 |Pozitron.QuerySpecification.PaginationEvaluator|100%|100%|
 |Pozitron.QuerySpecification.PaginationSettings|100%||
