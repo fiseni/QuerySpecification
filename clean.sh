@@ -3,70 +3,74 @@
 
 WorkingDir="$(pwd)"
 
-########## Make sure you're not deleting your whole computer :)
+########## Make sure you're not on a root path :)
 safetyCheck()
 {
-if [[ ( "$WorkingDir" = "" || "$WorkingDir" = "/" || "$WorkingDir" = '/c' || "$WorkingDir" = '/d' || "$WorkingDir" = 'c:\' || "$WorkingDir" = 'd:\' || "$WorkingDir" = 'C:\' || "$WorkingDir" = 'D:\') ]]; then
-  echo "Please cross check the WorkingDir value";
-  exit 1;
-fi
+  declare -a arr=("" "/" "/c" "/d" "c:\\" "d:\\" "C:\\" "D:\\")
+  for i in "${arr[@]}"
+  do
+    if [ "$WorkingDir" = "$i" ]; then
+      echo "";
+      echo "You are on a root path. Please run the script from a given directory.";
+      exit 1;
+    fi
+  done
 }
 
-########## Delete .vs directories.
-deleteVSDir()
-{
-echo "Deleting .vs files and directories...";
-
-find "$WorkingDir/" -type d -name ".vs" -exec rm -rf {} \; > /dev/null 2>&1;
-}
-
-########## Delete bin and obj directories.
 deleteBinObj()
 {
-echo "Deleting bin and obj directories...";
-
-find "$WorkingDir/" -type d -name "bin" -exec rm -rf {} \; > /dev/null 2>&1;
-find "$WorkingDir/" -type d -name "obj" -exec rm -rf {} \; > /dev/null 2>&1;
+  echo "Deleting bin and obj directories...";
+  find "$WorkingDir/" -type d -name "bin" -exec rm -rf {} \; > /dev/null 2>&1;
+  find "$WorkingDir/" -type d -name "obj" -exec rm -rf {} \; > /dev/null 2>&1;
 }
 
-########## Delete Logs directories.
+deleteVSDir()
+{
+  echo "Deleting .vs directories...";
+  find "$WorkingDir/" -type d -name ".vs" -exec rm -rf {} \; > /dev/null 2>&1;
+}
+
 deleteLogs()
 {
-echo "Deleting Logs directories...";
-
-find "$WorkingDir/" -type d -name "Logs" -exec rm -rf {} \; > /dev/null 2>&1;
+  echo "Deleting Logs directories...";
+  find "$WorkingDir/" -type d -name "Logs" -exec rm -rf {} \; > /dev/null 2>&1;
 }
 
-########## Delete .csproj.user files
 deleteUserCsprojFiles()
 {
-echo "Deleting *.csproj.user files...";
-
-find "$WorkingDir/" -type f -name "*.csproj.user" -exec rm -rf {} \; > /dev/null 2>&1;
+  echo "Deleting *.csproj.user files...";
+  find "$WorkingDir/" -type f -name "*.csproj.user" -exec rm -rf {} \; > /dev/null 2>&1;
 }
 
-########## Delete test and coverage artifacts
 deleteTestResults()
 {
-echo "Deleting test and coverage artifacts...";
-
-find "$WorkingDir/" -type d -name "TestResults" -exec rm -rf {} \; > /dev/null 2>&1;
+  echo "Deleting test and coverage artifacts...";
+  find "$WorkingDir/" -type d -name "TestResults" -exec rm -rf {} \; > /dev/null 2>&1;
 }
 
-########## Delete all unused local branches.
 deleteLocalGitBranches()
 {
-echo "Deleting local unused git branches (e.g. no corresponding remote branch)...";
-
-git fetch -p && git branch -vv | awk '/: gone\]/{print $1}' | xargs -I {} git branch -D {}
+  echo "Deleting local unused git branches (e.g. no corresponding remote branch)...";
+  git fetch -p && git branch -vv | awk '/: gone\]/{print $1}' | xargs -I {} git branch -D {}
 }
 
 safetyCheck;
 echo "";
 
 if [ "$1" = "help" ]; then
-  echo "Usage: clean.sh [bin|vs|logs|user|coverages|branches]";
-elif [ "$1" = "bin" ]; then
+  echo "Usage:";
+  echo "";
+  echo -e "clean.sh [obj | vs | logs | user | coverages | branches | all]";
+  echo "";
+  echo -e "obj (Default)\t-\tDeletes bin and obj directories.";
+  echo -e "vs\t\t-\tDeletes .vs directories.";
+  echo -e "logs\t\t-\tDeletes Logs directories.";
+  echo -e "user\t\t-\tDeletes *.csproj.user files.";
+  echo -e "coverages\t-\tDeletes test and coverage artifacts.";
+  echo -e "branches\t-\tDeletes local unused git branches (e.g. no corresponding remote branch).";
+  echo -e "all\t\t-\tApply all options";
+
+elif [ "$1" = "obj" ]; then
   deleteBinObj;
 elif [ "$1" = "vs" ]; then
   deleteVSDir;
@@ -77,6 +81,13 @@ elif [ "$1" = "user" ]; then
 elif [ "$1" = "coverages" ]; then
   deleteTestResults;
 elif [ "$1" = "branches" ]; then
+  deleteLocalGitBranches;
+elif [ "$1" = "all" ]; then
+  deleteBinObj;
+  deleteVSDir;
+  deleteLogs;
+  deleteUserCsprojFiles;
+  deleteTestResults;
   deleteLocalGitBranches;
 else
   deleteBinObj;
