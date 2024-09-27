@@ -137,6 +137,10 @@ public class Repository_CountTests(TestFactory factory) : IntegrationTest(factor
         var result = await repo.CountAsync(spec);
 
         result.Should().Be(expected.Count);
+
+        // Ensure that the spec's pagination is not altered.
+        spec.Skip.Should().Be(1);
+        spec.Take.Should().Be(1);
     }
 
     [Fact]
@@ -169,5 +173,9 @@ public class Repository_CountTests(TestFactory factory) : IntegrationTest(factor
         var result = await repo.CountAsync(spec);
 
         result.Should().Be(expected.Count);
+
+        // Ensure that the spec's pagination is not altered.
+        spec.Skip.Should().Be(1);
+        spec.Take.Should().Be(1);
     }
 }

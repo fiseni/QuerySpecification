@@ -1,13 +1,12 @@
 ﻿namespace Tests.Extensions;
 
 [Collection("SharedCollection")]
-public class DbSetExtensionsTests(TestFactory factory) : IntegrationTest(factory)
+public class Extensions_WithSpecification(TestFactory factory) : IntegrationTest(factory)
 {
     public record CountryDto(string? Name);
-    public record ProductImageDto(string? ImageUrl);
 
     [Fact]
-    public void WithSpecification_GivenFullQuery()
+    public void QueriesMatch_GivenFullQuery()
     {
         var id = 1;
         var name = "Store1";
@@ -60,7 +59,7 @@ public class DbSetExtensionsTests(TestFactory factory) : IntegrationTest(factory
     }
 
     [Fact]
-    public void WithSpecification_GivenFullQueryWithSelect()
+    public void QueriesMatch_GivenFullQueryWithSelect()
     {
         var id = 1;
         var name = "Store1";
@@ -115,7 +114,7 @@ public class DbSetExtensionsTests(TestFactory factory) : IntegrationTest(factory
     }
 
     [Fact]
-    public void WithSpecification_GivenFullQueryWithSelectMany()
+    public void QueriesMatch_GivenFullQueryWithSelectMany()
     {
         var id = 1;
         var name = "Store1";
@@ -170,7 +169,7 @@ public class DbSetExtensionsTests(TestFactory factory) : IntegrationTest(factory
     }
 
     [Fact]
-    public void WithSpecification_GivenCustomEvaluator()
+    public void QueriesMatch_GivenCustomEvaluator()
     {
         var id = 1;
 
@@ -192,7 +191,7 @@ public class DbSetExtensionsTests(TestFactory factory) : IntegrationTest(factory
     }
 
     [Fact]
-    public void WithSpecification_GivenSelectorAndCustomEvaluator()
+    public void QueriesMatch_GivenSelectorAndCustomEvaluator()
     {
         var id = 1;
 
