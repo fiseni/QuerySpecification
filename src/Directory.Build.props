@@ -32,14 +32,14 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReadmeFile>readme-nuget.md</PackageReadmeFile>
     <PackageIconUrl>https://pozitrongroup.com/PozitronLogo.png</PackageIconUrl>
     <PackageIcon>pozitronicon.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="../../pozitronicon.png" Pack="true" PackagePath="\" />
-    <None Include="../../README.md" Pack="true" PackagePath="\" />
+    <None Include="../../readme-nuget.md" Pack="true" PackagePath="\" />
     <None Include="../../LICENSE.txt" Pack="true" PackagePath="\" />
   </ItemGroup>
 
