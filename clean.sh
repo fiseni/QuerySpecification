@@ -7,8 +7,8 @@ WorkingDir="$(pwd)"
 safetyCheck()
 {
 if [[ ( "$WorkingDir" = "" || "$WorkingDir" = "/" || "$WorkingDir" = '/c' || "$WorkingDir" = '/d' || "$WorkingDir" = 'c:\' || "$WorkingDir" = 'd:\' || "$WorkingDir" = 'C:\' || "$WorkingDir" = 'D:\') ]]; then
-	echo "Please cross check the WorkingDir value";
-	exit 1;
+  echo "Please cross check the WorkingDir value";
+  exit 1;
 fi
 }
 
@@ -65,19 +65,19 @@ safetyCheck;
 echo "";
 
 if [ "$1" = "help" ]; then
-	echo "Usage: clean.sh [bin|vs|logs|user|coverages|branches]";
+  echo "Usage: clean.sh [bin|vs|logs|user|coverages|branches]";
 elif [ "$1" = "bin" ]; then
-	deleteBinObj;
+  deleteBinObj;
 elif [ "$1" = "vs" ]; then
-	deleteVSDir;
+  deleteVSDir;
 elif [ "$1" = "logs" ]; then
-	deleteLogs;
+  deleteLogs;
 elif [ "$1" = "user" ]; then
-	deleteUserCsprojFiles;
+  deleteUserCsprojFiles;
 elif [ "$1" = "coverages" ]; then
-	deleteTestResults;
+  deleteTestResults;
 elif [ "$1" = "branches" ]; then
-	deleteLocalGitBranches;
+  deleteLocalGitBranches;
 else
-	deleteBinObj;
+  deleteBinObj;
 fi
