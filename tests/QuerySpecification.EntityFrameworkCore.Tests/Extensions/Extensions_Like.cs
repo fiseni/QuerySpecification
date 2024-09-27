@@ -1,10 +1,10 @@
 ﻿namespace Tests.Extensions;
 
 [Collection("SharedCollection")]
-public class LikeExtensionTests(TestFactory factory) : IntegrationTest(factory)
+public class Extensions_Like(TestFactory factory) : IntegrationTest(factory)
 {
     [Fact]
-    public void Like_GivenSpecWithMultipleLike()
+    public void QueriesMatch_GivenSpecWithMultipleLike()
     {
         var storeTerm = "ab";
         var companyTerm = "ab";
@@ -28,7 +28,7 @@ public class LikeExtensionTests(TestFactory factory) : IntegrationTest(factory)
     }
 
     [Fact]
-    public void Like_GivenEmptySpec()
+    public void QueriesMatch_GivenEmptySpec()
     {
         var spec = new Specification<Store>();
 

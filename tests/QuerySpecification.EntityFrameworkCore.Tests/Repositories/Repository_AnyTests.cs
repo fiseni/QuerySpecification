@@ -137,6 +137,10 @@ public class Repository_AnyTests(TestFactory factory) : IntegrationTest(factory)
         var result = await repo.AnyAsync(spec);
 
         result.Should().BeTrue();
+
+        // Ensure that the spec's pagination is not altered.
+        spec.Skip.Should().Be(3);
+        spec.Take.Should().Be(1);
     }
 
     [Fact]
@@ -169,5 +173,9 @@ public class Repository_AnyTests(TestFactory factory) : IntegrationTest(factory)
         var result = await repo.AnyAsync(spec);
 
         result.Should().BeTrue();
+
+        // Ensure that the spec's pagination is not altered.
+        spec.Skip.Should().Be(3);
+        spec.Take.Should().Be(1);
     }
 }

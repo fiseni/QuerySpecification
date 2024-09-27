@@ -150,9 +150,6 @@ public class Repository_ProjectToTests(TestFactory factory) : IntegrationTest(fa
     {
         var expected = new List<CountryDto>
         {
-            new(1, "b"),
-            new(2, "b"),
-            new(3, "b"),
             new(4, "b"),
         };
         await SeedRangeAsync<Country>(
@@ -187,9 +184,6 @@ public class Repository_ProjectToTests(TestFactory factory) : IntegrationTest(fa
     {
         var expected = new List<CountryDto>
         {
-            new(1, "b"),
-            new(2, "b"),
-            new(3, "b"),
             new(4, "b"),
         };
         await SeedRangeAsync<Country>(
