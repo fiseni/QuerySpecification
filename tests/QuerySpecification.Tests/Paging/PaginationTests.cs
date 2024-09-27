@@ -19,13 +19,13 @@ public class PaginationTests
         int Take,
         int Skip);
 
-    public static IEnumerable<object?[]> TheoryData =>
-    [
-        [0, null, null,     new Expected(0, 1, 10, 1, 0, 0, false, false, 10, 0)],
-        [50, 500, 500,      new Expected(50, 1, 50, 1, 1, 50, false, false, 50, 0)],
-        [50, 10, 1,         new Expected(50, 5, 10, 1, 1, 10, false, true, 10, 0)],
-        [50, 10, 3,         new Expected(50, 5, 10, 3, 21, 30, true, true, 10, 20)],
-    ];
+    public static TheoryData<int, int?, int?, Expected> TheoryData => new()
+    {
+        { 0, null, null,     new Expected(0, 1, 10, 1, 0, 0, false, false, 10, 0) },
+        { 50, 500, 500,      new Expected(50, 1, 50, 1, 1, 50, false, false, 50, 0) },
+        { 50, 10, 1,         new Expected(50, 5, 10, 1, 1, 10, false, true, 10, 0) },
+        { 50, 10, 3,         new Expected(50, 5, 10, 3, 21, 30, true, true, 10, 20) },
+    };
 
     private static void AssertPaginationValues(Pagination pagination, Expected expected)
     {
