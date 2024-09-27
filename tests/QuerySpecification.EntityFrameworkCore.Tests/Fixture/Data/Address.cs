@@ -7,9 +7,4 @@ public record Address
 
     public int StoreId { get; set; }
     public Store Store { get; set; } = default!;
-
-    public object GetSomethingFromAddress()
-    {
-        return new object();
-    }
 }

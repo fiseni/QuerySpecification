@@ -7,27 +7,38 @@ public class PaginationTests
     private const int _defaultPageSizeLimit = 50;
     private static readonly PaginationSettings _settings = new(_defaultPageSize, _defaultPageSizeLimit);
 
-    public record Expected(int totalItems, int totalPages, int pageSize, int page, int startItem, int endItem, bool hasPrevious, bool hasNext, int take, int skip);
+    public record Expected(
+        int TotalItems,
+        int TotalPages,
+        int PageSize,
+        int Page,
+        int StartItem,
+        int EndItem,
+        bool HasPrevious,
+        bool HasNext,
+        int Take,
+        int Skip);
+
     public static IEnumerable<object?[]> TheoryData =>
-        [
-            [0, null, null,     new Expected(0, 1, 10, 1, 0, 0, false, false, 10, 0)],
-            [50, 500, 500,      new Expected(50, 1, 50, 1, 1, 50, false, false, 50, 0)],
-            [50, 10, 1,         new Expected(50, 5, 10, 1, 1, 10, false, true, 10, 0)],
-            [50, 10, 3,         new Expected(50, 5, 10, 3, 21, 30, true, true, 10, 20)],
-        ];
+    [
+        [0, null, null,     new Expected(0, 1, 10, 1, 0, 0, false, false, 10, 0)],
+        [50, 500, 500,      new Expected(50, 1, 50, 1, 1, 50, false, false, 50, 0)],
+        [50, 10, 1,         new Expected(50, 5, 10, 1, 1, 10, false, true, 10, 0)],
+        [50, 10, 3,         new Expected(50, 5, 10, 3, 21, 30, true, true, 10, 20)],
+    ];
 
     private static void AssertPaginationValues(Pagination pagination, Expected expected)
     {
-        pagination.TotalItems.Should().Be(expected.totalItems);
-        pagination.TotalPages.Should().Be(expected.totalPages);
-        pagination.PageSize.Should().Be(expected.pageSize);
-        pagination.Page.Should().Be(expected.page);
-        pagination.StartItem.Should().Be(expected.startItem);
-        pagination.EndItem.Should().Be(expected.endItem);
-        pagination.HasPrevious.Should().Be(expected.hasPrevious);
-        pagination.HasNext.Should().Be(expected.hasNext);
-        pagination.Take.Should().Be(expected.take);
-        pagination.Skip.Should().Be(expected.skip);
+        pagination.TotalItems.Should().Be(expected.TotalItems);
+        pagination.TotalPages.Should().Be(expected.TotalPages);
+        pagination.PageSize.Should().Be(expected.PageSize);
+        pagination.Page.Should().Be(expected.Page);
+        pagination.StartItem.Should().Be(expected.StartItem);
+        pagination.EndItem.Should().Be(expected.EndItem);
+        pagination.HasPrevious.Should().Be(expected.HasPrevious);
+        pagination.HasNext.Should().Be(expected.HasNext);
+        pagination.Take.Should().Be(expected.Take);
+        pagination.Skip.Should().Be(expected.Skip);
     }
 
     [Theory]

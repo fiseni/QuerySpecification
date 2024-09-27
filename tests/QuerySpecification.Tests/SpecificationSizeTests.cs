@@ -80,14 +80,14 @@ public class SpecificationSizeTests
         var specWithArray = new SpecWithArray();
         specWithArray.State = new object[3];
         specWithArray.State[0] = new List<object?>(2) { new() };
-        specWithArray.State[1] = new List<object?>(2) { new object() };
+        specWithArray.State[1] = new List<object?>(2) { new() };
         specWithArray.State[2] = new List<object?>(2) { new SpecFlags { Take = 10 } };
         PrintObjectSize(specWithArray);
 
         var specWithDictionary = new SpecWithDictionary();
         specWithDictionary.State = new Dictionary<int, object>(3);
         specWithDictionary.State[0] = new List<object?>(2) { new() };
-        specWithDictionary.State[1] = new List<object?>(2) { new object() };
+        specWithDictionary.State[1] = new List<object?>(2) { new() };
         specWithDictionary.State[2] = new List<object?>(2) { new SpecFlags { Take = 10 } };
         PrintObjectSize(specWithDictionary);
     }

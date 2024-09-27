@@ -9,18 +9,18 @@ public class LikeExpressionTests
     [Fact]
     public void Constructor_ThrowsArgumentNullException_GivenNullExpression()
     {
-        Action sutAction = () => new LikeExpression<Customer>(null!, "x");
+        var sut = () => new LikeExpression<Customer>(null!, "x");
 
-        sutAction.Should().Throw<ArgumentNullException>().WithParameterName("keySelector");
+        sut.Should().Throw<ArgumentNullException>().WithParameterName("keySelector");
     }
 
     [Fact]
     public void Constructor_ThrowsArgumentNullException_GivenNullPattern()
     {
         Expression<Func<Customer, string?>> expr = x => x.Name;
-        Action sutAction = () => new LikeExpression<Customer>(expr, null!);
+        var sut = () => new LikeExpression<Customer>(expr, null!);
 
-        sutAction.Should().Throw<ArgumentNullException>().WithParameterName("pattern");
+        sut.Should().Throw<ArgumentNullException>().WithParameterName("pattern");
     }
 
     [Fact]
