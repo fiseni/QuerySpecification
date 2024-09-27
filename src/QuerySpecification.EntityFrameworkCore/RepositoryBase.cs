@@ -163,7 +163,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IReadRepositoryBas
 
         return await projectedQuery.ToListAsync(cancellationToken);
     }
-    public virtual async Task<PagedResponse<TResult>> ProjectToListAsync<TResult>(Specification<T> specification, PagingFilter filter, CancellationToken cancellationToken = default)
+    public virtual async Task<PagedResult<TResult>> ProjectToListAsync<TResult>(Specification<T> specification, PagingFilter filter, CancellationToken cancellationToken = default)
     {
         var count = await ApplySpecification(specification, true).CountAsync(cancellationToken);
         var pagination = new Pagination(_paginationSettings, count, filter);
@@ -177,7 +177,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IReadRepositoryBas
 
         var data = await projectedQuery.ToListAsync(cancellationToken);
 
-        return new PagedResponse<TResult>(data, pagination);
+        return new PagedResult<TResult>(data, pagination);
     }
 
     protected virtual IQueryable<T> ApplySpecification(Specification<T> specification, bool excludePaging = false)

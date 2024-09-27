@@ -175,7 +175,7 @@ public class Repository_ProjectToTests(TestFactory factory) : IntegrationTest(fa
 
         var result = await repo.ProjectToListAsync<CountryDto>(spec, filter);
 
-        result.Should().BeOfType<PagedResponse<CountryDto>>();
+        result.Should().BeOfType<PagedResult<CountryDto>>();
         result.Pagination.Page.Should().Be(filter.Page);
         result.Pagination.PageSize.Should().Be(filter.PageSize);
         result.Data.Should().HaveCount(1);
@@ -214,7 +214,7 @@ public class Repository_ProjectToTests(TestFactory factory) : IntegrationTest(fa
 
         var result = await repo.ProjectToListAsync<CountryDto>(spec, filter);
 
-        result.Should().BeOfType<PagedResponse<CountryDto>>();
+        result.Should().BeOfType<PagedResult<CountryDto>>();
         result.Pagination.Page.Should().Be(filter.Page);
         result.Pagination.PageSize.Should().Be(filter.PageSize);
         result.Data.Should().HaveCount(1);
