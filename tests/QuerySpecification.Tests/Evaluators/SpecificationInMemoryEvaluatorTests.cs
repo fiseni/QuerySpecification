@@ -50,7 +50,7 @@ public class SpecificationInMemoryEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_FiltersItems_GivenSpec()
+    public void Evaluate_Filters_GivenSpec()
     {
         List<Customer> input =
         [
@@ -77,7 +77,7 @@ public class SpecificationInMemoryEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_FiltersItems_GivenSpecWithSelect()
+    public void Evaluate_Filters_GivenSpecWithSelect()
     {
         List<Customer> input =
         [
@@ -102,17 +102,17 @@ public class SpecificationInMemoryEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_FiltersItems_GivenSpecWithSelectMany()
+    public void Evaluate_Filters_GivenSpecWithSelectMany()
     {
         List<CustomerWithMails> input =
         [
             new(1, "axxa", "axya", []),
             new(2, "aaaa", "axya", []),
-            new(3, "aaaa", "axya", ["zzz"]),
+            new(3, "aaaa", "axya", ["zzz", "www"]),
             new(4, "aaaa", "axya", ["yyy"])
         ];
 
-        List<string> expected = ["zzz", "yyy"];
+        List<string> expected = ["www", "yyy"];
 
         var spec = new Specification<CustomerWithMails, string>();
         spec.Query
@@ -126,10 +126,80 @@ public class SpecificationInMemoryEvaluatorTests
         AssertForEvaluate(spec, input, expected);
     }
 
-    private static void AssertForEvaluate<T>(Specification<T> spec, List<T> input, IEnumerable<T> expected)
+    [Fact]
+    public void Evaluate_DoesNotFilter_GivenSpecAndIgnorePagination()
     {
-        var actual = _evaluator.Evaluate(input, spec);
-        var actualFromSpec = spec.Evaluate(input);
+        List<Customer> input =
+        [
+            new(1, "axxa", "axya"),
+            new(2, "aaaa", "axya"),
+            new(3, "aaaa", "axya"),
+            new(4, "aaaa", "axya")
+        ];
+
+        var spec = new Specification<Customer>();
+        spec.Query
+            .OrderBy(x => x.Id)
+            .Skip(1)
+            .Take(1);
+
+        AssertForEvaluate(spec, input, input, ignorePaging: true);
+    }
+
+    [Fact]
+    public void Evaluate_DoesNotFilter_GivenSpecWithSelectAndIgnorePagination()
+    {
+        List<Customer> input =
+        [
+            new(1, "axxa", "axya"),
+            new(2, "aaaa", "axya"),
+            new(3, "vvvv", "axya"),
+            new(4, "aaaa", "axya")
+        ];
+
+        List<string> expected = ["axxa", "aaaa", "vvvv", "aaaa"];
+
+        var spec = new Specification<Customer, string>();
+        spec.Query
+            .OrderBy(x => x.Id)
+            .Skip(1)
+            .Take(1)
+            .Select(x => x.FirstName);
+
+        AssertForEvaluate(spec, input, expected, ignorePaging: true);
+    }
+
+    [Fact]
+    public void Evaluate_DoesNotFilter_GivenSpecWithSelectManyAndIgnorePagination()
+    {
+        List<CustomerWithMails> input =
+        [
+            new(1, "axxa", "axya", []),
+            new(2, "aaaa", "axya", []),
+            new(3, "aaaa", "axya", ["zzz", "www"]),
+            new(4, "aaaa", "axya", ["yyy"])
+        ];
+
+        List<string> expected = ["zzz", "www", "yyy"];
+
+        var spec = new Specification<CustomerWithMails, string>();
+        spec.Query
+            .OrderBy(x => x.Id)
+            .Skip(1)
+            .Take(2)
+            .SelectMany(x => x.Emails);
+
+        AssertForEvaluate(spec, input, expected, ignorePaging: true);
+    }
+
+    private static void AssertForEvaluate<T>(
+        Specification<T> spec,
+        List<T> input,
+        IEnumerable<T> expected,
+        bool ignorePaging = false)
+    {
+        var actual = _evaluator.Evaluate(input, spec, ignorePaging);
+        var actualFromSpec = spec.Evaluate(input, ignorePaging);
 
         actual.Should().Equal(actualFromSpec);
         actual.Should().NotBeNull();
@@ -137,10 +207,14 @@ public class SpecificationInMemoryEvaluatorTests
         actual.Should().Equal(expected);
     }
 
-    private static void AssertForEvaluate<T, TResult>(Specification<T, TResult> spec, List<T> input, IEnumerable<TResult> expected)
+    private static void AssertForEvaluate<T, TResult>(
+        Specification<T, TResult> spec,
+        List<T> input,
+        IEnumerable<TResult> expected,
+        bool ignorePaging = false)
     {
-        var actual = _evaluator.Evaluate(input, spec);
-        var actualFromSpec = spec.Evaluate(input);
+        var actual = _evaluator.Evaluate(input, spec, ignorePaging);
+        var actualFromSpec = spec.Evaluate(input, ignorePaging);
 
         actual.Should().Equal(actualFromSpec);
         actual.Should().NotBeNull();
@@ -171,13 +245,12 @@ public class SpecificationInMemoryEvaluatorTests
         var evaluator = new SpecificationEvaluatorDerived();
 
         var state = EvaluatorsOf(evaluator);
-        state.Should().HaveCount(6);
+        state.Should().HaveCount(5);
         state[0].Should().BeOfType<LikeMemoryEvaluator>();
         state[1].Should().BeOfType<WhereEvaluator>();
         state[2].Should().BeOfType<LikeMemoryEvaluator>();
         state[3].Should().BeOfType<OrderEvaluator>();
-        state[4].Should().BeOfType<PaginationEvaluator>();
-        state[5].Should().BeOfType<WhereEvaluator>();
+        state[4].Should().BeOfType<WhereEvaluator>();
     }
 
     private class SpecificationEvaluatorDerived : SpecificationInMemoryEvaluator

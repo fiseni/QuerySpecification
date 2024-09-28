@@ -12,10 +12,10 @@ public class Specification<T, TResult> : Specification<T>
     public Expression<Func<T, TResult>>? Selector { get; internal set; }
     public Expression<Func<T, IEnumerable<TResult>>>? SelectorMany { get; internal set; }
 
-    public new virtual IEnumerable<TResult> Evaluate(IEnumerable<T> entities)
+    public new virtual IEnumerable<TResult> Evaluate(IEnumerable<T> entities, bool ignorePaging = false)
     {
         var evaluator = SpecificationInMemoryEvaluator.Default;
-        return evaluator.Evaluate(entities, this);
+        return evaluator.Evaluate(entities, this, ignorePaging);
     }
 }
 
@@ -64,10 +64,10 @@ public class Specification<T>
     public IEnumerable<IncludeExpression> IncludeExpressions => _includeExpressions ?? Enumerable.Empty<IncludeExpression>();
     public IEnumerable<string> IncludeStrings => _includeStrings ?? Enumerable.Empty<string>();
 
-    public virtual IEnumerable<T> Evaluate(IEnumerable<T> entities)
+    public virtual IEnumerable<T> Evaluate(IEnumerable<T> entities, bool ignorePaging = false)
     {
         var evaluator = SpecificationInMemoryEvaluator.Default;
-        return evaluator.Evaluate(entities, this);
+        return evaluator.Evaluate(entities, this, ignorePaging);
     }
 
     public virtual bool IsSatisfiedBy(T entity)

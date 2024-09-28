@@ -13,7 +13,6 @@ public class SpecificationInMemoryEvaluator
             WhereEvaluator.Instance,
             LikeMemoryEvaluator.Instance,
             OrderEvaluator.Instance,
-            PaginationEvaluator.Instance
         ];
     }
     public SpecificationInMemoryEvaluator(IEnumerable<IInMemoryEvaluator> evaluators)
@@ -21,22 +20,30 @@ public class SpecificationInMemoryEvaluator
         Evaluators = evaluators.ToList();
     }
 
-    public virtual IEnumerable<TResult> Evaluate<T, TResult>(IEnumerable<T> source, Specification<T, TResult> specification)
+    public virtual IEnumerable<TResult> Evaluate<T, TResult>(
+        IEnumerable<T> source,
+        Specification<T, TResult> specification,
+        bool ignorePaging = false)
     {
         ArgumentNullException.ThrowIfNull(specification);
         if (specification.Selector is null && specification.SelectorMany is null) throw new SelectorNotFoundException();
         if (specification.Selector is not null && specification.SelectorMany is not null) throw new ConcurrentSelectorsException();
 
-        var baseQuery = Evaluate(source, (Specification<T>)specification);
+        source = Evaluate(source, (Specification<T>)specification, true);
 
-        var resultQuery = specification.Selector is not null
-          ? baseQuery.Select(specification.Selector.Compile())
-          : baseQuery.SelectMany(specification.SelectorMany!.Compile());
+        var result = specification.Selector is not null
+          ? source.Select(specification.Selector.Compile())
+          : source.SelectMany(specification.SelectorMany!.Compile());
 
-        return resultQuery;
+        return ignorePaging
+            ? result
+            : result.ApplyPaging(specification);
     }
 
-    public virtual IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)
+    public virtual IEnumerable<T> Evaluate<T>(
+        IEnumerable<T> source,
+        Specification<T> specification,
+        bool ignorePaging = false)
     {
         ArgumentNullException.ThrowIfNull(specification);
 
@@ -45,6 +52,8 @@ public class SpecificationInMemoryEvaluator
             source = evaluator.Evaluate(source, specification);
         }
 
-        return source;
+        return ignorePaging
+            ? source
+            : source.ApplyPaging(specification);
     }
 }

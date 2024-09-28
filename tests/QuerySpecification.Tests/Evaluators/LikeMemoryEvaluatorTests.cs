@@ -7,7 +7,7 @@ public class LikeMemoryEvaluatorTests
     public record Customer(int Id, string FirstName, string? LastName);
 
     [Fact]
-    public void FiltersItems_GivenLikeInSameGroup()
+    public void Filters_GivenLikeInSameGroup()
     {
         List<Customer> input =
         [
@@ -32,7 +32,7 @@ public class LikeMemoryEvaluatorTests
     }
 
     [Fact]
-    public void FiltersItems_GivenLikeInDifferentGroup()
+    public void Filters_GivenLikeInDifferentGroup()
     {
         List<Customer> input =
         [
