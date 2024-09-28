@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <th>Tag:</th>
-<td class="limit-width " title="35_11076181051">35_11076181051</td>
+<td class="limit-width " title="36_11085380573">36_11085380573</td>
 </tr>
 </table>
 </div>
@@ -45,7 +45,7 @@
 <table>
 <tr>
 <th>Covered lines:</th>
-<td class="limit-width right" title="13">13</td>
+<td class="limit-width right" title="11">11</td>
 </tr>
 <tr>
 <th>Uncovered lines:</th>
@@ -53,15 +53,15 @@
 </tr>
 <tr>
 <th>Coverable lines:</th>
-<td class="limit-width right" title="13">13</td>
+<td class="limit-width right" title="11">11</td>
 </tr>
 <tr>
 <th>Total lines:</th>
-<td class="limit-width right" title="50">50</td>
+<td class="limit-width right" title="48">48</td>
 </tr>
 <tr>
 <th>Line coverage:</th>
-<td class="limit-width right" title="13 of 13">100%</td>
+<td class="limit-width right" title="11 of 11">100%</td>
 </tr>
 </table>
 </div>
@@ -165,19 +165,17 @@
 <tr class="coverableline" title="Covered (3 visits)" data-coverage="{'AllTestMethods': {'VC': '3', 'LVS': 'green'}}"><td class="green">&nbsp;</td><td class="leftmargin rightmargin right">3</td><td class="rightmargin right"><a id="file0_line39"></a><code>39</code></td><td></td><td class="lightgreen"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;count&nbsp;=&nbsp;await&nbsp;source.CountAsync(cancellationToken);</code></td></tr>
 <tr class="coverableline" title="Covered (3 visits)" data-coverage="{'AllTestMethods': {'VC': '3', 'LVS': 'green'}}"><td class="green">&nbsp;</td><td class="leftmargin rightmargin right">3</td><td class="rightmargin right"><a id="file0_line40"></a><code>40</code></td><td></td><td class="lightgreen"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;pagination&nbsp;=&nbsp;new&nbsp;Pagination(paginationSettings,&nbsp;count,&nbsp;filter);</code></td></tr>
 <tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line41"></a><code>41</code></td><td></td><td class="lightgray"><code></code></td></tr>
-<tr class="coverableline" title="Covered (3 visits)" data-coverage="{'AllTestMethods': {'VC': '3', 'LVS': 'green'}}"><td class="green">&nbsp;</td><td class="leftmargin rightmargin right">3</td><td class="rightmargin right"><a id="file0_line42"></a><code>42</code></td><td></td><td class="lightgreen"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;query&nbsp;=&nbsp;source</code></td></tr>
-<tr class="coverableline" title="Covered (3 visits)" data-coverage="{'AllTestMethods': {'VC': '3', 'LVS': 'green'}}"><td class="green">&nbsp;</td><td class="leftmargin rightmargin right">3</td><td class="rightmargin right"><a id="file0_line43"></a><code>43</code></td><td></td><td class="lightgreen"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Skip(pagination.Skip)</code></td></tr>
-<tr class="coverableline" title="Covered (3 visits)" data-coverage="{'AllTestMethods': {'VC': '3', 'LVS': 'green'}}"><td class="green">&nbsp;</td><td class="leftmargin rightmargin right">3</td><td class="rightmargin right"><a id="file0_line44"></a><code>44</code></td><td></td><td class="lightgreen"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Take(pagination.Take);</code></td></tr>
+<tr class="coverableline" title="Covered (3 visits)" data-coverage="{'AllTestMethods': {'VC': '3', 'LVS': 'green'}}"><td class="green">&nbsp;</td><td class="leftmargin rightmargin right">3</td><td class="rightmargin right"><a id="file0_line42"></a><code>42</code></td><td></td><td class="lightgreen"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;query&nbsp;=&nbsp;source.ApplyPaging(pagination);</code></td></tr>
+<tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line43"></a><code>43</code></td><td></td><td class="lightgray"><code></code></td></tr>
+<tr class="coverableline" title="Covered (3 visits)" data-coverage="{'AllTestMethods': {'VC': '3', 'LVS': 'green'}}"><td class="green">&nbsp;</td><td class="leftmargin rightmargin right">3</td><td class="rightmargin right"><a id="file0_line44"></a><code>44</code></td><td></td><td class="lightgreen"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;data&nbsp;=&nbsp;await&nbsp;query.ToListAsync(cancellationToken);</code></td></tr>
 <tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line45"></a><code>45</code></td><td></td><td class="lightgray"><code></code></td></tr>
-<tr class="coverableline" title="Covered (3 visits)" data-coverage="{'AllTestMethods': {'VC': '3', 'LVS': 'green'}}"><td class="green">&nbsp;</td><td class="leftmargin rightmargin right">3</td><td class="rightmargin right"><a id="file0_line46"></a><code>46</code></td><td></td><td class="lightgreen"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;data&nbsp;=&nbsp;await&nbsp;query.ToListAsync(cancellationToken);</code></td></tr>
-<tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line47"></a><code>47</code></td><td></td><td class="lightgray"><code></code></td></tr>
-<tr class="coverableline" title="Covered (3 visits)" data-coverage="{'AllTestMethods': {'VC': '3', 'LVS': 'green'}}"><td class="green">&nbsp;</td><td class="leftmargin rightmargin right">3</td><td class="rightmargin right"><a id="file0_line48"></a><code>48</code></td><td></td><td class="lightgreen"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;new&nbsp;PagedResult&lt;TSource&gt;(data,&nbsp;pagination);</code></td></tr>
-<tr class="coverableline" title="Covered (3 visits)" data-coverage="{'AllTestMethods': {'VC': '3', 'LVS': 'green'}}"><td class="green">&nbsp;</td><td class="leftmargin rightmargin right">3</td><td class="rightmargin right"><a id="file0_line49"></a><code>49</code></td><td></td><td class="lightgreen"><code>&nbsp;&nbsp;&nbsp;&nbsp;}</code></td></tr>
-<tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line50"></a><code>50</code></td><td></td><td class="lightgray"><code>}</code></td></tr>
+<tr class="coverableline" title="Covered (3 visits)" data-coverage="{'AllTestMethods': {'VC': '3', 'LVS': 'green'}}"><td class="green">&nbsp;</td><td class="leftmargin rightmargin right">3</td><td class="rightmargin right"><a id="file0_line46"></a><code>46</code></td><td></td><td class="lightgreen"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;new&nbsp;PagedResult&lt;TSource&gt;(data,&nbsp;pagination);</code></td></tr>
+<tr class="coverableline" title="Covered (3 visits)" data-coverage="{'AllTestMethods': {'VC': '3', 'LVS': 'green'}}"><td class="green">&nbsp;</td><td class="leftmargin rightmargin right">3</td><td class="rightmargin right"><a id="file0_line47"></a><code>47</code></td><td></td><td class="lightgreen"><code>&nbsp;&nbsp;&nbsp;&nbsp;}</code></td></tr>
+<tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line48"></a><code>48</code></td><td></td><td class="lightgray"><code>}</code></td></tr>
 </tbody>
 </table>
 </div>
-<div class="footer">Generated by: ReportGenerator 5.3.9.0<br />9/27/2024 - 6:58:14 PM<br /><a href="https://github.com/danielpalme/ReportGenerator">GitHub</a> | <a href="https://reportgenerator.io">reportgenerator.io</a></div></div>
+<div class="footer">Generated by: ReportGenerator 5.3.9.0<br />9/28/2024 - 4:31:24 PM<br /><a href="https://github.com/danielpalme/ReportGenerator">GitHub</a> | <a href="https://reportgenerator.io">reportgenerator.io</a></div></div>
 <div class="containerright">
 <div class="containerrightfixed">
 <h1>Methods/Properties</h1>
