@@ -20,6 +20,6 @@ public class AsNoTrackingEvaluatorTests(TestFactory factory) : IntegrationTest(f
             .Expression
             .ToString();
 
-        actual.Should().Be(expected.ToString());
+        actual.Should().Be(expected);
     }
 }

@@ -3,12 +3,14 @@
 [Collection("SharedCollection")]
 public class Extensions_ToPagedResult(TestFactory factory) : IntegrationTest(factory)
 {
+    public record CountryDto(int No, string? Name);
+
     [Fact]
     public async Task ReturnsPaginatedItems_GivenPagingFilter()
     {
-        var expected = new List<Country>
+        var expected = new List<CountryDto>
         {
-            new() { No = 4, Name = "b" },
+            new(4, "b"),
         };
         await SeedRangeAsync<Country>(
         [
@@ -26,22 +28,22 @@ public class Extensions_ToPagedResult(TestFactory factory) : IntegrationTest(fac
         var result = await DbContext.Countries
             .Where(x => x.Name == "b")
             .OrderBy(x => x.No)
+            .Select(x => new CountryDto(x.No, x.Name))
             .ToPagedResultAsync(filter);
 
-        result.Should().BeOfType<PagedResult<Country>>();
+        result.Should().BeOfType<PagedResult<CountryDto>>();
         result.Pagination.Page.Should().Be(filter.Page);
         result.Pagination.PageSize.Should().Be(filter.PageSize);
-        result.Data.Should().HaveCount(1);
-        result.Data.First().No.Should().Be(4);
+        result.Data.Should().Equal(expected);
     }
 
     [Fact]
     public async Task ReturnsPaginatedItems_GivenPagingFilterAndPaginationSettings()
     {
-        var expected = new List<Country>
+        var expected = new List<CountryDto>
         {
-            new() { No = 3, Name = "b" },
-            new() { No = 4, Name = "b" },
+            new(3, "b"),
+            new(4, "b"),
         };
         await SeedRangeAsync<Country>(
         [
@@ -60,22 +62,22 @@ public class Extensions_ToPagedResult(TestFactory factory) : IntegrationTest(fac
         var result = await DbContext.Countries
             .Where(x => x.Name == "b")
             .OrderBy(x => x.No)
+            .Select(x => new CountryDto(x.No, x.Name))
             .ToPagedResultAsync(filter, paginationSettings);
 
-        result.Should().BeOfType<PagedResult<Country>>();
+        result.Should().BeOfType<PagedResult<CountryDto>>();
         result.Pagination.Page.Should().Be(filter.Page);
         result.Pagination.PageSize.Should().Be(paginationSettings.DefaultPageSize);
-        result.Data.Should().HaveCount(2);
-        result.Data.First().No.Should().Be(3);
+        result.Data.Should().Equal(expected);
     }
 
     [Fact]
     public async Task ReturnsPaginatedItemsWithAggregatedTakeSkip_GivenPagingFilterAndTakeSkip()
     {
-        var expected = new List<Country>
+        var expected = new List<CountryDto>
         {
-            new() { No = 2, Name = "b" },
-            new() { No = 3, Name = "b" },
+            new(2, "b"),
+            new(3, "b"),
         };
         await SeedRangeAsync<Country>(
         [
@@ -93,14 +95,14 @@ public class Extensions_ToPagedResult(TestFactory factory) : IntegrationTest(fac
         var result = await DbContext.Countries
             .Where(x => x.Name == "b")
             .OrderBy(x => x.No)
+            .Select(x => new CountryDto(x.No, x.Name))
             .Skip(1)
             .Take(2)
             .ToPagedResultAsync(filter);
 
-        result.Should().BeOfType<PagedResult<Country>>();
+        result.Should().BeOfType<PagedResult<CountryDto>>();
         result.Pagination.Page.Should().Be(PaginationSettings.Default.DefaultPage);
         result.Pagination.PageSize.Should().Be(filter.PageSize);
-        result.Data.Should().HaveCount(2);
-        result.Data.First().No.Should().Be(2);
+        result.Data.Should().Equal(expected);
     }
 }

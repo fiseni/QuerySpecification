@@ -18,7 +18,7 @@ public class AsSplitQueryEvaluatorTests(TestFactory factory) : IntegrationTest(f
             .AsSplitQuery()
             .ToQueryString();
 
-        actual.Should().Be(expected.ToString());
+        actual.Should().Be(expected);
     }
 
     [Fact]
@@ -36,6 +36,6 @@ public class AsSplitQueryEvaluatorTests(TestFactory factory) : IntegrationTest(f
             .Expression
             .ToString();
 
-        actual.Should().Be(expected.ToString());
+        actual.Should().Be(expected);
     }
 }

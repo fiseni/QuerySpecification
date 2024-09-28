@@ -20,6 +20,6 @@ public class AsNoTrackingWithIdentityResolutionEvaluatorTests(TestFactory factor
             .Expression
             .ToString();
 
-        actual.Should().Be(expected.ToString());
+        actual.Should().Be(expected);
     }
 }

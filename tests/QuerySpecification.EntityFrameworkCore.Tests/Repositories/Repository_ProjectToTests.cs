@@ -5,7 +5,7 @@ namespace Tests.Repositories;
 [Collection("SharedCollection")]
 public class Repository_ProjectToTests(TestFactory factory) : IntegrationTest(factory)
 {
-    public record CountryDto(int No, string Name);
+    public record CountryDto(int No, string? Name);
     public class CountryDtoProfile : Profile
     {
         public CountryDtoProfile()
@@ -141,8 +141,7 @@ public class Repository_ProjectToTests(TestFactory factory) : IntegrationTest(fa
 
         var result = await repo.ProjectToListAsync<CountryDto>(spec);
 
-        result.Should().HaveSameCount(expected);
-        result.Should().BeEquivalentTo(expected);
+        result.Should().Equal(expected);
     }
 
     [Fact]
@@ -175,8 +174,7 @@ public class Repository_ProjectToTests(TestFactory factory) : IntegrationTest(fa
         result.Should().BeOfType<PagedResult<CountryDto>>();
         result.Pagination.Page.Should().Be(filter.Page);
         result.Pagination.PageSize.Should().Be(filter.PageSize);
-        result.Data.Should().HaveCount(1);
-        result.Data.First().No.Should().Be(4);
+        result.Data.Should().Equal(expected);
     }
 
     [Fact]
@@ -211,8 +209,7 @@ public class Repository_ProjectToTests(TestFactory factory) : IntegrationTest(fa
         result.Should().BeOfType<PagedResult<CountryDto>>();
         result.Pagination.Page.Should().Be(filter.Page);
         result.Pagination.PageSize.Should().Be(filter.PageSize);
-        result.Data.Should().HaveCount(1);
-        result.Data.First().No.Should().Be(4);
+        result.Data.Should().Equal(expected);
 
         // Ensure that the spec's pagination is not altered.
         spec.Skip.Should().Be(1);

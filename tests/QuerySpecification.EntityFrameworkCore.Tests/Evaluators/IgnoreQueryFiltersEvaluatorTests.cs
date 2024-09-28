@@ -18,7 +18,7 @@ public class IgnoreQueryFiltersEvaluatorTests(TestFactory factory) : Integration
             .IgnoreQueryFilters()
             .ToQueryString();
 
-        actual.Should().Be(expected.ToString());
+        actual.Should().Be(expected);
     }
 
     [Fact]
@@ -36,6 +36,6 @@ public class IgnoreQueryFiltersEvaluatorTests(TestFactory factory) : Integration
             .Expression
             .ToString();
 
-        actual.Should().Be(expected.ToString());
+        actual.Should().Be(expected);
     }
 }
