@@ -9,9 +9,9 @@ public class WhereExpressionTests
     [Fact]
     public void Constructor_ThrowsArgumentNullException_GivenNullExpression()
     {
-        var sutAction = () => new WhereExpression<Customer>(null!);
+        var sut = () => new WhereExpression<Customer>(null!);
 
-        sutAction.Should().Throw<ArgumentNullException>().WithParameterName("filter");
+        sut.Should().Throw<ArgumentNullException>().WithParameterName("filter");
     }
 
     [Fact]

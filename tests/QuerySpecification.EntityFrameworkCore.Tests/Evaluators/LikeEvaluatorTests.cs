@@ -18,7 +18,7 @@ public class LikeEvaluatorTests(TestFactory factory) : IntegrationTest(factory)
             .Like(x => x.Company.Name, $"%{companyTerm}%")
             .Like(x => x.Address.Street, $"%{streetTerm}%", 2);
 
-        var actual = _evaluator.GetQuery(DbContext.Stores, spec)
+        var actual = _evaluator.Evaluate(DbContext.Stores, spec)
             .ToQueryString()
             .Replace("__likeExpression_Pattern_", "__Format_"); //expr parameter names are different
 

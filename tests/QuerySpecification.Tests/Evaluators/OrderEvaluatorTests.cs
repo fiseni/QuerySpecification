@@ -16,8 +16,7 @@ public class OrderEvaluatorTests
         spec.Query
             .OrderBy(x => x.Id);
 
-        AssertForEvaluate(spec, input, expected);
-        AssertForGetQuery(spec, input, expected);
+        Assert(spec, input, expected);
     }
 
     [Fact]
@@ -30,8 +29,7 @@ public class OrderEvaluatorTests
         spec.Query
             .OrderByDescending(x => x.Id);
 
-        AssertForEvaluate(spec, input, expected);
-        AssertForGetQuery(spec, input, expected);
+        Assert(spec, input, expected);
     }
 
     [Fact]
@@ -45,8 +43,7 @@ public class OrderEvaluatorTests
             .OrderBy(x => x.Id)
             .ThenBy(x => x.Name);
 
-        AssertForEvaluate(spec, input, expected);
-        AssertForGetQuery(spec, input, expected);
+        Assert(spec, input, expected);
     }
 
     [Fact]
@@ -60,8 +57,7 @@ public class OrderEvaluatorTests
             .OrderBy(x => x.Id)
             .ThenByDescending(x => x.Name);
 
-        AssertForEvaluate(spec, input, expected);
-        AssertForGetQuery(spec, input, expected);
+        Assert(spec, input, expected);
     }
 
     [Fact]
@@ -75,8 +71,7 @@ public class OrderEvaluatorTests
             .OrderByDescending(x => x.Id)
             .ThenBy(x => x.Name);
 
-        AssertForEvaluate(spec, input, expected);
-        AssertForGetQuery(spec, input, expected);
+        Assert(spec, input, expected);
     }
 
     [Fact]
@@ -90,8 +85,7 @@ public class OrderEvaluatorTests
             .OrderByDescending(x => x.Id)
             .ThenByDescending(x => x.Name);
 
-        AssertForEvaluate(spec, input, expected);
-        AssertForGetQuery(spec, input, expected);
+        Assert(spec, input, expected);
     }
 
     [Fact]
@@ -101,25 +95,17 @@ public class OrderEvaluatorTests
         List<Customer> expected = [new(3), new(1), new(2), new(5), new(4)];
         var spec = new Specification<Customer>();
 
-        AssertForEvaluate(spec, input, expected);
-        AssertForGetQuery(spec, input, expected);
+        Assert(spec, input, expected);
     }
 
-    private static void AssertForEvaluate<T>(Specification<T> spec, List<T> input, IEnumerable<T> expected)
+    private static void Assert<T>(Specification<T> spec, List<T> input, List<T> expected) where T : class
     {
-        var actual = _evaluator.Evaluate(input, spec);
+        var actualForIEnumerable = _evaluator.Evaluate(input, spec);
+        actualForIEnumerable.Should().NotBeNull();
+        actualForIEnumerable.Should().Equal(expected);
 
-        actual.Should().NotBeNull();
-        actual.Should().HaveSameCount(expected);
-        actual.Should().Equal(expected);
-    }
-
-    private static void AssertForGetQuery<T>(Specification<T> spec, List<T> input, IEnumerable<T> expected) where T : class
-    {
-        var actual = _evaluator.GetQuery(input.AsQueryable(), spec);
-
-        actual.Should().NotBeNull();
-        actual.Should().HaveSameCount(expected);
-        actual.Should().Equal(expected);
+        var actualForIQueryable = _evaluator.Evaluate(input.AsQueryable(), spec);
+        actualForIQueryable.Should().NotBeNull();
+        actualForIQueryable.Should().Equal(expected);
     }
 }

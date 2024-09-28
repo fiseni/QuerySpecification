@@ -12,17 +12,17 @@ public class SpecificationInMemoryEvaluatorTests
     [Fact]
     public void Evaluate_ThrowsArgumentNullException_GivenNullSpec()
     {
-        Action sutAction = () => _evaluator.Evaluate([], (Specification<Customer>)null!);
+        var sut = () => _evaluator.Evaluate([], (Specification<Customer>)null!);
 
-        sutAction.Should().Throw<ArgumentNullException>().WithParameterName("specification");
+        sut.Should().Throw<ArgumentNullException>().WithParameterName("specification");
     }
 
     [Fact]
     public void Evaluate_ThrowsArgumentNullException_GivenNullSpecificationWithSelector()
     {
-        Action sutAction = () => _evaluator.Evaluate([], (Specification<Customer, string>)null!);
+        var sut = () => _evaluator.Evaluate([], (Specification<Customer, string>)null!);
 
-        sutAction.Should().Throw<ArgumentNullException>().WithParameterName("specification");
+        sut.Should().Throw<ArgumentNullException>().WithParameterName("specification");
     }
 
     [Fact]
@@ -30,9 +30,9 @@ public class SpecificationInMemoryEvaluatorTests
     {
         var spec = new Specification<Customer, string>();
 
-        Action sutAction = () => _evaluator.Evaluate([], spec);
+        var sut = () => _evaluator.Evaluate([], spec);
 
-        sutAction.Should().Throw<SelectorNotFoundException>();
+        sut.Should().Throw<SelectorNotFoundException>();
     }
 
     [Fact]
@@ -44,9 +44,9 @@ public class SpecificationInMemoryEvaluatorTests
         spec.Query
             .SelectMany(x => x.Emails);
 
-        Action sutAction = () => _evaluator.Evaluate([], spec);
+        var sut = () => _evaluator.Evaluate([], spec);
 
-        sutAction.Should().Throw<ConcurrentSelectorsException>();
+        sut.Should().Throw<ConcurrentSelectorsException>();
     }
 
     [Fact]

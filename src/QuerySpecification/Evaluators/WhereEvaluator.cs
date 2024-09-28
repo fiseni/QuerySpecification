@@ -5,23 +5,23 @@ public class WhereEvaluator : IEvaluator, IInMemoryEvaluator
     private WhereEvaluator() { }
     public static WhereEvaluator Instance = new();
 
-    public IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
+    public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class
     {
         foreach (var whereExpression in specification.WhereExpressions)
         {
-            query = query.Where(whereExpression.Filter);
+            source = source.Where(whereExpression.Filter);
         }
 
-        return query;
+        return source;
     }
 
-    public IEnumerable<T> Evaluate<T>(IEnumerable<T> query, Specification<T> specification)
+    public IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)
     {
         foreach (var whereExpression in specification.WhereExpressions)
         {
-            query = query.Where(whereExpression.FilterFunc);
+            source = source.Where(whereExpression.FilterFunc);
         }
 
-        return query;
+        return source;
     }
 }

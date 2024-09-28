@@ -6,28 +6,28 @@ public class IgnoreQueryFiltersEvaluatorTests(TestFactory factory) : Integration
     private static readonly IgnoreQueryFiltersEvaluator _evaluator = IgnoreQueryFiltersEvaluator.Instance;
 
     [Fact]
-    public void QueriesMatch_GivenAIgnoreQueryFilters()
+    public void QueriesMatch_GivenIgnoreQueryFilters()
     {
         var spec = new Specification<Country>();
         spec.Query.IgnoreQueryFilters();
 
-        var actual = _evaluator.GetQuery(DbContext.Countries, spec)
+        var actual = _evaluator.Evaluate(DbContext.Countries, spec)
             .ToQueryString();
 
         var expected = DbContext.Countries
             .IgnoreQueryFilters()
             .ToQueryString();
 
-        actual.Should().Be(expected.ToString());
+        actual.Should().Be(expected);
     }
 
     [Fact]
-    public void Applies_GivenAIgnoreQueryFilters()
+    public void Applies_GivenIgnoreQueryFilters()
     {
         var spec = new Specification<Country>();
         spec.Query.IgnoreQueryFilters();
 
-        var actual = _evaluator.GetQuery(DbContext.Countries, spec)
+        var actual = _evaluator.Evaluate(DbContext.Countries, spec)
             .Expression
             .ToString();
 
@@ -36,6 +36,6 @@ public class IgnoreQueryFiltersEvaluatorTests(TestFactory factory) : Integration
             .Expression
             .ToString();
 
-        actual.Should().Be(expected.ToString());
+        actual.Should().Be(expected);
     }
 }

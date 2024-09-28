@@ -16,7 +16,7 @@ public class IncludeEvaluatorTests(TestFactory factory) : IntegrationTest(factor
             .Include(x => x.Company)
                 .ThenInclude(x => x.Country);
 
-        var actual = _evaluator.GetQuery(DbContext.Stores, spec)
+        var actual = _evaluator.Evaluate(DbContext.Stores, spec)
             .ToQueryString();
 
         var expected = DbContext.Stores

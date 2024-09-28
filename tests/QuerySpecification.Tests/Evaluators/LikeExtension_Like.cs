@@ -88,8 +88,8 @@ public class LikeExtension_Like
     [InlineData("[]", "asd")]
     public void ThrowsInvalidLikePattern_GivenInvalidPattern(string pattern, string input)
     {
-        Action action = () => input.Like(pattern);
+        var sut = () => input.Like(pattern);
 
-        action.Should().Throw<InvalidLikePatternException>().WithMessage($"Invalid like pattern: {pattern}");
+        sut.Should().Throw<InvalidLikePatternException>().WithMessage($"Invalid like pattern: {pattern}");
     }
 }

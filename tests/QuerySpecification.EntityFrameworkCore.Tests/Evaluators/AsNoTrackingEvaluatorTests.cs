@@ -11,7 +11,7 @@ public class AsNoTrackingEvaluatorTests(TestFactory factory) : IntegrationTest(f
         var spec = new Specification<Country>();
         spec.Query.AsNoTracking();
 
-        var actual = _evaluator.GetQuery(DbContext.Countries, spec)
+        var actual = _evaluator.Evaluate(DbContext.Countries, spec)
             .Expression
             .ToString();
 
@@ -20,6 +20,6 @@ public class AsNoTrackingEvaluatorTests(TestFactory factory) : IntegrationTest(f
             .Expression
             .ToString();
 
-        actual.Should().Be(expected.ToString());
+        actual.Should().Be(expected);
     }
 }

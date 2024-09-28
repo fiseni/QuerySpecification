@@ -26,8 +26,8 @@ public class SpecificationEvaluator
         Evaluators = evaluators.ToList();
     }
 
-    public virtual IQueryable<TResult> GetQuery<T, TResult>(
-        IQueryable<T> query,
+    public virtual IQueryable<TResult> Evaluate<T, TResult>(
+        IQueryable<T> source,
         Specification<T, TResult> specification,
         bool ignorePaging = false) where T : class
     {
@@ -35,19 +35,19 @@ public class SpecificationEvaluator
         if (specification.Selector is null && specification.SelectorMany is null) throw new SelectorNotFoundException();
         if (specification.Selector is not null && specification.SelectorMany is not null) throw new ConcurrentSelectorsException();
 
-        query = GetQuery(query, (Specification<T>)specification, true);
+        source = Evaluate(source, (Specification<T>)specification, true);
 
         var resultQuery = specification.Selector is not null
-          ? query.Select(specification.Selector)
-          : query.SelectMany(specification.SelectorMany!);
+          ? source.Select(specification.Selector)
+          : source.SelectMany(specification.SelectorMany!);
 
         return ignorePaging
             ? resultQuery
             : resultQuery.ApplyPaging(specification);
     }
 
-    public virtual IQueryable<T> GetQuery<T>(
-        IQueryable<T> query,
+    public virtual IQueryable<T> Evaluate<T>(
+        IQueryable<T> source,
         Specification<T> specification,
         bool ignorePaging = false) where T : class
     {
@@ -55,11 +55,11 @@ public class SpecificationEvaluator
 
         foreach (var evaluator in Evaluators)
         {
-            query = evaluator.GetQuery(query, specification);
+            source = evaluator.Evaluate(source, specification);
         }
 
         return ignorePaging
-            ? query
-            : query.ApplyPaging(specification);
+            ? source
+            : source.ApplyPaging(specification);
     }
 }
