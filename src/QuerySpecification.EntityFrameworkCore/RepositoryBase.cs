@@ -168,7 +168,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IReadRepositoryBas
         var query = ApplySpecification(specification, true).AsNoTracking();
         var projectedQuery = Map<TResult>(query);
 
-        var count = await query.CountAsync(cancellationToken);
+        var count = await projectedQuery.CountAsync(cancellationToken);
         var pagination = new Pagination(_paginationSettings, count, filter);
 
         projectedQuery = projectedQuery.ApplyPaging(pagination);
