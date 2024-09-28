@@ -12,9 +12,4 @@ public record Store
     public Address Address { get; set; } = default!;
 
     public List<Product> Products { get; set; } = [];
-
-    public static object GetSomethingFromStore()
-    {
-        return new object();
-    }
 }

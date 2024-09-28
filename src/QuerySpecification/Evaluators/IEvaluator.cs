@@ -2,5 +2,5 @@
 
 public interface IEvaluator
 {
-    IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class;
+    IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class;
 }

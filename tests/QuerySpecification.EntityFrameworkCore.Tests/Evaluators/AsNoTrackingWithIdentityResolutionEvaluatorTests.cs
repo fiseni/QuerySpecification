@@ -11,7 +11,7 @@ public class AsNoTrackingWithIdentityResolutionEvaluatorTests(TestFactory factor
         var spec = new Specification<Country>();
         spec.Query.AsNoTrackingWithIdentityResolution();
 
-        var actual = _evaluator.GetQuery(DbContext.Countries, spec)
+        var actual = _evaluator.Evaluate(DbContext.Countries, spec)
             .Expression
             .ToString();
 

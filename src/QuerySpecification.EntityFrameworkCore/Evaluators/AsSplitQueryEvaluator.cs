@@ -5,13 +5,13 @@ public class AsSplitQueryEvaluator : IEvaluator
     private AsSplitQueryEvaluator() { }
     public static AsSplitQueryEvaluator Instance = new();
 
-    public IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
+    public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class
     {
         if (specification.AsSplitQuery)
         {
-            query = query.AsSplitQuery();
+            source = source.AsSplitQuery();
         }
 
-        return query;
+        return source;
     }
 }

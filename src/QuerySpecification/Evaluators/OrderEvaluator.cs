@@ -5,7 +5,7 @@ public class OrderEvaluator : IEvaluator, IInMemoryEvaluator
     private OrderEvaluator() { }
     public static OrderEvaluator Instance = new();
 
-    public IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
+    public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class
     {
         IOrderedQueryable<T>? orderedQuery = null;
 
@@ -13,11 +13,11 @@ public class OrderEvaluator : IEvaluator, IInMemoryEvaluator
         {
             if (orderExpression.OrderType == OrderTypeEnum.OrderBy)
             {
-                orderedQuery = query.OrderBy(orderExpression.KeySelector);
+                orderedQuery = source.OrderBy(orderExpression.KeySelector);
             }
             else if (orderExpression.OrderType == OrderTypeEnum.OrderByDescending)
             {
-                orderedQuery = query.OrderByDescending(orderExpression.KeySelector);
+                orderedQuery = source.OrderByDescending(orderExpression.KeySelector);
             }
             else if (orderExpression.OrderType == OrderTypeEnum.ThenBy)
             {
@@ -31,13 +31,13 @@ public class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 
         if (orderedQuery is not null)
         {
-            query = orderedQuery;
+            source = orderedQuery;
         }
 
-        return query;
+        return source;
     }
 
-    public IEnumerable<T> Evaluate<T>(IEnumerable<T> query, Specification<T> specification)
+    public IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)
     {
         IOrderedEnumerable<T>? orderedQuery = null;
 
@@ -45,11 +45,11 @@ public class OrderEvaluator : IEvaluator, IInMemoryEvaluator
         {
             if (orderExpression.OrderType == OrderTypeEnum.OrderBy)
             {
-                orderedQuery = query.OrderBy(orderExpression.KeySelectorFunc);
+                orderedQuery = source.OrderBy(orderExpression.KeySelectorFunc);
             }
             else if (orderExpression.OrderType == OrderTypeEnum.OrderByDescending)
             {
-                orderedQuery = query.OrderByDescending(orderExpression.KeySelectorFunc);
+                orderedQuery = source.OrderByDescending(orderExpression.KeySelectorFunc);
             }
             else if (orderExpression.OrderType == OrderTypeEnum.ThenBy)
             {
@@ -63,9 +63,9 @@ public class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 
         if (orderedQuery is not null)
         {
-            query = orderedQuery;
+            source = orderedQuery;
         }
 
-        return query;
+        return source;
     }
 }

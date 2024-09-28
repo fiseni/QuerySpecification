@@ -11,7 +11,7 @@ public class AsSplitQueryEvaluatorTests(TestFactory factory) : IntegrationTest(f
         var spec = new Specification<Country>();
         spec.Query.AsSplitQuery();
 
-        var actual = _evaluator.GetQuery(DbContext.Countries, spec)
+        var actual = _evaluator.Evaluate(DbContext.Countries, spec)
             .ToQueryString();
 
         var expected = DbContext.Countries
@@ -27,7 +27,7 @@ public class AsSplitQueryEvaluatorTests(TestFactory factory) : IntegrationTest(f
         var spec = new Specification<Country>();
         spec.Query.AsSplitQuery();
 
-        var actual = _evaluator.GetQuery(DbContext.Countries, spec)
+        var actual = _evaluator.Evaluate(DbContext.Countries, spec)
             .Expression
             .ToString();
 

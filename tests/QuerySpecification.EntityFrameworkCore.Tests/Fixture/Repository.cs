@@ -14,9 +14,9 @@ public class Repository<T>(DbContext context) : RepositoryBase<T>(context) where
         return config.CreateMapper();
     });
 
-    protected override IQueryable<TResult> Map<TResult>(IQueryable<T> queryable)
+    protected override IQueryable<TResult> Map<TResult>(IQueryable<T> source)
     {
-        var result = queryable
+        var result = source
             .ProjectTo<TResult>(_mapper.Value.ConfigurationProvider);
 
         return result;

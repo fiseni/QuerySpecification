@@ -16,7 +16,7 @@ public class WhereEvaluatorTests(TestFactory factory) : IntegrationTest(factory)
             .Where(x => x.Id > id)
             .Where(x => x.Name == name);
 
-        var actual = _evaluator.GetQuery(DbContext.Countries, spec)
+        var actual = _evaluator.Evaluate(DbContext.Countries, spec)
             .ToQueryString();
 
         var expected = DbContext.Countries

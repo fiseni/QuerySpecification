@@ -9,7 +9,7 @@ public static class IQueryableExtensions
       where TSource : class
     {
         evaluator ??= SpecificationEvaluator.Default;
-        return evaluator.GetQuery(source, specification);
+        return evaluator.Evaluate(source, specification);
     }
 
     public static IQueryable<TResult> WithSpecification<TSource, TResult>(
@@ -19,7 +19,7 @@ public static class IQueryableExtensions
       where TSource : class
     {
         evaluator ??= SpecificationEvaluator.Default;
-        return evaluator.GetQuery(source, specification);
+        return evaluator.Evaluate(source, specification);
     }
 
     public static Task<PagedResult<TSource>> ToPagedResultAsync<TSource>(
@@ -39,9 +39,9 @@ public static class IQueryableExtensions
         var count = await source.CountAsync(cancellationToken);
         var pagination = new Pagination(paginationSettings, count, filter);
 
-        var query = source.ApplyPaging(pagination);
+        source = source.ApplyPaging(pagination);
 
-        var data = await query.ToListAsync(cancellationToken);
+        var data = await source.ToListAsync(cancellationToken);
 
         return new PagedResult<TSource>(data, pagination);
     }

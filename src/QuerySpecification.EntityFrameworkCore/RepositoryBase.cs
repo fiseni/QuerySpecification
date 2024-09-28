@@ -25,7 +25,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IReadRepositoryBas
         _paginationSettings = paginationSettings;
     }
 
-    protected abstract IQueryable<TResult> Map<TResult>(IQueryable<T> queryable);
+    protected abstract IQueryable<TResult> Map<TResult>(IQueryable<T> source);
 
     public virtual async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
     {
@@ -72,29 +72,29 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IReadRepositoryBas
     }
     public virtual async Task<T> FirstAsync(Specification<T> specification, CancellationToken cancellationToken = default)
     {
-        var result = await ApplySpecification(specification).FirstOrDefaultAsync(cancellationToken);
+        var result = await GenerateQuery(specification).FirstOrDefaultAsync(cancellationToken);
         return result ?? throw new EntityNotFoundException(typeof(T).Name);
     }
     public virtual async Task<TResult> FirstAsync<TResult>(Specification<T, TResult> specification, CancellationToken cancellationToken = default)
     {
-        var result = await ApplySpecification(specification).FirstOrDefaultAsync(cancellationToken);
+        var result = await GenerateQuery(specification).FirstOrDefaultAsync(cancellationToken);
         return result ?? throw new EntityNotFoundException(typeof(T).Name);
     }
     public virtual async Task<T?> FirstOrDefaultAsync(Specification<T> specification, CancellationToken cancellationToken = default)
     {
-        return await ApplySpecification(specification).FirstOrDefaultAsync(cancellationToken);
+        return await GenerateQuery(specification).FirstOrDefaultAsync(cancellationToken);
     }
     public virtual async Task<TResult?> FirstOrDefaultAsync<TResult>(Specification<T, TResult> specification, CancellationToken cancellationToken = default)
     {
-        return await ApplySpecification(specification).FirstOrDefaultAsync(cancellationToken);
+        return await GenerateQuery(specification).FirstOrDefaultAsync(cancellationToken);
     }
     public virtual async Task<T?> SingleOrDefaultAsync(Specification<T> specification, CancellationToken cancellationToken = default)
     {
-        return await ApplySpecification(specification).SingleOrDefaultAsync(cancellationToken);
+        return await GenerateQuery(specification).SingleOrDefaultAsync(cancellationToken);
     }
     public virtual async Task<TResult?> SingleOrDefaultAsync<TResult>(Specification<T, TResult> specification, CancellationToken cancellationToken = default)
     {
-        return await ApplySpecification(specification).SingleOrDefaultAsync(cancellationToken);
+        return await GenerateQuery(specification).SingleOrDefaultAsync(cancellationToken);
     }
     public virtual async Task<List<T>> ListAsync(CancellationToken cancellationToken = default)
     {
@@ -102,11 +102,11 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IReadRepositoryBas
     }
     public virtual async Task<List<T>> ListAsync(Specification<T> specification, CancellationToken cancellationToken = default)
     {
-        return await ApplySpecification(specification).ToListAsync(cancellationToken);
+        return await GenerateQuery(specification).ToListAsync(cancellationToken);
     }
     public virtual async Task<List<TResult>> ListAsync<TResult>(Specification<T, TResult> specification, CancellationToken cancellationToken = default)
     {
-        return await ApplySpecification(specification).ToListAsync(cancellationToken);
+        return await GenerateQuery(specification).ToListAsync(cancellationToken);
     }
     public virtual async Task<int> CountAsync(CancellationToken cancellationToken = default)
     {
@@ -114,11 +114,11 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IReadRepositoryBas
     }
     public virtual async Task<int> CountAsync(Specification<T> specification, CancellationToken cancellationToken = default)
     {
-        return await ApplySpecification(specification, true).CountAsync(cancellationToken);
+        return await GenerateQuery(specification, true).CountAsync(cancellationToken);
     }
     public virtual async Task<int> CountAsync<TResult>(Specification<T, TResult> specification, CancellationToken cancellationToken = default)
     {
-        return await ApplySpecification(specification, true).CountAsync(cancellationToken);
+        return await GenerateQuery(specification, true).CountAsync(cancellationToken);
     }
     public virtual async Task<bool> AnyAsync(CancellationToken cancellationToken = default)
     {
@@ -126,20 +126,20 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IReadRepositoryBas
     }
     public virtual async Task<bool> AnyAsync(Specification<T> specification, CancellationToken cancellationToken = default)
     {
-        return await ApplySpecification(specification, true).AnyAsync(cancellationToken);
+        return await GenerateQuery(specification, true).AnyAsync(cancellationToken);
     }
     public virtual async Task<bool> AnyAsync<TResult>(Specification<T, TResult> specification, CancellationToken cancellationToken = default)
     {
-        return await ApplySpecification(specification, true).AnyAsync(cancellationToken);
+        return await GenerateQuery(specification, true).AnyAsync(cancellationToken);
     }
 
     public virtual IAsyncEnumerable<T> AsAsyncEnumerable(Specification<T> specification)
     {
-        return ApplySpecification(specification).AsAsyncEnumerable();
+        return GenerateQuery(specification).AsAsyncEnumerable();
     }
     public virtual async Task<TResult> ProjectToFirstAsync<TResult>(Specification<T> specification, CancellationToken cancellationToken = default)
     {
-        var query = ApplySpecification(specification).AsNoTracking();
+        var query = GenerateQuery(specification).AsNoTracking();
 
         var projectedQuery = Map<TResult>(query);
 
@@ -149,7 +149,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IReadRepositoryBas
     }
     public virtual async Task<TResult?> ProjectToFirstOrDefaultAsync<TResult>(Specification<T> specification, CancellationToken cancellationToken = default)
     {
-        var query = ApplySpecification(specification).AsNoTracking();
+        var query = GenerateQuery(specification).AsNoTracking();
 
         var projectedQuery = Map<TResult>(query);
 
@@ -157,7 +157,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IReadRepositoryBas
     }
     public virtual async Task<List<TResult>> ProjectToListAsync<TResult>(Specification<T> specification, CancellationToken cancellationToken = default)
     {
-        var query = ApplySpecification(specification).AsNoTracking();
+        var query = GenerateQuery(specification).AsNoTracking();
 
         var projectedQuery = Map<TResult>(query);
 
@@ -165,7 +165,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IReadRepositoryBas
     }
     public virtual async Task<PagedResult<TResult>> ProjectToListAsync<TResult>(Specification<T> specification, PagingFilter filter, CancellationToken cancellationToken = default)
     {
-        var query = ApplySpecification(specification, true).AsNoTracking();
+        var query = GenerateQuery(specification, true).AsNoTracking();
         var projectedQuery = Map<TResult>(query);
 
         var count = await projectedQuery.CountAsync(cancellationToken);
@@ -177,14 +177,14 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IReadRepositoryBas
         return new PagedResult<TResult>(data, pagination);
     }
 
-    protected virtual IQueryable<T> ApplySpecification(Specification<T> specification, bool ignorePaging = false)
+    protected virtual IQueryable<T> GenerateQuery(Specification<T> specification, bool ignorePaging = false)
     {
-        var query = _evaluator.GetQuery(_dbContext.Set<T>(), specification, ignorePaging);
+        var query = _evaluator.Evaluate(_dbContext.Set<T>(), specification, ignorePaging);
         return query;
     }
-    protected virtual IQueryable<TResult> ApplySpecification<TResult>(Specification<T, TResult> specification, bool ignorePaging = false)
+    protected virtual IQueryable<TResult> GenerateQuery<TResult>(Specification<T, TResult> specification, bool ignorePaging = false)
     {
-        var query = _evaluator.GetQuery(_dbContext.Set<T>(), specification, ignorePaging);
+        var query = _evaluator.Evaluate(_dbContext.Set<T>(), specification, ignorePaging);
         return query;
     }
 }

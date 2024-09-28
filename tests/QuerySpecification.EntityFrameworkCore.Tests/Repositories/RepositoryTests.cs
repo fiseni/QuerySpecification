@@ -71,7 +71,7 @@ public class RepositoryTests(TestFactory factory) : IntegrationTest(factory)
         {
         }
 
-        protected override IQueryable<TResult> Map<TResult>(IQueryable<T> queryable)
+        protected override IQueryable<TResult> Map<TResult>(IQueryable<T> source)
             => throw new NotImplementedException();
     }
 

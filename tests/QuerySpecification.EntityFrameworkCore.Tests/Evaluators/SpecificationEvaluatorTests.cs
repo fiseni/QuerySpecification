@@ -10,33 +10,33 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     public record Customer(int Id, string FirstName, string LastName, List<string>? Emails = null);
 
     [Fact]
-    public void GetQuery_ThrowsArgumentNullException_GivenNullSpec()
+    public void ThrowsArgumentNullException_GivenNullSpec()
     {
-        Action sutAction = () => _evaluator.GetQuery(DbContext.Countries, (Specification<Country>)null!);
+        var sut = () => _evaluator.Evaluate(DbContext.Countries, (Specification<Country>)null!);
 
-        sutAction.Should().Throw<ArgumentNullException>().WithParameterName("specification");
+        sut.Should().Throw<ArgumentNullException>().WithParameterName("specification");
     }
 
     [Fact]
-    public void GetQuery_ThrowsArgumentNullException_GivenNullSpecificationWithSelector()
+    public void ThrowsArgumentNullException_GivenNullSpecificationWithSelector()
     {
-        Action sutAction = () => _evaluator.GetQuery(DbContext.Countries, (Specification<Country, string>)null!);
+        var sut = () => _evaluator.Evaluate(DbContext.Countries, (Specification<Country, string>)null!);
 
-        sutAction.Should().Throw<ArgumentNullException>().WithParameterName("specification");
+        sut.Should().Throw<ArgumentNullException>().WithParameterName("specification");
     }
 
     [Fact]
-    public void GetQuery_ThrowsSelectorNotFoundException_GivenNoSelector()
+    public void ThrowsSelectorNotFoundException_GivenNoSelector()
     {
         var spec = new Specification<Country, string>();
 
-        Action sutAction = () => _evaluator.GetQuery(DbContext.Countries, spec);
+        var sut = () => _evaluator.Evaluate(DbContext.Countries, spec);
 
-        sutAction.Should().Throw<SelectorNotFoundException>();
+        sut.Should().Throw<SelectorNotFoundException>();
     }
 
     [Fact]
-    public void GetQuery_ThrowsConcurrentSelectorsException_GivenBothSelectAndSelectMany()
+    public void ThrowsConcurrentSelectorsException_GivenBothSelectAndSelectMany()
     {
         var spec = new Specification<Store, string?>();
         spec.Query
@@ -44,13 +44,13 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
         spec.Query
             .SelectMany(x => x.Products.Select(x => x.Name));
 
-        Action sutAction = () => _evaluator.GetQuery(DbContext.Stores, spec);
+        var sut = () => _evaluator.Evaluate(DbContext.Stores, spec);
 
-        sutAction.Should().Throw<ConcurrentSelectorsException>();
+        sut.Should().Throw<ConcurrentSelectorsException>();
     }
 
     [Fact]
-    public void GetQuery_GivenFullQuery()
+    public void GivenFullQuery()
     {
         var id = 2;
         var name = "Store1";
@@ -76,7 +76,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
             .Take(10)
             .IgnoreQueryFilters();
 
-        var actual = _evaluator.GetQuery(DbContext.Stores, spec)
+        var actual = _evaluator.Evaluate(DbContext.Stores, spec)
             .ToQueryString()
             .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
 
@@ -104,7 +104,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     }
 
     [Fact]
-    public void GetQuery_GivenExpressionsInRandomOrder()
+    public void GivenExpressionsInRandomOrder()
     {
         var id = 2;
         var name = "Store1";
@@ -130,7 +130,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
             .Take(10)
             .IgnoreQueryFilters();
 
-        var actual = _evaluator.GetQuery(DbContext.Stores, spec)
+        var actual = _evaluator.Evaluate(DbContext.Stores, spec)
             .ToQueryString()
             .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
 
@@ -158,7 +158,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     }
 
     [Fact]
-    public void GetQuery_GivenFullQueryWithSelect()
+    public void GivenFullQueryWithSelect()
     {
         var id = 2;
         var name = "Store1";
@@ -185,7 +185,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
             .IgnoreQueryFilters()
             .Select(x => x.Name);
 
-        var actual = _evaluator.GetQuery(DbContext.Stores, spec)
+        var actual = _evaluator.Evaluate(DbContext.Stores, spec)
             .ToQueryString()
             .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
 
@@ -214,7 +214,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     }
 
     [Fact]
-    public void GetQuery_GivenFullQueryWithSelectMany()
+    public void GivenFullQueryWithSelectMany()
     {
         var id = 2;
         var name = "Store1";
@@ -241,7 +241,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
             .IgnoreQueryFilters()
             .SelectMany(x => x.Products.Select(x => x.Name));
 
-        var actual = _evaluator.GetQuery(DbContext.Stores, spec)
+        var actual = _evaluator.Evaluate(DbContext.Stores, spec)
             .ToQueryString()
             .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
 
@@ -270,7 +270,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     }
 
     [Fact]
-    public void GetQuery_GivenSpecAndIgnorePagination()
+    public void GivenSpecAndIgnorePagination()
     {
         var id = 2;
 
@@ -280,7 +280,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
             .Skip(1)
             .Take(10);
 
-        var actual = _evaluator.GetQuery(DbContext.Stores, spec, true)
+        var actual = _evaluator.Evaluate(DbContext.Stores, spec, true)
             .ToQueryString();
 
         var expected = DbContext.Stores
@@ -291,7 +291,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     }
 
     [Fact]
-    public void GetQuery_GivenSpecWithSelectAndIgnorePagination()
+    public void GivenSpecWithSelectAndIgnorePagination()
     {
         var id = 2;
 
@@ -302,7 +302,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
             .Take(10)
             .Select(x => x.Name);
 
-        var actual = _evaluator.GetQuery(DbContext.Stores, spec, true)
+        var actual = _evaluator.Evaluate(DbContext.Stores, spec, true)
             .ToQueryString();
 
         var expected = DbContext.Stores
@@ -314,7 +314,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     }
 
     [Fact]
-    public void GetQuery_GivenSpecWithSelectManyAndIgnorePagination()
+    public void GivenSpecWithSelectManyAndIgnorePagination()
     {
         var id = 2;
 
@@ -325,7 +325,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
             .Take(10)
             .SelectMany(x => x.Products.Select(x => x.Name));
 
-        var actual = _evaluator.GetQuery(DbContext.Stores, spec, true)
+        var actual = _evaluator.Evaluate(DbContext.Stores, spec, true)
             .ToQueryString();
 
         var expected = DbContext.Stores
