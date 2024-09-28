@@ -3,22 +3,22 @@
 
 |||
 |:---|:---|
-| Generated on: | 9/28/2024 - 4:31:24 PM |
-| Coverage date: | 9/28/2024 - 4:30:27 PM - 9/28/2024 - 4:31:10 PM |
+| Generated on: | 9/28/2024 - 8:08:34 PM |
+| Coverage date: | 9/28/2024 - 8:07:48 PM - 9/28/2024 - 8:08:24 PM |
 | Parser: | MultiReport (2x Cobertura) |
 | Assemblies: | 2 |
 | Classes: | 43 |
 | Files: | 39 |
-| **Line coverage:** | 100% (733 of 733) |
-| Covered lines: | 733 |
+| **Line coverage:** | 100% (735 of 735) |
+| Covered lines: | 735 |
 | Uncovered lines: | 0 |
-| Coverable lines: | 733 |
-| Total lines: | 2145 |
+| Coverable lines: | 735 |
+| Total lines: | 2147 |
 | **Branch coverage:** | 100% (292 of 292) |
 | Covered branches: | 292 |
 | Total branches: | 292 |
 | **Method coverage:** | [Feature is only available for sponsors](https://reportgenerator.io/pro) |
-| Tag: | 36_11085380573 |
+| Tag: | 37_11086653518 |
 
 </details>
 

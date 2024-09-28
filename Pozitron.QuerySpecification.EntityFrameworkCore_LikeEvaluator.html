@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <th>Tag:</th>
-<td class="limit-width " title="36_11085380573">36_11085380573</td>
+<td class="limit-width " title="37_11086653518">37_11086653518</td>
 </tr>
 </table>
 </div>
@@ -113,7 +113,7 @@
 <tbody>
 <tr><td title=".ctor()"><a href="#file0_line5" class="navigatetohash">.ctor()</a></td><td>100%</td><td>1</td><td>1</td><td>100%</td></tr>
 <tr><td title=".cctor()"><a href="#file0_line6" class="navigatetohash">.cctor()</a></td><td>100%</td><td>1</td><td>1</td><td>100%</td></tr>
-<tr><td title="GetQuery(System.Linq.IQueryable`1&lt;T&gt;,Pozitron.QuerySpecification.Specification`1&lt;T&gt;)"><a href="#file0_line10" class="navigatetohash">GetQuery(...)</a></td><td>100%</td><td>4</td><td>4</td><td>100%</td></tr>
+<tr><td title="Evaluate(System.Linq.IQueryable`1&lt;T&gt;,Pozitron.QuerySpecification.Specification`1&lt;T&gt;)"><a href="#file0_line10" class="navigatetohash">Evaluate(...)</a></td><td>100%</td><td>4</td><td>4</td><td>100%</td></tr>
 </tbody>
 </table>
 </div>
@@ -130,26 +130,26 @@
 <tr class="coverableline" title="Covered (2 visits)" data-coverage="{'AllTestMethods': {'VC': '2', 'LVS': 'green'}}"><td class="green">&nbsp;</td><td class="leftmargin rightmargin right">2</td><td class="rightmargin right"><a id="file0_line5"></a><code>5</code></td><td></td><td class="lightgreen"><code>&nbsp;&nbsp;&nbsp;&nbsp;private&nbsp;LikeEvaluator()&nbsp;{&nbsp;}</code></td></tr>
 <tr class="coverableline" title="Covered (1 visits)" data-coverage="{'AllTestMethods': {'VC': '1', 'LVS': 'green'}}"><td class="green">&nbsp;</td><td class="leftmargin rightmargin right">1</td><td class="rightmargin right"><a id="file0_line6"></a><code>6</code></td><td></td><td class="lightgreen"><code>&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;static&nbsp;LikeEvaluator&nbsp;Instance&nbsp;=&nbsp;new();</code></td></tr>
 <tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line7"></a><code>7</code></td><td></td><td class="lightgray"><code></code></td></tr>
-<tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line8"></a><code>8</code></td><td></td><td class="lightgray"><code>&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;IQueryable&lt;T&gt;&nbsp;GetQuery&lt;T&gt;(IQueryable&lt;T&gt;&nbsp;query,&nbsp;Specification&lt;T&gt;&nbsp;specification)&nbsp;where&nbsp;T&nbsp;:&nbsp;class</code></td></tr>
+<tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line8"></a><code>8</code></td><td></td><td class="lightgray"><code>&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;IQueryable&lt;T&gt;&nbsp;Evaluate&lt;T&gt;(IQueryable&lt;T&gt;&nbsp;source,&nbsp;Specification&lt;T&gt;&nbsp;specification)&nbsp;where&nbsp;T&nbsp;:&nbsp;class</code></td></tr>
 <tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line9"></a><code>9</code></td><td></td><td class="lightgray"><code>&nbsp;&nbsp;&nbsp;&nbsp;{</code></td></tr>
 <tr class="coverableline" title="Covered (166 visits, 4 of 4 branches are covered)" data-coverage="{'AllTestMethods': {'VC': '166', 'LVS': 'green'}}"><td class="green">&nbsp;</td><td class="leftmargin rightmargin right">166</td><td class="rightmargin right"><a id="file0_line10"></a><code>10</code></td><td class="percentagebar percentagebar100"><i class="icon-fork"></i></td><td class="lightgreen"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach&nbsp;(var&nbsp;likeGroup&nbsp;in&nbsp;specification.LikeExpressions.GroupBy(x&nbsp;=&gt;&nbsp;x.Group))</code></td></tr>
 <tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line11"></a><code>11</code></td><td></td><td class="lightgray"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</code></td></tr>
-<tr class="coverableline" title="Covered (19 visits)" data-coverage="{'AllTestMethods': {'VC': '19', 'LVS': 'green'}}"><td class="green">&nbsp;</td><td class="leftmargin rightmargin right">19</td><td class="rightmargin right"><a id="file0_line12"></a><code>12</code></td><td></td><td class="lightgreen"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query&nbsp;=&nbsp;query.Like(likeGroup);</code></td></tr>
+<tr class="coverableline" title="Covered (19 visits)" data-coverage="{'AllTestMethods': {'VC': '19', 'LVS': 'green'}}"><td class="green">&nbsp;</td><td class="leftmargin rightmargin right">19</td><td class="rightmargin right"><a id="file0_line12"></a><code>12</code></td><td></td><td class="lightgreen"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source&nbsp;=&nbsp;source.Like(likeGroup);</code></td></tr>
 <tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line13"></a><code>13</code></td><td></td><td class="lightgray"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</code></td></tr>
 <tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line14"></a><code>14</code></td><td></td><td class="lightgray"><code></code></td></tr>
-<tr class="coverableline" title="Covered (50 visits)" data-coverage="{'AllTestMethods': {'VC': '50', 'LVS': 'green'}}"><td class="green">&nbsp;</td><td class="leftmargin rightmargin right">50</td><td class="rightmargin right"><a id="file0_line15"></a><code>15</code></td><td></td><td class="lightgreen"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;query;</code></td></tr>
+<tr class="coverableline" title="Covered (50 visits)" data-coverage="{'AllTestMethods': {'VC': '50', 'LVS': 'green'}}"><td class="green">&nbsp;</td><td class="leftmargin rightmargin right">50</td><td class="rightmargin right"><a id="file0_line15"></a><code>15</code></td><td></td><td class="lightgreen"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;source;</code></td></tr>
 <tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line16"></a><code>16</code></td><td></td><td class="lightgray"><code>&nbsp;&nbsp;&nbsp;&nbsp;}</code></td></tr>
 <tr class="" title="Not coverable" data-coverage="{'AllTestMethods': {'VC': '', 'LVS': 'gray'}}"><td class="gray">&nbsp;</td><td class="leftmargin rightmargin right"></td><td class="rightmargin right"><a id="file0_line17"></a><code>17</code></td><td></td><td class="lightgray"><code>}</code></td></tr>
 </tbody>
 </table>
 </div>
-<div class="footer">Generated by: ReportGenerator 5.3.9.0<br />9/28/2024 - 4:31:24 PM<br /><a href="https://github.com/danielpalme/ReportGenerator">GitHub</a> | <a href="https://reportgenerator.io">reportgenerator.io</a></div></div>
+<div class="footer">Generated by: ReportGenerator 5.3.9.0<br />9/28/2024 - 8:08:34 PM<br /><a href="https://github.com/danielpalme/ReportGenerator">GitHub</a> | <a href="https://reportgenerator.io">reportgenerator.io</a></div></div>
 <div class="containerright">
 <div class="containerrightfixed">
 <h1>Methods/Properties</h1>
 <a href="#file0_line5" class="navigatetohash percentagebar percentagebar100" title="Line coverage: 100% - .ctor()"><i class="icon-cube"></i>.ctor()</a><br />
 <a href="#file0_line6" class="navigatetohash percentagebar percentagebar100" title="Line coverage: 100% - .cctor()"><i class="icon-cube"></i>.cctor()</a><br />
-<a href="#file0_line10" class="navigatetohash percentagebar percentagebar100" title="Line coverage: 100% - GetQuery(System.Linq.IQueryable`1&lt;T&gt;,Pozitron.QuerySpecification.Specification`1&lt;T&gt;)"><i class="icon-cube"></i>GetQuery(System.Linq.IQueryable`1&lt;T&gt;,Pozitron.QuerySpecification.Specification`1&lt;T&gt;)</a><br />
+<a href="#file0_line10" class="navigatetohash percentagebar percentagebar100" title="Line coverage: 100% - Evaluate(System.Linq.IQueryable`1&lt;T&gt;,Pozitron.QuerySpecification.Specification`1&lt;T&gt;)"><i class="icon-cube"></i>Evaluate(System.Linq.IQueryable`1&lt;T&gt;,Pozitron.QuerySpecification.Specification`1&lt;T&gt;)</a><br />
 <br/></div>
 </div></div>
 <script type="text/javascript">
