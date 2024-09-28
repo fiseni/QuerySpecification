@@ -7,7 +7,7 @@ public class WhereEvaluatorTests
     public record Customer(int Id);
 
     [Fact]
-    public void FiltersItems_GivenWhereExpression()
+    public void Filters_GivenWhereExpression()
     {
         List<Customer> input = [new(1), new(2), new(3), new(4), new(5)];
         List<Customer> expected = [new(4), new(5)];

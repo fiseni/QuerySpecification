@@ -165,69 +165,26 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IReadRepositoryBas
     }
     public virtual async Task<PagedResult<TResult>> ProjectToListAsync<TResult>(Specification<T> specification, PagingFilter filter, CancellationToken cancellationToken = default)
     {
-        var count = await ApplySpecification(specification, true).CountAsync(cancellationToken);
-        var pagination = new Pagination(_paginationSettings, count, filter);
-
-        var query = ApplySpecification(specification, true)
-            .AsNoTracking()
-            .Skip(pagination.Skip)
-            .Take(pagination.Take);
-
+        var query = ApplySpecification(specification, true).AsNoTracking();
         var projectedQuery = Map<TResult>(query);
 
+        var count = await query.CountAsync(cancellationToken);
+        var pagination = new Pagination(_paginationSettings, count, filter);
+
+        projectedQuery = projectedQuery.ApplyPaging(pagination);
         var data = await projectedQuery.ToListAsync(cancellationToken);
 
         return new PagedResult<TResult>(data, pagination);
     }
 
-    protected virtual IQueryable<T> ApplySpecification(Specification<T> specification, bool excludePaging = false)
+    protected virtual IQueryable<T> ApplySpecification(Specification<T> specification, bool ignorePaging = false)
     {
-        if (excludePaging && (specification.Skip >= 0 || specification.Take >= 0))
-        {
-            var specPaging = RemoveSpecPaging(specification);
-            var query = _evaluator.GetQuery(_dbContext.Set<T>(), specification);
-            RestoreSpecPaging(specification, specPaging);
-            return query;
-        }
-        else
-        {
-            var query = _evaluator.GetQuery(_dbContext.Set<T>(), specification);
-            return query;
-        }
+        var query = _evaluator.GetQuery(_dbContext.Set<T>(), specification, ignorePaging);
+        return query;
     }
-    protected virtual IQueryable<TResult> ApplySpecification<TResult>(Specification<T, TResult> specification, bool excludePaging = false)
+    protected virtual IQueryable<TResult> ApplySpecification<TResult>(Specification<T, TResult> specification, bool ignorePaging = false)
     {
-        if (excludePaging && (specification.Skip >= 0 || specification.Take >= 0))
-        {
-            var specPaging = RemoveSpecPaging(specification);
-            var query = _evaluator.GetQuery(_dbContext.Set<T>(), specification);
-            RestoreSpecPaging(specification, specPaging);
-            return query;
-        }
-        else
-        {
-            var query = _evaluator.GetQuery(_dbContext.Set<T>(), specification);
-            return query;
-        }
-    }
-
-    private static SpecPaging RemoveSpecPaging(Specification<T> specification)
-    {
-        var paging = new SpecPaging(specification.Skip, specification.Take);
-        specification.Query.Skip(-1);
-        specification.Query.Take(-1);
-        return paging;
-    }
-
-    private static void RestoreSpecPaging(Specification<T> specification, SpecPaging paging)
-    {
-        specification.Query.Skip(paging.Skip);
-        specification.Query.Take(paging.Take);
-    }
-
-    private ref struct SpecPaging(int skip, int take)
-    {
-        public int Skip = skip;
-        public int Take = take;
+        var query = _evaluator.GetQuery(_dbContext.Set<T>(), specification, ignorePaging);
+        return query;
     }
 }

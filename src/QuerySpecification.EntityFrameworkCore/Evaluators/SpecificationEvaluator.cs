@@ -14,7 +14,6 @@ public class SpecificationEvaluator
             LikeEvaluator.Instance,
             IncludeEvaluator.Instance,
             OrderEvaluator.Instance,
-            PaginationEvaluator.Instance,
             AsNoTrackingEvaluator.Instance,
             AsNoTrackingWithIdentityResolutionEvaluator.Instance,
             IgnoreQueryFiltersEvaluator.Instance,
@@ -27,20 +26,30 @@ public class SpecificationEvaluator
         Evaluators = evaluators.ToList();
     }
 
-    public virtual IQueryable<TResult> GetQuery<T, TResult>(IQueryable<T> query, Specification<T, TResult> specification) where T : class
+    public virtual IQueryable<TResult> GetQuery<T, TResult>(
+        IQueryable<T> query,
+        Specification<T, TResult> specification,
+        bool ignorePaging = false) where T : class
     {
         ArgumentNullException.ThrowIfNull(specification);
         if (specification.Selector is null && specification.SelectorMany is null) throw new SelectorNotFoundException();
         if (specification.Selector is not null && specification.SelectorMany is not null) throw new ConcurrentSelectorsException();
 
-        query = GetQuery(query, (Specification<T>)specification);
+        query = GetQuery(query, (Specification<T>)specification, true);
 
-        return specification.Selector is not null
+        var resultQuery = specification.Selector is not null
           ? query.Select(specification.Selector)
           : query.SelectMany(specification.SelectorMany!);
+
+        return ignorePaging
+            ? resultQuery
+            : resultQuery.ApplyPaging(specification);
     }
 
-    public virtual IQueryable<T> GetQuery<T>(IQueryable<T> query, Specification<T> specification) where T : class
+    public virtual IQueryable<T> GetQuery<T>(
+        IQueryable<T> query,
+        Specification<T> specification,
+        bool ignorePaging = false) where T : class
     {
         ArgumentNullException.ThrowIfNull(specification);
 
@@ -49,6 +58,8 @@ public class SpecificationEvaluator
             query = evaluator.GetQuery(query, specification);
         }
 
-        return query;
+        return ignorePaging
+            ? query
+            : query.ApplyPaging(specification);
     }
 }

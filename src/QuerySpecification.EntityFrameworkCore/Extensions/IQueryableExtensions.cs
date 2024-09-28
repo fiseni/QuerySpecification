@@ -39,9 +39,7 @@ public static class IQueryableExtensions
         var count = await source.CountAsync(cancellationToken);
         var pagination = new Pagination(paginationSettings, count, filter);
 
-        var query = source
-            .Skip(pagination.Skip)
-            .Take(pagination.Take);
+        var query = source.ApplyPaging(pagination);
 
         var data = await query.ToListAsync(cancellationToken);
 

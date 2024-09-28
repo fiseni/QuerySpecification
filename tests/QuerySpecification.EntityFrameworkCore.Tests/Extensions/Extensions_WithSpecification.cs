@@ -30,13 +30,14 @@ public class Extensions_WithSpecification(TestFactory factory) : IntegrationTest
                 .ThenByDescending(x => x.Name)
             .Skip(1)
             .Take(10)
-        .IgnoreQueryFilters();
+            .IgnoreQueryFilters();
 
         var actual = DbContext.Stores
             .WithSpecification(spec)
             .ToQueryString()
             .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
 
+        // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores
             .Where(x => x.Id > id)
             .Where(x => x.Name == name)
@@ -50,9 +51,10 @@ public class Extensions_WithSpecification(TestFactory factory) : IntegrationTest
                 .ThenInclude(x => x.Country)
             .OrderBy(x => x.Id)
                 .ThenByDescending(x => x.Name)
+            .IgnoreQueryFilters()
+            // Pagination always applied in the end
             .Skip(1)
             .Take(10)
-            .IgnoreQueryFilters()
             .ToQueryString();
 
         actual.Should().Be(expected);
@@ -84,13 +86,14 @@ public class Extensions_WithSpecification(TestFactory factory) : IntegrationTest
             .Skip(1)
             .Take(10)
             .IgnoreQueryFilters()
-        .Select(x => x.Name);
+            .Select(x => x.Name);
 
         var actual = DbContext.Stores
             .WithSpecification(spec)
             .ToQueryString()
             .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
 
+        // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores
             .Where(x => x.Id > id)
             .Where(x => x.Name == name)
@@ -104,10 +107,11 @@ public class Extensions_WithSpecification(TestFactory factory) : IntegrationTest
                 .ThenInclude(x => x.Country)
             .OrderBy(x => x.Id)
                 .ThenByDescending(x => x.Name)
-            .Skip(1)
-            .Take(10)
             .IgnoreQueryFilters()
             .Select(x => x.Name)
+            // Pagination always applied in the end
+            .Skip(1)
+            .Take(10)
             .ToQueryString();
 
         actual.Should().Be(expected);
@@ -146,6 +150,7 @@ public class Extensions_WithSpecification(TestFactory factory) : IntegrationTest
             .ToQueryString()
             .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
 
+        // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores
             .Where(x => x.Id > id)
             .Where(x => x.Name == name)
@@ -159,10 +164,11 @@ public class Extensions_WithSpecification(TestFactory factory) : IntegrationTest
                 .ThenInclude(x => x.Country)
             .OrderBy(x => x.Id)
                 .ThenByDescending(x => x.Name)
-            .Skip(1)
-            .Take(10)
             .IgnoreQueryFilters()
             .SelectMany(x => x.Products.Select(x => x.Name))
+            // Pagination always applied in the end
+            .Skip(1)
+            .Take(10)
             .ToQueryString();
 
         actual.Should().Be(expected);
@@ -177,14 +183,15 @@ public class Extensions_WithSpecification(TestFactory factory) : IntegrationTest
         spec.Query
             .Where(x => x.Id > id)
             .Skip(1)
-            .Take(10); // should be ignored by the custom evaluator
+            .Take(10);
 
         var actual = DbContext.Stores
             .WithSpecification(spec, new MySpecificationEvaluator())
             .ToQueryString();
 
         var expected = DbContext.Stores
-            .Where(x => x.Id > id)
+            .Skip(1)
+            .Take(10)
             .ToQueryString();
 
         actual.Should().Be(expected);
@@ -199,7 +206,7 @@ public class Extensions_WithSpecification(TestFactory factory) : IntegrationTest
         spec.Query
             .Where(x => x.Id > id)
             .Skip(1)
-            .Take(10) // should be ignored by the custom evaluator
+            .Take(10)
             .Select(x => new CountryDto(x.Name));
 
         var actual = DbContext.Stores
@@ -207,18 +214,20 @@ public class Extensions_WithSpecification(TestFactory factory) : IntegrationTest
             .ToQueryString();
 
         var expected = DbContext.Stores
-            .Where(x => x.Id > id)
             .Select(x => new CountryDto(x.Name))
+            .Skip(1)
+            .Take(10)
             .ToQueryString();
 
         actual.Should().Be(expected);
     }
 
+    // It will ignore all where expressions.
     public class MySpecificationEvaluator : SpecificationEvaluator
     {
         public MySpecificationEvaluator()
         {
-            Evaluators.Remove(PaginationEvaluator.Instance);
+            Evaluators.Remove(WhereEvaluator.Instance);
         }
     }
 }
