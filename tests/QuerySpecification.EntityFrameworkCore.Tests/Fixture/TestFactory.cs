@@ -1,12 +1,17 @@
 ﻿using MartinCostello.SqlLocalDb;
 using Respawn;
+using Testcontainers.MsSql;
 
 namespace Tests.Fixture;
 
 public class TestFactory : IAsyncLifetime
 {
+    // Flag to force using Docker SQL Server. Update it manually if you want to avoid localDb locally.
+    private const bool _forceDocker = false;
+
     private string _connectionString = default!;
     private Respawner _respawner = default!;
+    private MsSqlContainer? _dbContainer = null;
 
     public DbContextOptions<TestDbContext> DbContextOptions { get; private set; } = default!;
 
@@ -16,9 +21,16 @@ public class TestFactory : IAsyncLifetime
     {
         using (var localDB = new SqlLocalDbApi())
         {
-            _connectionString = localDB.IsLocalDBInstalled()
-                ? $"Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=QuerySpecificationTestsDB;Integrated Security=SSPI;TrustServerCertificate=True;"
-                : $"Data Source=databaseEF;Initial Catalog=QuerySpecificationTestsDB;PersistSecurityInfo=True;User ID=sa;Password=P@ssW0rd!;Encrypt=False;TrustServerCertificate=True;";
+            if (_forceDocker || !localDB.IsLocalDBInstalled())
+            {
+                _dbContainer = CreateContainer();
+                await _dbContainer.StartAsync();
+                _connectionString = _dbContainer.GetConnectionString();
+            }
+            else
+            {
+                _connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=QuerySpecificationTestsDB;Integrated Security=SSPI;TrustServerCertificate=True;";
+            }
         }
 
         Console.WriteLine($"Connection string: {_connectionString}");
@@ -43,11 +55,22 @@ public class TestFactory : IAsyncLifetime
         await ResetDatabase();
     }
 
-    public Task DisposeAsync() => Task.CompletedTask;
+    public async Task DisposeAsync()
+    {
+        if (_dbContainer is not null)
+        {
+            await _dbContainer.StopAsync();
+        }
+        else
+        {
+            //using var dbContext = new TestDbContext(DbContextOptions);
+            //await dbContext.Database.EnsureDeletedAsync();
+        }
+    }
 
-    //public async Task DisposeAsync()
-    //{
-    //    using var dbContext = new TestDbContext(DbContextOptions);
-    //    await dbContext.Database.EnsureDeletedAsync();
-    //}
+    private static MsSqlContainer CreateContainer() => new MsSqlBuilder()
+            .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
+            .WithName("QuerySpecificationTestsDB")
+            .WithPassword("P@ssW0rd!")
+            .Build();
 }

@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     
     steps:
     - name: Checkout
@@ -16,9 +16,6 @@ jobs:
       with:
         dotnet-version: 9.x
         dotnet-quality: 'preview'
-    - name: Install SQL Local DB
-      run: ./setup-sqllocaldb.ps1
-      shell: pwsh
     - name: Build
       run: dotnet build --configuration Release
     - name: Test
