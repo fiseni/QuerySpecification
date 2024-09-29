@@ -10,8 +10,8 @@ public class TestFactory : IAsyncLifetime
     private const bool _forceDocker = false;
 
     private string _connectionString = default!;
-    private MsSqlContainer? _dbContainer = null;
     private Respawner _respawner = default!;
+    private MsSqlContainer? _dbContainer = null;
 
     public DbContextOptions<TestDbContext> DbContextOptions { get; private set; } = default!;
 
