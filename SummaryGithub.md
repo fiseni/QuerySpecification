@@ -3,22 +3,22 @@
 
 |||
 |:---|:---|
-| Generated on: | 10/03/2024 - 09:17:16 |
-| Coverage date: | 10/03/2024 - 09:16:49 - 10/03/2024 - 09:17:14 |
+| Generated on: | 10/03/2024 - 10:54:20 |
+| Coverage date: | 10/03/2024 - 10:53:52 - 10/03/2024 - 10:54:18 |
 | Parser: | MultiReport (2x Cobertura) |
 | Assemblies: | 2 |
 | Classes: | 43 |
 | Files: | 39 |
-| **Line coverage:** | 100% (719 of 719) |
-| Covered lines: | 719 |
+| **Line coverage:** | 100% (721 of 721) |
+| Covered lines: | 721 |
 | Uncovered lines: | 0 |
-| Coverable lines: | 719 |
-| Total lines: | 2131 |
-| **Branch coverage:** | 98.2% (281 of 286) |
-| Covered branches: | 281 |
-| Total branches: | 286 |
+| Coverable lines: | 721 |
+| Total lines: | 2135 |
+| **Branch coverage:** | 98.2% (279 of 284) |
+| Covered branches: | 279 |
+| Total branches: | 284 |
 | **Method coverage:** | [Feature is only available for sponsors](https://reportgenerator.io/pro) |
-| Tag: | 40_11159244670 |
+| Tag: | 41_11160642427 |
 
 </details>
 
@@ -66,7 +66,7 @@
 
 |**Name**|**Line**|**Branch**|
 |:---|---:|---:|
-|**Pozitron.QuerySpecification.EntityFrameworkCore**|**100%**|**93%**|
+|**Pozitron.QuerySpecification.EntityFrameworkCore**|**100%**|**92.8%**|
 |Pozitron.QuerySpecification.AsNoTrackingEvaluator|100%|100%|
 |Pozitron.QuerySpecification.AsNoTrackingWithIdentityResolutionEvaluator|100%|100%|
 |Pozitron.QuerySpecification.AsSplitQueryEvaluator|100%|100%|
