@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.EntityFrameworkCore.Query;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace Pozitron.QuerySpecification;
@@ -7,19 +8,25 @@ public class IncludeEvaluator : IEvaluator
 {
     private static readonly MethodInfo _includeMethodInfo = typeof(EntityFrameworkQueryableExtensions)
         .GetTypeInfo().GetDeclaredMethods(nameof(EntityFrameworkQueryableExtensions.Include))
-        .Single(mi => mi.IsPublic && mi.GetGenericArguments().Length == 2);
+        .Single(mi => mi.IsPublic && mi.GetGenericArguments().Length == 2
+            && mi.GetParameters()[0].ParameterType.GetGenericTypeDefinition() == typeof(IQueryable<>)
+            && mi.GetParameters()[1].ParameterType.GetGenericTypeDefinition() == typeof(Expression<>));
 
     private static readonly MethodInfo _thenIncludeAfterReferenceMethodInfo
         = typeof(EntityFrameworkQueryableExtensions)
             .GetTypeInfo().GetDeclaredMethods(nameof(EntityFrameworkQueryableExtensions.ThenInclude))
             .Single(mi => mi.IsPublic && mi.GetGenericArguments().Length == 3
-                && mi.GetParameters()[0].ParameterType.GenericTypeArguments[1].IsGenericParameter);
+                && mi.GetParameters()[0].ParameterType.GenericTypeArguments[1].IsGenericParameter
+                && mi.GetParameters()[0].ParameterType.GetGenericTypeDefinition() == typeof(IIncludableQueryable<,>)
+                && mi.GetParameters()[1].ParameterType.GetGenericTypeDefinition() == typeof(Expression<>));
 
     private static readonly MethodInfo _thenIncludeAfterEnumerableMethodInfo
         = typeof(EntityFrameworkQueryableExtensions)
             .GetTypeInfo().GetDeclaredMethods(nameof(EntityFrameworkQueryableExtensions.ThenInclude))
             .Single(mi => mi.IsPublic && mi.GetGenericArguments().Length == 3
-                && !mi.GetParameters()[0].ParameterType.GenericTypeArguments[1].IsGenericParameter);
+                && !mi.GetParameters()[0].ParameterType.GenericTypeArguments[1].IsGenericParameter
+                && mi.GetParameters()[0].ParameterType.GetGenericTypeDefinition() == typeof(IIncludableQueryable<,>)
+                && mi.GetParameters()[1].ParameterType.GetGenericTypeDefinition() == typeof(Expression<>));
 
     private IncludeEvaluator() { }
     public static IncludeEvaluator Instance = new();
