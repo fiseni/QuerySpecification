@@ -261,7 +261,7 @@ var assemblies = [
       { "name": "Pozitron.QuerySpecification.AsNoTrackingWithIdentityResolutionEvaluator", "rp": "Pozitron.QuerySpecification.EntityFrameworkCore_AsNoTrackingWithIdentityResolutionEvaluator.html", "cl": 5, "ucl": 0, "cal": 5, "tl": 17, "cb": 2, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.AsSplitQueryEvaluator", "rp": "Pozitron.QuerySpecification.EntityFrameworkCore_AsSplitQueryEvaluator.html", "cl": 5, "ucl": 0, "cal": 5, "tl": 17, "cb": 2, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.IgnoreQueryFiltersEvaluator", "rp": "Pozitron.QuerySpecification.EntityFrameworkCore_IgnoreQueryFiltersEvaluator.html", "cl": 5, "ucl": 0, "cal": 5, "tl": 17, "cb": 2, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Pozitron.QuerySpecification.IncludeEvaluator", "rp": "Pozitron.QuerySpecification.EntityFrameworkCore_IncludeEvaluator.html", "cl": 38, "ucl": 0, "cal": 38, "tl": 89, "cb": 19, "tb": 24, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Pozitron.QuerySpecification.IncludeEvaluator", "rp": "Pozitron.QuerySpecification.EntityFrameworkCore_IncludeEvaluator.html", "cl": 44, "ucl": 0, "cal": 44, "tl": 96, "cb": 36, "tb": 36, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.IQueryableExtensions", "rp": "Pozitron.QuerySpecification.EntityFrameworkCore_IQueryableExtensions.html", "cl": 11, "ucl": 0, "cal": 11, "tl": 48, "cb": 4, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.LikeEvaluator", "rp": "Pozitron.QuerySpecification.EntityFrameworkCore_LikeEvaluator.html", "cl": 5, "ucl": 0, "cal": 5, "tl": 17, "cb": 4, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.LikeExtension", "rp": "Pozitron.QuerySpecification.EntityFrameworkCore_LikeExtension.html", "cl": 22, "ucl": 0, "cal": 22, "tl": 48, "cb": 6, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
@@ -276,9 +276,17 @@ var metrics = [{ "name": "Crap Score", "abbreviation": "crp", "explanationUrl": 
 var historicCoverageExecutionTimes = [];
 
 var riskHotspotMetrics = [
+      { "name": "Crap Score", "explanationUrl": "https://googletesting.blogspot.de/2011/02/this-code-is-crap.html" },
+      { "name": "Cyclomatic complexity", "explanationUrl": "https://en.wikipedia.org/wiki/Cyclomatic_complexity" },
 ];
 
 var riskHotspots = [
+  {
+    "assembly": "Pozitron.QuerySpecification.EntityFrameworkCore", "class": "Pozitron.QuerySpecification.IncludeEvaluator", "reportPath": "Pozitron.QuerySpecification.EntityFrameworkCore_IncludeEvaluator.html", "methodName": ".cctor()", "methodShortName": ".cctor()", "fileIndex": 0, "line": 9,
+    "metrics": [
+      { "value": 22, "exceeded": false },
+      { "value": 22, "exceeded": true },
+    ]},
 ];
 
 var branchCoverageAvailable = true;
