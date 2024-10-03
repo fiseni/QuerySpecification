@@ -2,7 +2,7 @@
 
 namespace QuerySpecification.Benchmarks;
 
-// Benchmarks measuring only building the IQueryable.
+// Benchmarks measuring the in-memory Like evaluator.
 [MemoryDiagnoser]
 public class LikeInMemoryBenchmark
 {
@@ -12,9 +12,9 @@ public class LikeInMemoryBenchmark
         public CustomerSpec()
         {
             Query
-            .Like(x => x.FirstName, "%xx%", 1)
-            .Like(x => x.LastName, "%xy%", 2)
-            .Like(x => x.LastName, "%xz%", 2);
+                .Like(x => x.FirstName, "%xx%", 1)
+                .Like(x => x.LastName, "%xy%", 2)
+                .Like(x => x.LastName, "%xz%", 2);
         }
     }
 
@@ -63,6 +63,85 @@ public class LikeInMemoryBenchmark
 
         // Apply all predicates to filter the source
         var result = source.Where(x => groupPredicates.All(predicate => predicate(x)));
+
+        return result.ToList();
+    }
+
+    [Benchmark]
+    public List<Customer> EvaluateOption3()
+    {
+        var source = _source.AsEnumerable();
+
+        var result = Evaluate(_specification, source);
+
+        static IEnumerable<Customer> Evaluate(Specification<Customer> spec, IEnumerable<Customer> source)
+        {
+            var groups = spec.LikeExpressions.GroupBy(x => x.Group).ToList();
+
+            foreach (var item in source)
+            {
+                var match = true;
+                foreach (var group in groups)
+                {
+                    var matchOrGroup = false;
+                    foreach (var like in group)
+                    {
+                        if (like.KeySelectorFunc(item)?.Like(like.Pattern) ?? false)
+                        {
+                            matchOrGroup = true;
+                            break;
+                        }
+                    }
+
+                    if ((match = match && matchOrGroup) is false)
+                    {
+                        break;
+                    }
+                }
+
+                if (match)
+                {
+                    yield return item;
+                }
+            }
+        }
+
+        return result.ToList();
+    }
+
+    [Benchmark]
+    public List<Customer> EvaluateOption4()
+    {
+        var source = _source.AsEnumerable();
+
+        var result = Evaluate(_specification, source);
+
+        static IEnumerable<Customer> Evaluate(Specification<Customer> spec, IEnumerable<Customer> source)
+        {
+            // Precompute the predicates for each group
+            var groupPredicates = spec
+                .LikeExpressions
+                .GroupBy(x => x.Group)
+                .Select(group => new Func<Customer, bool>(x => group.Any(c => c.KeySelectorFunc(x)?.Like(c.Pattern) ?? false)))
+                .ToList();
+
+            foreach (var item in source)
+            {
+                var match = true;
+                foreach (var groupPredicate in groupPredicates)
+                {
+                    if ((match = match && groupPredicate(item)) is false)
+                    {
+                        break;
+                    }
+                }
+
+                if (match)
+                {
+                    yield return item;
+                }
+            }
+        }
 
         return result.ToList();
     }

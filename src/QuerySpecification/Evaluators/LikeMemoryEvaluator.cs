@@ -8,13 +8,35 @@ public class LikeMemoryEvaluator : IInMemoryEvaluator
     public IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)
     {
         // There are benchmarks in QuerySpecification.Benchmarks project.
-        // It turns out that this is the simplest and also more efficient way.
+        // This implementation was the most efficient one.
 
-        foreach (var likeGroup in specification.LikeExpressions.GroupBy(x => x.Group))
+        var groups = specification.LikeExpressions.GroupBy(x => x.Group).ToList();
+
+        foreach (var item in source)
         {
-            source = source.Where(x => likeGroup.Any(c => c.KeySelectorFunc(x)?.Like(c.Pattern) ?? false));
-        }
+            var match = true;
+            foreach (var group in groups)
+            {
+                var matchOrGroup = false;
+                foreach (var like in group)
+                {
+                    if (like.KeySelectorFunc(item)?.Like(like.Pattern) ?? false)
+                    {
+                        matchOrGroup = true;
+                        break;
+                    }
+                }
 
-        return source;
+                if ((match = match && matchOrGroup) is false)
+                {
+                    break;
+                }
+            }
+
+            if (match)
+            {
+                yield return item;
+            }
+        }
     }
 }
