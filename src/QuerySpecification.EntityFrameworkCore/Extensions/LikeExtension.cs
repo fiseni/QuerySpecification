@@ -22,9 +22,6 @@ internal static class LikeExtension
 
         foreach (var likeExpression in likeExpressions)
         {
-            if (string.IsNullOrEmpty(likeExpression.Pattern))
-                continue;
-
             var propertySelector = ParameterReplacerVisitor.Replace(
                 likeExpression.KeySelector,
                 likeExpression.KeySelector.Parameters[0],
@@ -34,14 +31,14 @@ internal static class LikeExtension
 
             var patternAsExpression = ((Expression<Func<string>>)(() => likeExpression.Pattern)).Body;
 
-            var EFLikeExpression = Expression.Call(
+            var efLikeExpression = Expression.Call(
                 null,
                 _likeMethodInfo,
                 _functions,
                 propertySelector.Body,
                 patternAsExpression);
 
-            expr = expr is null ? (Expression)EFLikeExpression : Expression.OrElse(expr, EFLikeExpression);
+            expr = expr is null ? efLikeExpression : Expression.OrElse(expr, efLikeExpression);
         }
 
         return expr is null

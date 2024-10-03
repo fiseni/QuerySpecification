@@ -1,26 +1,18 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
 namespace Pozitron.QuerySpecification;
 
 internal static class LikeExtension
 {
-    public static bool Like(this string input, string pattern)
-    {
-        try
-        {
-            return SqlLike(input, pattern);
-        }
-        catch (Exception ex)
-        {
-            throw new InvalidLikePatternException(pattern, ex);
-        }
-    }
+    private static readonly ConcurrentDictionary<string, Regex> _regexCache = new();
 
-    private static bool SqlLike(this string input, string pattern)
+    private static Regex BuildRegex(string pattern)
     {
         // Escape special regex characters, excluding those handled separately
-        var regexPattern = Regex.Escape(pattern)
+        var regexPattern = Regex
+            .Escape(pattern)
             .Replace("%", ".*")     // Translate SQL LIKE wildcard '%' to regex '.*'
             .Replace("_", ".")      // Translate SQL LIKE wildcard '_' to regex '.'
             .Replace(@"\[", "[")    // Unescape '[' as it's used for character classes/ranges
@@ -28,9 +20,21 @@ internal static class LikeExtension
 
         // Ensure the pattern matches the entire string
         regexPattern = "^" + regexPattern + "$";
-        var regex = new Regex(regexPattern, RegexOptions.IgnoreCase);
+        var regex = new Regex(regexPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        return regex;
+    }
 
-        return regex.IsMatch(input);
+    public static bool Like(this string input, string pattern)
+    {
+        try
+        {
+            var regex = _regexCache.GetOrAdd(pattern, BuildRegex);
+            return regex.IsMatch(input);
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidLikePatternException(pattern, ex);
+        }
     }
 
 #pragma warning disable IDE0051 // Remove unused private members
