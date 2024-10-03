@@ -3,22 +3,22 @@
 
 |||
 |:---|:---|
-| Generated on: | 09/29/2024 - 13:09:38 |
-| Coverage date: | 09/29/2024 - 13:09:13 - 09/29/2024 - 13:09:36 |
+| Generated on: | 10/03/2024 - 09:17:16 |
+| Coverage date: | 10/03/2024 - 09:16:49 - 10/03/2024 - 09:17:14 |
 | Parser: | MultiReport (2x Cobertura) |
 | Assemblies: | 2 |
 | Classes: | 43 |
 | Files: | 39 |
-| **Line coverage:** | 100% (735 of 735) |
-| Covered lines: | 735 |
+| **Line coverage:** | 100% (719 of 719) |
+| Covered lines: | 719 |
 | Uncovered lines: | 0 |
-| Coverable lines: | 735 |
-| Total lines: | 2147 |
-| **Branch coverage:** | 100% (292 of 292) |
-| Covered branches: | 292 |
-| Total branches: | 292 |
+| Coverable lines: | 719 |
+| Total lines: | 2131 |
+| **Branch coverage:** | 98.2% (281 of 286) |
+| Covered branches: | 281 |
+| Total branches: | 286 |
 | **Method coverage:** | [Feature is only available for sponsors](https://reportgenerator.io/pro) |
-| Tag: | 39_11092939725 |
+| Tag: | 40_11159244670 |
 
 </details>
 
@@ -66,12 +66,12 @@
 
 |**Name**|**Line**|**Branch**|
 |:---|---:|---:|
-|**Pozitron.QuerySpecification.EntityFrameworkCore**|**100%**|**100%**|
+|**Pozitron.QuerySpecification.EntityFrameworkCore**|**100%**|**93%**|
 |Pozitron.QuerySpecification.AsNoTrackingEvaluator|100%|100%|
 |Pozitron.QuerySpecification.AsNoTrackingWithIdentityResolutionEvaluator|100%|100%|
 |Pozitron.QuerySpecification.AsSplitQueryEvaluator|100%|100%|
 |Pozitron.QuerySpecification.IgnoreQueryFiltersEvaluator|100%|100%|
-|Pozitron.QuerySpecification.IncludeEvaluator|100%|100%|
+|Pozitron.QuerySpecification.IncludeEvaluator|100%|79.1%|
 |Pozitron.QuerySpecification.IQueryableExtensions|100%|100%|
 |Pozitron.QuerySpecification.LikeEvaluator|100%|100%|
 |Pozitron.QuerySpecification.LikeExtension|100%|100%|
