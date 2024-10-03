@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Query;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Reflection;
 
 namespace Pozitron.QuerySpecification;
@@ -8,32 +7,19 @@ public class IncludeEvaluator : IEvaluator
 {
     private static readonly MethodInfo _includeMethodInfo = typeof(EntityFrameworkQueryableExtensions)
         .GetTypeInfo().GetDeclaredMethods(nameof(EntityFrameworkQueryableExtensions.Include))
-        .Single(mi => mi.GetGenericArguments().Length == 2
-            && mi.GetParameters()[0].ParameterType.GetGenericTypeDefinition() == typeof(IQueryable<>)
-            && mi.GetParameters()[1].ParameterType.GetGenericTypeDefinition() == typeof(Expression<>));
+        .Single(mi => mi.IsPublic && mi.GetGenericArguments().Length == 2);
 
     private static readonly MethodInfo _thenIncludeAfterReferenceMethodInfo
         = typeof(EntityFrameworkQueryableExtensions)
             .GetTypeInfo().GetDeclaredMethods(nameof(EntityFrameworkQueryableExtensions.ThenInclude))
-            .Single(mi => mi.GetGenericArguments().Length == 3
-                && mi.GetParameters()[0].ParameterType.GenericTypeArguments[1].IsGenericParameter
-                && mi.GetParameters()[0].ParameterType.GetGenericTypeDefinition() == typeof(IIncludableQueryable<,>)
-                && mi.GetParameters()[1].ParameterType.GetGenericTypeDefinition() == typeof(Expression<>));
+            .Single(mi => mi.IsPublic && mi.GetGenericArguments().Length == 3
+                && mi.GetParameters()[0].ParameterType.GenericTypeArguments[1].IsGenericParameter);
 
     private static readonly MethodInfo _thenIncludeAfterEnumerableMethodInfo
         = typeof(EntityFrameworkQueryableExtensions)
             .GetTypeInfo().GetDeclaredMethods(nameof(EntityFrameworkQueryableExtensions.ThenInclude))
-            .Where(mi => mi.GetGenericArguments().Length == 3)
-            .Single(
-                mi =>
-                {
-                    var typeInfo = mi.GetParameters()[0].ParameterType.GenericTypeArguments[1];
-
-                    return typeInfo.IsGenericType
-                          && typeInfo.GetGenericTypeDefinition() == typeof(IEnumerable<>)
-                          && mi.GetParameters()[0].ParameterType.GetGenericTypeDefinition() == typeof(IIncludableQueryable<,>)
-                          && mi.GetParameters()[1].ParameterType.GetGenericTypeDefinition() == typeof(Expression<>);
-                });
+            .Single(mi => mi.IsPublic && mi.GetGenericArguments().Length == 3
+                && !mi.GetParameters()[0].ParameterType.GenericTypeArguments[1].IsGenericParameter);
 
     private IncludeEvaluator() { }
     public static IncludeEvaluator Instance = new();
@@ -62,7 +48,7 @@ public class IncludeEvaluator : IEvaluator
 
     private static IQueryable<T> BuildInclude<T>(IQueryable source, IncludeExpression includeExpression)
     {
-        ArgumentNullException.ThrowIfNull(includeExpression);
+        Debug.Assert(includeExpression is not null);
 
         var result = _includeMethodInfo
             .MakeGenericMethod(includeExpression.EntityType, includeExpression.PropertyType)
@@ -75,14 +61,14 @@ public class IncludeEvaluator : IEvaluator
 
     private static IQueryable<T> BuildThenInclude<T>(IQueryable source, IncludeExpression includeExpression)
     {
-        ArgumentNullException.ThrowIfNull(includeExpression);
-        ArgumentNullException.ThrowIfNull(includeExpression.PreviousPropertyType);
+        Debug.Assert(includeExpression is not null);
+        Debug.Assert(includeExpression.PreviousPropertyType is not null);
 
         var result = (IsGenericEnumerable(includeExpression.PreviousPropertyType, out var previousPropertyType)
                             ? _thenIncludeAfterEnumerableMethodInfo
                             : _thenIncludeAfterReferenceMethodInfo)
             .MakeGenericMethod(includeExpression.EntityType, previousPropertyType, includeExpression.PropertyType)
-            .Invoke(null, [source, includeExpression.LambdaExpression,]);
+            .Invoke(null, [source, includeExpression.LambdaExpression]);
 
         Debug.Assert(result is not null);
 
@@ -94,12 +80,10 @@ public class IncludeEvaluator : IEvaluator
         if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
         {
             propertyType = type.GenericTypeArguments[0];
-
             return true;
         }
 
         propertyType = type;
-
         return false;
     }
 }

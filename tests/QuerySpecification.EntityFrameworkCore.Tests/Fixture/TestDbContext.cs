@@ -2,6 +2,7 @@
 
 public class TestDbContext(DbContextOptions options) : DbContext(options)
 {
+    public DbSet<Foo> Foos => Set<Foo>();
     public DbSet<Country> Countries => Set<Country>();
     public DbSet<Company> Companies => Set<Company>();
     public DbSet<Store> Stores => Set<Store>();
