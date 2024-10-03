@@ -230,7 +230,7 @@ var assemblies = [
       { "name": "Pozitron.QuerySpecification.InvalidLikePatternException", "rp": "Pozitron.QuerySpecification_InvalidLikePatternException.html", "cl": 4, "ucl": 0, "cal": 4, "tl": 16, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.LikeExpression<T>", "rp": "Pozitron.QuerySpecification_LikeExpression_1.html", "cl": 11, "ucl": 0, "cal": 11, "tl": 21, "cb": 2, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.LikeExtension", "rp": "Pozitron.QuerySpecification_LikeExtension.html", "cl": 15, "ucl": 0, "cal": 15, "tl": 178, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Pozitron.QuerySpecification.LikeMemoryEvaluator", "rp": "Pozitron.QuerySpecification_LikeMemoryEvaluator.html", "cl": 5, "ucl": 0, "cal": 5, "tl": 20, "cb": 6, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Pozitron.QuerySpecification.LikeMemoryEvaluator", "rp": "Pozitron.QuerySpecification_LikeMemoryEvaluator.html", "cl": 15, "ucl": 0, "cal": 15, "tl": 42, "cb": 14, "tb": 14, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.LikeValidator", "rp": "Pozitron.QuerySpecification_LikeValidator.html", "cl": 6, "ucl": 0, "cal": 6, "tl": 17, "cb": 10, "tb": 10, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.OrderedBuilderExtensions", "rp": "Pozitron.QuerySpecification_OrderedBuilderExtensions.html", "cl": 24, "ucl": 0, "cal": 24, "tl": 96, "cb": 16, "tb": 16, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.OrderedSpecificationBuilder<T>", "rp": "Pozitron.QuerySpecification_OrderedSpecificationBuilder_1.html", "cl": 6, "ucl": 0, "cal": 6, "tl": 35, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
@@ -286,6 +286,12 @@ var riskHotspots = [
     "metrics": [
       { "value": 22, "exceeded": false },
       { "value": 22, "exceeded": true },
+    ]},
+  {
+    "assembly": "Pozitron.QuerySpecification", "class": "Pozitron.QuerySpecification.LikeMemoryEvaluator", "reportPath": "Pozitron.QuerySpecification_LikeMemoryEvaluator.html", "methodName": "Evaluate()", "methodShortName": "Evaluate()", "fileIndex": 0, "line": 15,
+    "metrics": [
+      { "value": 16, "exceeded": false },
+      { "value": 16, "exceeded": true },
     ]},
 ];
 
