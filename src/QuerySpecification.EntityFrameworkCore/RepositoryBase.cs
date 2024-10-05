@@ -1,31 +1,19 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public abstract class RepositoryBase<T> : IRepositoryBase<T>, IReadRepositoryBase<T> where T : class
+public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
 {
     private readonly DbContext _dbContext;
     private readonly SpecificationEvaluator _evaluator;
-    private readonly PaginationSettings _paginationSettings;
 
     protected RepositoryBase(DbContext dbContext)
-        : this(dbContext, SpecificationEvaluator.Default, PaginationSettings.Default)
+        : this(dbContext, SpecificationEvaluator.Default)
     {
     }
     protected RepositoryBase(DbContext dbContext, SpecificationEvaluator specificationEvaluator)
-        : this(dbContext, specificationEvaluator, PaginationSettings.Default)
-    {
-    }
-    protected RepositoryBase(DbContext dbContext, PaginationSettings paginationSettings)
-        : this(dbContext, SpecificationEvaluator.Default, paginationSettings)
-    {
-    }
-    protected RepositoryBase(DbContext dbContext, SpecificationEvaluator specificationEvaluator, PaginationSettings paginationSettings)
     {
         _dbContext = dbContext;
         _evaluator = specificationEvaluator;
-        _paginationSettings = paginationSettings;
     }
-
-    protected abstract IQueryable<TResult> Map<TResult>(IQueryable<T> source);
 
     public virtual async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
     {
@@ -136,45 +124,6 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IReadRepositoryBas
     public virtual IAsyncEnumerable<T> AsAsyncEnumerable(Specification<T> specification)
     {
         return GenerateQuery(specification).AsAsyncEnumerable();
-    }
-    public virtual async Task<TResult> ProjectToFirstAsync<TResult>(Specification<T> specification, CancellationToken cancellationToken = default)
-    {
-        var query = GenerateQuery(specification).AsNoTracking();
-
-        var projectedQuery = Map<TResult>(query);
-
-        var result = await projectedQuery.FirstOrDefaultAsync(cancellationToken);
-
-        return result ?? throw new EntityNotFoundException(typeof(T).Name);
-    }
-    public virtual async Task<TResult?> ProjectToFirstOrDefaultAsync<TResult>(Specification<T> specification, CancellationToken cancellationToken = default)
-    {
-        var query = GenerateQuery(specification).AsNoTracking();
-
-        var projectedQuery = Map<TResult>(query);
-
-        return await projectedQuery.FirstOrDefaultAsync(cancellationToken);
-    }
-    public virtual async Task<List<TResult>> ProjectToListAsync<TResult>(Specification<T> specification, CancellationToken cancellationToken = default)
-    {
-        var query = GenerateQuery(specification).AsNoTracking();
-
-        var projectedQuery = Map<TResult>(query);
-
-        return await projectedQuery.ToListAsync(cancellationToken);
-    }
-    public virtual async Task<PagedResult<TResult>> ProjectToListAsync<TResult>(Specification<T> specification, PagingFilter filter, CancellationToken cancellationToken = default)
-    {
-        var query = GenerateQuery(specification, true).AsNoTracking();
-        var projectedQuery = Map<TResult>(query);
-
-        var count = await projectedQuery.CountAsync(cancellationToken);
-        var pagination = new Pagination(_paginationSettings, count, filter);
-
-        projectedQuery = projectedQuery.ApplyPaging(pagination);
-        var data = await projectedQuery.ToListAsync(cancellationToken);
-
-        return new PagedResult<TResult>(data, pagination);
     }
 
     protected virtual IQueryable<T> GenerateQuery(Specification<T> specification, bool ignorePaging = false)

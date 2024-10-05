@@ -3,7 +3,7 @@ using AutoMapper.QueryableExtensions;
 
 namespace Tests.Fixture;
 
-public class Repository<T>(DbContext context) : RepositoryBase<T>(context) where T : class
+public class Repository<T>(DbContext context) : RepositoryWithMapper<T>(context) where T : class
 {
     private static readonly Lazy<IMapper> _mapper = new(() =>
     {
