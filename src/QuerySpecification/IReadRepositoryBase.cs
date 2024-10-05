@@ -18,10 +18,5 @@ public interface IReadRepositoryBase<T> where T : class
     Task<bool> AnyAsync(CancellationToken cancellationToken = default);
     Task<bool> AnyAsync(Specification<T> specification, CancellationToken cancellationToken = default);
     Task<bool> AnyAsync<TResult>(Specification<T, TResult> specification, CancellationToken cancellationToken = default);
-
     IAsyncEnumerable<T> AsAsyncEnumerable(Specification<T> specification);
-    Task<TResult> ProjectToFirstAsync<TResult>(Specification<T> specification, CancellationToken cancellationToken = default);
-    Task<TResult?> ProjectToFirstOrDefaultAsync<TResult>(Specification<T> specification, CancellationToken cancellationToken = default);
-    Task<List<TResult>> ProjectToListAsync<TResult>(Specification<T> specification, CancellationToken cancellationToken = default);
-    Task<PagedResult<TResult>> ProjectToListAsync<TResult>(Specification<T> specification, PagingFilter filter, CancellationToken cancellationToken = default);
 }

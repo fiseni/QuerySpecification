@@ -49,7 +49,7 @@ public class RepositoryTests(TestFactory factory) : IntegrationTest(factory)
         Accessors<object>.PaginationSettingsOf(repo).Should().BeSameAs(paginationSettings);
     }
 
-    public class Repository<T> : RepositoryBase<T> where T : class
+    public class Repository<T> : RepositoryWithMapper<T> where T : class
     {
         public Repository(DbContext context)
             : base(context)
@@ -84,6 +84,6 @@ public class RepositoryTests(TestFactory factory) : IntegrationTest(factory)
         public static extern ref SpecificationEvaluator SpecificationEvaluatorOf(RepositoryBase<T> @this);
 
         [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_paginationSettings")]
-        public static extern ref PaginationSettings PaginationSettingsOf(RepositoryBase<T> @this);
+        public static extern ref PaginationSettings PaginationSettingsOf(RepositoryWithMapper<T> @this);
     }
 }
