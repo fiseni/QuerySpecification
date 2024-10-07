@@ -14,7 +14,7 @@ public class Specification<T, TResult> : Specification<T>
 
     public new virtual IEnumerable<TResult> Evaluate(IEnumerable<T> entities, bool ignorePaging = false)
     {
-        var evaluator = SpecificationInMemoryEvaluator.Default;
+        var evaluator = Evaluator;
         return evaluator.Evaluate(entities, this, ignorePaging);
     }
 }
@@ -38,6 +38,8 @@ public class Specification<T>
     }
 
     public ISpecificationBuilder<T> Query { get; }
+    protected virtual SpecificationInMemoryEvaluator Evaluator => SpecificationInMemoryEvaluator.Default;
+    protected virtual SpecificationValidator Validator => SpecificationValidator.Default;
 
     public int Take { get; internal set; } = -1;
     public int Skip { get; internal set; } = -1;
@@ -66,13 +68,13 @@ public class Specification<T>
 
     public virtual IEnumerable<T> Evaluate(IEnumerable<T> entities, bool ignorePaging = false)
     {
-        var evaluator = SpecificationInMemoryEvaluator.Default;
+        var evaluator = Evaluator;
         return evaluator.Evaluate(entities, this, ignorePaging);
     }
 
     public virtual bool IsSatisfiedBy(T entity)
     {
-        var validator = SpecificationValidator.Default;
+        var validator = Validator;
         return validator.IsValid(entity, this);
     }
 }
