@@ -7,9 +7,25 @@ public class LikeValidator : IValidator
 
     public bool IsValid<T>(T entity, Specification<T> specification)
     {
-        foreach (var likeGroup in specification.LikeExpressions.GroupBy(x => x.Group))
+        // There are benchmarks in QuerySpecification.Benchmarks project.
+        // This implementation was the most efficient one.
+
+        var groups = specification.LikeExpressions.GroupBy(x => x.Group);
+
+        foreach (var group in groups)
         {
-            if (likeGroup.Any(c => c.KeySelectorFunc(entity)?.Like(c.Pattern) ?? false) == false) return false;
+            var match = false;
+            foreach (var like in group)
+            {
+                if (like.KeySelectorFunc(entity)?.Like(like.Pattern) ?? false)
+                {
+                    match = true;
+                    break;
+                }
+            }
+
+            if (match is false)
+                return false;
         }
 
         return true;

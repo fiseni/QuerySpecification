@@ -10,10 +10,9 @@ internal class ParameterReplacerVisitor : ExpressionVisitor
         _oldParameter = oldParameter;
         _newExpression = newExpression;
     }
+    protected override Expression VisitParameter(ParameterExpression node)
+      => node == _oldParameter ? _newExpression : node;
 
     internal static Expression Replace(Expression expression, ParameterExpression oldParameter, Expression newExpression)
       => new ParameterReplacerVisitor(oldParameter, newExpression).Visit(expression);
-
-    protected override Expression VisitParameter(ParameterExpression node)
-      => node == _oldParameter ? _newExpression : node;
 }

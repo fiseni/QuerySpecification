@@ -2,7 +2,7 @@
 
 namespace QuerySpecification.Benchmarks;
 
-// Benchmarks measuring the in-memory Like evaluator.
+// Benchmarks measuring the in-memory Like evaluator implementations.
 [MemoryDiagnoser]
 public class LikeInMemoryBenchmark
 {

@@ -6,7 +6,7 @@ namespace Pozitron.QuerySpecification;
 
 internal static class LikeExtension
 {
-    private static readonly ConcurrentDictionary<string, Regex> _regexCache = new();
+    private static readonly RegexCache _regexCache = new();
 
     private static Regex BuildRegex(string pattern)
     {
@@ -28,12 +28,45 @@ internal static class LikeExtension
     {
         try
         {
+            // The pattern is dynamic and arbitrary, the consumer might even compose it by an end-user input.
+            // We can not cache all Regex objects, but at least we can try to reuse the most "recent" ones. We'll cache 10 of them.
+            // This might improve the performance within the same closed loop for the in-memory evaluator and validator.
+
             var regex = _regexCache.GetOrAdd(pattern, BuildRegex);
             return regex.IsMatch(input);
         }
         catch (Exception ex)
         {
             throw new InvalidLikePatternException(pattern, ex);
+        }
+    }
+
+    private class RegexCache
+    {
+        private const int _maxSize = 10;
+        private readonly ConcurrentDictionary<string, Regex> _dictionary = new();
+
+        public Regex GetOrAdd(string key, Func<string, Regex> valueFactory)
+        {
+            if (_dictionary.TryGetValue(key, out var regex))
+                return regex;
+
+            // It might happen we end up with more items than max (concurrency), but we won't be too strict.
+            // We're just trying to avoid indefinite growth.
+            for (int i = _dictionary.Count - _maxSize; i >= 0; i--)
+            {
+                // Avoid being smart, just remove sequentially from the start.
+                var firstKey = _dictionary.Keys.FirstOrDefault();
+                if (firstKey is not null)
+                {
+                    _dictionary.TryRemove(firstKey, out _);
+                }
+
+            }
+
+            var newRegex = valueFactory(key);
+            _dictionary.TryAdd(key, newRegex);
+            return newRegex;
         }
     }
 
