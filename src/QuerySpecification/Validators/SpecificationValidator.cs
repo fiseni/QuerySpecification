@@ -23,7 +23,8 @@ public class SpecificationValidator
     {
         foreach (var partialValidator in Validators)
         {
-            if (partialValidator.IsValid(entity, specification) == false) return false;
+            if (partialValidator.IsValid(entity, specification) == false) 
+                return false;
         }
 
         return true;

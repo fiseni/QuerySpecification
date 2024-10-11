@@ -7,9 +7,17 @@
     <Description>Abstract package for building query specifications.</Description>
     <Summary>Abstract package for building query specifications.</Summary>
     
-    <Version>10.1.0</Version>
+    <Version>10.2.0</Version>
     <PackageTags>fiseni pozitron query specification</PackageTags>
     <PackageReleaseNotes>
+      v10.2.0
+      - Added ability to override the specification validator and in-memory evaluator.
+      - Performance improvements for in-memory Like.
+      - Refactored repositories
+        - Removed projection methods from RepositoryBase and IReadRepositoryBase
+        - Added IProjectionRepository contract defining the ProjectTo APIs.
+        - Added RepositoryWithMapper. It inherits RepositoryBase and implements IProjectionRepository.
+
       v10.1.0
       - Publish a separate symbol package (snupkg).
       - Added ToPagedResult extensions.

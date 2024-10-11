@@ -9,7 +9,8 @@ public class WhereValidator : IValidator
     {
         foreach (var whereExpression in specification.WhereExpressions)
         {
-            if (whereExpression.FilterFunc(entity) == false) return false;
+            if (whereExpression.FilterFunc(entity) == false) 
+                return false;
         }
 
         return true;

@@ -38,7 +38,9 @@ internal static class LikeExtension
                 propertySelector.Body,
                 patternAsExpression);
 
-            expr = expr is null ? efLikeExpression : Expression.OrElse(expr, efLikeExpression);
+            expr = expr is null 
+                ? efLikeExpression 
+                : Expression.OrElse(expr, efLikeExpression);
         }
 
         return expr is null
