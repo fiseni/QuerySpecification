@@ -3,22 +3,22 @@
 
 |||
 |:---|:---|
-| Generated on: | 10/05/2024 - 19:32:50 |
-| Coverage date: | 10/05/2024 - 19:32:20 - 10/05/2024 - 19:32:48 |
+| Generated on: | 10/11/2024 - 19:35:36 |
+| Coverage date: | 10/11/2024 - 19:35:04 - 10/11/2024 - 19:35:34 |
 | Parser: | MultiReport (2x Cobertura) |
 | Assemblies: | 2 |
 | Classes: | 44 |
 | Files: | 40 |
-| **Line coverage:** | 100% (743 of 743) |
-| Covered lines: | 743 |
+| **Line coverage:** | 100% (762 of 762) |
+| Covered lines: | 762 |
 | Uncovered lines: | 0 |
-| Coverable lines: | 743 |
-| Total lines: | 2180 |
-| **Branch coverage:** | 100% (304 of 304) |
-| Covered branches: | 304 |
-| Total branches: | 304 |
+| Coverable lines: | 762 |
+| Total lines: | 2230 |
+| **Branch coverage:** | 100% (312 of 312) |
+| Covered branches: | 312 |
+| Total branches: | 312 |
 | **Method coverage:** | [Feature is only available for sponsors](https://reportgenerator.io/pro) |
-| Tag: | 44_11195777782 |
+| Tag: | 45_11298275393 |
 
 </details>
 
@@ -36,7 +36,7 @@
 |Pozitron.QuerySpecification.IncludeExpression|100%|100%|
 |Pozitron.QuerySpecification.InvalidLikePatternException|100%||
 |Pozitron.QuerySpecification.LikeExpression`1|100%|100%|
-|Pozitron.QuerySpecification.LikeExtension|100%||
+|Pozitron.QuerySpecification.LikeExtension|100%|100%|
 |Pozitron.QuerySpecification.LikeMemoryEvaluator|100%|100%|
 |Pozitron.QuerySpecification.LikeValidator|100%|100%|
 |Pozitron.QuerySpecification.OrderedBuilderExtensions|100%|100%|
