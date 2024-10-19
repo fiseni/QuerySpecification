@@ -1,13 +1,11 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public class Specification<T, TResult> : Specification<T>, ISpecificationBuilder<T, TResult>
+public class Specification<T, TResult> : Specification<T>
 {
-    public new Specification<T, TResult> Spec => this;
-    public new ISpecificationBuilder<T, TResult> Query => this;
-
     internal void Add(Expression<Func<T, TResult>> selector) => GetOrCreate<SelectExpression<T, TResult>>().Selector = selector;
     internal void Add(Expression<Func<T, IEnumerable<TResult>>> selectorMany) => GetOrCreate<SelectExpression<T, TResult>>().SelectorMany = selectorMany;
 
+    public new ISpecificationBuilder<T, TResult> Query => new SpecificationBuilder<T, TResult>(this);
     public SelectExpression<T, TResult>? SelectExpression => Get<SelectExpression<T, TResult>>() ?? null;
 
     public new virtual IEnumerable<TResult> Evaluate(IEnumerable<T> entities, bool ignorePaging = false)
@@ -17,11 +15,9 @@ public class Specification<T, TResult> : Specification<T>, ISpecificationBuilder
     }
 }
 
-public class Specification<T> : ISpecificationBuilder<T>
+public class Specification<T>
 {
-    public ISpecificationBuilder<T> Query => this;
-    public Specification<T> Spec => this;
-
+    public ISpecificationBuilder<T> Query => new SpecificationBuilder<T>(this);
     protected virtual SpecificationInMemoryEvaluator Evaluator => SpecificationInMemoryEvaluator.Default;
     protected virtual SpecificationValidator Validator => SpecificationValidator.Default;
 
