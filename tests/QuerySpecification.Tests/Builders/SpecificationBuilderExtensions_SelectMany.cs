@@ -9,7 +9,7 @@ public class SpecificationBuilderExtensions_SelectMany
     {
         var spec = new Specification<Customer, string>();
 
-        spec.SelectorMany.Should().BeNull();
+        spec.SelectExpression.Should().BeNull();
     }
 
     [Fact]
@@ -21,8 +21,9 @@ public class SpecificationBuilderExtensions_SelectMany
         spec.Query
             .SelectMany(expr);
 
-        spec.SelectorMany.Should().NotBeNull();
-        spec.SelectorMany.Should().BeSameAs(expr);
+        spec.SelectExpression.Should().NotBeNull();
+        spec.SelectExpression!.SelectorMany.Should().NotBeNull();
+        spec.SelectExpression!.SelectorMany.Should().BeSameAs(expr);
     }
 
     [Fact]
@@ -36,7 +37,8 @@ public class SpecificationBuilderExtensions_SelectMany
         spec.Query
             .SelectMany(expr);
 
-        spec.SelectorMany.Should().NotBeNull();
-        spec.SelectorMany.Should().BeSameAs(expr);
+        spec.SelectExpression.Should().NotBeNull();
+        spec.SelectExpression!.SelectorMany.Should().NotBeNull();
+        spec.SelectExpression!.SelectorMany.Should().BeSameAs(expr);
     }
 }

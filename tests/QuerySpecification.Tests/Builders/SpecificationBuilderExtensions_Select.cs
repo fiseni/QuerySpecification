@@ -9,7 +9,7 @@ public class SpecificationBuilderExtensions_Select
     {
         var spec = new Specification<Customer, string>();
 
-        spec.Selector.Should().BeNull();
+        spec.SelectExpression.Should().BeNull();
     }
 
     [Fact]
@@ -21,8 +21,9 @@ public class SpecificationBuilderExtensions_Select
         spec.Query
             .Select(expr);
 
-        spec.Selector.Should().NotBeNull();
-        spec.Selector.Should().BeSameAs(expr);
+        spec.SelectExpression.Should().NotBeNull();
+        spec.SelectExpression!.Selector.Should().NotBeNull();
+        spec.SelectExpression!.Selector.Should().BeSameAs(expr);
     }
 
     [Fact]
@@ -36,7 +37,8 @@ public class SpecificationBuilderExtensions_Select
         spec.Query
             .Select(expr);
 
-        spec.Selector.Should().NotBeNull();
-        spec.Selector.Should().BeSameAs(expr);
+        spec.SelectExpression.Should().NotBeNull();
+        spec.SelectExpression!.Selector.Should().NotBeNull();
+        spec.SelectExpression!.Selector.Should().BeSameAs(expr);
     }
 }

@@ -6,14 +6,14 @@ public static class SpecificationBuilderExtensions
         this ISpecificationBuilder<T, TResult> builder,
         Expression<Func<T, TResult>> selector)
     {
-        builder.Spec.Selector = selector;
+        builder.Spec.Add(selector);
     }
 
     public static void SelectMany<T, TResult>(
         this ISpecificationBuilder<T, TResult> builder,
         Expression<Func<T, IEnumerable<TResult>>> selector)
     {
-        builder.Spec.SelectorMany = selector;
+        builder.Spec.Add(selector);
     }
 
     public static ISpecificationBuilder<T, TResult> Where<T, TResult>(
