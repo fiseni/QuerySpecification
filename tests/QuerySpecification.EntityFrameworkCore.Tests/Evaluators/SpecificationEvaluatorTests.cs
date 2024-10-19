@@ -26,11 +26,23 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     }
 
     [Fact]
-    public void ThrowsSelectorNotFoundException_GivenNoSelector()
+    public void ThrowsSelectorNotFoundException_GivenNoSelectExpression()
     {
         var spec = new Specification<Country, string>();
 
         var sut = () => _evaluator.Evaluate(DbContext.Countries, spec);
+
+        sut.Should().Throw<SelectorNotFoundException>();
+    }
+
+    [Fact]
+    public void ThrowsSelectorNotFoundException_GivenNullSelector()
+    {
+        var spec = new Specification<Store, string?>();
+        spec.Query
+            .Select(null!);
+
+        var sut = () => _evaluator.Evaluate(DbContext.Stores, spec);
 
         sut.Should().Throw<SelectorNotFoundException>();
     }

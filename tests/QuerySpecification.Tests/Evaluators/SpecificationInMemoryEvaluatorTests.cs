@@ -26,9 +26,21 @@ public class SpecificationInMemoryEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_ThrowsSelectorNotFoundException_GivenNoSelector()
+    public void Evaluate_ThrowsSelectorNotFoundException_GivenNoSelectExpression()
     {
         var spec = new Specification<Customer, string>();
+
+        var sut = () => _evaluator.Evaluate([], spec);
+
+        sut.Should().Throw<SelectorNotFoundException>();
+    }
+
+    [Fact]
+    public void Evaluate_ThrowsSelectorNotFoundException_GivenNullSelector()
+    {
+        var spec = new Specification<CustomerWithMails, string>();
+        spec.Query
+            .Select(null!);
 
         var sut = () => _evaluator.Evaluate([], spec);
 

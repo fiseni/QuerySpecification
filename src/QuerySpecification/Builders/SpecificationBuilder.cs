@@ -9,23 +9,3 @@ public interface ISpecificationBuilder<T>
 {
     internal Specification<T> Spec { get; }
 }
-
-internal class SpecificationBuilder<T, TResult> : ISpecificationBuilder<T, TResult>
-{
-    public Specification<T, TResult> Spec { get; }
-
-    public SpecificationBuilder(Specification<T, TResult> specification)
-    {
-        Spec = specification;
-    }
-}
-
-internal class SpecificationBuilder<T> : ISpecificationBuilder<T>
-{
-    public Specification<T> Spec { get; }
-
-    public SpecificationBuilder(Specification<T> specification)
-    {
-        Spec = specification;
-    }
-}

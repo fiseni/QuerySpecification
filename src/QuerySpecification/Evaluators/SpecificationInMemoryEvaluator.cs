@@ -26,14 +26,13 @@ public class SpecificationInMemoryEvaluator
         bool ignorePaging = false)
     {
         ArgumentNullException.ThrowIfNull(specification);
-        if (specification.Selector is null && specification.SelectorMany is null) throw new SelectorNotFoundException();
-        if (specification.Selector is not null && specification.SelectorMany is not null) throw new ConcurrentSelectorsException();
+        ValidateSelectExpression(specification);
 
         source = Evaluate(source, (Specification<T>)specification, true);
 
-        var result = specification.Selector is not null
-          ? source.Select(specification.Selector.Compile())
-          : source.SelectMany(specification.SelectorMany!.Compile());
+        var result = specification.SelectExpression!.Selector is not null
+          ? source.Select(specification.SelectExpression.Selector.Compile())
+          : source.SelectMany(specification.SelectExpression.SelectorMany!.Compile());
 
         return ignorePaging
             ? result
@@ -55,5 +54,17 @@ public class SpecificationInMemoryEvaluator
         return ignorePaging
             ? source
             : source.ApplyPaging(specification);
+    }
+
+    private static void ValidateSelectExpression<T, TResult>(Specification<T, TResult> spec)
+    {
+        if (spec.SelectExpression is null)
+            throw new SelectorNotFoundException();
+
+        if (spec.SelectExpression.Selector is null && spec.SelectExpression.SelectorMany is null)
+            throw new SelectorNotFoundException();
+
+        if (spec.SelectExpression.Selector is not null && spec.SelectExpression.SelectorMany is not null)
+            throw new ConcurrentSelectorsException();
     }
 }

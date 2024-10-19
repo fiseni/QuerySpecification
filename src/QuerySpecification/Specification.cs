@@ -5,16 +5,10 @@ public class Specification<T, TResult> : Specification<T>, ISpecificationBuilder
     public new Specification<T, TResult> Spec => this;
     public new ISpecificationBuilder<T, TResult> Query => this;
 
-    public Expression<Func<T, TResult>>? Selector
-    {
-        get => Get<SelectExpression<T, TResult>>()?.Selector ?? null;
-        internal set => GetOrCreate<SelectExpression<T, TResult>>().Selector = value;
-    }
-    public Expression<Func<T, IEnumerable<TResult>>>? SelectorMany
-    {
-        get => Get<SelectExpression<T, TResult>>()?.SelectorMany ?? null;
-        internal set => GetOrCreate<SelectExpression<T, TResult>>().SelectorMany = value;
-    }
+    internal void Add(Expression<Func<T, TResult>> selector) => GetOrCreate<SelectExpression<T, TResult>>().Selector = selector;
+    internal void Add(Expression<Func<T, IEnumerable<TResult>>> selectorMany) => GetOrCreate<SelectExpression<T, TResult>>().SelectorMany = selectorMany;
+
+    public SelectExpression<T, TResult>? SelectExpression => Get<SelectExpression<T, TResult>>() ?? null;
 
     public new virtual IEnumerable<TResult> Evaluate(IEnumerable<T> entities, bool ignorePaging = false)
     {
@@ -49,6 +43,7 @@ public class Specification<T> : ISpecificationBuilder<T>
     {
         if (_state is null)
         {
+            // Specs with two items are very common.
             _state = new object[2];
             _state[0] = value;
         }
@@ -75,28 +70,24 @@ public class Specification<T> : ISpecificationBuilder<T>
     {
         for (int i = 0; i < _state?.Length; i++)
         {
-            if (_state[i] is TType value)
+            if (_state[i] is TType item)
             {
-                return value;
+                return item;
             }
         }
 
         return null;
     }
 
-    private protected TType GetOrCreate<TType>() where TType : new()
+    private protected TType GetOrCreate<TType>() where TType : class, new()
     {
-        for (int i = 0; i < _state?.Length; i++)
+        return Get<TType>() ?? Create();
+        TType Create()
         {
-            if (_state[i] is TType value)
-            {
-                return value;
-            }
+            var item = new TType();
+            AddItem(item);
+            return item;
         }
-
-        var newValue = new TType();
-        AddItem(newValue);
-        return newValue;
     }
 
     internal void Add(WhereExpression<T> whereExpression) => AddItem(whereExpression);
@@ -154,16 +145,4 @@ public class Specification<T> : ISpecificationBuilder<T>
         public bool AsNoTracking = false;
         public bool AsNoTrackingWithIdentityResolution = false;
     }
-}
-
-public enum StateType
-{
-    Where,
-    Include,
-    Order,
-    Flags,
-    Select,
-    Like,
-    IncludeString,
-    Items,
 }
