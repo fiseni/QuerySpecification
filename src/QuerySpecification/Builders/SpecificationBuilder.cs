@@ -2,30 +2,30 @@
 
 public interface ISpecificationBuilder<T, TResult>
 {
-    internal Specification<T, TResult> Specification { get; }
+    internal Specification<T, TResult> Spec { get; }
 }
 
 public interface ISpecificationBuilder<T>
 {
-    internal Specification<T> Specification { get; }
+    internal Specification<T> Spec { get; }
 }
 
 internal class SpecificationBuilder<T, TResult> : ISpecificationBuilder<T, TResult>
 {
-    public Specification<T, TResult> Specification { get; }
+    public Specification<T, TResult> Spec { get; }
 
     public SpecificationBuilder(Specification<T, TResult> specification)
     {
-        Specification = specification;
+        Spec = specification;
     }
 }
 
 internal class SpecificationBuilder<T> : ISpecificationBuilder<T>
 {
-    public Specification<T> Specification { get; }
+    public Specification<T> Spec { get; }
 
     public SpecificationBuilder(Specification<T> specification)
     {
-        Specification = specification;
+        Spec = specification;
     }
 }
