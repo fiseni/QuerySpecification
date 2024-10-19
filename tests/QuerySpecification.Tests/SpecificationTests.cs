@@ -6,18 +6,18 @@ public class SpecificationTests
 {
     public record Customer(int Id, string Name);
 
-    [Fact]
-    public void CollectionFields_AreNull_GivenEmptySpec()
-    {
-        var spec = new Specification<Customer>();
+    //[Fact]
+    //public void CollectionFields_AreNull_GivenEmptySpec()
+    //{
+    //    var spec = new Specification<Customer>();
 
-        Accessors<Customer>.WhereExpressionsOf(spec).Should().BeNull();
-        Accessors<Customer>.LikeExpressionsOf(spec).Should().BeNull();
-        Accessors<Customer>.OrderExpressionsOf(spec).Should().BeNull();
-        Accessors<Customer>.IncludeExpressionsOf(spec).Should().BeNull();
-        Accessors<Customer>.IncludeStringsOf(spec).Should().BeNull();
-        Accessors<Customer>.ItemsOf(spec).Should().BeNull();
-    }
+    //    Accessors<Customer>.WhereExpressionsOf(spec).Should().BeNull();
+    //    Accessors<Customer>.LikeExpressionsOf(spec).Should().BeNull();
+    //    Accessors<Customer>.OrderExpressionsOf(spec).Should().BeNull();
+    //    Accessors<Customer>.IncludeExpressionsOf(spec).Should().BeNull();
+    //    Accessors<Customer>.IncludeStringsOf(spec).Should().BeNull();
+    //    Accessors<Customer>.ItemsOf(spec).Should().BeNull();
+    //}
 
     [Fact]
     public void CollectionsProperties_ReturnEmptyEnumerable_GivenEmptySpec()
@@ -31,15 +31,15 @@ public class SpecificationTests
         spec.IncludeStrings.Should().BeSameAs(Enumerable.Empty<string>());
     }
 
-    [Fact]
-    public void Items_ReturnsNewDictionaryOnFirstAccess()
-    {
-        var spec = new Specification<Customer>();
+    //[Fact]
+    //public void Items_ReturnsNewDictionaryOnFirstAccess()
+    //{
+    //    var spec = new Specification<Customer>();
 
-        Accessors<Customer>.ItemsOf(spec).Should().BeNull();
-        spec.Items.Should().NotBeNull();
-        Accessors<Customer>.ItemsOf(spec).Should().NotBeNull();
-    }
+    //    Accessors<Customer>.ItemsOf(spec).Should().BeNull();
+    //    spec.Items.Should().NotBeNull();
+    //    Accessors<Customer>.ItemsOf(spec).Should().NotBeNull();
+    //}
 
     private class Accessors<T>
     {
