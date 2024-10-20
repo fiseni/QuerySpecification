@@ -10,7 +10,7 @@ public interface ISpecificationBuilder<T>
     internal Specification<T> Spec { get; }
 }
 
-internal struct SpecificationBuilder<T, TResult> : ISpecificationBuilder<T, TResult>
+internal class SpecificationBuilder<T, TResult> : ISpecificationBuilder<T, TResult>
 {
     public Specification<T, TResult> Spec { get; }
 
@@ -20,7 +20,7 @@ internal struct SpecificationBuilder<T, TResult> : ISpecificationBuilder<T, TRes
     }
 }
 
-internal struct SpecificationBuilder<T> : ISpecificationBuilder<T>
+internal class SpecificationBuilder<T> : ISpecificationBuilder<T>
 {
     public Specification<T> Spec { get; }
 
