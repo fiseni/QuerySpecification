@@ -12,24 +12,24 @@ public interface IIncludableSpecificationBuilder<T, out TProperty> : ISpecificat
 
 internal class IncludableSpecificationBuilder<T, TResult, TProperty> : IIncludableSpecificationBuilder<T, TResult, TProperty> where T : class
 {
-    public Specification<T, TResult> Spec { get; }
+    public Specification<T, TResult> Specification { get; }
     public bool IsChainDiscarded { get; set; }
 
     public IncludableSpecificationBuilder(Specification<T, TResult> specification, bool isChainDiscarded)
     {
-        Spec = specification;
+        Specification = specification;
         IsChainDiscarded = isChainDiscarded;
     }
 }
 
 internal class IncludableSpecificationBuilder<T, TProperty> : IIncludableSpecificationBuilder<T, TProperty> where T : class
 {
-    public Specification<T> Spec { get; }
+    public Specification<T> Specification { get; }
     public bool IsChainDiscarded { get; set; }
 
     public IncludableSpecificationBuilder(Specification<T> specification, bool isChainDiscarded)
     {
-        Spec = specification;
+        Specification = specification;
         IsChainDiscarded = isChainDiscarded;
     }
 }
