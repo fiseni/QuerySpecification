@@ -32,13 +32,13 @@ public class SpecificationEvaluator
         bool ignorePaging = false) where T : class
     {
         ArgumentNullException.ThrowIfNull(specification);
-        ValidateSelectExpression(specification);
+        var selectExpression = specification.SelectExpression.Validate();
 
         source = Evaluate(source, (Specification<T>)specification, true);
 
-        var resultQuery = specification.SelectExpression!.Selector is not null
-          ? source.Select(specification.SelectExpression.Selector)
-          : source.SelectMany(specification.SelectExpression.SelectorMany!);
+        var resultQuery = selectExpression.Selector is not null
+          ? source.Select(selectExpression.Selector)
+          : source.SelectMany(selectExpression.SelectorMany!);
 
         return ignorePaging
             ? resultQuery
@@ -60,17 +60,5 @@ public class SpecificationEvaluator
         return ignorePaging
             ? source
             : source.ApplyPaging(specification);
-    }
-
-    private static void ValidateSelectExpression<T, TResult>(Specification<T, TResult> spec)
-    {
-        if (spec.SelectExpression is null)
-            throw new SelectorNotFoundException();
-
-        if (spec.SelectExpression.Selector is null && spec.SelectExpression.SelectorMany is null)
-            throw new SelectorNotFoundException();
-
-        if (spec.SelectExpression.Selector is not null && spec.SelectExpression.SelectorMany is not null)
-            throw new ConcurrentSelectorsException();
     }
 }
