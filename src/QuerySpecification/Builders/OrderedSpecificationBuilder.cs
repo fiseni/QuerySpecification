@@ -12,24 +12,24 @@ public interface IOrderedSpecificationBuilder<T> : ISpecificationBuilder<T>
 
 internal class OrderedSpecificationBuilder<T, TResult> : IOrderedSpecificationBuilder<T, TResult>
 {
-    public Specification<T, TResult> Spec { get; }
+    public Specification<T, TResult> Specification { get; }
     public bool IsChainDiscarded { get; set; }
 
     public OrderedSpecificationBuilder(Specification<T, TResult> specification, bool isChainDiscarded)
     {
-        Spec = specification;
+        Specification = specification;
         IsChainDiscarded = isChainDiscarded;
     }
 }
 
 internal class OrderedSpecificationBuilder<T> : IOrderedSpecificationBuilder<T>
 {
-    public Specification<T> Spec { get; }
+    public Specification<T> Specification { get; }
     public bool IsChainDiscarded { get; set; }
 
     public OrderedSpecificationBuilder(Specification<T> specification, bool isChainDiscarded)
     {
-        Spec = specification;
+        Specification = specification;
         IsChainDiscarded = isChainDiscarded;
     }
 }
