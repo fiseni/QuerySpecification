@@ -6,7 +6,7 @@ public class Specification<T, TResult> : Specification<T>
     internal void Add(Expression<Func<T, IEnumerable<TResult>>> selectorMany) => GetOrCreate<SelectExpression<T, TResult>>().SelectorMany = selectorMany;
 
     public new ISpecificationBuilder<T, TResult> Query => new SpecificationBuilder<T, TResult>(this);
-    public SelectExpression<T, TResult>? SelectExpression => Get<SelectExpression<T, TResult>>() ?? null;
+    public SelectExpression<T, TResult>? SelectExpression => Get<SelectExpression<T, TResult>>();
 
     public new virtual IEnumerable<TResult> Evaluate(IEnumerable<T> entities, bool ignorePaging = false)
     {
@@ -35,7 +35,7 @@ public class Specification<T>
 
     private protected object?[]? _state;
 
-    private void AddItem(object value)
+    internal void Add(object value)
     {
         if (_state is null)
         {
@@ -81,16 +81,10 @@ public class Specification<T>
         TType Create()
         {
             var item = new TType();
-            AddItem(item);
+            Add(item);
             return item;
         }
     }
-
-    internal void Add(WhereExpression<T> whereExpression) => AddItem(whereExpression);
-    internal void Add(IncludeExpression includeExpression) => AddItem(includeExpression);
-    internal void Add(OrderExpression<T> orderExpression) => AddItem(orderExpression);
-    internal void Add(LikeExpression<T> likeExpression) => AddItem(likeExpression);
-    internal void Add(string includeString) => AddItem(includeString);
 
     public IEnumerable<WhereExpression<T>> WhereExpressions => _state?.OfType<WhereExpression<T>>() ?? Enumerable.Empty<WhereExpression<T>>();
     public IEnumerable<IncludeExpression> IncludeExpressions => _state?.OfType<IncludeExpression>() ?? Enumerable.Empty<IncludeExpression>();
