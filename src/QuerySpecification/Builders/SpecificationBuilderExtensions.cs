@@ -68,8 +68,8 @@ public static class SpecificationBuilderExtensions
             builder.Specification.Add(expr);
         }
 
-        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T, TResult>(builder.Specification, !condition);
-        return orderedSpecificationBuilder;
+        Specification<T,TResult>._isChainDiscarded = !condition;
+        return (SpecificationBuilder<T, TResult>)builder;
     }
 
     public static IOrderedSpecificationBuilder<T> OrderBy<T>(
@@ -88,8 +88,8 @@ public static class SpecificationBuilderExtensions
             builder.Specification.Add(expr);
         }
 
-        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T>(builder.Specification, !condition);
-        return orderedSpecificationBuilder;
+        Specification<T>._isChainDiscarded = !condition;
+        return (SpecificationBuilder<T>)builder;
     }
 
     public static IOrderedSpecificationBuilder<T, TResult> OrderByDescending<T, TResult>(
@@ -108,8 +108,8 @@ public static class SpecificationBuilderExtensions
             builder.Specification.Add(expr);
         }
 
-        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T, TResult>(builder.Specification, !condition);
-        return orderedSpecificationBuilder;
+        Specification<T,TResult>._isChainDiscarded = !condition;
+        return (SpecificationBuilder<T, TResult>)builder;
     }
 
     public static IOrderedSpecificationBuilder<T> OrderByDescending<T>(
@@ -128,8 +128,8 @@ public static class SpecificationBuilderExtensions
             builder.Specification.Add(expr);
         }
 
-        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T>(builder.Specification, !condition);
-        return orderedSpecificationBuilder;
+        Specification<T>._isChainDiscarded = !condition;
+        return (SpecificationBuilder<T>)builder;
     }
 
     public static IIncludableSpecificationBuilder<T, TResult, TProperty> Include<T, TResult, TProperty>(
@@ -148,7 +148,8 @@ public static class SpecificationBuilderExtensions
             builder.Specification.Add(expr);
         }
 
-        var includeBuilder = new IncludableSpecificationBuilder<T, TResult, TProperty>(builder.Specification, !condition);
+        Specification<T>._isChainDiscarded = !condition;
+        var includeBuilder = new IncludableSpecificationBuilder<T, TResult, TProperty>(builder.Specification);
         return includeBuilder;
     }
 
@@ -168,7 +169,8 @@ public static class SpecificationBuilderExtensions
             builder.Specification.Add(expr);
         }
 
-        var includeBuilder = new IncludableSpecificationBuilder<T, TProperty>(builder.Specification, !condition);
+        Specification<T>._isChainDiscarded = !condition;
+        var includeBuilder = new IncludableSpecificationBuilder<T, TProperty>(builder.Specification);
         return includeBuilder;
     }
 
