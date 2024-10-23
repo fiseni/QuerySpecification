@@ -1,31 +1,33 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public class OrderEvaluator : IEvaluator, IInMemoryEvaluator
+public sealed class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 {
     private OrderEvaluator() { }
     public static OrderEvaluator Instance = new();
 
     public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class
     {
+        if (specification.IsEmpty) return source;
+
         IOrderedQueryable<T>? orderedQuery = null;
 
-        foreach (var orderExpression in specification.OrderExpressions)
+        foreach (var item in specification._state)
         {
-            if (orderExpression.OrderType == OrderTypeEnum.OrderBy)
+            if (item is OrderByExpression<T> orderByExpression)
             {
-                orderedQuery = source.OrderBy(orderExpression.KeySelector);
+                orderedQuery = source.OrderBy(orderByExpression.KeySelector);
             }
-            else if (orderExpression.OrderType == OrderTypeEnum.OrderByDescending)
+            else if (item is OrderByDescendingExpression<T> orderByDescendingExpression)
             {
-                orderedQuery = source.OrderByDescending(orderExpression.KeySelector);
+                orderedQuery = source.OrderByDescending(orderByDescendingExpression.KeySelector);
             }
-            else if (orderExpression.OrderType == OrderTypeEnum.ThenBy)
+            else if (item is OrderThenByExpression<T> orderThenByExpression)
             {
-                orderedQuery = orderedQuery!.ThenBy(orderExpression.KeySelector);
+                orderedQuery = orderedQuery!.ThenBy(orderThenByExpression.KeySelector);
             }
-            else if (orderExpression.OrderType == OrderTypeEnum.ThenByDescending)
+            else if (item is OrderThenByDescendingExpression<T> orderThenByDescendingExpression)
             {
-                orderedQuery = orderedQuery!.ThenByDescending(orderExpression.KeySelector);
+                orderedQuery = orderedQuery!.ThenByDescending(orderThenByDescendingExpression.KeySelector);
             }
         }
 
@@ -39,25 +41,27 @@ public class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 
     public IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)
     {
+        if (specification.IsEmpty) return source;
+
         IOrderedEnumerable<T>? orderedQuery = null;
 
-        foreach (var orderExpression in specification.OrderExpressions)
+        foreach (var item in specification._state)
         {
-            if (orderExpression.OrderType == OrderTypeEnum.OrderBy)
+            if (item is OrderByExpression<T> orderByExpression)
             {
-                orderedQuery = source.OrderBy(orderExpression.KeySelectorFunc);
+                orderedQuery = source.OrderBy(orderByExpression.KeySelectorFunc);
             }
-            else if (orderExpression.OrderType == OrderTypeEnum.OrderByDescending)
+            else if (item is OrderByDescendingExpression<T> orderByDescendingExpression)
             {
-                orderedQuery = source.OrderByDescending(orderExpression.KeySelectorFunc);
+                orderedQuery = source.OrderByDescending(orderByDescendingExpression.KeySelectorFunc);
             }
-            else if (orderExpression.OrderType == OrderTypeEnum.ThenBy)
+            else if (item is OrderThenByExpression<T> orderThenByExpression)
             {
-                orderedQuery = orderedQuery!.ThenBy(orderExpression.KeySelectorFunc);
+                orderedQuery = orderedQuery!.ThenBy(orderThenByExpression.KeySelectorFunc);
             }
-            else if (orderExpression.OrderType == OrderTypeEnum.ThenByDescending)
+            else if (item is OrderThenByDescendingExpression<T> orderThenByDescendingExpression)
             {
-                orderedQuery = orderedQuery!.ThenByDescending(orderExpression.KeySelectorFunc);
+                orderedQuery = orderedQuery!.ThenByDescending(orderThenByDescendingExpression.KeySelectorFunc);
             }
         }
 

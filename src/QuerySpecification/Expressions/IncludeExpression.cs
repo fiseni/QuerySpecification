@@ -1,51 +1,27 @@
 ﻿namespace Pozitron.QuerySpecification;
 
+public sealed class IncludeThenExpression : IncludeExpression
+{
+    public IncludeThenExpression(LambdaExpression expression)
+        : base(expression)
+    {
+    }
+}
+
 public class IncludeExpression
 {
     public LambdaExpression LambdaExpression { get; }
-    public Type EntityType { get; }
-    public Type PropertyType { get; }
-    public Type? PreviousPropertyType { get; }
-    public IncludeTypeEnum Type { get; }
 
-    private IncludeExpression(
-        LambdaExpression expression,
-        Type entityType,
-        Type propertyType,
-        Type? previousPropertyType,
-        IncludeTypeEnum includeType)
-
+    public IncludeExpression(LambdaExpression expression)
     {
         ArgumentNullException.ThrowIfNull(expression);
-        ArgumentNullException.ThrowIfNull(entityType);
-        ArgumentNullException.ThrowIfNull(propertyType);
-
-        if (includeType == IncludeTypeEnum.ThenInclude)
-        {
-            ArgumentNullException.ThrowIfNull(previousPropertyType);
-        }
-
         LambdaExpression = expression;
-        EntityType = entityType;
-        PropertyType = propertyType;
-        PreviousPropertyType = previousPropertyType;
-        Type = includeType;
     }
 
-    public IncludeExpression(
-        LambdaExpression expression,
-        Type entityType,
-        Type propertyType)
-        : this(expression, entityType, propertyType, null, IncludeTypeEnum.Include)
+    public IncludeTypeEnum Type => this switch
     {
-    }
-
-    public IncludeExpression(
-        LambdaExpression expression,
-        Type entityType,
-        Type propertyType,
-        Type previousPropertyType)
-        : this(expression, entityType, propertyType, previousPropertyType, IncludeTypeEnum.ThenInclude)
-    {
-    }
+        IncludeThenExpression => IncludeTypeEnum.ThenInclude,
+        IncludeExpression => IncludeTypeEnum.Include,
+        _ => throw new InvalidOperationException("Unknown IncludeExpression type.")
+    };
 }

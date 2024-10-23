@@ -10,7 +10,7 @@ public interface ISpecificationBuilder<T>
     internal Specification<T> Specification { get; }
 }
 
-internal class SpecificationBuilder<T, TResult> : ISpecificationBuilder<T, TResult>
+internal sealed class SpecificationBuilder<T, TResult> : ISpecificationBuilder<T, TResult>
 {
     public Specification<T, TResult> Specification { get; }
 
@@ -20,7 +20,7 @@ internal class SpecificationBuilder<T, TResult> : ISpecificationBuilder<T, TResu
     }
 }
 
-internal class SpecificationBuilder<T> : ISpecificationBuilder<T>
+internal sealed class SpecificationBuilder<T> : ISpecificationBuilder<T>
 {
     public Specification<T> Specification { get; }
 

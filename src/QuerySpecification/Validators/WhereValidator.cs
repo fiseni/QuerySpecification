@@ -1,6 +1,6 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public class WhereValidator : IValidator
+public sealed class WhereValidator : IValidator
 {
     private WhereValidator() { }
     public static WhereValidator Instance = new();

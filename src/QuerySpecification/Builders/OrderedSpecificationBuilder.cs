@@ -10,7 +10,7 @@ public interface IOrderedSpecificationBuilder<T> : ISpecificationBuilder<T>
     internal bool IsChainDiscarded { get; set; }
 }
 
-internal class OrderedSpecificationBuilder<T, TResult> : IOrderedSpecificationBuilder<T, TResult>
+internal sealed class OrderedSpecificationBuilder<T, TResult> : IOrderedSpecificationBuilder<T, TResult>
 {
     public Specification<T, TResult> Specification { get; }
     public bool IsChainDiscarded { get; set; }
@@ -22,7 +22,7 @@ internal class OrderedSpecificationBuilder<T, TResult> : IOrderedSpecificationBu
     }
 }
 
-internal class OrderedSpecificationBuilder<T> : IOrderedSpecificationBuilder<T>
+internal sealed class OrderedSpecificationBuilder<T> : IOrderedSpecificationBuilder<T>
 {
     public Specification<T> Specification { get; }
     public bool IsChainDiscarded { get; set; }

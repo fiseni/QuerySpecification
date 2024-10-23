@@ -1,6 +1,6 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public class WhereExpression<T>
+public sealed class WhereExpression<T>
 {
     private Func<T, bool>? _filterFunc;
     public Expression<Func<T, bool>> Filter { get; }

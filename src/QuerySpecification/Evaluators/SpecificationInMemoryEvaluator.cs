@@ -45,6 +45,7 @@ public class SpecificationInMemoryEvaluator
         bool ignorePaging = false)
     {
         ArgumentNullException.ThrowIfNull(specification);
+        if (specification.IsEmpty) return source;
 
         foreach (var evaluator in Evaluators)
         {

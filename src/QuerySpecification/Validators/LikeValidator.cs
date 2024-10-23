@@ -1,6 +1,6 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public class LikeValidator : IValidator
+public sealed class LikeValidator : IValidator
 {
     private LikeValidator() { }
     public static LikeValidator Instance = new();
