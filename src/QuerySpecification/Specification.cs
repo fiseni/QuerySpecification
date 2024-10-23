@@ -19,6 +19,9 @@ public class Specification<T, TResult> : Specification<T>
 
 public class Specification<T>
 {
+    [ThreadStatic]
+    internal static bool _isChainDiscarded;
+
     internal object?[]? _state;
 
     public virtual IEnumerable<T> Evaluate(IEnumerable<T> entities, bool ignorePaging = false)

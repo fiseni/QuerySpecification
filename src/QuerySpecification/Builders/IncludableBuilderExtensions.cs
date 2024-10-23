@@ -14,13 +14,17 @@ public static class IncludableBuilderExtensions
         bool condition)
         where TEntity : class
     {
-        if (condition && !previousBuilder.IsChainDiscarded)
+        if (condition && !Specification<TEntity, TResult>._isChainDiscarded)
         {
             var expr = new IncludeThenExpression(thenIncludeExpression);
             previousBuilder.Specification.Add(expr);
         }
+        else
+        {
+            Specification<TEntity, TResult>._isChainDiscarded = true;
+        }
 
-        var includeBuilder = new IncludableSpecificationBuilder<TEntity, TResult, TProperty>(previousBuilder.Specification, !condition || previousBuilder.IsChainDiscarded);
+        var includeBuilder = new IncludableSpecificationBuilder<TEntity, TResult, TProperty>(previousBuilder.Specification);
         return includeBuilder;
     }
 
@@ -36,13 +40,17 @@ public static class IncludableBuilderExtensions
         bool condition)
         where TEntity : class
     {
-        if (condition && !previousBuilder.IsChainDiscarded)
+        if (condition && !Specification<TEntity>._isChainDiscarded)
         {
             var expr = new IncludeThenExpression(thenIncludeExpression);
             previousBuilder.Specification.Add(expr);
         }
+        else
+        {
+            Specification<TEntity>._isChainDiscarded = true;
+        }
 
-        var includeBuilder = new IncludableSpecificationBuilder<TEntity, TProperty>(previousBuilder.Specification, !condition || previousBuilder.IsChainDiscarded);
+        var includeBuilder = new IncludableSpecificationBuilder<TEntity, TProperty>(previousBuilder.Specification);
         return includeBuilder;
     }
 
@@ -58,13 +66,18 @@ public static class IncludableBuilderExtensions
         bool condition)
         where TEntity : class
     {
-        if (condition && !previousBuilder.IsChainDiscarded)
+        if (condition && !Specification<TEntity, TResult>._isChainDiscarded)
         {
             var expr = new IncludeThenExpression(thenIncludeExpression);
             previousBuilder.Specification.Add(expr);
         }
+        else
+        {
+            Specification<TEntity, TResult>._isChainDiscarded = true;
+        }
 
-        var includeBuilder = new IncludableSpecificationBuilder<TEntity, TResult, TProperty>(previousBuilder.Specification, !condition || previousBuilder.IsChainDiscarded);
+        
+        var includeBuilder = new IncludableSpecificationBuilder<TEntity, TResult, TProperty>(previousBuilder.Specification);
         return includeBuilder;
     }
 
@@ -80,13 +93,17 @@ public static class IncludableBuilderExtensions
         bool condition)
         where TEntity : class
     {
-        if (condition && !previousBuilder.IsChainDiscarded)
+        if (condition && !Specification<TEntity>._isChainDiscarded)
         {
             var expr = new IncludeThenExpression(thenIncludeExpression);
             previousBuilder.Specification.Add(expr);
         }
+        else
+        {
+            Specification<TEntity>._isChainDiscarded = true;
+        }
 
-        var includeBuilder = new IncludableSpecificationBuilder<TEntity, TProperty>(previousBuilder.Specification, !condition || previousBuilder.IsChainDiscarded);
+        var includeBuilder = new IncludableSpecificationBuilder<TEntity, TProperty>(previousBuilder.Specification);
         return includeBuilder;
     }
 }

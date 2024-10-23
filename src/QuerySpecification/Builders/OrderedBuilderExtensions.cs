@@ -12,14 +12,14 @@ public static class OrderedBuilderExtensions
         Expression<Func<T, object?>> orderExpression,
         bool condition)
     {
-        if (condition && !orderedBuilder.IsChainDiscarded)
+        if (condition && !Specification<T, TResult>._isChainDiscarded)
         {
             var expr = new OrderThenByExpression<T>(orderExpression);
             orderedBuilder.Specification.Add(expr);
         }
         else
         {
-            orderedBuilder.IsChainDiscarded = true;
+            Specification<T, TResult>._isChainDiscarded = true;
         }
 
         return orderedBuilder;
@@ -35,14 +35,14 @@ public static class OrderedBuilderExtensions
         Expression<Func<T, object?>> orderExpression,
         bool condition)
     {
-        if (condition && !orderedBuilder.IsChainDiscarded)
+        if (condition && !Specification<T>._isChainDiscarded)
         {
             var expr = new OrderThenByExpression<T>(orderExpression);
             orderedBuilder.Specification.Add(expr);
         }
         else
         {
-            orderedBuilder.IsChainDiscarded = true;
+            Specification<T>._isChainDiscarded = true;
         }
 
         return orderedBuilder;
@@ -58,14 +58,14 @@ public static class OrderedBuilderExtensions
         Expression<Func<T, object?>> orderExpression,
         bool condition)
     {
-        if (condition && !orderedBuilder.IsChainDiscarded)
+        if (condition && !Specification<T, TResult>._isChainDiscarded)
         {
             var expr = new OrderThenByDescendingExpression<T>(orderExpression);
             orderedBuilder.Specification.Add(expr);
         }
         else
         {
-            orderedBuilder.IsChainDiscarded = true;
+            Specification<T, TResult>._isChainDiscarded = true;
         }
 
         return orderedBuilder;
@@ -81,14 +81,14 @@ public static class OrderedBuilderExtensions
         Expression<Func<T, object?>> orderExpression,
         bool condition)
     {
-        if (condition && !orderedBuilder.IsChainDiscarded)
+        if (condition && !Specification<T>._isChainDiscarded)
         {
             var expr = new OrderThenByDescendingExpression<T>(orderExpression);
             orderedBuilder.Specification.Add(expr);
         }
         else
         {
-            orderedBuilder.IsChainDiscarded = true;
+            Specification<T>._isChainDiscarded = true;
         }
 
         return orderedBuilder;
