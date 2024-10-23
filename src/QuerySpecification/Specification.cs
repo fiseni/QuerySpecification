@@ -2,17 +2,9 @@
 
 namespace Pozitron.QuerySpecification;
 
-public class Specification<T, TResult> : Specification<T>, ISpecificationBuilder<T, TResult>
+public class Specification<T, TResult> : Specification<T>
 {
-    //public Specification()
-    //{
-    //    Query = new SpecificationBuilder<T, TResult>(this);
-    //}
-
-    //public new ISpecificationBuilder<T, TResult> Query { get; }
-
-    public new Specification<T, TResult> Spec => this;
-    public new ISpecificationBuilder<T, TResult> Query => this;
+    public new ISpecificationBuilder<T, TResult> Query => new SpecificationBuilder<T, TResult>(this);
 
     public Expression<Func<T, TResult>>? Selector
     {
@@ -32,16 +24,9 @@ public class Specification<T, TResult> : Specification<T>, ISpecificationBuilder
     }
 }
 
-public class Specification<T> : ISpecificationBuilder<T>
+public class Specification<T>
 {
-    //public Specification()
-    //{
-    //    Query = new SpecificationBuilder<T>(this);
-    //}
-
-    //public ISpecificationBuilder<T> Query { get; }
-    public ISpecificationBuilder<T> Query => this;
-    public Specification<T> Spec => this;
+    public ISpecificationBuilder<T> Query => new SpecificationBuilder<T>(this);
 
     protected virtual SpecificationInMemoryEvaluator Evaluator => SpecificationInMemoryEvaluator.Default;
     protected virtual SpecificationValidator Validator => SpecificationValidator.Default;
@@ -68,7 +53,6 @@ public class Specification<T> : ISpecificationBuilder<T>
         var index = (int)stateType;
         var capacity = index switch
         {
-            0 => 1,
             < 2 => 2, // Spec with Where and Include are most common
             < 5 => 5,
             _ => 8
