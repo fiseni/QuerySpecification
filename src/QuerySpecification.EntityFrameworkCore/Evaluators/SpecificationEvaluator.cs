@@ -14,10 +14,7 @@ public class SpecificationEvaluator
             LikeEvaluator.Instance,
             IncludeEvaluator.Instance,
             OrderEvaluator.Instance,
-            AsNoTrackingEvaluator.Instance,
-            AsNoTrackingWithIdentityResolutionEvaluator.Instance,
-            IgnoreQueryFiltersEvaluator.Instance,
-            AsSplitQueryEvaluator.Instance
+            FlagsEvaluator.Instance,
         ];
     }
 
@@ -51,6 +48,7 @@ public class SpecificationEvaluator
         bool ignorePaging = false) where T : class
     {
         ArgumentNullException.ThrowIfNull(specification);
+        if (specification.IsEmpty) return source;
 
         foreach (var evaluator in Evaluators)
         {

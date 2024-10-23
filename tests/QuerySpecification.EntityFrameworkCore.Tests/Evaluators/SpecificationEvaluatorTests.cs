@@ -371,17 +371,14 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
         var evaluator = new SpecificationEvaluatorDerived();
 
         var state = EvaluatorsOf(evaluator);
-        state.Should().HaveCount(10);
+        state.Should().HaveCount(7);
         state[0].Should().BeOfType<LikeEvaluator>();
         state[1].Should().BeOfType<WhereEvaluator>();
         state[2].Should().BeOfType<LikeEvaluator>();
         state[3].Should().BeOfType<IncludeEvaluator>();
         state[4].Should().BeOfType<OrderEvaluator>();
-        state[5].Should().BeOfType<AsNoTrackingEvaluator>();
-        state[6].Should().BeOfType<AsNoTrackingWithIdentityResolutionEvaluator>();
-        state[7].Should().BeOfType<IgnoreQueryFiltersEvaluator>();
-        state[8].Should().BeOfType<AsSplitQueryEvaluator>();
-        state[9].Should().BeOfType<WhereEvaluator>();
+        state[5].Should().BeOfType<FlagsEvaluator>();
+        state[6].Should().BeOfType<WhereEvaluator>();
     }
 
     private class SpecificationEvaluatorDerived : SpecificationEvaluator

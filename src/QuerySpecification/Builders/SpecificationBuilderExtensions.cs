@@ -64,7 +64,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new OrderExpression<T>(keySelector, OrderTypeEnum.OrderBy);
+            var expr = new OrderByExpression<T>(keySelector);
             builder.Specification.Add(expr);
         }
 
@@ -84,7 +84,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new OrderExpression<T>(keySelector, OrderTypeEnum.OrderBy);
+            var expr = new OrderByExpression<T>(keySelector);
             builder.Specification.Add(expr);
         }
 
@@ -104,7 +104,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new OrderExpression<T>(keySelector, OrderTypeEnum.OrderByDescending);
+            var expr = new OrderByDescendingExpression<T>(keySelector);
             builder.Specification.Add(expr);
         }
 
@@ -124,7 +124,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new OrderExpression<T>(keySelector, OrderTypeEnum.OrderByDescending);
+            var expr = new OrderByDescendingExpression<T>(keySelector);
             builder.Specification.Add(expr);
         }
 
@@ -144,7 +144,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new IncludeExpression(includeExpression, typeof(T), typeof(TProperty));
+            var expr = new IncludeExpression(includeExpression);
             builder.Specification.Add(expr);
         }
 
@@ -164,7 +164,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new IncludeExpression(includeExpression, typeof(T), typeof(TProperty));
+            var expr = new IncludeExpression(includeExpression);
             builder.Specification.Add(expr);
         }
 

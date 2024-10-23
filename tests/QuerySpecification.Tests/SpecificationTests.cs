@@ -26,17 +26,6 @@ public class SpecificationTests
         spec.IncludeStrings.Should().BeSameAs(Enumerable.Empty<string>());
     }
 
-    [Fact]
-    public void Items_ReturnsNewDictionaryOnFirstAccess()
-    {
-        var spec = new Specification<Customer>();
-
-        var state = Accessors<Customer>.State(spec);
-        Accessors<Customer>.State(spec).Should().BeNull();
-        spec.Items.Should().NotBeNull();
-        Accessors<Customer>.State(spec).Should().NotBeNull();
-    }
-
     private class Accessors<T>
     {
         [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_state")]

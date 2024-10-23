@@ -10,7 +10,7 @@ public interface IIncludableSpecificationBuilder<T, out TProperty> : ISpecificat
     internal bool IsChainDiscarded { get; set; }
 }
 
-internal class IncludableSpecificationBuilder<T, TResult, TProperty> : IIncludableSpecificationBuilder<T, TResult, TProperty> where T : class
+internal sealed class IncludableSpecificationBuilder<T, TResult, TProperty> : IIncludableSpecificationBuilder<T, TResult, TProperty> where T : class
 {
     public Specification<T, TResult> Specification { get; }
     public bool IsChainDiscarded { get; set; }
@@ -22,7 +22,7 @@ internal class IncludableSpecificationBuilder<T, TResult, TProperty> : IIncludab
     }
 }
 
-internal class IncludableSpecificationBuilder<T, TProperty> : IIncludableSpecificationBuilder<T, TProperty> where T : class
+internal sealed class IncludableSpecificationBuilder<T, TProperty> : IIncludableSpecificationBuilder<T, TProperty> where T : class
 {
     public Specification<T> Specification { get; }
     public bool IsChainDiscarded { get; set; }
