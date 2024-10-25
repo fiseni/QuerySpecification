@@ -28,8 +28,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new WhereExpression<T>(criteria);
-            builder.Specification.Add(expr);
+            builder.Specification.AddInternal(StateType.Where, criteria);
         }
         return builder;
     }
@@ -46,8 +45,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new WhereExpression<T>(criteria);
-            builder.Specification.Add(expr);
+            builder.Specification.AddInternal(StateType.Where, criteria);
         }
         return builder;
     }
@@ -64,8 +62,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new OrderExpression<T>(keySelector, OrderTypeEnum.OrderBy);
-            builder.Specification.Add(expr);
+            builder.Specification.AddInternal(StateType.Order, keySelector, (int)OrderTypeEnum.OrderBy);
         }
 
         var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T, TResult>(builder.Specification, !condition);
@@ -84,8 +81,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new OrderExpression<T>(keySelector, OrderTypeEnum.OrderBy);
-            builder.Specification.Add(expr);
+            builder.Specification.AddInternal(StateType.Order, keySelector, (int)OrderTypeEnum.OrderBy);
         }
 
         var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T>(builder.Specification, !condition);
@@ -104,8 +100,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new OrderExpression<T>(keySelector, OrderTypeEnum.OrderByDescending);
-            builder.Specification.Add(expr);
+            builder.Specification.AddInternal(StateType.Order, keySelector, (int)OrderTypeEnum.OrderByDescending);
         }
 
         var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T, TResult>(builder.Specification, !condition);
@@ -124,8 +119,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new OrderExpression<T>(keySelector, OrderTypeEnum.OrderByDescending);
-            builder.Specification.Add(expr);
+            builder.Specification.AddInternal(StateType.Order, keySelector, (int)OrderTypeEnum.OrderByDescending);
         }
 
         var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T>(builder.Specification, !condition);
@@ -144,8 +138,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new IncludeExpression(includeExpression, typeof(T), typeof(TProperty));
-            builder.Specification.Add(expr);
+            builder.Specification.AddInternal(StateType.Include, includeExpression, (int)IncludeTypeEnum.Include);
         }
 
         var includeBuilder = new IncludableSpecificationBuilder<T, TResult, TProperty>(builder.Specification, !condition);
@@ -164,8 +157,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new IncludeExpression(includeExpression, typeof(T), typeof(TProperty));
-            builder.Specification.Add(expr);
+            builder.Specification.AddInternal(StateType.Include, includeExpression, (int)IncludeTypeEnum.Include);
         }
 
         var includeBuilder = new IncludableSpecificationBuilder<T, TProperty>(builder.Specification, !condition);
@@ -184,7 +176,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.Add(includeString);
+            builder.Specification.AddInternal(StateType.IncludeString, includeString);
         }
         return builder;
     }
@@ -200,7 +192,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.Add(includeString);
+            builder.Specification.AddInternal(StateType.IncludeString, includeString);
         }
         return builder;
     }
@@ -222,7 +214,7 @@ public static class SpecificationBuilderExtensions
         if (condition)
         {
             var expr = new LikeExpression<T>(keySelector, pattern, group);
-            builder.Specification.Add(expr);
+            builder.Specification.AddInternal(StateType.Like, expr);
         }
         return builder;
     }
@@ -244,7 +236,7 @@ public static class SpecificationBuilderExtensions
         if (condition)
         {
             var expr = new LikeExpression<T>(keySelector, pattern, group);
-            builder.Specification.Add(expr);
+            builder.Specification.AddInternal(StateType.Like, expr);
         }
         return builder;
     }
@@ -327,7 +319,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.IgnoreQueryFilters = true;
+            builder.Specification.SetEfFlag(SpecFlag.IgnoreQueryFilters);
         }
         return builder;
     }
@@ -342,7 +334,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.IgnoreQueryFilters = true;
+            builder.Specification.SetEfFlag(SpecFlag.IgnoreQueryFilters);
         }
         return builder;
     }
@@ -357,7 +349,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AsSplitQuery = true;
+            builder.Specification.SetEfFlag(SpecFlag.AsSplitQuery);
         }
         return builder;
     }
@@ -372,7 +364,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AsSplitQuery = true;
+            builder.Specification.SetEfFlag(SpecFlag.AsSplitQuery);
         }
         return builder;
     }
@@ -387,8 +379,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AsNoTrackingWithIdentityResolution = false;
-            builder.Specification.AsNoTracking = true;
+            builder.Specification.RemoveEfFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
+            builder.Specification.SetEfFlag(SpecFlag.AsNoTracking);
         }
         return builder;
     }
@@ -403,8 +395,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AsNoTrackingWithIdentityResolution = false;
-            builder.Specification.AsNoTracking = true;
+            builder.Specification.RemoveEfFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
+            builder.Specification.SetEfFlag(SpecFlag.AsNoTracking);
         }
         return builder;
     }
@@ -419,8 +411,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AsNoTracking = false;
-            builder.Specification.AsNoTrackingWithIdentityResolution = true;
+            builder.Specification.RemoveEfFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
+            builder.Specification.SetEfFlag(SpecFlag.AsNoTracking);
         }
         return builder;
     }
@@ -435,8 +427,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AsNoTracking = false;
-            builder.Specification.AsNoTrackingWithIdentityResolution = true;
+            builder.Specification.RemoveEfFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
+            builder.Specification.SetEfFlag(SpecFlag.AsNoTracking);
         }
         return builder;
     }

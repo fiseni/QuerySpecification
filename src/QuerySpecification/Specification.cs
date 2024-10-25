@@ -151,7 +151,7 @@ public class Specification<T>
             var state = new SpecState();
             state.Type = type;
             state.Reference = new TState();
-            Add(state);
+            AddInternal(state);
             return (TState)state.Reference;
         }
     }
@@ -164,7 +164,7 @@ public class Specification<T>
             var state = new SpecState();
             state.Type = type;
             state.Reference = create();
-            Add(state);
+            AddInternal(state);
             return (TState)state.Reference;
         }
     }
@@ -174,13 +174,19 @@ public class Specification<T>
         ArgumentNullException.ThrowIfNull(value);
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(type);
 
+        AddInternal(type, value);
+    }
+
+    internal void AddInternal(int type, object value, int bag = 0)
+    {
         var state = new SpecState();
         state.Type = type;
         state.Reference = value;
-        Add(state);
+        state.Bag = bag;
+        AddInternal(state);
     }
 
-    internal void Add(SpecState state)
+    private void AddInternal(SpecState state)
     {
         if (IsEmpty)
         {
@@ -242,7 +248,7 @@ public class Specification<T>
                 var state = new SpecState();
                 state.Type = StateType.Flags;
                 state.Bag = (int)flag;
-                Add(state);
+                AddInternal(state);
             }
         }
     }

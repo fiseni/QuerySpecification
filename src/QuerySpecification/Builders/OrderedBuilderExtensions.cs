@@ -14,8 +14,7 @@ public static class OrderedBuilderExtensions
     {
         if (condition && !orderedBuilder.IsChainDiscarded)
         {
-            var expr = new OrderExpression<T>(orderExpression, OrderTypeEnum.ThenBy);
-            orderedBuilder.Specification.Add(expr);
+            orderedBuilder.Specification.AddInternal(StateType.Order, orderExpression, (int)OrderTypeEnum.ThenBy);
         }
         else
         {
@@ -37,8 +36,7 @@ public static class OrderedBuilderExtensions
     {
         if (condition && !orderedBuilder.IsChainDiscarded)
         {
-            var expr = new OrderExpression<T>(orderExpression, OrderTypeEnum.ThenBy);
-            orderedBuilder.Specification.Add(expr);
+            orderedBuilder.Specification.AddInternal(StateType.Order, orderExpression, (int)OrderTypeEnum.ThenBy);
         }
         else
         {
@@ -60,8 +58,7 @@ public static class OrderedBuilderExtensions
     {
         if (condition && !orderedBuilder.IsChainDiscarded)
         {
-            var expr = new OrderExpression<T>(orderExpression, OrderTypeEnum.ThenByDescending);
-            orderedBuilder.Specification.Add(expr);
+            orderedBuilder.Specification.AddInternal(StateType.Order, orderExpression, (int)OrderTypeEnum.ThenByDescending);
         }
         else
         {
@@ -83,8 +80,7 @@ public static class OrderedBuilderExtensions
     {
         if (condition && !orderedBuilder.IsChainDiscarded)
         {
-            var expr = new OrderExpression<T>(orderExpression, OrderTypeEnum.ThenByDescending);
-            orderedBuilder.Specification.Add(expr);
+            orderedBuilder.Specification.AddInternal(StateType.Order, orderExpression, (int)OrderTypeEnum.ThenByDescending);
         }
         else
         {

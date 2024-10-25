@@ -1,6 +1,6 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public class LikeExpression<T>
+public sealed class LikeExpression<T>
 {
     private Func<T, string?>? _keySelectorFunc;
     public Expression<Func<T, string?>> KeySelector { get; }

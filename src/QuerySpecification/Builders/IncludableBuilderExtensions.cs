@@ -16,8 +16,7 @@ public static class IncludableBuilderExtensions
     {
         if (condition && !previousBuilder.IsChainDiscarded)
         {
-            var expr = new IncludeExpression(thenIncludeExpression, typeof(TEntity), typeof(TProperty), typeof(TPreviousProperty));
-            previousBuilder.Specification.Add(expr);
+            previousBuilder.Specification.AddInternal(StateType.Include, thenIncludeExpression, (int)IncludeTypeEnum.ThenInclude);
         }
 
         var includeBuilder = new IncludableSpecificationBuilder<TEntity, TResult, TProperty>(previousBuilder.Specification, !condition || previousBuilder.IsChainDiscarded);
@@ -38,8 +37,7 @@ public static class IncludableBuilderExtensions
     {
         if (condition && !previousBuilder.IsChainDiscarded)
         {
-            var expr = new IncludeExpression(thenIncludeExpression, typeof(TEntity), typeof(TProperty), typeof(TPreviousProperty));
-            previousBuilder.Specification.Add(expr);
+            previousBuilder.Specification.AddInternal(StateType.Include, thenIncludeExpression, (int)IncludeTypeEnum.ThenInclude);
         }
 
         var includeBuilder = new IncludableSpecificationBuilder<TEntity, TProperty>(previousBuilder.Specification, !condition || previousBuilder.IsChainDiscarded);
@@ -60,8 +58,7 @@ public static class IncludableBuilderExtensions
     {
         if (condition && !previousBuilder.IsChainDiscarded)
         {
-            var expr = new IncludeExpression(thenIncludeExpression, typeof(TEntity), typeof(TProperty), typeof(IEnumerable<TPreviousProperty>));
-            previousBuilder.Specification.Add(expr);
+            previousBuilder.Specification.AddInternal(StateType.Include, thenIncludeExpression, (int)IncludeTypeEnum.ThenInclude);
         }
 
         var includeBuilder = new IncludableSpecificationBuilder<TEntity, TResult, TProperty>(previousBuilder.Specification, !condition || previousBuilder.IsChainDiscarded);
@@ -82,8 +79,7 @@ public static class IncludableBuilderExtensions
     {
         if (condition && !previousBuilder.IsChainDiscarded)
         {
-            var expr = new IncludeExpression(thenIncludeExpression, typeof(TEntity), typeof(TProperty), typeof(IEnumerable<TPreviousProperty>));
-            previousBuilder.Specification.Add(expr);
+            previousBuilder.Specification.AddInternal(StateType.Include, thenIncludeExpression, (int)IncludeTypeEnum.ThenInclude);
         }
 
         var includeBuilder = new IncludableSpecificationBuilder<TEntity, TProperty>(previousBuilder.Specification, !condition || previousBuilder.IsChainDiscarded);
