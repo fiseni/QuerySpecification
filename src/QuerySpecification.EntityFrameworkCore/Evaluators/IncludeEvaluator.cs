@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore.Query;
+using System.Collections;
 using System.Diagnostics;
 using System.Reflection;
 
 namespace Pozitron.QuerySpecification;
 
-public class IncludeEvaluator : IEvaluator
+public sealed class IncludeEvaluator : IEvaluator
 {
     private static readonly MethodInfo _includeMethodInfo = typeof(EntityFrameworkQueryableExtensions)
         .GetTypeInfo().GetDeclaredMethods(nameof(EntityFrameworkQueryableExtensions.Include))
@@ -33,54 +34,71 @@ public class IncludeEvaluator : IEvaluator
 
     public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class
     {
-        foreach (var includeString in specification.IncludeStrings)
+        if (specification.IsEmpty) return source;
+
+        foreach (var state in specification.State)
         {
-            source = source.Include(includeString);
+            if (state.Type == StateType.IncludeString && state.Reference is not null)
+            {
+                source = source.Include((string)state.Reference);
+            }
         }
 
-        foreach (var includeExpression in specification.IncludeExpressions)
+        bool isPreviousPropertyCollection = false;
+
+        foreach (var state in specification.State)
         {
-            if (includeExpression.Type == IncludeTypeEnum.Include)
+            if (state.Type == StateType.Include && state.Reference is not null)
             {
-                source = BuildInclude<T>(source, includeExpression);
-            }
-            else if (includeExpression.Type == IncludeTypeEnum.ThenInclude)
-            {
-                source = BuildThenInclude<T>(source, includeExpression);
+                var expr = (LambdaExpression)state.Reference;
+                if (state.Bag == (int)IncludeTypeEnum.Include)
+                {
+                    source = BuildInclude<T>(source, expr);
+                    isPreviousPropertyCollection = IsCollection(expr.ReturnType);
+                }
+                else if (state.Bag == (int)IncludeTypeEnum.ThenInclude)
+                {
+                    source = BuildThenInclude<T>(source, expr, isPreviousPropertyCollection);
+                    isPreviousPropertyCollection = IsCollection(expr.ReturnType);
+                }
             }
         }
 
         return source;
     }
 
-    private static IQueryable<T> BuildInclude<T>(IQueryable source, IncludeExpression includeExpression)
+    private static IQueryable<T> BuildInclude<T>(IQueryable source, LambdaExpression includeExpression)
+
     {
         Debug.Assert(includeExpression is not null);
 
         var result = _includeMethodInfo
-            .MakeGenericMethod(includeExpression.EntityType, includeExpression.PropertyType)
-            .Invoke(null, [source, includeExpression.LambdaExpression]);
+            .MakeGenericMethod(typeof(T), includeExpression.ReturnType)
+            .Invoke(null, [source, includeExpression]);
 
         Debug.Assert(result is not null);
 
         return (IQueryable<T>)result;
     }
 
-    private static IQueryable<T> BuildThenInclude<T>(IQueryable source, IncludeExpression includeExpression)
+
+    private static IQueryable<T> BuildThenInclude<T>(IQueryable source, LambdaExpression includeExpression, bool isPreviousPropertyCollection)
     {
         Debug.Assert(includeExpression is not null);
-        Debug.Assert(includeExpression.PreviousPropertyType is not null);
 
-        var result = (IsGenericEnumerable(includeExpression.PreviousPropertyType, out var previousPropertyType)
-                            ? _thenIncludeAfterEnumerableMethodInfo
-                            : _thenIncludeAfterReferenceMethodInfo)
-            .MakeGenericMethod(includeExpression.EntityType, previousPropertyType, includeExpression.PropertyType)
-            .Invoke(null, [source, includeExpression.LambdaExpression]);
+        var previousPropertyType = includeExpression.Parameters[0].Type;
+
+        var mi = isPreviousPropertyCollection
+            ? _thenIncludeAfterEnumerableMethodInfo.MakeGenericMethod(typeof(T), previousPropertyType, includeExpression.ReturnType)
+            : _thenIncludeAfterReferenceMethodInfo.MakeGenericMethod(typeof(T), previousPropertyType, includeExpression.ReturnType);
+
+        var result = mi.Invoke(null, [source, includeExpression]);
 
         Debug.Assert(result is not null);
 
         return (IQueryable<T>)result;
     }
+
 
     private static bool IsGenericEnumerable(Type type, out Type propertyType)
     {
@@ -93,4 +111,16 @@ public class IncludeEvaluator : IEvaluator
         propertyType = type;
         return false;
     }
+
+    public static bool IsCollection(Type type)
+    {
+        // Exclude string, which implements IEnumerable but is not considered a collection
+        if (type == typeof(string))
+        {
+            return false;
+        }
+
+        return typeof(IEnumerable).IsAssignableFrom(type);
+    }
+
 }
