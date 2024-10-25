@@ -1,11 +1,18 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public class LikeMemoryEvaluator : IInMemoryEvaluator
+public sealed class LikeMemoryEvaluator : IInMemoryEvaluator
 {
     private LikeMemoryEvaluator() { }
     public static LikeMemoryEvaluator Instance = new();
 
     public IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)
+    {
+        if (!specification.Contains(StateType.Like)) return source;
+
+        return LikeMemoryIterator<T>(source, specification);
+    }
+
+    private static IEnumerable<T> LikeMemoryIterator<T>(IEnumerable<T> source, Specification<T> specification)
     {
         // There are benchmarks in QuerySpecification.Benchmarks project.
         // This implementation was the most efficient one.

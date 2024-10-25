@@ -17,7 +17,9 @@ public class Specification<T, TResult> : Specification<T>
 
 public class Specification<T>
 {
-    internal SpecState[]? _state;
+    private SpecState[]? _state;
+
+    internal ReadOnlySpan<SpecState> State => _state;
 
     public Specification()
     {
