@@ -47,7 +47,7 @@ public class SizeTests
         //specWhere.AddToArray(StateType.Where, whereExpression);
 
 
-        specWhere.Add(whereExpression);
+        //specWhere.Add(whereExpression);
         //specWhere.Add(whereExpression);
         //specWhere.Query
         //    .Where(x => x.Id > 3)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Query;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -29,6 +30,12 @@ public sealed class IncludeEvaluator : IEvaluator
                 && mi.GetParameters()[0].ParameterType.GetGenericTypeDefinition() == typeof(IIncludableQueryable<,>)
                 && mi.GetParameters()[1].ParameterType.GetGenericTypeDefinition() == typeof(Expression<>));
 
+    private static readonly ConcurrentDictionary<(Type Entity, Type ReturnType), MethodInfo> _methods = new();
+    private static readonly ConcurrentDictionary<(Type Entity, Type PreviousProperty, Type ReturnType), MethodInfo> _methods2 = new();
+    private static readonly ConcurrentDictionary<(Type Entity, Type PreviousProperty, Type ReturnType), MethodInfo> _methods3 = new();
+
+    private static readonly ConcurrentDictionary<(Type EntityType, Type PropertyType, Type? PreviousPropertyType), Lazy<Func<IQueryable, LambdaExpression, IQueryable>>> _delegatesCache = new();
+
     private IncludeEvaluator() { }
     public static IncludeEvaluator Instance = new();
 
@@ -36,55 +43,108 @@ public sealed class IncludeEvaluator : IEvaluator
     {
         if (specification.IsEmpty) return source;
 
-        foreach (var item in specification._state)
+        foreach (var state in specification._state)
         {
-            if (item is string includeString)
+            if (state.Type == StateType.IncludeString && state.Reference is not null)
             {
-                source = source.Include(includeString);
+                source = source.Include((string)state.Reference);
             }
         }
 
         bool isPreviousPropertyCollection = false;
 
-        foreach (var item in specification._state)
+        foreach (var state in specification._state)
         {
-            if (item is IncludeThenExpression includeThenExpression)
+            if (state.Type == StateType.Include && state.Reference is not null)
             {
-                source = BuildThenInclude<T>(source, includeThenExpression, isPreviousPropertyCollection);
-                isPreviousPropertyCollection = IsCollection(includeThenExpression.LambdaExpression.ReturnType);
-            }
-            else if (item is IncludeExpression includeExpression)
-            {
-                source = BuildInclude<T>(source, includeExpression);
-                isPreviousPropertyCollection = IsCollection(includeExpression.LambdaExpression.ReturnType);
+                var expr = (LambdaExpression)state.Reference;
+                if (state.Bag == (int)IncludeTypeEnum.Include)
+                {
+                    source = BuildInclude<T>(source, expr);
+                    isPreviousPropertyCollection = IsCollection(expr.ReturnType);
+                }
+                else if (state.Bag == (int)IncludeTypeEnum.ThenInclude)
+                {
+                    source = BuildThenInclude<T>(source, expr, isPreviousPropertyCollection);
+                    isPreviousPropertyCollection = IsCollection(expr.ReturnType);
+                }
             }
         }
 
         return source;
     }
 
-    private static IQueryable<T> BuildInclude<T>(IQueryable source, IncludeExpression includeExpression)
+    private static IQueryable<T> BuildInclude<T>(IQueryable source, LambdaExpression includeExpression)
     {
         Debug.Assert(includeExpression is not null);
 
         var result = _includeMethodInfo
-            .MakeGenericMethod(typeof(T), includeExpression.LambdaExpression.ReturnType)
-            .Invoke(null, [source, includeExpression.LambdaExpression]);
+            .MakeGenericMethod(typeof(T), includeExpression.ReturnType)
+            .Invoke(null, [source, includeExpression]);
 
         Debug.Assert(result is not null);
 
         return (IQueryable<T>)result;
+
+        //Debug.Assert(includeExpression is not null);
+
+        //var mi = _methods.GetOrAdd((typeof(T), includeExpression.ReturnType), static key =>
+        //{
+        //    Console.WriteLine("$$$$$$$$$$1");
+        //    return _includeMethodInfo
+        //        .MakeGenericMethod(key.Entity, key.ReturnType);
+        //});
+
+        //var result = mi.Invoke(null, [source, includeExpression]);
+
+        //Debug.Assert(result is not null);
+
+        //return (IQueryable<T>)result;
+
+        //var include = _delegatesCache.GetOrAdd((typeof(T), includeExpression.ReturnType, null), CreateIncludeDelegate).Value;
+
+        //return (IQueryable<T>)include(source, includeExpression);
     }
 
-    private static IQueryable<T> BuildThenInclude<T>(IQueryable source, IncludeThenExpression includeExpression, bool isPreviousPropertyCollection)
+
+    private static Lazy<Func<IQueryable, LambdaExpression, IQueryable>> CreateIncludeDelegate((Type EntityType, Type PropertyType, Type? PreviousPropertyType) cacheKey)
+        => new(() =>
+    {
+        var concreteInclude = _includeMethodInfo.MakeGenericMethod(cacheKey.EntityType, cacheKey.PropertyType);
+        var sourceParameter = Expression.Parameter(typeof(IQueryable));
+        var selectorParameter = Expression.Parameter(typeof(LambdaExpression));
+
+        var call = Expression.Call(
+              concreteInclude,
+              Expression.Convert(sourceParameter, typeof(IQueryable<>).MakeGenericType(cacheKey.EntityType)),
+              Expression.Convert(selectorParameter, typeof(Expression<>).MakeGenericType(typeof(Func<,>).MakeGenericType(cacheKey.EntityType, cacheKey.PropertyType))));
+
+        var lambda = Expression.Lambda<Func<IQueryable, LambdaExpression, IQueryable>>(call, sourceParameter, selectorParameter);
+
+        return lambda.Compile();
+    });
+
+    private static IQueryable<T> BuildThenInclude<T>(IQueryable source, LambdaExpression includeExpression, bool isPreviousPropertyCollection)
     {
         Debug.Assert(includeExpression is not null);
 
-        var previousPropertyType = includeExpression.LambdaExpression.Parameters[0].Type;
+        var previousPropertyType = includeExpression.Parameters[0].Type;
 
-        var result = (isPreviousPropertyCollection ? _thenIncludeAfterEnumerableMethodInfo : _thenIncludeAfterReferenceMethodInfo)
-            .MakeGenericMethod(typeof(T), previousPropertyType, includeExpression.LambdaExpression.ReturnType)
-            .Invoke(null, [source, includeExpression.LambdaExpression]);
+        var mi = isPreviousPropertyCollection
+            ? _methods2.GetOrAdd((typeof(T), previousPropertyType, includeExpression.ReturnType), static key =>
+            {
+                Console.WriteLine("$$$$$$$$$$2");
+                return _thenIncludeAfterEnumerableMethodInfo
+                .MakeGenericMethod(key.Entity, key.PreviousProperty, key.ReturnType);
+            })
+            : _methods3.GetOrAdd((typeof(T), previousPropertyType, includeExpression.ReturnType), static key =>
+            {
+                Console.WriteLine("$$$$$$$$$$3");
+                return _thenIncludeAfterReferenceMethodInfo
+                .MakeGenericMethod(key.Entity, key.PreviousProperty, key.ReturnType);
+            });
+
+        var result = mi.Invoke(null, [source, includeExpression]);
 
         Debug.Assert(result is not null);
 

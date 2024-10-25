@@ -14,8 +14,13 @@ public static class OrderedBuilderExtensions
     {
         if (condition && !Specification<T, TResult>._isChainDiscarded)
         {
-            var expr = new OrderThenByExpression<T>(orderExpression);
-            orderedBuilder.Specification.Add(expr);
+            var state = new SpecState
+            {
+                Type = StateType.Order,
+                Bag = (int)OrderTypeEnum.ThenBy,
+                Reference = orderExpression
+            };
+            orderedBuilder.Specification.Add(state);
         }
         else
         {
@@ -37,8 +42,13 @@ public static class OrderedBuilderExtensions
     {
         if (condition && !Specification<T>._isChainDiscarded)
         {
-            var expr = new OrderThenByExpression<T>(orderExpression);
-            orderedBuilder.Specification.Add(expr);
+            var state = new SpecState
+            {
+                Type = StateType.Order,
+                Bag = (int)OrderTypeEnum.ThenBy,
+                Reference = orderExpression
+            };
+            orderedBuilder.Specification.Add(state);
         }
         else
         {
@@ -60,8 +70,13 @@ public static class OrderedBuilderExtensions
     {
         if (condition && !Specification<T, TResult>._isChainDiscarded)
         {
-            var expr = new OrderThenByDescendingExpression<T>(orderExpression);
-            orderedBuilder.Specification.Add(expr);
+            var state = new SpecState
+            {
+                Type = StateType.Order,
+                Bag = (int)OrderTypeEnum.ThenByDescending,
+                Reference = orderExpression
+            };
+            orderedBuilder.Specification.Add(state);
         }
         else
         {
@@ -83,8 +98,13 @@ public static class OrderedBuilderExtensions
     {
         if (condition && !Specification<T>._isChainDiscarded)
         {
-            var expr = new OrderThenByDescendingExpression<T>(orderExpression);
-            orderedBuilder.Specification.Add(expr);
+            var state = new SpecState
+            {
+                Type = StateType.Order,
+                Bag = (int)OrderTypeEnum.ThenByDescending,
+                Reference = orderExpression
+            };
+            orderedBuilder.Specification.Add(state);
         }
         else
         {

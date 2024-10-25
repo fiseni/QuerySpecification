@@ -11,23 +11,27 @@ public sealed class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 
         IOrderedQueryable<T>? orderedQuery = null;
 
-        foreach (var item in specification._state)
+        foreach (var state in specification._state)
         {
-            if (item is OrderByExpression<T> orderByExpression)
+            if (state.Type == StateType.Order && state.Reference is not null)
             {
-                orderedQuery = source.OrderBy(orderByExpression.KeySelector);
-            }
-            else if (item is OrderByDescendingExpression<T> orderByDescendingExpression)
-            {
-                orderedQuery = source.OrderByDescending(orderByDescendingExpression.KeySelector);
-            }
-            else if (item is OrderThenByExpression<T> orderThenByExpression)
-            {
-                orderedQuery = orderedQuery!.ThenBy(orderThenByExpression.KeySelector);
-            }
-            else if (item is OrderThenByDescendingExpression<T> orderThenByDescendingExpression)
-            {
-                orderedQuery = orderedQuery!.ThenByDescending(orderThenByDescendingExpression.KeySelector);
+                var expr = (Expression<Func<T, object?>>)state.Reference;
+                if (state.Bag == (int)OrderTypeEnum.OrderBy)
+                {
+                    orderedQuery = source.OrderBy(expr);
+                }
+                else if (state.Bag == (int)OrderTypeEnum.OrderByDescending)
+                {
+                    orderedQuery = source.OrderByDescending(expr);
+                }
+                else if (state.Bag == (int)OrderTypeEnum.ThenBy)
+                {
+                    orderedQuery = orderedQuery!.ThenBy(expr);
+                }
+                else if (state.Bag == (int)OrderTypeEnum.ThenByDescending)
+                {
+                    orderedQuery = orderedQuery!.ThenByDescending(expr);
+                }
             }
         }
 
@@ -45,23 +49,27 @@ public sealed class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 
         IOrderedEnumerable<T>? orderedQuery = null;
 
-        foreach (var item in specification._state)
+        foreach (var state in specification._state)
         {
-            if (item is OrderByExpression<T> orderByExpression)
+            if (state.Type == StateType.Order && state.Reference is not null)
             {
-                orderedQuery = source.OrderBy(orderByExpression.KeySelectorFunc);
-            }
-            else if (item is OrderByDescendingExpression<T> orderByDescendingExpression)
-            {
-                orderedQuery = source.OrderByDescending(orderByDescendingExpression.KeySelectorFunc);
-            }
-            else if (item is OrderThenByExpression<T> orderThenByExpression)
-            {
-                orderedQuery = orderedQuery!.ThenBy(orderThenByExpression.KeySelectorFunc);
-            }
-            else if (item is OrderThenByDescendingExpression<T> orderThenByDescendingExpression)
-            {
-                orderedQuery = orderedQuery!.ThenByDescending(orderThenByDescendingExpression.KeySelectorFunc);
+                var func = ((Expression<Func<T, object?>>)state.Reference).Compile();
+                if (state.Bag == (int)OrderTypeEnum.OrderBy)
+                {
+                    orderedQuery = source.OrderBy(func);
+                }
+                else if (state.Bag == (int)OrderTypeEnum.OrderByDescending)
+                {
+                    orderedQuery = source.OrderByDescending(func);
+                }
+                else if (state.Bag == (int)OrderTypeEnum.ThenBy)
+                {
+                    orderedQuery = orderedQuery!.ThenBy(func);
+                }
+                else if (state.Bag == (int)OrderTypeEnum.ThenByDescending)
+                {
+                    orderedQuery = orderedQuery!.ThenByDescending(func);
+                }
             }
         }
 

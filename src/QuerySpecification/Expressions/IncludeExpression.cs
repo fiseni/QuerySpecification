@@ -1,27 +1,15 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public sealed class IncludeThenExpression : IncludeExpression
-{
-    public IncludeThenExpression(LambdaExpression expression)
-        : base(expression)
-    {
-    }
-}
-
 public class IncludeExpression
 {
     public LambdaExpression LambdaExpression { get; }
+    public IncludeTypeEnum Type { get; }
 
-    public IncludeExpression(LambdaExpression expression)
+    public IncludeExpression(LambdaExpression expression, IncludeTypeEnum type)
     {
         ArgumentNullException.ThrowIfNull(expression);
-        LambdaExpression = expression;
-    }
 
-    public IncludeTypeEnum Type => this switch
-    {
-        IncludeThenExpression => IncludeTypeEnum.ThenInclude,
-        IncludeExpression => IncludeTypeEnum.Include,
-        _ => throw new InvalidOperationException("Unknown IncludeExpression type.")
-    };
+        LambdaExpression = expression;
+        Type = type;
+    }
 }

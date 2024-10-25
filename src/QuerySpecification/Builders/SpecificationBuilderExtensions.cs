@@ -28,8 +28,12 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new WhereExpression<T>(criteria);
-            builder.Specification.Add(expr);
+            var state = new SpecState
+            {
+                Type = StateType.Where,
+                Reference = criteria
+            };
+            builder.Specification.Add(state);
         }
         return builder;
     }
@@ -46,8 +50,12 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new WhereExpression<T>(criteria);
-            builder.Specification.Add(expr);
+            var state = new SpecState
+            {
+                Type = StateType.Where,
+                Reference = criteria
+            };
+            builder.Specification.Add(state);
         }
         return builder;
     }
@@ -64,8 +72,13 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new OrderByExpression<T>(keySelector);
-            builder.Specification.Add(expr);
+            var state = new SpecState
+            {
+                Type = StateType.Order,
+                Bag = (int)OrderTypeEnum.OrderBy,
+                Reference = keySelector
+            };
+            builder.Specification.Add(state);
         }
 
         Specification<T,TResult>._isChainDiscarded = !condition;
@@ -84,8 +97,13 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new OrderByExpression<T>(keySelector);
-            builder.Specification.Add(expr);
+            var state = new SpecState
+            {
+                Type = StateType.Order,
+                Bag = (int)OrderTypeEnum.OrderBy,
+                Reference = keySelector
+            };
+            builder.Specification.Add(state);
         }
 
         Specification<T>._isChainDiscarded = !condition;
@@ -104,8 +122,13 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new OrderByDescendingExpression<T>(keySelector);
-            builder.Specification.Add(expr);
+            var state = new SpecState
+            {
+                Type = StateType.Order,
+                Bag = (int)OrderTypeEnum.OrderByDescending,
+                Reference = keySelector
+            };
+            builder.Specification.Add(state);
         }
 
         Specification<T,TResult>._isChainDiscarded = !condition;
@@ -124,8 +147,13 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new OrderByDescendingExpression<T>(keySelector);
-            builder.Specification.Add(expr);
+            var state = new SpecState
+            {
+                Type = StateType.Order,
+                Bag = (int)OrderTypeEnum.OrderByDescending,
+                Reference = keySelector
+            };
+            builder.Specification.Add(state);
         }
 
         Specification<T>._isChainDiscarded = !condition;
@@ -144,8 +172,13 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new IncludeExpression(includeExpression);
-            builder.Specification.Add(expr);
+            var state = new SpecState
+            {
+                Type = StateType.Include,
+                Bag = (int)IncludeTypeEnum.Include,
+                Reference = includeExpression
+            };
+            builder.Specification.Add(state);
         }
 
         Specification<T>._isChainDiscarded = !condition;
@@ -165,8 +198,13 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new IncludeExpression(includeExpression);
-            builder.Specification.Add(expr);
+            var state = new SpecState
+            {
+                Type = StateType.Include,
+                Bag = (int)IncludeTypeEnum.Include,
+                Reference = includeExpression
+            };
+            builder.Specification.Add(state);
         }
 
         Specification<T>._isChainDiscarded = !condition;
@@ -186,7 +224,12 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.Add(includeString);
+            var state = new SpecState
+            {
+                Type = StateType.IncludeString,
+                Reference = includeString
+            };
+            builder.Specification.Add(state);
         }
         return builder;
     }
@@ -202,7 +245,12 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.Add(includeString);
+            var state = new SpecState
+            {
+                Type = StateType.IncludeString,
+                Reference = includeString
+            };
+            builder.Specification.Add(state);
         }
         return builder;
     }
@@ -224,7 +272,12 @@ public static class SpecificationBuilderExtensions
         if (condition)
         {
             var expr = new LikeExpression<T>(keySelector, pattern, group);
-            builder.Specification.Add(expr);
+            var state = new SpecState
+            {
+                Type = StateType.Like,
+                Reference = expr
+            };
+            builder.Specification.Add(state);
         }
         return builder;
     }
@@ -246,7 +299,12 @@ public static class SpecificationBuilderExtensions
         if (condition)
         {
             var expr = new LikeExpression<T>(keySelector, pattern, group);
-            builder.Specification.Add(expr);
+            var state = new SpecState
+            {
+                Type = StateType.Like,
+                Reference = expr
+            };
+            builder.Specification.Add(state);
         }
         return builder;
     }
@@ -329,7 +387,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.IgnoreQueryFilters = true;
+            builder.Specification.SetEfFlag(EfFlag.IgnoreQueryFilters);
         }
         return builder;
     }
@@ -344,7 +402,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.IgnoreQueryFilters = true;
+            builder.Specification.SetEfFlag(EfFlag.IgnoreQueryFilters);
         }
         return builder;
     }
@@ -359,7 +417,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AsSplitQuery = true;
+            builder.Specification.SetEfFlag(EfFlag.AsSplitQuery);
         }
         return builder;
     }
@@ -374,7 +432,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AsSplitQuery = true;
+            builder.Specification.SetEfFlag(EfFlag.AsSplitQuery);
         }
         return builder;
     }
@@ -389,8 +447,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AsNoTrackingWithIdentityResolution = false;
-            builder.Specification.AsNoTracking = true;
+            builder.Specification.RemoveEfFlag(EfFlag.AsNoTrackingWithIdentityResolution);
+            builder.Specification.SetEfFlag(EfFlag.AsNoTracking);
         }
         return builder;
     }
@@ -405,8 +463,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AsNoTrackingWithIdentityResolution = false;
-            builder.Specification.AsNoTracking = true;
+            builder.Specification.RemoveEfFlag(EfFlag.AsNoTrackingWithIdentityResolution);
+            builder.Specification.SetEfFlag(EfFlag.AsNoTracking);
         }
         return builder;
     }
@@ -421,8 +479,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AsNoTracking = false;
-            builder.Specification.AsNoTrackingWithIdentityResolution = true;
+            builder.Specification.RemoveEfFlag(EfFlag.AsNoTracking);
+            builder.Specification.SetEfFlag(EfFlag.AsNoTrackingWithIdentityResolution);
         }
         return builder;
     }
@@ -437,8 +495,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AsNoTracking = false;
-            builder.Specification.AsNoTrackingWithIdentityResolution = true;
+            builder.Specification.RemoveEfFlag(EfFlag.AsNoTracking);
+            builder.Specification.SetEfFlag(EfFlag.AsNoTrackingWithIdentityResolution);
         }
         return builder;
     }

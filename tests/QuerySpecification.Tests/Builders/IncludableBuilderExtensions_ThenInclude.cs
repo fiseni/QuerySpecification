@@ -33,9 +33,9 @@ public class IncludableBuilderExtensions_ThenInclude
                 .ThenInclude(x => x.Contacts, false);
 
         spec1.IncludeExpressions.Should().HaveCount(4);
-        spec1.IncludeExpressions.Should().AllBeOfType<IncludeExpression>();
+        spec1.IncludeExpressions.Should().AllSatisfy(x => x.Type.Should().Be(IncludeTypeEnum.Include));
         spec2.IncludeExpressions.Should().HaveCount(4);
-        spec1.IncludeExpressions.Should().AllBeOfType<IncludeExpression>();
+        spec2.IncludeExpressions.Should().AllSatisfy(x => x.Type.Should().Be(IncludeTypeEnum.Include));
     }
 
     [Fact]
@@ -109,9 +109,9 @@ public class IncludableBuilderExtensions_ThenInclude
                 .ThenInclude(x => x.Phone);
 
         spec1.IncludeExpressions.Should().HaveCount(4);
-        spec1.IncludeExpressions.Should().AllBeOfType<IncludeExpression>();
+        spec1.IncludeExpressions.Should().AllSatisfy(x => x.Type.Should().Be(IncludeTypeEnum.Include));
         spec2.IncludeExpressions.Should().HaveCount(4);
-        spec1.IncludeExpressions.Should().AllBeOfType<IncludeExpression>();
+        spec2.IncludeExpressions.Should().AllSatisfy(x => x.Type.Should().Be(IncludeTypeEnum.Include));
     }
 
     [Fact]
@@ -131,12 +131,12 @@ public class IncludableBuilderExtensions_ThenInclude
 
         spec1.IncludeExpressions.Should().HaveCount(2);
         spec1.IncludeExpressions.Last().LambdaExpression.Should().BeSameAs(expr);
-        spec1.IncludeExpressions.First().Should().BeOfType<IncludeExpression>();
-        spec1.IncludeExpressions.Last().Should().BeOfType<IncludeThenExpression>();
+        spec1.IncludeExpressions.First().Type.Should().Be(IncludeTypeEnum.Include);
+        spec1.IncludeExpressions.Last().Type.Should().Be(IncludeTypeEnum.ThenInclude);
         spec2.IncludeExpressions.Should().HaveCount(2);
         spec2.IncludeExpressions.Last().LambdaExpression.Should().BeSameAs(expr);
-        spec2.IncludeExpressions.First().Should().BeOfType<IncludeExpression>();
-        spec2.IncludeExpressions.Last().Should().BeOfType<IncludeThenExpression>();
+        spec2.IncludeExpressions.First().Type.Should().Be(IncludeTypeEnum.Include);
+        spec2.IncludeExpressions.Last().Type.Should().Be(IncludeTypeEnum.ThenInclude);
     }
 
     [Fact]
@@ -173,10 +173,10 @@ public class IncludableBuilderExtensions_ThenInclude
                 .ThenInclude(x => x.Phone);
 
         spec1.IncludeExpressions.Should().HaveCount(12);
-        spec1.IncludeExpressions.OrderBy(x => x.Type).Take(4).Should().AllBeOfType<IncludeExpression>();
-        spec1.IncludeExpressions.OrderBy(x => x.Type).Skip(4).Should().AllBeOfType<IncludeThenExpression>();
+        spec1.IncludeExpressions.OrderBy(x => x.Type).Take(4).Should().AllSatisfy(x => x.Type.Should().Be(IncludeTypeEnum.Include));
+        spec1.IncludeExpressions.OrderBy(x => x.Type).Skip(4).Should().AllSatisfy(x => x.Type.Should().Be(IncludeTypeEnum.ThenInclude));
         spec2.IncludeExpressions.Should().HaveCount(12);
-        spec2.IncludeExpressions.OrderBy(x => x.Type).Take(4).Should().AllBeOfType<IncludeExpression>();
-        spec2.IncludeExpressions.OrderBy(x => x.Type).Skip(4).Should().AllBeOfType<IncludeThenExpression>();
+        spec2.IncludeExpressions.OrderBy(x => x.Type).Take(4).Should().AllSatisfy(x => x.Type.Should().Be(IncludeTypeEnum.Include));
+        spec2.IncludeExpressions.OrderBy(x => x.Type).Skip(4).Should().AllSatisfy(x => x.Type.Should().Be(IncludeTypeEnum.ThenInclude));
     }
 }

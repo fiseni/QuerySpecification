@@ -29,6 +29,6 @@ public class SpecificationTests
     private class Accessors<T>
     {
         [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_state")]
-        public static extern ref object?[]? State(Specification<T> @this);
+        public static extern ref SpecState[]? State(Specification<T> @this);
     }
 }

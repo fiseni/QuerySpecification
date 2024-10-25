@@ -7,7 +7,7 @@ public sealed class LikeMemoryEvaluator : IInMemoryEvaluator
 
     public IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)
     {
-        if (!specification.Contains<LikeExpression<T>>()) return source;
+        if (!specification.Contains(StateType.Like)) return source;
 
         return LikeMemoryIterator<T>(source, specification);
     }

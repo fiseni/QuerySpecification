@@ -18,9 +18,15 @@ public class ExpressionBenchmark
         var id = 1;
 
         var result = _queryable
-            .Where(x => x.Id == id)
-            .Include(x => x.Products)
-            .Include(x => x.Company).ThenInclude(x => x.Country);
+            .Where(x => x.Id == 1)
+                .Include(x => x.Products)
+                .Include(x => x.Products)
+                .Include(x => x.Products)
+                .Include(x => x.Products)
+                .Include(x => x.Products)
+            .OrderBy(x => x.Name);
+        //.Include(x => x.Products)
+        //.Include(x => x.Company).ThenInclude(x => x.Country);
 
         return result;
     }
@@ -41,9 +47,15 @@ public class ExpressionBenchmark
         public StoreIncludeProductsSpec(int id)
         {
             Query
-                .Where(x => x.Id == id)
+                .Where(x => x.Id == 1)
                 .Include(x => x.Products)
-                .Include(x => x.Company).ThenInclude(x => x.Country);
+                .Include(x => x.Products)
+                .Include(x => x.Products)
+                .Include(x => x.Products)
+                .Include(x => x.Products)
+                .OrderBy(x => x.Name);
+            //.Include(x => x.Products)
+            //.Include(x => x.Company).ThenInclude(x => x.Country);
         }
     }
 }

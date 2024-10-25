@@ -16,8 +16,13 @@ public static class IncludableBuilderExtensions
     {
         if (condition && !Specification<TEntity, TResult>._isChainDiscarded)
         {
-            var expr = new IncludeThenExpression(thenIncludeExpression);
-            previousBuilder.Specification.Add(expr);
+            var state = new SpecState
+            {
+                Type = StateType.Include,
+                Bag = (int)IncludeTypeEnum.ThenInclude,
+                Reference = thenIncludeExpression
+            };
+            previousBuilder.Specification.Add(state);
         }
         else
         {
@@ -42,8 +47,13 @@ public static class IncludableBuilderExtensions
     {
         if (condition && !Specification<TEntity>._isChainDiscarded)
         {
-            var expr = new IncludeThenExpression(thenIncludeExpression);
-            previousBuilder.Specification.Add(expr);
+            var state = new SpecState
+            {
+                Type = StateType.Include,
+                Bag = (int)IncludeTypeEnum.ThenInclude,
+                Reference = thenIncludeExpression
+            };
+            previousBuilder.Specification.Add(state);
         }
         else
         {
@@ -68,15 +78,19 @@ public static class IncludableBuilderExtensions
     {
         if (condition && !Specification<TEntity, TResult>._isChainDiscarded)
         {
-            var expr = new IncludeThenExpression(thenIncludeExpression);
-            previousBuilder.Specification.Add(expr);
+            var state = new SpecState
+            {
+                Type = StateType.Include,
+                Bag = (int)IncludeTypeEnum.ThenInclude,
+                Reference = thenIncludeExpression
+            };
+            previousBuilder.Specification.Add(state);
         }
         else
         {
             Specification<TEntity, TResult>._isChainDiscarded = true;
         }
 
-        
         var includeBuilder = new IncludableSpecificationBuilder<TEntity, TResult, TProperty>(previousBuilder.Specification);
         return includeBuilder;
     }
@@ -95,8 +109,13 @@ public static class IncludableBuilderExtensions
     {
         if (condition && !Specification<TEntity>._isChainDiscarded)
         {
-            var expr = new IncludeThenExpression(thenIncludeExpression);
-            previousBuilder.Specification.Add(expr);
+            var state = new SpecState
+            {
+                Type = StateType.Include,
+                Bag = (int)IncludeTypeEnum.ThenInclude,
+                Reference = thenIncludeExpression
+            };
+            previousBuilder.Specification.Add(state);
         }
         else
         {

@@ -7,26 +7,26 @@ public sealed class FlagsEvaluator : IEvaluator
 
     public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class
     {
-        var flags = specification.GetFirstOrDefault<Specification<T>.Flags>();
+        var flags = specification.GetEfFlag();
 
         if (flags is null) return source;
 
-        if (flags.IgnoreQueryFilters)
+        if ((flags & EfFlag.IgnoreQueryFilters) == EfFlag.IgnoreQueryFilters)
         {
             source = source.IgnoreQueryFilters();
         }
 
-        if (flags.AsNoTracking)
+        if ((flags & EfFlag.AsNoTracking) == EfFlag.AsNoTracking)
         {
             source = source.AsNoTracking();
         }
 
-        if (flags.AsNoTrackingWithIdentityResolution)
+        if ((flags & EfFlag.AsNoTrackingWithIdentityResolution) == EfFlag.AsNoTrackingWithIdentityResolution)
         {
             source = source.AsNoTrackingWithIdentityResolution();
         }
 
-        if (flags.AsSplitQuery)
+        if ((flags & EfFlag.AsSplitQuery) == EfFlag.AsSplitQuery)
         {
             source = source.AsSplitQuery();
         }

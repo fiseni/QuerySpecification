@@ -1,12 +1,15 @@
 ﻿using BenchmarkDotNet.Running;
+using QuerySpecification.Benchmarks;
 
 BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
 
-//var benchmark = new QueryStringBenchmark();
+return;
+var benchmark = new ExpressionBenchmark();
 
 //var x1 = benchmark.EFIncludeExpression();
 //var x2 = benchmark.EFIncludeString();
-//var x3 = benchmark.SpecIncludeExpression();
+benchmark.Setup();
+var x3 = benchmark.SpecIncludeExpression();
 //var x4 = benchmark.SpecIncludeString();
 
 //Console.WriteLine(x1);
