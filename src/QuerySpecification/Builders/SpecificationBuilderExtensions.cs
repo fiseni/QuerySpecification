@@ -411,8 +411,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.RemoveEfFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
-            builder.Specification.SetEfFlag(SpecFlag.AsNoTracking);
+            builder.Specification.RemoveEfFlag(SpecFlag.AsNoTracking);
+            builder.Specification.SetEfFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
         }
         return builder;
     }
@@ -427,8 +427,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.RemoveEfFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
-            builder.Specification.SetEfFlag(SpecFlag.AsNoTracking);
+            builder.Specification.RemoveEfFlag(SpecFlag.AsNoTracking);
+            builder.Specification.SetEfFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
         }
         return builder;
     }

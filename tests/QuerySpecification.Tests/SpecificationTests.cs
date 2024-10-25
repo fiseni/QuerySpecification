@@ -7,16 +7,11 @@ public class SpecificationTests
     public record Customer(int Id, string Name);
 
     [Fact]
-    public void CollectionFields_AreNull_GivenEmptySpec()
+    public void StateIsNull_GivenEmptySpec()
     {
         var spec = new Specification<Customer>();
 
-        Accessors<Customer>.WhereExpressionsOf(spec).Should().BeNull();
-        Accessors<Customer>.LikeExpressionsOf(spec).Should().BeNull();
-        Accessors<Customer>.OrderExpressionsOf(spec).Should().BeNull();
-        Accessors<Customer>.IncludeExpressionsOf(spec).Should().BeNull();
-        Accessors<Customer>.IncludeStringsOf(spec).Should().BeNull();
-        Accessors<Customer>.ItemsOf(spec).Should().BeNull();
+        Accessors<Customer>.State(spec).Should().BeNull();
     }
 
     [Fact]
@@ -31,34 +26,9 @@ public class SpecificationTests
         spec.IncludeStrings.Should().BeSameAs(Enumerable.Empty<string>());
     }
 
-    [Fact]
-    public void Items_ReturnsNewDictionaryOnFirstAccess()
-    {
-        var spec = new Specification<Customer>();
-
-        Accessors<Customer>.ItemsOf(spec).Should().BeNull();
-        spec.Items.Should().NotBeNull();
-        Accessors<Customer>.ItemsOf(spec).Should().NotBeNull();
-    }
-
     private class Accessors<T>
     {
-        [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_whereExpressions")]
-        public static extern ref List<WhereExpression<T>>? WhereExpressionsOf(Specification<T> @this);
-
-        [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_likeExpressions")]
-        public static extern ref List<LikeExpression<T>>? LikeExpressionsOf(Specification<T> @this);
-
-        [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_orderExpressions")]
-        public static extern ref List<OrderExpression<T>>? OrderExpressionsOf(Specification<T> @this);
-
-        [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_includeExpressions")]
-        public static extern ref List<IncludeExpression>? IncludeExpressionsOf(Specification<T> @this);
-
-        [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_includeStrings")]
-        public static extern ref List<string>? IncludeStringsOf(Specification<T> @this);
-
-        [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_items")]
-        public static extern ref Dictionary<string, object>? ItemsOf(Specification<T> @this);
+        [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_state")]
+        public static extern ref SpecState[]? State(Specification<T> @this);
     }
 }

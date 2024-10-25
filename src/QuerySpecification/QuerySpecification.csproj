@@ -47,6 +47,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="Pozitron.QuerySpecification.EntityFrameworkCore" />
     <InternalsVisibleTo Include="QuerySpecification.Tests" />
   </ItemGroup>
 </Project>
