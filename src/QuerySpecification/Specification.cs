@@ -22,7 +22,8 @@ public class Specification<T>
 
     // It is utilized only during the building stage for the builder chains. Once the state is built, we don't care about it anymore.
     // We also don't care about the initial value since the value is always initialized in the root chains. Therefore, we don't need ThreadLocal (it's more expensive).
-    // With this we're saving 8 bytes per include builder, and we don't need order builder at all (saving 32 bytes).
+    // With this we're saving 8 bytes per include builder, and we don't need order builder at all (saving 32 bytes per order builder).
+
     [ThreadStatic]
     internal static bool IsChainDiscarded;
 
@@ -165,11 +166,12 @@ public class Specification<T>
             return reference;
         }
     }
-    internal int AddOrUpdateInternal(int type, object value, int bag = 0)
+    internal void AddOrUpdateInternal(int type, object value, int bag = 0)
     {
         if (IsEmpty)
         {
-            return AddInternal(type, value, bag);
+            AddInternal(type, value, bag);
+            return;
         }
         var states = _states;
         for (int i = 0; i < states.Length; i++)
@@ -178,14 +180,14 @@ public class Specification<T>
             {
                 _states[i].Reference = value;
                 _states[i].Bag = bag;
-                return i;
+                return;
             }
         }
-        return AddInternal(type, value, bag);
+        AddInternal(type, value, bag);
     }
 
     [MemberNotNull(nameof(_states))]
-    internal int AddInternal(int type, object value, int bag = 0)
+    internal void AddInternal(int type, object value, int bag = 0)
     {
         var newState = new SpecState();
         newState.Type = type;
@@ -197,7 +199,6 @@ public class Specification<T>
             // Specs with two items are very common, we'll optimize for that.
             _states = new SpecState[2];
             _states[0] = newState;
-            return 0;
         }
         else
         {
@@ -211,7 +212,7 @@ public class Specification<T>
                     if (states[i].Type == StateType.Paging)
                     {
                         _states[i] = newState;
-                        return i;
+                        return;
                     }
                 }
             }
@@ -221,7 +222,7 @@ public class Specification<T>
                 if (states[i].Type == 0)
                 {
                     _states[i] = newState;
-                    return i;
+                    return;
                 }
             }
 
@@ -230,7 +231,6 @@ public class Specification<T>
             Array.Copy(states, newArray, originalLength);
             newArray[originalLength] = newState;
             _states = newArray;
-            return originalLength;
         }
     }
 
