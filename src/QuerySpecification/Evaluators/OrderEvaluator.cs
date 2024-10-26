@@ -11,7 +11,7 @@ public sealed class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 
         IOrderedQueryable<T>? orderedQuery = null;
 
-        foreach (var state in specification.State)
+        foreach (var state in specification.States)
         {
             if (state.Type == StateType.Order && state.Reference is not null)
             {
@@ -49,7 +49,7 @@ public sealed class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 
         IOrderedEnumerable<T>? orderedQuery = null;
 
-        foreach (var state in specification.State)
+        foreach (var state in specification.States)
         {
             if (state.Type == StateType.Order && state.Reference is not null)
             {

@@ -35,19 +35,20 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
         sut.Should().Throw<SelectorNotFoundException>();
     }
 
-    [Fact]
-    public void ThrowsConcurrentSelectorsException_GivenBothSelectAndSelectMany()
-    {
-        var spec = new Specification<Store, string?>();
-        spec.Query
-            .Select(x => x.Name);
-        spec.Query
-            .SelectMany(x => x.Products.Select(x => x.Name));
+    // TODO: We should allow overwriting. Think about this. [fatii, 26/10/2024]
+    //[Fact]
+    //public void ThrowsConcurrentSelectorsException_GivenBothSelectAndSelectMany()
+    //{
+    //    var spec = new Specification<Store, string?>();
+    //    spec.Query
+    //        .Select(x => x.Name);
+    //    spec.Query
+    //        .SelectMany(x => x.Products.Select(x => x.Name));
 
-        var sut = () => _evaluator.Evaluate(DbContext.Stores, spec);
+    //    var sut = () => _evaluator.Evaluate(DbContext.Stores, spec);
 
-        sut.Should().Throw<ConcurrentSelectorsException>();
-    }
+    //    sut.Should().Throw<ConcurrentSelectorsException>();
+    //}
 
     [Fact]
     public void GivenFullQuery()

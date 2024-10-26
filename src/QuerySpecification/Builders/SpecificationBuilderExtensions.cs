@@ -6,14 +6,14 @@ public static class SpecificationBuilderExtensions
         this ISpecificationBuilder<T, TResult> builder,
         Expression<Func<T, TResult>> selector)
     {
-        builder.Specification.Selector = selector;
+        builder.Specification.AddOrUpdateInternal(StateType.Select, selector, (int)SelectTypeEnum.Select);
     }
 
     public static void SelectMany<T, TResult>(
         this ISpecificationBuilder<T, TResult> builder,
         Expression<Func<T, IEnumerable<TResult>>> selector)
     {
-        builder.Specification.SelectorMany = selector;
+        builder.Specification.AddOrUpdateInternal(StateType.Select, selector, (int)SelectTypeEnum.SelectMany);
     }
 
     public static ISpecificationBuilder<T, TResult> Where<T, TResult>(
@@ -253,7 +253,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.Take = take;
+            builder.Specification.GetOrCreateInternal<Paging>(StateType.Paging).Take = take;
         }
         return builder;
     }
@@ -270,7 +270,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.Take = take;
+            builder.Specification.GetOrCreateInternal<Paging>(StateType.Paging).Take = take;
         }
         return builder;
     }
@@ -287,7 +287,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.Skip = skip;
+            builder.Specification.GetOrCreateInternal<Paging>(StateType.Paging).Skip = skip;
         }
         return builder;
     }
@@ -304,7 +304,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.Skip = skip;
+            builder.Specification.GetOrCreateInternal<Paging>(StateType.Paging).Skip = skip;
         }
         return builder;
     }
@@ -319,7 +319,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.SetEfFlag(SpecFlag.IgnoreQueryFilters);
+            builder.Specification.SetFlag(SpecFlag.IgnoreQueryFilters);
         }
         return builder;
     }
@@ -334,7 +334,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.SetEfFlag(SpecFlag.IgnoreQueryFilters);
+            builder.Specification.SetFlag(SpecFlag.IgnoreQueryFilters);
         }
         return builder;
     }
@@ -349,7 +349,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.SetEfFlag(SpecFlag.AsSplitQuery);
+            builder.Specification.SetFlag(SpecFlag.AsSplitQuery);
         }
         return builder;
     }
@@ -364,7 +364,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.SetEfFlag(SpecFlag.AsSplitQuery);
+            builder.Specification.SetFlag(SpecFlag.AsSplitQuery);
         }
         return builder;
     }
@@ -379,8 +379,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.RemoveEfFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
-            builder.Specification.SetEfFlag(SpecFlag.AsNoTracking);
+            builder.Specification.RemoveFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
+            builder.Specification.SetFlag(SpecFlag.AsNoTracking);
         }
         return builder;
     }
@@ -395,8 +395,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.RemoveEfFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
-            builder.Specification.SetEfFlag(SpecFlag.AsNoTracking);
+            builder.Specification.RemoveFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
+            builder.Specification.SetFlag(SpecFlag.AsNoTracking);
         }
         return builder;
     }
@@ -411,8 +411,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.RemoveEfFlag(SpecFlag.AsNoTracking);
-            builder.Specification.SetEfFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
+            builder.Specification.RemoveFlag(SpecFlag.AsNoTracking);
+            builder.Specification.SetFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
         }
         return builder;
     }
@@ -427,8 +427,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.RemoveEfFlag(SpecFlag.AsNoTracking);
-            builder.Specification.SetEfFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
+            builder.Specification.RemoveFlag(SpecFlag.AsNoTracking);
+            builder.Specification.SetFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
         }
         return builder;
     }

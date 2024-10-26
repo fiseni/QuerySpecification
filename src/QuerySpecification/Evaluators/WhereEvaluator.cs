@@ -9,7 +9,7 @@ public sealed class WhereEvaluator : IEvaluator, IInMemoryEvaluator
     {
         if (specification.IsEmpty) return source;
 
-        foreach (var state in specification.State)
+        foreach (var state in specification.States)
         {
             if (state.Type == StateType.Where && state.Reference is not null)
             {
@@ -25,7 +25,7 @@ public sealed class WhereEvaluator : IEvaluator, IInMemoryEvaluator
     {
         if (specification.IsEmpty) return source;
 
-        foreach (var state in specification.State)
+        foreach (var state in specification.States)
         {
             if (state.Type == StateType.Where && state.Reference is not null)
             {

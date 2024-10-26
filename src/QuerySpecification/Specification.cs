@@ -11,22 +11,19 @@ public class Specification<T, TResult> : Specification<T>
     }
 
     public new ISpecificationBuilder<T, TResult> Query => new SpecificationBuilder<T, TResult>(this);
-    public Expression<Func<T, TResult>>? Selector { get; internal set; }
-    public Expression<Func<T, IEnumerable<TResult>>>? SelectorMany { get; internal set; }
+
+    public Expression<Func<T, TResult>>? Selector => GetFirstOrDefault<Expression<Func<T, TResult>>>(StateType.Select);
+    public Expression<Func<T, IEnumerable<TResult>>>? SelectorMany => GetFirstOrDefault<Expression<Func<T, IEnumerable<TResult>>>>(StateType.Select);
 }
 
 public class Specification<T>
 {
-    private SpecState[]? _state;
+    private protected SpecState[]? _states;
 
-    internal ReadOnlySpan<SpecState> State => _state;
-
-    public Specification()
-    {
-    }
+    public Specification() { }
     public Specification(int capacity)
     {
-        _state = new SpecState[capacity];
+        _states = new SpecState[capacity];
     }
 
     public virtual IEnumerable<T> Evaluate(IEnumerable<T> entities, bool ignorePaging = false)
@@ -41,136 +38,109 @@ public class Specification<T>
         return validator.IsValid(entity, this);
     }
 
-    public ISpecificationBuilder<T> Query => new SpecificationBuilder<T>(this);
+    internal ReadOnlySpan<SpecState> States => _states ?? ReadOnlySpan<SpecState>.Empty;
 
     protected virtual SpecificationInMemoryEvaluator Evaluator => SpecificationInMemoryEvaluator.Default;
     protected virtual SpecificationValidator Validator => SpecificationValidator.Default;
 
-    public IEnumerable<WhereExpression<T>> WhereExpressions => _state?
+    public ISpecificationBuilder<T> Query => new SpecificationBuilder<T>(this);
+
+    public IEnumerable<WhereExpression<T>> WhereExpressions => _states?
         .Where(x => x.Type == StateType.Where && x.Reference is not null)
         .Select(x => new WhereExpression<T>((Expression<Func<T, bool>>)x.Reference!))
         ?? Enumerable.Empty<WhereExpression<T>>();
 
-    public IEnumerable<IncludeExpression> IncludeExpressions => _state?
+    public IEnumerable<IncludeExpression> IncludeExpressions => _states?
         .Where(x => x.Type == StateType.Include && x.Reference is not null)
         .Select(x => new IncludeExpression((LambdaExpression)x.Reference!, (IncludeTypeEnum)x.Bag))
         ?? Enumerable.Empty<IncludeExpression>();
 
-    public IEnumerable<OrderExpression<T>> OrderExpressions => _state?
+    public IEnumerable<OrderExpression<T>> OrderExpressions => _states?
         .Where(x => x.Type == StateType.Order && x.Reference is not null)
         .Select(x => new OrderExpression<T>((Expression<Func<T, object?>>)x.Reference!, (OrderTypeEnum)x.Bag))
         ?? Enumerable.Empty<OrderExpression<T>>();
 
-    public IEnumerable<LikeExpression<T>> LikeExpressions => _state?
+    public IEnumerable<LikeExpression<T>> LikeExpressions => _states?
         .Where(x => x.Type == StateType.Like && x.Reference is not null)
         .Select(x => (LikeExpression<T>)x.Reference!)
         ?? Enumerable.Empty<LikeExpression<T>>();
 
-    public IEnumerable<string> IncludeStrings => _state?
+    public IEnumerable<string> IncludeStrings => _states?
         .Where(x => x.Type == StateType.IncludeString && x.Reference is not null)
         .Select(x => (string)x.Reference!)
         ?? Enumerable.Empty<string>();
 
-    public int Take
-    {
-        get => GetFirstOrDefault<Paging>(StateType.Paging)?.Take ?? -1;
-        internal set => GetOrCreate<Paging>(StateType.Paging).Take = value;
-    }
-    public int Skip
-    {
-        get => GetFirstOrDefault<Paging>(StateType.Paging)?.Skip ?? -1;
-        internal set => GetOrCreate<Paging>(StateType.Paging).Skip = value;
-    }
-
+    public int Take => GetFirstOrDefault<Paging>(StateType.Paging)?.Take ?? -1;
+    public int Skip => GetFirstOrDefault<Paging>(StateType.Paging)?.Skip ?? -1;
     public bool IgnoreQueryFilters => GetFlag(SpecFlag.IgnoreQueryFilters);
     public bool AsSplitQuery => GetFlag(SpecFlag.AsSplitQuery);
     public bool AsNoTracking => GetFlag(SpecFlag.AsNoTracking);
     public bool AsNoTrackingWithIdentityResolution => GetFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
 
-    [MemberNotNullWhen(false, nameof(_state))]
-    public bool IsEmpty => _state is null;
+    [MemberNotNullWhen(false, nameof(_states))]
+    public bool IsEmpty => _states is null;
 
     public bool Contains(int type)
     {
-        if (_state is null) return false;
+        if (IsEmpty) return false;
 
-        for (int i = 0; i < _state.Length; i++)
+        foreach (var state in _states)
         {
-            if (_state[i].Type == type)
+            if (state.Type == type)
             {
                 return true;
             }
         }
-
         return false;
     }
-
-    public IEnumerable<TState> OfType<TState>(int type)
+    public IEnumerable<TObject> OfType<TObject>(int type)
     {
-        if (IsEmpty)
-        {
-            return Enumerable.Empty<TState>();
-        }
-
-        return OfTypeIterator<TState>(_state, type);
+        if (IsEmpty) return Enumerable.Empty<TObject>();
+        return OfTypeIterator<TObject>(_states, type);
     }
-
-    private static IEnumerable<TState> OfTypeIterator<TState>(SpecState[] array, int type)
+    private static IEnumerable<TObject> OfTypeIterator<TObject>(SpecState[] states, int type)
     {
-        for (int i = 0; i < array.Length; i++)
+        foreach (var state in states)
         {
-            if (array[i].Type == type)
+            if (state.Type == type && state.Reference is TObject reference)
             {
-                var output = array[i].Reference;
-                if (output is not null)
-                {
-                    yield return (TState)output;
-                }
+                yield return reference;
             }
         }
     }
-
-    public TState? GetFirstOrDefault<TState>(int type)
+    public TObject? GetFirstOrDefault<TObject>(int type)
     {
         if (IsEmpty) return default;
 
-        for (int i = 0; i < _state.Length; i++)
+        foreach (var state in _states)
         {
-            if (_state[i].Type == type)
+            if (state.Type == type && state.Reference is TObject reference)
             {
-                return (TState?)_state[i].Reference;
+                return reference;
             }
         }
-
         return default;
     }
-
-    public TState GetOrCreate<TState>(int type) where TState : new()
+    public TObject GetOrCreate<TObject>(int type, Func<TObject> create) where TObject : notnull
     {
-        return GetFirstOrDefault<TState>(type) ?? Create();
-        TState Create()
+        return GetFirstOrDefault<TObject>(type) ?? Create();
+        TObject Create()
         {
-            var state = new SpecState();
-            state.Type = type;
-            state.Reference = new TState();
-            AddInternal(state);
-            return (TState)state.Reference;
+            var reference = create();
+            Add(type, reference);
+            return reference;
         }
     }
-
-    public TState GetOrCreate<TState>(int type, Func<TState> create) where TState : notnull
+    public TObject GetOrCreate<TObject>(int type) where TObject : new()
     {
-        return GetFirstOrDefault<TState>(type) ?? Create();
-        TState Create()
+        return GetFirstOrDefault<TObject>(type) ?? Create();
+        TObject Create()
         {
-            var state = new SpecState();
-            state.Type = type;
-            state.Reference = create();
-            AddInternal(state);
-            return (TState)state.Reference;
+            var reference = new TObject();
+            Add(type, reference);
+            return reference;
         }
     }
-
     public void Add(int type, object value)
     {
         ArgumentNullException.ThrowIfNull(value);
@@ -179,105 +149,131 @@ public class Specification<T>
         AddInternal(type, value);
     }
 
-    internal void AddInternal(int type, object value, int bag = 0)
+    internal TObject GetOrCreateInternal<TObject>(int type) where TObject : new()
     {
-        var state = new SpecState();
-        state.Type = type;
-        state.Reference = value;
-        state.Bag = bag;
-        AddInternal(state);
+        return GetFirstOrDefault<TObject>(type) ?? Create();
+        TObject Create()
+        {
+            var reference = new TObject();
+            AddInternal(type, reference);
+            return reference;
+        }
+    }
+    internal int AddOrUpdateInternal(int type, object value, int bag = 0)
+    {
+        if (IsEmpty)
+        {
+            return AddInternal(type, value, bag);
+        }
+        var states = _states;
+        for (int i = 0; i < states.Length; i++)
+        {
+            if (states[i].Type == type)
+            {
+                _states[i].Reference = value;
+                _states[i].Bag = bag;
+                return i;
+            }
+        }
+        return AddInternal(type, value, bag);
     }
 
-    private void AddInternal(SpecState state)
+    [MemberNotNull(nameof(_states))]
+    internal int AddInternal(int type, object value, int bag = 0)
     {
+        var newState = new SpecState();
+        newState.Type = type;
+        newState.Reference = value;
+        newState.Bag = bag;
+
         if (IsEmpty)
         {
             // Specs with two items are very common, we'll optimize for that.
-            _state = new SpecState[2];
-            _state[0] = state;
+            _states = new SpecState[2];
+            _states[0] = newState;
+            return 0;
         }
         else
         {
-            for (int i = 0; i < _state.Length; i++)
+            var states = _states;
+
+            // We have a special case for Paging, we're storing it in the same state with Flags.
+            if (type == StateType.Paging)
             {
-                if (_state[i].Type == 0)
+                for (int i = 0; i < states.Length; i++)
                 {
-                    _state[i] = state;
-                    return;
+                    if (states[i].Type == StateType.Paging)
+                    {
+                        _states[i] = newState;
+                        return i;
+                    }
                 }
             }
 
-            var originalLength = _state.Length;
+            for (int i = 0; i < states.Length; i++)
+            {
+                if (states[i].Type == 0)
+                {
+                    _states[i] = newState;
+                    return i;
+                }
+            }
+
+            var originalLength = states.Length;
             var newArray = new SpecState[originalLength + 4];
-            Array.Copy(_state, newArray, _state.Length);
-            newArray[originalLength] = state;
-            _state = newArray;
+            Array.Copy(states, newArray, originalLength);
+            newArray[originalLength] = newState;
+            _states = newArray;
+            return originalLength;
         }
-    }
-
-    internal void SetEfFlag(SpecFlag flag)
-        => ModifyEfFlag(flag, true);
-
-    internal void RemoveEfFlag(SpecFlag flag)
-        => ModifyEfFlag(flag, false);
-
-    private void ModifyEfFlag(SpecFlag flag, bool set = true)
-    {
-        if (IsEmpty)
-        {
-            Create();
-            return;
-        }
-
-        for (int i = 0; i < _state.Length; i++)
-        {
-            if (_state[i].Type == StateType.Flags)
-            {
-                var newValue = set
-                    ? (SpecFlag)_state[i].Bag | flag
-                    : (SpecFlag)_state[i].Bag & ~flag;
-
-                _state[i].Bag = (int)newValue;
-                return;
-            }
-        }
-
-        Create();
-        void Create()
-        {
-            if (set)
-            {
-                var state = new SpecState();
-                state.Type = StateType.Flags;
-                state.Bag = (int)flag;
-                AddInternal(state);
-            }
-        }
-    }
-
-    internal SpecFlag? GetFlag()
-    {
-        if (IsEmpty) return null;
-
-        for (int i = 0; i < _state.Length; i++)
-        {
-            var state = _state[i];
-            if (state.Type == StateType.Flags)
-            {
-                return (SpecFlag)state.Bag;
-            }
-        }
-
-        return null;
     }
 
     internal bool GetFlag(SpecFlag flag)
     {
-        var efFlag = GetFlag();
+        if (IsEmpty) return false;
 
-        if (efFlag is null) return false;
+        foreach (var state in _states)
+        {
+            if (state.Type == StateType.Flags)
+            {
+                return ((SpecFlag)state.Bag & flag) == flag;
+            }
+        }
+        return false;
+    }
+    internal void SetFlag(SpecFlag flag)
+        => SetRemoveFlag(flag, true);
+    internal void RemoveFlag(SpecFlag flag)
+        => SetRemoveFlag(flag, false);
+    private void SetRemoveFlag(SpecFlag flag, bool set = true)
+    {
+        if (IsEmpty)
+        {
+            if (set)
+            {
+                AddInternal(StateType.Flags, null!, (int)flag);
+            }
+            return;
+        }
 
-        return (efFlag & flag) == flag;
+        var states = _states;
+        for (var i = 0; i < states.Length; i++)
+        {
+            if (states[i].Type == StateType.Flags)
+            {
+                var newValue = set
+                    ? (SpecFlag)states[i].Bag | flag
+                    : (SpecFlag)states[i].Bag & ~flag;
+
+                _states[i].Bag = (int)newValue;
+                return;
+            }
+        }
+
+        if (set)
+        {
+            AddInternal(StateType.Flags, null!, (int)flag);
+        }
     }
 }
 
@@ -285,14 +281,6 @@ internal class Paging
 {
     public int Take = -1;
     public int Skip = -1;
-}
-
-internal class Flags
-{
-    public bool IgnoreQueryFilters = false;
-    public bool AsNoTracking = false;
-    public bool AsNoTrackingWithIdentityResolution = false;
-    public bool AsSplitQuery = false;
 }
 
 [Flags]
@@ -306,14 +294,9 @@ internal enum SpecFlag
 
 internal struct SpecState
 {
-    // 0-4 bytes (on x64)
-    public int Type;
-
-    // 4-8 bytes
-    public int Bag;
-
-    // 8-16 bytes
-    public object? Reference;
+    public int Type; // 0-4 bytes
+    public int Bag; // 4-8 bytes
+    public object? Reference; // 8-16 bytes (on x64)
 }
 
 internal static class StateType
@@ -324,6 +307,9 @@ internal static class StateType
     public const int IncludeString = -4;
     public const int Like = -5;
     public const int Select = -6;
-    public const int Paging = -7;
-    public const int Flags = -8;
+    public const int SelectMany = -7;
+
+    // We can save 16  bytes (on x64) by storing both Flags and Paging in the same state.
+    public const int Paging = -8; // Stored in the reference
+    public const int Flags = -8; // Stored in the bag
 }

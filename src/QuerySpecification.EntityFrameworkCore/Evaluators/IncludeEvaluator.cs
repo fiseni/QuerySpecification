@@ -36,7 +36,7 @@ public sealed class IncludeEvaluator : IEvaluator
     {
         if (specification.IsEmpty) return source;
 
-        foreach (var state in specification.State)
+        foreach (var state in specification.States)
         {
             if (state.Type == StateType.IncludeString && state.Reference is not null)
             {
@@ -46,7 +46,7 @@ public sealed class IncludeEvaluator : IEvaluator
 
         bool isPreviousPropertyCollection = false;
 
-        foreach (var state in specification.State)
+        foreach (var state in specification.States)
         {
             if (state.Type == StateType.Include && state.Reference is not null)
             {

@@ -35,19 +35,20 @@ public class SpecificationInMemoryEvaluatorTests
         sut.Should().Throw<SelectorNotFoundException>();
     }
 
-    [Fact]
-    public void Evaluate_ThrowsConcurrentSelectorsException_GivenBothSelectAndSelectMany()
-    {
-        var spec = new Specification<CustomerWithMails, string>();
-        spec.Query
-            .Select(x => x.FirstName);
-        spec.Query
-            .SelectMany(x => x.Emails);
+    // TODO: We should allow overwriting. Think about this. [fatii, 26/10/2024]
+    //[Fact]
+    //public void Evaluate_ThrowsConcurrentSelectorsException_GivenBothSelectAndSelectMany()
+    //{
+    //    var spec = new Specification<CustomerWithMails, string>();
+    //    spec.Query
+    //        .Select(x => x.FirstName);
+    //    spec.Query
+    //        .SelectMany(x => x.Emails);
 
-        var sut = () => _evaluator.Evaluate([], spec);
+    //    var sut = () => _evaluator.Evaluate([], spec);
 
-        sut.Should().Throw<ConcurrentSelectorsException>();
-    }
+    //    sut.Should().Throw<ConcurrentSelectorsException>();
+    //}
 
     [Fact]
     public void Evaluate_Filters_GivenSpec()

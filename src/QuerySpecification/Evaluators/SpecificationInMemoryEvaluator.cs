@@ -26,14 +26,20 @@ public class SpecificationInMemoryEvaluator
         bool ignorePaging = false)
     {
         ArgumentNullException.ThrowIfNull(specification);
-        if (specification.Selector is null && specification.SelectorMany is null) throw new SelectorNotFoundException();
-        if (specification.Selector is not null && specification.SelectorMany is not null) throw new ConcurrentSelectorsException();
+
+        var selector = specification.Selector;
+        var selectorMany = specification.SelectorMany;
+
+        if (selector is null && selectorMany is null)
+        {
+            throw new SelectorNotFoundException();
+        }
 
         source = Evaluate(source, (Specification<T>)specification, true);
 
-        var result = specification.Selector is not null
-          ? source.Select(specification.Selector.Compile())
-          : source.SelectMany(specification.SelectorMany!.Compile());
+        var result = selector is not null
+            ? source.Select(selector.Compile())
+            : source.SelectMany(selectorMany!.Compile());
 
         return ignorePaging
             ? result
