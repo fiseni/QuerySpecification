@@ -12,13 +12,13 @@ public static class OrderedBuilderExtensions
         Expression<Func<T, object?>> orderExpression,
         bool condition)
     {
-        if (condition && !orderedBuilder.IsChainDiscarded)
+        if (condition && !Specification<T, TResult>.IsChainDiscarded)
         {
             orderedBuilder.Specification.AddInternal(StateType.Order, orderExpression, (int)OrderTypeEnum.ThenBy);
         }
         else
         {
-            orderedBuilder.IsChainDiscarded = true;
+            Specification<T, TResult>.IsChainDiscarded = true;
         }
 
         return orderedBuilder;
@@ -34,13 +34,13 @@ public static class OrderedBuilderExtensions
         Expression<Func<T, object?>> orderExpression,
         bool condition)
     {
-        if (condition && !orderedBuilder.IsChainDiscarded)
+        if (condition && !Specification<T>.IsChainDiscarded)
         {
             orderedBuilder.Specification.AddInternal(StateType.Order, orderExpression, (int)OrderTypeEnum.ThenBy);
         }
         else
         {
-            orderedBuilder.IsChainDiscarded = true;
+            Specification<T>.IsChainDiscarded = true;
         }
 
         return orderedBuilder;
@@ -56,13 +56,13 @@ public static class OrderedBuilderExtensions
         Expression<Func<T, object?>> orderExpression,
         bool condition)
     {
-        if (condition && !orderedBuilder.IsChainDiscarded)
+        if (condition && !Specification<T, TResult>.IsChainDiscarded)
         {
             orderedBuilder.Specification.AddInternal(StateType.Order, orderExpression, (int)OrderTypeEnum.ThenByDescending);
         }
         else
         {
-            orderedBuilder.IsChainDiscarded = true;
+            Specification<T, TResult>.IsChainDiscarded = true;
         }
 
         return orderedBuilder;
@@ -78,13 +78,13 @@ public static class OrderedBuilderExtensions
         Expression<Func<T, object?>> orderExpression,
         bool condition)
     {
-        if (condition && !orderedBuilder.IsChainDiscarded)
+        if (condition && !Specification<T>.IsChainDiscarded)
         {
             orderedBuilder.Specification.AddInternal(StateType.Order, orderExpression, (int)OrderTypeEnum.ThenByDescending);
         }
         else
         {
-            orderedBuilder.IsChainDiscarded = true;
+            Specification<T>.IsChainDiscarded = true;
         }
 
         return orderedBuilder;

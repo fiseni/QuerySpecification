@@ -65,8 +65,8 @@ public static class SpecificationBuilderExtensions
             builder.Specification.AddInternal(StateType.Order, keySelector, (int)OrderTypeEnum.OrderBy);
         }
 
-        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T, TResult>(builder.Specification, !condition);
-        return orderedSpecificationBuilder;
+        Specification<T, TResult>.IsChainDiscarded = !condition;
+        return (SpecificationBuilder<T, TResult>)builder;
     }
 
     public static IOrderedSpecificationBuilder<T> OrderBy<T>(
@@ -84,8 +84,8 @@ public static class SpecificationBuilderExtensions
             builder.Specification.AddInternal(StateType.Order, keySelector, (int)OrderTypeEnum.OrderBy);
         }
 
-        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T>(builder.Specification, !condition);
-        return orderedSpecificationBuilder;
+        Specification<T>.IsChainDiscarded = !condition;
+        return (SpecificationBuilder<T>)builder;
     }
 
     public static IOrderedSpecificationBuilder<T, TResult> OrderByDescending<T, TResult>(
@@ -103,8 +103,8 @@ public static class SpecificationBuilderExtensions
             builder.Specification.AddInternal(StateType.Order, keySelector, (int)OrderTypeEnum.OrderByDescending);
         }
 
-        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T, TResult>(builder.Specification, !condition);
-        return orderedSpecificationBuilder;
+        Specification<T, TResult>.IsChainDiscarded = !condition;
+        return (SpecificationBuilder<T, TResult>)builder;
     }
 
     public static IOrderedSpecificationBuilder<T> OrderByDescending<T>(
@@ -122,8 +122,8 @@ public static class SpecificationBuilderExtensions
             builder.Specification.AddInternal(StateType.Order, keySelector, (int)OrderTypeEnum.OrderByDescending);
         }
 
-        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T>(builder.Specification, !condition);
-        return orderedSpecificationBuilder;
+        Specification<T>.IsChainDiscarded = !condition;
+        return (SpecificationBuilder<T>)builder;
     }
 
     public static IIncludableSpecificationBuilder<T, TResult, TProperty> Include<T, TResult, TProperty>(
@@ -141,7 +141,8 @@ public static class SpecificationBuilderExtensions
             builder.Specification.AddInternal(StateType.Include, includeExpression, (int)IncludeTypeEnum.Include);
         }
 
-        var includeBuilder = new IncludableSpecificationBuilder<T, TResult, TProperty>(builder.Specification, !condition);
+        Specification<T, TResult>.IsChainDiscarded = !condition;
+        var includeBuilder = new IncludableSpecificationBuilder<T, TResult, TProperty>(builder.Specification);
         return includeBuilder;
     }
 
@@ -160,7 +161,8 @@ public static class SpecificationBuilderExtensions
             builder.Specification.AddInternal(StateType.Include, includeExpression, (int)IncludeTypeEnum.Include);
         }
 
-        var includeBuilder = new IncludableSpecificationBuilder<T, TProperty>(builder.Specification, !condition);
+        Specification<T>.IsChainDiscarded = !condition;
+        var includeBuilder = new IncludableSpecificationBuilder<T, TProperty>(builder.Specification);
         return includeBuilder;
     }
 

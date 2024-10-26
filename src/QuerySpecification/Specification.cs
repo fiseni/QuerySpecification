@@ -20,6 +20,12 @@ public class Specification<T>
 {
     private protected SpecState[]? _states;
 
+    // It is utilized only during the building stage for the builder chains. Once the state is built, we don't care about it anymore.
+    // We also don't care about the initial value since the value is always initialized in the root chains. Therefore, we don't need ThreadLocal (it's more expensive).
+    // With this we're saving 8 bytes per include builder, and we don't need order builder at all (saving 32 bytes).
+    [ThreadStatic]
+    internal static bool IsChainDiscarded;
+
     public Specification() { }
     public Specification(int capacity)
     {
