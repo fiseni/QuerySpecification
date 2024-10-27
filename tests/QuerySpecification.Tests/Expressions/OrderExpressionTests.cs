@@ -9,7 +9,7 @@ public class OrderExpressionTests
     [Fact]
     public void Constructor_ThrowsArgumentNullException_GivenNullExpression()
     {
-        var sut = () => new OrderExpression<Customer>(null!, OrderTypeEnum.OrderBy);
+        var sut = () => new OrderExpression<Customer>(null!, OrderType.OrderBy);
 
         sut.Should().Throw<ArgumentNullException>().WithParameterName("keySelector");
     }
@@ -19,10 +19,10 @@ public class OrderExpressionTests
     {
         Expression<Func<Customer, object?>> expr = x => x.Name;
 
-        var sut = new OrderExpression<Customer>(expr, OrderTypeEnum.OrderBy);
+        var sut = new OrderExpression<Customer>(expr, OrderType.OrderBy);
 
         sut.KeySelector.Should().Be(expr);
-        sut.OrderType.Should().Be(OrderTypeEnum.OrderBy);
+        sut.Type.Should().Be(OrderType.OrderBy);
         Accessors<Customer>.FuncFieldOf(sut).Should().BeNull();
         sut.KeySelectorFunc.Should().NotBeNull();
         //sut.KeySelectorFunc.Should().BeEquivalentTo(expr.Compile());

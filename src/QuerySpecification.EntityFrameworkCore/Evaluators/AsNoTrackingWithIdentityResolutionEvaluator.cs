@@ -1,6 +1,6 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public class AsNoTrackingWithIdentityResolutionEvaluator : IEvaluator
+public sealed class AsNoTrackingWithIdentityResolutionEvaluator : IEvaluator
 {
     private AsNoTrackingWithIdentityResolutionEvaluator() { }
     public static AsNoTrackingWithIdentityResolutionEvaluator Instance = new();

@@ -13,22 +13,21 @@ public sealed class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 
         foreach (var state in specification.States)
         {
-            if (state.Type == StateType.Order && state.Reference is not null)
+            if (state.Type == StateType.Order && state.Reference is Expression<Func<T, object?>> expr)
             {
-                var expr = (Expression<Func<T, object?>>)state.Reference;
-                if (state.Bag == (int)OrderTypeEnum.OrderBy)
+                if (state.Bag == (int)OrderType.OrderBy)
                 {
                     orderedQuery = source.OrderBy(expr);
                 }
-                else if (state.Bag == (int)OrderTypeEnum.OrderByDescending)
+                else if (state.Bag == (int)OrderType.OrderByDescending)
                 {
                     orderedQuery = source.OrderByDescending(expr);
                 }
-                else if (state.Bag == (int)OrderTypeEnum.ThenBy)
+                else if (state.Bag == (int)OrderType.ThenBy)
                 {
                     orderedQuery = orderedQuery!.ThenBy(expr);
                 }
-                else if (state.Bag == (int)OrderTypeEnum.ThenByDescending)
+                else if (state.Bag == (int)OrderType.ThenByDescending)
                 {
                     orderedQuery = orderedQuery!.ThenByDescending(expr);
                 }
@@ -51,22 +50,22 @@ public sealed class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 
         foreach (var state in specification.States)
         {
-            if (state.Type == StateType.Order && state.Reference is not null)
+            if (state.Type == StateType.Order && state.Reference is Expression<Func<T, object?>> expr)
             {
-                var func = ((Expression<Func<T, object?>>)state.Reference).Compile();
-                if (state.Bag == (int)OrderTypeEnum.OrderBy)
+                var func = expr.Compile();
+                if (state.Bag == (int)OrderType.OrderBy)
                 {
                     orderedQuery = source.OrderBy(func);
                 }
-                else if (state.Bag == (int)OrderTypeEnum.OrderByDescending)
+                else if (state.Bag == (int)OrderType.OrderByDescending)
                 {
                     orderedQuery = source.OrderByDescending(func);
                 }
-                else if (state.Bag == (int)OrderTypeEnum.ThenBy)
+                else if (state.Bag == (int)OrderType.ThenBy)
                 {
                     orderedQuery = orderedQuery!.ThenBy(func);
                 }
-                else if (state.Bag == (int)OrderTypeEnum.ThenByDescending)
+                else if (state.Bag == (int)OrderType.ThenByDescending)
                 {
                     orderedQuery = orderedQuery!.ThenByDescending(func);
                 }

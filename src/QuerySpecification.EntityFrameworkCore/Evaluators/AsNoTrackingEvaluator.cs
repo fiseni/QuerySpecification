@@ -1,6 +1,6 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public class AsNoTrackingEvaluator : IEvaluator
+public sealed class AsNoTrackingEvaluator : IEvaluator
 {
     private AsNoTrackingEvaluator() { }
     public static AsNoTrackingEvaluator Instance = new();

@@ -38,9 +38,9 @@ public sealed class IncludeEvaluator : IEvaluator
 
         foreach (var state in specification.States)
         {
-            if (state.Type == StateType.IncludeString && state.Reference is not null)
+            if (state.Type == StateType.IncludeString && state.Reference is string includeString)
             {
-                source = source.Include((string)state.Reference);
+                source = source.Include(includeString);
             }
         }
 
@@ -48,15 +48,14 @@ public sealed class IncludeEvaluator : IEvaluator
 
         foreach (var state in specification.States)
         {
-            if (state.Type == StateType.Include && state.Reference is not null)
+            if (state.Type == StateType.Include && state.Reference is LambdaExpression expr)
             {
-                var expr = (LambdaExpression)state.Reference;
-                if (state.Bag == (int)IncludeTypeEnum.Include)
+                if (state.Bag == (int)IncludeType.Include)
                 {
                     source = BuildInclude<T>(source, expr);
                     isPreviousPropertyCollection = IsCollection(expr.ReturnType);
                 }
-                else if (state.Bag == (int)IncludeTypeEnum.ThenInclude)
+                else if (state.Bag == (int)IncludeType.ThenInclude)
                 {
                     source = BuildThenInclude<T>(source, expr, isPreviousPropertyCollection);
                     isPreviousPropertyCollection = IsCollection(expr.ReturnType);

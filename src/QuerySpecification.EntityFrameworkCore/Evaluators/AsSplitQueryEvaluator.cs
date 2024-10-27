@@ -1,6 +1,6 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public class AsSplitQueryEvaluator : IEvaluator
+public sealed class AsSplitQueryEvaluator : IEvaluator
 {
     private AsSplitQueryEvaluator() { }
     public static AsSplitQueryEvaluator Instance = new();

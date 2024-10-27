@@ -4,7 +4,7 @@ public static class PaginationExtensions
 {
     public static IQueryable<TResult> ApplyPaging<T, TResult>(this IQueryable<TResult> source, Specification<T, TResult> specification)
     {
-        var paging = specification.GetFirstOrDefault<Paging>(StateType.Paging);
+        var paging = specification.FirstOrDefault<SpecPaging>(StateType.Paging);
         if (paging is null) return source;
 
         return ApplyPaging(source, paging.Skip, paging.Take);
@@ -12,7 +12,7 @@ public static class PaginationExtensions
 
     public static IQueryable<T> ApplyPaging<T>(this IQueryable<T> source, Specification<T> specification)
     {
-        var paging = specification.GetFirstOrDefault<Paging>(StateType.Paging);
+        var paging = specification.FirstOrDefault<SpecPaging>(StateType.Paging);
         if (paging is null) return source;
 
         return ApplyPaging(source, paging.Skip, paging.Take);
@@ -23,7 +23,7 @@ public static class PaginationExtensions
 
     public static IEnumerable<TResult> ApplyPaging<T, TResult>(this IEnumerable<TResult> source, Specification<T, TResult> specification)
     {
-        var paging = specification.GetFirstOrDefault<Paging>(StateType.Paging);
+        var paging = specification.FirstOrDefault<SpecPaging>(StateType.Paging);
         if (paging is null) return source;
 
         return ApplyPaging(source, paging.Skip, paging.Take);
@@ -31,7 +31,7 @@ public static class PaginationExtensions
 
     public static IEnumerable<T> ApplyPaging<T>(this IEnumerable<T> source, Specification<T> specification)
     {
-        var paging = specification.GetFirstOrDefault<Paging>(StateType.Paging);
+        var paging = specification.FirstOrDefault<SpecPaging>(StateType.Paging);
         if (paging is null) return source;
 
         return ApplyPaging(source, paging.Skip, paging.Take);

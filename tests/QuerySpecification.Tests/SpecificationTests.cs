@@ -22,7 +22,7 @@ public class SpecificationTests
         spec.WhereExpressions.Should().BeSameAs(Enumerable.Empty<WhereExpression<Customer>>());
         spec.LikeExpressions.Should().BeSameAs(Enumerable.Empty<LikeExpression<Customer>>());
         spec.OrderExpressions.Should().BeSameAs(Enumerable.Empty<OrderExpression<Customer>>());
-        spec.IncludeExpressions.Should().BeSameAs(Enumerable.Empty<IncludeExpression>());
+        spec.IncludeExpressions.Should().BeSameAs(Enumerable.Empty<IncludeExpression<Customer>>());
         spec.IncludeStrings.Should().BeSameAs(Enumerable.Empty<string>());
     }
 

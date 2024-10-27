@@ -1,6 +1,6 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-internal class ParameterReplacerVisitor : ExpressionVisitor
+internal sealed class ParameterReplacerVisitor : ExpressionVisitor
 {
     private readonly ParameterExpression _oldParameter;
     private readonly Expression _newExpression;

@@ -11,9 +11,8 @@ public sealed class WhereEvaluator : IEvaluator, IInMemoryEvaluator
 
         foreach (var state in specification.States)
         {
-            if (state.Type == StateType.Where && state.Reference is not null)
+            if (state.Type == StateType.Where && state.Reference is Expression<Func<T, bool>> expr)
             {
-                var expr = (Expression<Func<T, bool>>)state.Reference;
                 source = source.Where(expr);
             }
         }
@@ -27,9 +26,9 @@ public sealed class WhereEvaluator : IEvaluator, IInMemoryEvaluator
 
         foreach (var state in specification.States)
         {
-            if (state.Type == StateType.Where && state.Reference is not null)
+            if (state.Type == StateType.Where && state.Reference is Expression<Func<T, bool>> expr)
             {
-                var func = ((Expression<Func<T, bool>>)state.Reference).Compile();
+                var func = expr.Compile();
                 source = source.Where(func);
             }
         }

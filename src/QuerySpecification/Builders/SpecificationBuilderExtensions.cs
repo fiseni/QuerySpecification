@@ -6,14 +6,14 @@ public static class SpecificationBuilderExtensions
         this ISpecificationBuilder<T, TResult> builder,
         Expression<Func<T, TResult>> selector)
     {
-        builder.Specification.AddOrUpdateInternal(StateType.Select, selector, (int)SelectTypeEnum.Select);
+        builder.Specification.AddOrUpdateInternal(StateType.Select, selector, (int)SelectType.Select);
     }
 
     public static void SelectMany<T, TResult>(
         this ISpecificationBuilder<T, TResult> builder,
         Expression<Func<T, IEnumerable<TResult>>> selector)
     {
-        builder.Specification.AddOrUpdateInternal(StateType.Select, selector, (int)SelectTypeEnum.SelectMany);
+        builder.Specification.AddOrUpdateInternal(StateType.Select, selector, (int)SelectType.SelectMany);
     }
 
     public static ISpecificationBuilder<T, TResult> Where<T, TResult>(
@@ -62,7 +62,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AddInternal(StateType.Order, keySelector, (int)OrderTypeEnum.OrderBy);
+            builder.Specification.AddInternal(StateType.Order, keySelector, (int)OrderType.OrderBy);
         }
 
         Specification<T, TResult>.IsChainDiscarded = !condition;
@@ -81,7 +81,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AddInternal(StateType.Order, keySelector, (int)OrderTypeEnum.OrderBy);
+            builder.Specification.AddInternal(StateType.Order, keySelector, (int)OrderType.OrderBy);
         }
 
         Specification<T>.IsChainDiscarded = !condition;
@@ -100,7 +100,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AddInternal(StateType.Order, keySelector, (int)OrderTypeEnum.OrderByDescending);
+            builder.Specification.AddInternal(StateType.Order, keySelector, (int)OrderType.OrderByDescending);
         }
 
         Specification<T, TResult>.IsChainDiscarded = !condition;
@@ -119,7 +119,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AddInternal(StateType.Order, keySelector, (int)OrderTypeEnum.OrderByDescending);
+            builder.Specification.AddInternal(StateType.Order, keySelector, (int)OrderType.OrderByDescending);
         }
 
         Specification<T>.IsChainDiscarded = !condition;
@@ -138,7 +138,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AddInternal(StateType.Include, includeExpression, (int)IncludeTypeEnum.Include);
+            builder.Specification.AddInternal(StateType.Include, includeExpression, (int)IncludeType.Include);
         }
 
         Specification<T, TResult>.IsChainDiscarded = !condition;
@@ -158,7 +158,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AddInternal(StateType.Include, includeExpression, (int)IncludeTypeEnum.Include);
+            builder.Specification.AddInternal(StateType.Include, includeExpression, (int)IncludeType.Include);
         }
 
         Specification<T>.IsChainDiscarded = !condition;
@@ -255,7 +255,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.GetOrCreateInternal<Paging>(StateType.Paging).Take = take;
+            builder.Specification.Take = take;
         }
         return builder;
     }
@@ -272,7 +272,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.GetOrCreateInternal<Paging>(StateType.Paging).Take = take;
+            builder.Specification.Take = take;
         }
         return builder;
     }
@@ -289,7 +289,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.GetOrCreateInternal<Paging>(StateType.Paging).Skip = skip;
+            builder.Specification.Skip = skip;
         }
         return builder;
     }
@@ -306,7 +306,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.GetOrCreateInternal<Paging>(StateType.Paging).Skip = skip;
+            builder.Specification.Skip = skip;
         }
         return builder;
     }
@@ -321,7 +321,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.SetFlag(SpecFlag.IgnoreQueryFilters);
+            builder.Specification.IgnoreQueryFilters = true;
         }
         return builder;
     }
@@ -336,7 +336,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.SetFlag(SpecFlag.IgnoreQueryFilters);
+            builder.Specification.IgnoreQueryFilters = true;
         }
         return builder;
     }
@@ -351,7 +351,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.SetFlag(SpecFlag.AsSplitQuery);
+            builder.Specification.AsSplitQuery = true;
         }
         return builder;
     }
@@ -366,7 +366,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.SetFlag(SpecFlag.AsSplitQuery);
+            builder.Specification.AsSplitQuery = true;
         }
         return builder;
     }
@@ -381,8 +381,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.RemoveFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
-            builder.Specification.SetFlag(SpecFlag.AsNoTracking);
+            builder.Specification.AsNoTrackingWithIdentityResolution = false;
+            builder.Specification.AsNoTracking = true;
         }
         return builder;
     }
@@ -397,8 +397,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.RemoveFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
-            builder.Specification.SetFlag(SpecFlag.AsNoTracking);
+            builder.Specification.AsNoTrackingWithIdentityResolution = false;
+            builder.Specification.AsNoTracking = true;
         }
         return builder;
     }
@@ -413,8 +413,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.RemoveFlag(SpecFlag.AsNoTracking);
-            builder.Specification.SetFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
+            builder.Specification.AsNoTracking = false;
+            builder.Specification.AsNoTrackingWithIdentityResolution = true;
         }
         return builder;
     }
@@ -429,8 +429,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.RemoveFlag(SpecFlag.AsNoTracking);
-            builder.Specification.SetFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
+            builder.Specification.AsNoTracking = false;
+            builder.Specification.AsNoTrackingWithIdentityResolution = true;
         }
         return builder;
     }

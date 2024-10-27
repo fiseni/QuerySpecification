@@ -16,7 +16,7 @@ public static class IncludableBuilderExtensions
     {
         if (condition && !Specification<TEntity, TResult>.IsChainDiscarded)
         {
-            previousBuilder.Specification.AddInternal(StateType.Include, thenIncludeExpression, (int)IncludeTypeEnum.ThenInclude);
+            previousBuilder.Specification.AddInternal(StateType.Include, thenIncludeExpression, (int)IncludeType.ThenInclude);
         }
         else
         {
@@ -41,7 +41,7 @@ public static class IncludableBuilderExtensions
     {
         if (condition && !Specification<TEntity>.IsChainDiscarded)
         {
-            previousBuilder.Specification.AddInternal(StateType.Include, thenIncludeExpression, (int)IncludeTypeEnum.ThenInclude);
+            previousBuilder.Specification.AddInternal(StateType.Include, thenIncludeExpression, (int)IncludeType.ThenInclude);
         }
         else
         {
@@ -66,7 +66,7 @@ public static class IncludableBuilderExtensions
     {
         if (condition && !Specification<TEntity, TResult>.IsChainDiscarded)
         {
-            previousBuilder.Specification.AddInternal(StateType.Include, thenIncludeExpression, (int)IncludeTypeEnum.ThenInclude);
+            previousBuilder.Specification.AddInternal(StateType.Include, thenIncludeExpression, (int)IncludeType.ThenInclude);
         }
         else
         {
@@ -91,7 +91,7 @@ public static class IncludableBuilderExtensions
     {
         if (condition && !Specification<TEntity>.IsChainDiscarded)
         {
-            previousBuilder.Specification.AddInternal(StateType.Include, thenIncludeExpression, (int)IncludeTypeEnum.ThenInclude);
+            previousBuilder.Specification.AddInternal(StateType.Include, thenIncludeExpression, (int)IncludeType.ThenInclude);
         }
         else
         {

@@ -1,6 +1,6 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public enum IncludeTypeEnum
+public enum IncludeType
 {
     Include = 1,
     ThenInclude = 2

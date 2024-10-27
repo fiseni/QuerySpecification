@@ -4,14 +4,14 @@ public sealed class OrderExpression<T>
 {
     private Func<T, object?>? _keySelectorFunc;
     public Expression<Func<T, object?>> KeySelector { get; }
-    public OrderTypeEnum OrderType { get; }
+    public OrderType Type { get; }
 
-    public OrderExpression(Expression<Func<T, object?>> keySelector, OrderTypeEnum type)
+    public OrderExpression(Expression<Func<T, object?>> keySelector, OrderType type)
     {
         ArgumentNullException.ThrowIfNull(keySelector);
 
         KeySelector = keySelector;
-        OrderType = type;
+        Type = type;
     }
 
     public Func<T, object?> KeySelectorFunc => _keySelectorFunc ??= KeySelector.Compile();
