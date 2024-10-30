@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Query;
 using System.Collections;
-using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -30,12 +29,6 @@ public sealed class IncludeEvaluator : IEvaluator
                 && mi.GetParameters()[0].ParameterType.GetGenericTypeDefinition() == typeof(IIncludableQueryable<,>)
                 && mi.GetParameters()[1].ParameterType.GetGenericTypeDefinition() == typeof(Expression<>));
 
-    private static readonly ConcurrentDictionary<(Type Entity, Type ReturnType), MethodInfo> _methods = new();
-    private static readonly ConcurrentDictionary<(Type Entity, Type PreviousProperty, Type ReturnType), MethodInfo> _methods2 = new();
-    private static readonly ConcurrentDictionary<(Type Entity, Type PreviousProperty, Type ReturnType), MethodInfo> _methods3 = new();
-
-    private static readonly ConcurrentDictionary<(Type EntityType, Type PropertyType, Type? PreviousPropertyType), Lazy<Func<IQueryable, LambdaExpression, IQueryable>>> _delegatesCache = new();
-
     private IncludeEvaluator() { }
     public static IncludeEvaluator Instance = new();
 
@@ -45,9 +38,9 @@ public sealed class IncludeEvaluator : IEvaluator
 
         foreach (var state in specification._state)
         {
-            if (state.Type == StateType.IncludeString && state.Reference is not null)
+            if (state.Type == StateType.IncludeString && state.Reference is string includeString)
             {
-                source = source.Include((string)state.Reference);
+                source = source.Include(includeString);
             }
         }
 
@@ -55,9 +48,8 @@ public sealed class IncludeEvaluator : IEvaluator
 
         foreach (var state in specification._state)
         {
-            if (state.Type == StateType.Include && state.Reference is not null)
+            if (state.Type == StateType.Include && state.Reference is LambdaExpression expr)
             {
-                var expr = (LambdaExpression)state.Reference;
                 if (state.Bag == (int)IncludeTypeEnum.Include)
                 {
                     source = BuildInclude<T>(source, expr);
@@ -85,44 +77,7 @@ public sealed class IncludeEvaluator : IEvaluator
         Debug.Assert(result is not null);
 
         return (IQueryable<T>)result;
-
-        //Debug.Assert(includeExpression is not null);
-
-        //var mi = _methods.GetOrAdd((typeof(T), includeExpression.ReturnType), static key =>
-        //{
-        //    Console.WriteLine("$$$$$$$$$$1");
-        //    return _includeMethodInfo
-        //        .MakeGenericMethod(key.Entity, key.ReturnType);
-        //});
-
-        //var result = mi.Invoke(null, [source, includeExpression]);
-
-        //Debug.Assert(result is not null);
-
-        //return (IQueryable<T>)result;
-
-        //var include = _delegatesCache.GetOrAdd((typeof(T), includeExpression.ReturnType, null), CreateIncludeDelegate).Value;
-
-        //return (IQueryable<T>)include(source, includeExpression);
     }
-
-
-    private static Lazy<Func<IQueryable, LambdaExpression, IQueryable>> CreateIncludeDelegate((Type EntityType, Type PropertyType, Type? PreviousPropertyType) cacheKey)
-        => new(() =>
-    {
-        var concreteInclude = _includeMethodInfo.MakeGenericMethod(cacheKey.EntityType, cacheKey.PropertyType);
-        var sourceParameter = Expression.Parameter(typeof(IQueryable));
-        var selectorParameter = Expression.Parameter(typeof(LambdaExpression));
-
-        var call = Expression.Call(
-              concreteInclude,
-              Expression.Convert(sourceParameter, typeof(IQueryable<>).MakeGenericType(cacheKey.EntityType)),
-              Expression.Convert(selectorParameter, typeof(Expression<>).MakeGenericType(typeof(Func<,>).MakeGenericType(cacheKey.EntityType, cacheKey.PropertyType))));
-
-        var lambda = Expression.Lambda<Func<IQueryable, LambdaExpression, IQueryable>>(call, sourceParameter, selectorParameter);
-
-        return lambda.Compile();
-    });
 
     private static IQueryable<T> BuildThenInclude<T>(IQueryable source, LambdaExpression includeExpression, bool isPreviousPropertyCollection)
     {
@@ -131,18 +86,8 @@ public sealed class IncludeEvaluator : IEvaluator
         var previousPropertyType = includeExpression.Parameters[0].Type;
 
         var mi = isPreviousPropertyCollection
-            ? _methods2.GetOrAdd((typeof(T), previousPropertyType, includeExpression.ReturnType), static key =>
-            {
-                Console.WriteLine("$$$$$$$$$$2");
-                return _thenIncludeAfterEnumerableMethodInfo
-                .MakeGenericMethod(key.Entity, key.PreviousProperty, key.ReturnType);
-            })
-            : _methods3.GetOrAdd((typeof(T), previousPropertyType, includeExpression.ReturnType), static key =>
-            {
-                Console.WriteLine("$$$$$$$$$$3");
-                return _thenIncludeAfterReferenceMethodInfo
-                .MakeGenericMethod(key.Entity, key.PreviousProperty, key.ReturnType);
-            });
+            ? _thenIncludeAfterEnumerableMethodInfo.MakeGenericMethod(typeof(T), previousPropertyType, includeExpression.ReturnType)
+            : _thenIncludeAfterReferenceMethodInfo.MakeGenericMethod(typeof(T), previousPropertyType, includeExpression.ReturnType);
 
         var result = mi.Invoke(null, [source, includeExpression]);
 

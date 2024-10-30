@@ -386,3 +386,4 @@ FodyWeavers.xsd
 
 # Developer config files
 **/appsettings.Development*.json
+*New2.csproj
