@@ -1,4 +1,4 @@
-﻿namespace Pozitron.QuerySpecification.Internals;
+﻿namespace Pozitron.QuerySpecification;
 
 internal sealed class SpecLike<T>
 {

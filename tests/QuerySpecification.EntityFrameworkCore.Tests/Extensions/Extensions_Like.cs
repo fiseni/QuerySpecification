@@ -15,9 +15,9 @@ public class Extensions_Like(TestFactory factory) : IntegrationTest(factory)
             .Like(x22 => x22.Company.Name, $"%{companyTerm}%");
 
         var actual = DbContext.Stores
-            .Like(spec.LikeExpressions)
+            .Like(spec.States)
             .ToQueryString()
-            .Replace("__likeExpression_Pattern_", "__Format_"); //expr parameter names are different
+            .Replace("__specLike_Pattern_", "__Format_"); //expr parameter names are different
 
         var expected = DbContext.Stores
             .Where(x => EF.Functions.Like(x.Name, $"%{storeTerm}%")
@@ -33,9 +33,9 @@ public class Extensions_Like(TestFactory factory) : IntegrationTest(factory)
         var spec = new Specification<Store>();
 
         var actual = DbContext.Stores
-            .Like(spec.LikeExpressions)
+            .Like(spec.States)
             .ToQueryString()
-            .Replace("__likeExpression_Pattern_", "__Format_"); //expr parameter names are different
+            .Replace("__specLike_Pattern_", "__Format_"); //expr parameter names are different
 
         var expected = DbContext.Stores
             .ToQueryString();

@@ -35,7 +35,7 @@ public class Extensions_WithSpecification(TestFactory factory) : IntegrationTest
         var actual = DbContext.Stores
             .WithSpecification(spec)
             .ToQueryString()
-            .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
+            .Replace("__specLike_Pattern_", "__Format_"); //like parameter names are different
 
         // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores
@@ -91,7 +91,7 @@ public class Extensions_WithSpecification(TestFactory factory) : IntegrationTest
         var actual = DbContext.Stores
             .WithSpecification(spec)
             .ToQueryString()
-            .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
+            .Replace("__specLike_Pattern_", "__Format_"); //like parameter names are different
 
         // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores
@@ -148,7 +148,7 @@ public class Extensions_WithSpecification(TestFactory factory) : IntegrationTest
         var actual = DbContext.Stores
             .WithSpecification(spec)
             .ToQueryString()
-            .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
+            .Replace("__specLike_Pattern_", "__Format_"); //like parameter names are different
 
         // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores

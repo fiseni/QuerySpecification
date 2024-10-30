@@ -215,8 +215,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new LikeExpression<T>(keySelector, pattern, group);
-            builder.Specification.AddInternal(StateType.Like, expr);
+            var like = new SpecLike<T>(keySelector, pattern);
+            builder.Specification.AddInternal(StateType.Like, like, group);
         }
         return builder;
     }
@@ -237,8 +237,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new LikeExpression<T>(keySelector, pattern, group);
-            builder.Specification.AddInternal(StateType.Like, expr);
+            var like = new SpecLike<T>(keySelector, pattern);
+            builder.Specification.AddInternal(StateType.Like, like, group);
         }
         return builder;
     }

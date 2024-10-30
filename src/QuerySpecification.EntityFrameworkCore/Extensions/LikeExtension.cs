@@ -12,7 +12,7 @@ internal static class LikeExtension
     private static readonly PropertyInfo _functionsProp = typeof(EF).GetProperty(nameof(EF.Functions))!;
     private static readonly MemberExpression _functions = Expression.Property(null, _functionsProp);
 
-    public static IQueryable<T> Like<T>(this IQueryable<T> source, IEnumerable<LikeExpression<T>> likeExpressions)
+    public static IQueryable<T> Like<T>(this IQueryable<T> source, ReadOnlySpan<SpecState> likeStates)
     {
         Debug.Assert(_likeMethodInfo is not null);
         Debug.Assert(_functionsProp is not null);
@@ -20,16 +20,18 @@ internal static class LikeExtension
         Expression? expr = null;
         var parameter = Expression.Parameter(typeof(T), "x");
 
-        foreach (var likeExpression in likeExpressions)
+        foreach (var state in likeStates)
         {
+            if (state.Reference is not SpecLike<T> specLike) continue;
+
             var propertySelector = ParameterReplacerVisitor.Replace(
-                likeExpression.KeySelector,
-                likeExpression.KeySelector.Parameters[0],
+                specLike.KeySelector,
+                specLike.KeySelector.Parameters[0],
                 parameter) as LambdaExpression;
 
             Debug.Assert(propertySelector is not null);
 
-            var patternAsExpression = ((Expression<Func<string>>)(() => likeExpression.Pattern)).Body;
+            var patternAsExpression = ((Expression<Func<string>>)(() => specLike.Pattern)).Body;
 
             var efLikeExpression = Expression.Call(
                 null,
@@ -38,8 +40,8 @@ internal static class LikeExtension
                 propertySelector.Body,
                 patternAsExpression);
 
-            expr = expr is null 
-                ? efLikeExpression 
+            expr = expr is null
+                ? efLikeExpression
                 : Expression.OrElse(expr, efLikeExpression);
         }
 

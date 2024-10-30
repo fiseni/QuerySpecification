@@ -65,7 +65,7 @@ public partial class Specification<T>
 
     public IEnumerable<LikeExpression<T>> LikeExpressions => _states is null
         ? Enumerable.Empty<LikeExpression<T>>()
-        : new SpecSelectIterator<LikeExpression<T>, LikeExpression<T>>(_states, StateType.Like, (x, bag) => x);
+        : new SpecSelectIterator<SpecLike<T>, LikeExpression<T>>(_states, StateType.Like, (x, bag) => new LikeExpression<T>(x.KeySelector, x.Pattern, bag));
 
     public IEnumerable<string> IncludeStrings => _states is null
         ? Enumerable.Empty<string>()

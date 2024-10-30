@@ -20,7 +20,7 @@ public class LikeEvaluatorTests(TestFactory factory) : IntegrationTest(factory)
 
         var actual = _evaluator.Evaluate(DbContext.Stores, spec)
             .ToQueryString()
-            .Replace("__likeExpression_Pattern_", "__Format_"); //expr parameter names are different
+            .Replace("__specLike_Pattern_", "__Format_"); //expr parameter names are different
 
         var expected = DbContext.Stores
             .Where(x => EF.Functions.Like(x.Name, $"%{storeTerm}%")

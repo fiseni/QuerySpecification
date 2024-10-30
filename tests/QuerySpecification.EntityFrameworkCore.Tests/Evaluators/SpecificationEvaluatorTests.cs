@@ -79,7 +79,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
 
         var actual = _evaluator.Evaluate(DbContext.Stores, spec)
             .ToQueryString()
-            .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
+            .Replace("__specLike_Pattern_", "__Format_"); //like parameter names are different
 
         // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores
@@ -133,7 +133,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
 
         var actual = _evaluator.Evaluate(DbContext.Stores, spec)
             .ToQueryString()
-            .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
+            .Replace("__specLike_Pattern_", "__Format_"); //like parameter names are different
 
         // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores
@@ -188,7 +188,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
 
         var actual = _evaluator.Evaluate(DbContext.Stores, spec)
             .ToQueryString()
-            .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
+            .Replace("__specLike_Pattern_", "__Format_"); //like parameter names are different
 
         // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores
@@ -244,7 +244,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
 
         var actual = _evaluator.Evaluate(DbContext.Stores, spec)
             .ToQueryString()
-            .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
+            .Replace("__specLike_Pattern_", "__Format_"); //like parameter names are different
 
         // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores
