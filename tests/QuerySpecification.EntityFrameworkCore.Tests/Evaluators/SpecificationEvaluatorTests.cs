@@ -55,9 +55,9 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     {
         var id = 2;
         var name = "Store1";
-        var storeTerm = "ab";
-        var companyTerm = "ab";
-        var streetTerm = "ab";
+        var storeTerm = "ab1";
+        var companyTerm = "ab2";
+        var streetTerm = "ab3";
 
         var spec = new Specification<Store>();
         spec.Query
@@ -78,8 +78,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
             .IgnoreQueryFilters();
 
         var actual = _evaluator.Evaluate(DbContext.Stores, spec)
-            .ToQueryString()
-            .Replace("__specLike_Pattern_", "__Format_"); //like parameter names are different
+            .ToQueryString();
 
         // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores
@@ -109,9 +108,9 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     {
         var id = 2;
         var name = "Store1";
-        var storeTerm = "ab";
-        var companyTerm = "ab";
-        var streetTerm = "ab";
+        var storeTerm = "ab1";
+        var companyTerm = "ab2";
+        var streetTerm = "ab3";
 
         var spec = new Specification<Store>();
         spec.Query
@@ -132,8 +131,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
             .IgnoreQueryFilters();
 
         var actual = _evaluator.Evaluate(DbContext.Stores, spec)
-            .ToQueryString()
-            .Replace("__specLike_Pattern_", "__Format_"); //like parameter names are different
+            .ToQueryString();
 
         // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores
@@ -163,9 +161,9 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     {
         var id = 2;
         var name = "Store1";
-        var storeTerm = "ab";
-        var companyTerm = "ab";
-        var streetTerm = "ab";
+        var storeTerm = "ab1";
+        var companyTerm = "ab2";
+        var streetTerm = "ab3";
 
         var spec = new Specification<Store, string?>();
         spec.Query
@@ -187,8 +185,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
             .Select(x => x.Name);
 
         var actual = _evaluator.Evaluate(DbContext.Stores, spec)
-            .ToQueryString()
-            .Replace("__specLike_Pattern_", "__Format_"); //like parameter names are different
+            .ToQueryString();
 
         // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores
@@ -219,9 +216,9 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     {
         var id = 2;
         var name = "Store1";
-        var storeTerm = "ab";
-        var companyTerm = "ab";
-        var streetTerm = "ab";
+        var storeTerm = "ab1";
+        var companyTerm = "ab2";
+        var streetTerm = "ab3";
 
         var spec = new Specification<Store, string?>();
         spec.Query
@@ -243,8 +240,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
             .SelectMany(x => x.Products.Select(x => x.Name));
 
         var actual = _evaluator.Evaluate(DbContext.Stores, spec)
-            .ToQueryString()
-            .Replace("__specLike_Pattern_", "__Format_"); //like parameter names are different
+            .ToQueryString();
 
         // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores

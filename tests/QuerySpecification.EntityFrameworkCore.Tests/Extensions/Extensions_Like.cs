@@ -6,8 +6,8 @@ public class Extensions_Like(TestFactory factory) : IntegrationTest(factory)
     [Fact]
     public void QueriesMatch_GivenSpecWithMultipleLike()
     {
-        var storeTerm = "ab";
-        var companyTerm = "ab";
+        var storeTerm = "ab1";
+        var companyTerm = "ab2";
 
         var spec = new Specification<Store>();
         spec.Query
@@ -15,9 +15,8 @@ public class Extensions_Like(TestFactory factory) : IntegrationTest(factory)
             .Like(x22 => x22.Company.Name, $"%{companyTerm}%");
 
         var actual = DbContext.Stores
-            .Like(spec.States)
-            .ToQueryString()
-            .Replace("__specLike_Pattern_", "__Format_"); //expr parameter names are different
+            .ApplyLikesAsOrGroup(spec.States)
+            .ToQueryString();
 
         var expected = DbContext.Stores
             .Where(x => EF.Functions.Like(x.Name, $"%{storeTerm}%")
@@ -33,9 +32,8 @@ public class Extensions_Like(TestFactory factory) : IntegrationTest(factory)
         var spec = new Specification<Store>();
 
         var actual = DbContext.Stores
-            .Like(spec.States)
-            .ToQueryString()
-            .Replace("__specLike_Pattern_", "__Format_"); //expr parameter names are different
+            .ApplyLikesAsOrGroup(spec.States)
+            .ToQueryString();
 
         var expected = DbContext.Stores
             .ToQueryString();

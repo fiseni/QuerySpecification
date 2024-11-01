@@ -28,7 +28,9 @@ public class LikeMemoryEvaluatorTests
             .Like(x => x.FirstName, "%xx%")
             .Like(x => x.LastName, "%xy%");
 
-        AssertForEvaluate(spec, input, expected);
+        var actual = _evaluator.Evaluate(input, spec).ToList();
+
+        actual.Should().Equal(expected);
     }
 
     [Fact]
@@ -52,7 +54,9 @@ public class LikeMemoryEvaluatorTests
             .Like(x => x.FirstName, "%xx%", 1)
             .Like(x => x.LastName, "%xy%", 2);
 
-        AssertForEvaluate(spec, input, expected);
+        var actual = _evaluator.Evaluate(input, spec).ToList();
+
+        actual.Should().Equal(expected);
     }
 
     [Fact]
@@ -79,7 +83,9 @@ public class LikeMemoryEvaluatorTests
             .Like(x => x.LastName, "%xy%", 2)
             .Like(x => x.LastName, "%xz%", 2);
 
-        AssertForEvaluate(spec, input, expected);
+        var actual = _evaluator.Evaluate(input, spec).ToList();
+
+        actual.Should().Equal(expected);
     }
 
     [Fact]
@@ -101,15 +107,8 @@ public class LikeMemoryEvaluatorTests
 
         var spec = new Specification<Customer>();
 
-        AssertForEvaluate(spec, input, expected);
-    }
+        var actual = _evaluator.Evaluate(input, spec).ToList();
 
-    private static void AssertForEvaluate<T>(Specification<T> spec, List<T> input, IEnumerable<T> expected)
-    {
-        var actual = _evaluator.Evaluate(input, spec);
-
-        actual.Should().NotBeNull();
-        actual.Should().HaveSameCount(expected);
         actual.Should().Equal(expected);
     }
 }

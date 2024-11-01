@@ -74,7 +74,11 @@ public class SpecificationInMemoryEvaluatorTests
             .Skip(1)
             .Take(1);
 
-        AssertForEvaluate(spec, input, expected);
+        var actual = _evaluator.Evaluate(input, spec).ToList();
+        var actualFromSpec = spec.Evaluate(input).ToList();
+
+        actual.Should().Equal(actualFromSpec);
+        actual.Should().Equal(expected);
     }
 
     [Fact]
@@ -99,7 +103,11 @@ public class SpecificationInMemoryEvaluatorTests
             .Take(1)
             .Select(x => x.FirstName);
 
-        AssertForEvaluate(spec, input, expected);
+        var actual = _evaluator.Evaluate(input, spec).ToList();
+        var actualFromSpec = spec.Evaluate(input).ToList();
+
+        actual.Should().Equal(actualFromSpec);
+        actual.Should().Equal(expected);
     }
 
     [Fact]
@@ -124,7 +132,11 @@ public class SpecificationInMemoryEvaluatorTests
             .Take(2)
             .SelectMany(x => x.Emails);
 
-        AssertForEvaluate(spec, input, expected);
+        var actual = _evaluator.Evaluate(input, spec).ToList();
+        var actualFromSpec = spec.Evaluate(input).ToList();
+
+        actual.Should().Equal(actualFromSpec);
+        actual.Should().Equal(expected);
     }
 
     [Fact]
@@ -138,13 +150,25 @@ public class SpecificationInMemoryEvaluatorTests
             new(4, "aaaa", "axya")
         ];
 
+        List<Customer> expected =
+        [
+            new(1, "axxa", "axya"),
+            new(2, "aaaa", "axya"),
+            new(3, "aaaa", "axya"),
+            new(4, "aaaa", "axya")
+        ];
+
         var spec = new Specification<Customer>();
         spec.Query
             .OrderBy(x => x.Id)
             .Skip(1)
             .Take(1);
 
-        AssertForEvaluate(spec, input, input, ignorePaging: true);
+        var actual = _evaluator.Evaluate(input, spec, ignorePaging: true).ToList();
+        var actualFromSpec = spec.Evaluate(input, ignorePaging: true).ToList();
+
+        actual.Should().Equal(actualFromSpec);
+        actual.Should().Equal(expected);
     }
 
     [Fact]
@@ -167,7 +191,11 @@ public class SpecificationInMemoryEvaluatorTests
             .Take(1)
             .Select(x => x.FirstName);
 
-        AssertForEvaluate(spec, input, expected, ignorePaging: true);
+        var actual = _evaluator.Evaluate(input, spec, ignorePaging: true).ToList();
+        var actualFromSpec = spec.Evaluate(input, ignorePaging: true).ToList();
+
+        actual.Should().Equal(actualFromSpec);
+        actual.Should().Equal(expected);
     }
 
     [Fact]
@@ -190,36 +218,10 @@ public class SpecificationInMemoryEvaluatorTests
             .Take(2)
             .SelectMany(x => x.Emails);
 
-        AssertForEvaluate(spec, input, expected, ignorePaging: true);
-    }
-
-    private static void AssertForEvaluate<T>(
-        Specification<T> spec,
-        List<T> input,
-        IEnumerable<T> expected,
-        bool ignorePaging = false)
-    {
-        var actual = _evaluator.Evaluate(input, spec, ignorePaging);
-        var actualFromSpec = spec.Evaluate(input, ignorePaging);
+        var actual = _evaluator.Evaluate(input, spec, true).ToList();
+        var actualFromSpec = spec.Evaluate(input, true).ToList();
 
         actual.Should().Equal(actualFromSpec);
-        actual.Should().NotBeNull();
-        actual.Should().HaveSameCount(expected);
-        actual.Should().Equal(expected);
-    }
-
-    private static void AssertForEvaluate<T, TResult>(
-        Specification<T, TResult> spec,
-        List<T> input,
-        IEnumerable<TResult> expected,
-        bool ignorePaging = false)
-    {
-        var actual = _evaluator.Evaluate(input, spec, ignorePaging);
-        var actualFromSpec = spec.Evaluate(input, ignorePaging);
-
-        actual.Should().Equal(actualFromSpec);
-        actual.Should().NotBeNull();
-        actual.Should().HaveSameCount(expected);
         actual.Should().Equal(expected);
     }
 

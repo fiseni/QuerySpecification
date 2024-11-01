@@ -8,9 +8,9 @@ public class LikeEvaluatorTests(TestFactory factory) : IntegrationTest(factory)
     [Fact]
     public void QueriesMatch_GivenLikeExpressions()
     {
-        var storeTerm = "ab";
-        var companyTerm = "ab";
-        var streetTerm = "ab";
+        var storeTerm = "ab1";
+        var companyTerm = "ab2";
+        var streetTerm = "ab3";
 
         var spec = new Specification<Store>();
         spec.Query
@@ -19,8 +19,7 @@ public class LikeEvaluatorTests(TestFactory factory) : IntegrationTest(factory)
             .Like(x => x.Address.Street, $"%{streetTerm}%", 2);
 
         var actual = _evaluator.Evaluate(DbContext.Stores, spec)
-            .ToQueryString()
-            .Replace("__specLike_Pattern_", "__Format_"); //expr parameter names are different
+            .ToQueryString();
 
         var expected = DbContext.Stores
             .Where(x => EF.Functions.Like(x.Name, $"%{storeTerm}%")
