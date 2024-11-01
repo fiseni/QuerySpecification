@@ -14,7 +14,7 @@ namespace Pozitron.QuerySpecification;
 // This was the previous implementation. We're trying to avoid allocations of LikeExpressions, GroupBy and LINQ.
 // The new implementation preserves the behavior and reduces allocations drastically.
 // We've implemented a custom iterator. Also, instead of GroupBy, we have a single array sorted by group, and we slice it to get the groups.
-// For 1000 items, the allocations are reduced from 270.592 bytes to only 72 bytes (the cost of the iterator instance). Refer to LikeInMemoryBenchmark results.
+// For 1000 items, the allocations are reduced from 270.584 bytes to only 64 bytes (the cost of the iterator instance). Refer to LikeInMemoryBenchmark results.
 
 public sealed class LikeMemoryEvaluator : IInMemoryEvaluator
 {
@@ -25,54 +25,38 @@ public sealed class LikeMemoryEvaluator : IInMemoryEvaluator
     {
         if (specification.IsEmpty) return source;
 
-        var count = GetCount(specification);
-        if (count == 0) return source;
+        var compiledStates = specification.GetCompiledStates();
+        if (compiledStates.Length == 0) return source;
 
-        return new SpecLikeIterator<T>(source, specification, count);
-    }
+        int startIndexLikeStates = Array.FindIndex(compiledStates, state => state.Type == StateType.Like);
+        if (startIndexLikeStates == -1) return source;
 
-    private static int GetCount<T>(Specification<T> specification)
-    {
-        var count = 0;
-        foreach (var state in specification.States)
-        {
-            if (state.Type == StateType.Like)
-                count++;
-        }
-        return count;
+        // The like states are contiguous placed as last segment in the array and are already sorted by group.
+        return new SpecLikeIterator<T>(source, compiledStates, startIndexLikeStates);
     }
 
     private sealed class SpecLikeIterator<TSource> : Iterator<TSource>
     {
         private readonly IEnumerable<TSource> _source;
-        private readonly Specification<TSource> _specification;
-        private readonly int _count;
-        private SpecState[]? _states;
+        private readonly SpecState[] _likeStates;
+        private readonly int _startIndex;
 
         private IEnumerator<TSource>? _enumerator;
 
-        public SpecLikeIterator(IEnumerable<TSource> source, Specification<TSource> specification, int count)
+        public SpecLikeIterator(IEnumerable<TSource> source, SpecState[] compiledStates, int startIndex)
         {
             Debug.Assert(source != null);
-            Debug.Assert(specification != null);
+            Debug.Assert(compiledStates != null);
             _source = source;
-            _specification = specification;
-            _count = count;
-
-            _states = ArrayPool<SpecState>.Shared.Rent(count);
-            FillSorted(specification, _states.AsSpan().Slice(0, count));
+            _likeStates = compiledStates;
+            _startIndex = startIndex;
         }
 
         public override Iterator<TSource> Clone()
-            => new SpecLikeIterator<TSource>(_source, _specification, _count);
+            => new SpecLikeIterator<TSource>(_source, _likeStates, _startIndex);
 
         public override void Dispose()
         {
-            if (_states is not null)
-            {
-                ArrayPool<SpecState>.Shared.Return(_states);
-                _states = null;
-            }
             if (_enumerator is not null)
             {
                 _enumerator.Dispose();
@@ -91,12 +75,11 @@ public sealed class LikeMemoryEvaluator : IInMemoryEvaluator
                     goto case 2;
                 case 2:
                     Debug.Assert(_enumerator is not null);
-                    Debug.Assert(_states is not null);
-                    var states = _states.AsSpan().Slice(0, _count);
+                    var likeStates = _likeStates.AsSpan()[_startIndex.._likeStates.Length];
                     while (_enumerator.MoveNext())
                     {
                         TSource item = _enumerator.Current;
-                        if (IsValid(item, states))
+                        if (IsValid(item, likeStates))
                         {
                             _current = item;
                             return true;
@@ -108,28 +91,6 @@ public sealed class LikeMemoryEvaluator : IInMemoryEvaluator
             }
 
             return false;
-        }
-
-        private static void FillSorted<T>(Specification<T> specification, Span<SpecState> span)
-        {
-            var i = 0;
-            foreach (var state in specification.States)
-            {
-                if (state.Type == StateType.Like)
-                {
-                    // Find the correct insertion point
-                    var j = i;
-                    while (j > 0 && span[j - 1].Bag > state.Bag)
-                    {
-                        span[j] = span[j - 1];
-                        j--;
-                    }
-
-                    // Insert the current state in the sorted position
-                    span[j] = state;
-                    i++;
-                }
-            }
         }
 
         private static bool IsValid<T>(T item, Span<SpecState> span)
@@ -157,9 +118,9 @@ public sealed class LikeMemoryEvaluator : IInMemoryEvaluator
                 var validOrGroup = false;
                 foreach (var state in span)
                 {
-                    if (state.Reference is not SpecLike<T> specLike) continue;
+                    if (state.Reference is not SpecLikeCompiled<T> specLike) continue;
 
-                    if (specLike.KeySelectorFunc(item)?.Like(specLike.Pattern) ?? false)
+                    if (specLike.KeySelector(item)?.Like(specLike.Pattern) ?? false)
                     {
                         validOrGroup = true;
                         break;

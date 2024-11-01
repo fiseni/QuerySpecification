@@ -24,12 +24,13 @@ public sealed class WhereEvaluator : IEvaluator, IInMemoryEvaluator
     {
         if (specification.IsEmpty) return source;
 
-        foreach (var state in specification.States)
+        var compiledStates = specification.GetCompiledStates();
+
+        foreach (var state in compiledStates)
         {
-            if (state.Type == StateType.Where && state.Reference is Expression<Func<T, bool>> expr)
+            if (state.Type == StateType.Where && state.Reference is Func<T, bool> compiledExpr)
             {
-                var func = expr.Compile();
-                source = source.Where(func);
+                source = source.Where(compiledExpr);
             }
         }
 

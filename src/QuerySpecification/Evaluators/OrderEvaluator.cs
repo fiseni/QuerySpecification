@@ -46,28 +46,28 @@ public sealed class OrderEvaluator : IEvaluator, IInMemoryEvaluator
     {
         if (specification.IsEmpty) return source;
 
+        var compiledStates = specification.GetCompiledStates();
         IOrderedEnumerable<T>? orderedQuery = null;
 
-        foreach (var state in specification.States)
+        foreach (var state in compiledStates)
         {
-            if (state.Type == StateType.Order && state.Reference is Expression<Func<T, object?>> expr)
+            if (state.Type == StateType.Order && state.Reference is Func<T, object?> compiledExpr)
             {
-                var func = expr.Compile();
                 if (state.Bag == (int)OrderType.OrderBy)
                 {
-                    orderedQuery = source.OrderBy(func);
+                    orderedQuery = source.OrderBy(compiledExpr);
                 }
                 else if (state.Bag == (int)OrderType.OrderByDescending)
                 {
-                    orderedQuery = source.OrderByDescending(func);
+                    orderedQuery = source.OrderByDescending(compiledExpr);
                 }
                 else if (state.Bag == (int)OrderType.ThenBy)
                 {
-                    orderedQuery = orderedQuery!.ThenBy(func);
+                    orderedQuery = orderedQuery!.ThenBy(compiledExpr);
                 }
                 else if (state.Bag == (int)OrderType.ThenByDescending)
                 {
-                    orderedQuery = orderedQuery!.ThenByDescending(func);
+                    orderedQuery = orderedQuery!.ThenByDescending(compiledExpr);
                 }
             }
         }

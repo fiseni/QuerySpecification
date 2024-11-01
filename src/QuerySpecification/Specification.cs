@@ -4,6 +4,9 @@ namespace Pozitron.QuerySpecification;
 
 public class Specification<T, TResult> : Specification<T>
 {
+    public Specification() : base() { }
+    public Specification(int initialCapacity) : base(initialCapacity) { }
+
     public new virtual IEnumerable<TResult> Evaluate(IEnumerable<T> entities, bool ignorePaging = false)
     {
         var evaluator = Evaluator;
@@ -21,8 +24,8 @@ public partial class Specification<T>
     private protected SpecState[]? _states;
 
     // It is utilized only during the building stage for the builder chains. Once the state is built, we don't care about it anymore.
-    // We also don't care about the initial value since the value is always initialized in the root chains. Therefore, we don't need ThreadLocal (it's more expensive).
-    // With this we're saving 8 bytes per include builder, and we don't need order builder at all (saving 32 bytes per order builder).
+    // The initial value is not important since the value is always initialized by the root of the chain. Therefore, we don't need ThreadLocal (it's more expensive).
+    // With this we're saving 8 bytes per include builder, and we don't need an order builder at all (saving 32 bytes per order builder instance).
     [ThreadStatic]
     internal static bool IsChainDiscarded;
 
@@ -102,24 +105,13 @@ public partial class Specification<T>
         set => UpdateFlag(SpecFlag.AsNoTrackingWithIdentityResolution, value);
     }
 
-    public bool Contains(int type)
+    public void Add(int type, object value)
     {
-        if (IsEmpty) return false;
+        ArgumentNullException.ThrowIfNull(value);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(type);
 
-        foreach (var state in _states)
-        {
-            if (state.Type == type)
-            {
-                return true;
-            }
-        }
-        return false;
+        AddInternal(type, value);
     }
-
-    public IEnumerable<TObject> OfType<TObject>(int type) => _states is null
-        ? Enumerable.Empty<TObject>()
-        : new SpecIterator<TObject>(_states, type);
-
     public TObject? FirstOrDefault<TObject>(int type)
     {
         if (IsEmpty) return default;
@@ -133,14 +125,9 @@ public partial class Specification<T>
         }
         return default;
     }
-
-    public void Add(int type, object value)
-    {
-        ArgumentNullException.ThrowIfNull(value);
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(type);
-
-        AddInternal(type, value);
-    }
+    public IEnumerable<TObject> OfType<TObject>(int type) => _states is null
+        ? Enumerable.Empty<TObject>()
+        : new SpecIterator<TObject>(_states, type);
 
     internal ReadOnlySpan<SpecState> States => _states ?? ReadOnlySpan<SpecState>.Empty;
 
@@ -179,7 +166,7 @@ public partial class Specification<T>
             {
                 if (states[i].Type == 0)
                 {
-                    _states[i] = newState;
+                    states[i] = newState;
                     return;
                 }
             }
@@ -209,6 +196,99 @@ public partial class Specification<T>
             }
         }
         AddInternal(type, value, bag);
+    }
+    internal SpecState[] GetCompiledStates()
+    {
+        if (IsEmpty) return Array.Empty<SpecState>();
+
+        var compilableStatesCount = CountCompilableStates(_states);
+        if (compilableStatesCount == 0) return Array.Empty<SpecState>();
+
+        var compiledStates = GetCompiledStates(_states);
+
+        // If the count of compilable states is equal to the count of compiled states, we don't need to recompile.
+        if (compiledStates.Length == compilableStatesCount) return compiledStates;
+
+        compiledStates = GenerateCompiledStates(_states, compilableStatesCount);
+        AddOrUpdateInternal(StateType.Compiled, compiledStates);
+        return compiledStates;
+
+        static SpecState[] GetCompiledStates(SpecState[] states)
+        {
+            foreach (var state in states)
+            {
+                if (state.Type == StateType.Compiled && state.Reference is SpecState[] compiledStates)
+                {
+                    return compiledStates;
+                }
+            }
+            return Array.Empty<SpecState>();
+        }
+
+        static int CountCompilableStates(SpecState[] states)
+        {
+            var count = 0;
+            foreach (var item in states)
+            {
+                if (item.Type == StateType.Where || item.Type == StateType.Like || item.Type == StateType.Order)
+                    count++;
+            }
+            return count;
+        }
+
+        static SpecState[] GenerateCompiledStates(SpecState[] states, int count)
+        {
+            var compiledStates = new SpecState[count];
+
+            // We want to place the states contiguously by type. Sorting is more expensive than looping per type.
+            var index = 0;
+            foreach (var item in states)
+            {
+                if (item.Type == StateType.Where && item.Reference is Expression<Func<T, bool>> expr)
+                {
+                    compiledStates[index++] = new SpecState
+                    {
+                        Type = item.Type,
+                        Reference = expr.Compile(),
+                        Bag = item.Bag
+                    };
+                }
+            }
+            if (index == count) return compiledStates;
+
+            foreach (var item in states)
+            {
+                if (item.Type == StateType.Order && item.Reference is Expression<Func<T, object?>> expr)
+                {
+                    compiledStates[index++] = new SpecState
+                    {
+                        Type = item.Type,
+                        Reference = expr.Compile(),
+                        Bag = item.Bag
+                    };
+                }
+            }
+            if (index == count) return compiledStates;
+
+            var likeStartIndex = index;
+            foreach (var item in states)
+            {
+                if (item.Type == StateType.Like && item.Reference is SpecLike<T> like)
+                {
+                    compiledStates[index++] = new SpecState
+                    {
+                        Type = item.Type,
+                        Reference = new SpecLikeCompiled<T>(like.KeySelector.Compile(), like.Pattern),
+                        Bag = item.Bag
+                    };
+                }
+            }
+
+            // Sort Like states by the group, so we do it only once and not repeatedly in the Like evaluator).
+            compiledStates.AsSpan()[likeStartIndex..count].Sort((x, y) => x.Bag.CompareTo(y.Bag));
+
+            return compiledStates;
+        }
     }
 
     private TObject GetOrCreate<TObject>(int type) where TObject : new()
