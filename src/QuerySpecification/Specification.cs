@@ -54,6 +54,18 @@ public partial class Specification<T>
     [MemberNotNullWhen(false, nameof(_states))]
     public bool IsEmpty => _states is null;
 
+    public IEnumerable<WhereExpressionCompiled<T>> WhereExpressionsCompiled => _states is null
+        ? Enumerable.Empty<WhereExpressionCompiled<T>>()
+        : new SpecSelectIterator<Func<T, bool>, WhereExpressionCompiled<T>>(GetCompiledStates(), StateType.Where, (x, bag) => new(x));
+
+    public IEnumerable<OrderExpressionCompiled<T>> OrderExpressionsCompiled => _states is null
+        ? Enumerable.Empty<OrderExpressionCompiled<T>>()
+        : new SpecSelectIterator<Func<T, object?>, OrderExpressionCompiled<T>>(GetCompiledStates(), StateType.Order, (x, bag) => new(x, (OrderType)bag));
+
+    public IEnumerable<LikeExpressionCompiled<T>> LikeExpressionsCompiled => _states is null
+        ? Enumerable.Empty<LikeExpressionCompiled<T>>()
+        : new SpecSelectIterator<SpecLikeCompiled<T>, LikeExpressionCompiled<T>>(GetCompiledStates(), StateType.Like, (x, bag) => new(x.KeySelector, x.Pattern, bag));
+
     public IEnumerable<WhereExpression<T>> WhereExpressions => _states is null
         ? Enumerable.Empty<WhereExpression<T>>()
         : new SpecSelectIterator<Expression<Func<T, bool>>, WhereExpression<T>>(_states, StateType.Where, (x, bag) => new WhereExpression<T>(x));

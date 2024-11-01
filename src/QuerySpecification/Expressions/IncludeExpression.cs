@@ -7,8 +7,6 @@ public sealed class IncludeExpression<T>
 
     public IncludeExpression(LambdaExpression expression, IncludeType type)
     {
-        ArgumentNullException.ThrowIfNull(expression);
-
         LambdaExpression = expression;
         Type = type;
     }

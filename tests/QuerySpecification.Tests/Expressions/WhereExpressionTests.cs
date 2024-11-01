@@ -2,31 +2,32 @@
 
 namespace Tests.Expressions;
 
+// TODO: Do we need this anymore? [fatii, 01/11/2024]
 public class WhereExpressionTests
 {
     public record Customer(int Id);
 
-    [Fact]
-    public void Constructor_ThrowsArgumentNullException_GivenNullExpression()
-    {
-        var sut = () => new WhereExpression<Customer>(null!);
+    //[Fact]
+    //public void Constructor_ThrowsArgumentNullException_GivenNullExpression()
+    //{
+    //    var sut = () => new WhereExpression<Customer>(null!);
 
-        sut.Should().Throw<ArgumentNullException>().WithParameterName("filter");
-    }
+    //    sut.Should().Throw<ArgumentNullException>().WithParameterName("filter");
+    //}
 
-    [Fact]
-    public void Constructor_GivenValidValues()
-    {
-        Expression<Func<Customer, bool>> expr = x => x.Id == 1;
+    //[Fact]
+    //public void Constructor_GivenValidValues()
+    //{
+    //    Expression<Func<Customer, bool>> expr = x => x.Id == 1;
 
-        var sut = new WhereExpression<Customer>(expr);
+    //    var sut = new WhereExpression<Customer>(expr);
 
-        sut.Filter.Should().Be(expr);
-        Accessors<Customer>.FuncFieldOf(sut).Should().BeNull();
-        sut.FilterFunc.Should().NotBeNull();
-        //sut.FilterFunc.Should().BeEquivalentTo(expr.Compile());
-        Accessors<Customer>.FuncFieldOf(sut).Should().NotBeNull();
-    }
+    //    sut.Filter.Should().Be(expr);
+    //    Accessors<Customer>.FuncFieldOf(sut).Should().BeNull();
+    //    sut.FilterFunc.Should().NotBeNull();
+    //    //sut.FilterFunc.Should().BeEquivalentTo(expr.Compile());
+    //    Accessors<Customer>.FuncFieldOf(sut).Should().NotBeNull();
+    //}
 
     private class Accessors<T>
     {

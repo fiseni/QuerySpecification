@@ -7,10 +7,17 @@ public sealed class WhereValidator : IValidator
 
     public bool IsValid<T>(T entity, Specification<T> specification)
     {
-        foreach (var whereExpression in specification.WhereExpressions)
+        if (specification.IsEmpty) return true;
+
+        var compiledStates = specification.GetCompiledStates();
+
+        foreach (var state in compiledStates)
         {
-            if (whereExpression.FilterFunc(entity) == false) 
-                return false;
+            if (state.Type == StateType.Where && state.Reference is Func<T, bool> compiledExpr)
+            {
+                if (compiledExpr(entity) == false)
+                    return false;
+            }
         }
 
         return true;

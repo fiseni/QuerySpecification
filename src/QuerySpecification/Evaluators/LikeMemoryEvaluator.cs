@@ -1,20 +1,21 @@
-﻿using System.Buffers;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace Pozitron.QuerySpecification;
 
-// public IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)
-// {
-//     foreach (var likeGroup in specification.LikeExpressions.GroupBy(x => x.Group))
-//     {
-//         source = source.Where(x => likeGroup.Any(c => c.KeySelectorFunc(x)?.Like(c.Pattern) ?? false));
-//     }
-//     return source;
-// }
-// This was the previous implementation. We're trying to avoid allocations of LikeExpressions, GroupBy and LINQ.
-// The new implementation preserves the behavior and reduces allocations drastically.
-// We've implemented a custom iterator. Also, instead of GroupBy, we have a single array sorted by group, and we slice it to get the groups.
-// For 1000 items, the allocations are reduced from 270.584 bytes to only 64 bytes (the cost of the iterator instance). Refer to LikeInMemoryBenchmark results.
+/*
+    public IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)
+    {
+        foreach (var likeGroup in specification.LikeExpressions.GroupBy(x => x.Group))
+        {
+            source = source.Where(x => likeGroup.Any(c => c.KeySelectorFunc(x)?.Like(c.Pattern) ?? false));
+        }
+        return source;
+    }
+    This was the previous implementation.We're trying to avoid allocations of LikeExpressions, GroupBy and LINQ.
+    The new implementation preserves the behavior and reduces allocations drastically.
+    We've implemented a custom iterator. Also, instead of GroupBy, we have a single array sorted by group, and we slice it to get the groups.
+    For 1000 items, the allocations are reduced from 257.872 bytes to only 64 bytes (the cost of the iterator instance). Refer to LikeInMemoryEvaluatorBenchmark results.
+ */
 
 public sealed class LikeMemoryEvaluator : IInMemoryEvaluator
 {
@@ -93,7 +94,7 @@ public sealed class LikeMemoryEvaluator : IInMemoryEvaluator
             return false;
         }
 
-        private static bool IsValid<T>(T item, Span<SpecState> span)
+        private static bool IsValid<T>(T item, ReadOnlySpan<SpecState> span)
         {
             var valid = true;
             int start = 0;
@@ -113,7 +114,7 @@ public sealed class LikeMemoryEvaluator : IInMemoryEvaluator
 
             return valid;
 
-            static bool IsValidInOrGroup(T item, Span<SpecState> span)
+            static bool IsValidInOrGroup(T item, ReadOnlySpan<SpecState> span)
             {
                 var validOrGroup = false;
                 foreach (var state in span)

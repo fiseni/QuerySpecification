@@ -2,17 +2,24 @@
 
 public sealed class OrderExpression<T>
 {
-    private Func<T, object?>? _keySelectorFunc;
     public Expression<Func<T, object?>> KeySelector { get; }
     public OrderType Type { get; }
 
     public OrderExpression(Expression<Func<T, object?>> keySelector, OrderType type)
     {
-        ArgumentNullException.ThrowIfNull(keySelector);
-
         KeySelector = keySelector;
         Type = type;
     }
+}
 
-    public Func<T, object?> KeySelectorFunc => _keySelectorFunc ??= KeySelector.Compile();
+public sealed class OrderExpressionCompiled<T>
+{
+    public Func<T, object?> KeySelector { get; }
+    public OrderType Type { get; }
+
+    public OrderExpressionCompiled(Func<T, object?> keySelector, OrderType type)
+    {
+        KeySelector = keySelector;
+        Type = type;
+    }
 }

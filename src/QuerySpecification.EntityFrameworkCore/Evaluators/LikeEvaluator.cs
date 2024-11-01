@@ -2,17 +2,19 @@
 
 namespace Pozitron.QuerySpecification;
 
-// public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class
-// {
-//     foreach (var likeGroup in specification.LikeExpressions.GroupBy(x => x.Group))
-//     {
-//         source = source.Like(likeGroup);
-//     }
-//     return source;
-// }
-// This was the previous implementation. We're trying to avoid allocations of LikeExpressions and GroupBy.
-// The new implementation preserves the behavior and has zero allocations.
-// Instead of GroupBy, we have a single array, sorted by group, and we slice it to get the groups.
+/*
+    public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class
+    {
+        foreach (var likeGroup in specification.LikeExpressions.GroupBy(x => x.Group))
+        {
+            source = source.Like(likeGroup);
+        }
+        return source;
+    }
+    This was the previous implementation. We're trying to avoid allocations of LikeExpressions and GroupBy.
+    The new implementation preserves the behavior and has zero allocations.
+    Instead of GroupBy, we have a single array, sorted by group, and we slice it to get the groups.
+*/
 
 public sealed class LikeEvaluator : IEvaluator
 {
@@ -62,7 +64,7 @@ public sealed class LikeEvaluator : IEvaluator
         return source;
     }
 
-    private static IQueryable<T> ApplyLike<T>(IQueryable<T> source, Span<SpecState> span) where T : class
+    private static IQueryable<T> ApplyLike<T>(IQueryable<T> source, ReadOnlySpan<SpecState> span) where T : class
     {
         int start = 0;
 
