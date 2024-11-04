@@ -58,6 +58,7 @@ public class SpecificationEvaluator
         bool ignorePaging = false) where T : class
     {
         ArgumentNullException.ThrowIfNull(specification);
+        if (specification.IsEmpty) return source;
 
         foreach (var evaluator in Evaluators)
         {

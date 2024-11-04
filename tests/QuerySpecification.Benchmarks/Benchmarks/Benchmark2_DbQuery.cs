@@ -1,0 +1,144 @@
+﻿namespace QuerySpecification.Benchmarks;
+
+[MemoryDiagnoser]
+public class Benchmark2_DbQuery
+{
+    /* This benchmark measures the end-to-end cycle, including the round trip to the database.
+     * Types:
+     * 0 -> Empty
+     * 1 -> Single Where clause
+     * 2 -> Where and OrderBy
+     * 3 -> Where, Order chain, Include chain, Flag (AsNoTracking)
+     * 4 -> Where, Order chain, Include chain, Like, Skip, Take, Flag (AsNoTracking)
+     */
+
+    [GlobalSetup]
+    public async Task Setup()
+    {
+        await BenchmarkDbContext.SeedAsync();
+    }
+
+    [Params(0, 1, 2, 3, 4)]
+    public int Type { get; set; }
+
+    [Benchmark(Baseline = true)]
+    public async Task<Store> EFCore()
+    {
+        using var context = new BenchmarkDbContext();
+
+        if (Type == 0)
+        {
+            return await context.Stores
+                .FirstAsync();
+        }
+        else if (Type == 1)
+        {
+            return await context.Stores
+                .Where(x => x.Id > 0)
+                .FirstAsync();
+        }
+        else if (Type == 2)
+        {
+            return await context.Stores
+                .Where(x => x.Id > 0)
+                .OrderBy(x => x.Id)
+                .FirstAsync();
+        }
+        else if (Type == 3)
+        {
+            return await context.Stores
+                .Where(x => x.Id > 0)
+                .OrderBy(x => x.Id)
+                    .ThenBy(x => x.Name)
+                .Include(x => x.Company)
+                    .ThenInclude(x => x.Country)
+                .AsNoTracking()
+                .FirstAsync();
+        }
+        else
+        {
+            var nameTerm = "tore";
+            return await context.Stores
+                .Where(x => x.Id > 0)
+                .OrderBy(x => x.Id)
+                    .ThenBy(x => x.Name)
+                .Include(x => x.Company)
+                    .ThenInclude(x => x.Country)
+                .Where(x => EF.Functions.Like(x.Name, $"%{nameTerm}%"))
+                .Skip(1)
+                .Take(1)
+                .AsNoTracking()
+                .FirstAsync();
+        }
+    }
+
+    [Benchmark]
+    public async Task<Store> Spec()
+    {
+        using var context = new BenchmarkDbContext();
+
+        if (Type == 0)
+        {
+            var spec = new Specification<Store>();
+
+            return await context.Stores
+                .WithSpecification(spec)
+                .FirstAsync();
+        }
+        else if (Type == 1)
+        {
+            var spec = new Specification<Store>();
+            spec.Query
+                .Where(x => x.Id > 0);
+
+            return await context.Stores
+                .WithSpecification(spec)
+                .FirstAsync();
+        }
+        else if (Type == 2)
+        {
+            var spec = new Specification<Store>();
+            spec.Query
+                .Where(x => x.Id > 0)
+                .OrderBy(x => x.Id);
+
+            return await context.Stores
+                .WithSpecification(spec)
+                .FirstAsync();
+        }
+        else if (Type == 3)
+        {
+            var spec = new Specification<Store>(6);
+            spec.Query
+                .Where(x => x.Id > 0)
+                .OrderBy(x => x.Id)
+                    .ThenBy(x => x.Name)
+                .Include(x => x.Company)
+                    .ThenInclude(x => x.Country)
+                .AsNoTracking();
+
+            return await context.Stores
+                .WithSpecification(spec)
+                .FirstAsync();
+        }
+        else
+        {
+            var nameTerm = "tore";
+            var spec = new Specification<Store>(7);
+            spec.Query
+                .Where(x => x.Id > 0)
+                .OrderBy(x => x.Id)
+                    .ThenBy(x => x.Name)
+                .Include(x => x.Company)
+                    .ThenInclude(x => x.Country)
+                .Like(x => x.Name, $"%{nameTerm}%")
+                .Skip(1)
+                .Take(1)
+                .AsNoTracking();
+
+            return await context.Stores
+                .WithSpecification(spec)
+                .FirstAsync();
+        }
+    }
+}
