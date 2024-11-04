@@ -4,10 +4,10 @@ namespace Pozitron.QuerySpecification;
 
 internal sealed class SpecIterator<TObject> : Iterator<TObject>
 {
-    private readonly SpecState[] _source;
+    private readonly SpecItem[] _source;
     private readonly int _type;
 
-    public SpecIterator(SpecState[] source, int type)
+    public SpecIterator(SpecItem[] source, int type)
     {
         Debug.Assert(source != null && source.Length > 0);
         _type = type;

@@ -88,9 +88,9 @@ public class Benchmark6_IncludeEvaluator
         {
             if (specification.IsEmpty) return source;
 
-            foreach (var state in specification.States)
+            foreach (var item in specification.Items)
             {
-                if (state.Type == StateType.IncludeString && state.Reference is string includeString)
+                if (item.Type == ItemType.IncludeString && item.Reference is string includeString)
                 {
                     source = source.Include(includeString);
                 }
@@ -98,16 +98,16 @@ public class Benchmark6_IncludeEvaluator
 
             bool isPreviousPropertyCollection = false;
 
-            foreach (var state in specification.States)
+            foreach (var item in specification.Items)
             {
-                if (state.Type == StateType.Include && state.Reference is LambdaExpression expr)
+                if (item.Type == ItemType.Include && item.Reference is LambdaExpression expr)
                 {
-                    if (state.Bag == (int)IncludeType.Include)
+                    if (item.Bag == (int)IncludeType.Include)
                     {
                         source = BuildInclude<T>(source, expr);
                         isPreviousPropertyCollection = IsCollection(expr.ReturnType);
                     }
-                    else if (state.Bag == (int)IncludeType.ThenInclude)
+                    else if (item.Bag == (int)IncludeType.ThenInclude)
                     {
                         source = BuildThenInclude<T>(source, expr, isPreviousPropertyCollection);
                         isPreviousPropertyCollection = IsCollection(expr.ReturnType);

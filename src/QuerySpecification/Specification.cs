@@ -15,13 +15,13 @@ public class Specification<T, TResult> : Specification<T>
 
     public new ISpecificationBuilder<T, TResult> Query => new SpecificationBuilder<T, TResult>(this);
 
-    public Expression<Func<T, TResult>>? Selector => FirstOrDefault<Expression<Func<T, TResult>>>(StateType.Select);
-    public Expression<Func<T, IEnumerable<TResult>>>? SelectorMany => FirstOrDefault<Expression<Func<T, IEnumerable<TResult>>>>(StateType.Select);
+    public Expression<Func<T, TResult>>? Selector => FirstOrDefault<Expression<Func<T, TResult>>>(ItemType.Select);
+    public Expression<Func<T, IEnumerable<TResult>>>? SelectorMany => FirstOrDefault<Expression<Func<T, IEnumerable<TResult>>>>(ItemType.Select);
 }
 
 public partial class Specification<T>
 {
-    private protected SpecState[]? _states;
+    private protected SpecItem[]? _items;
 
     // It is utilized only during the building stage for the builder chains. Once the state is built, we don't care about it anymore.
     // The initial value is not important since the value is always initialized by the root of the chain. Therefore, we don't need ThreadLocal (it's more expensive).
@@ -32,7 +32,7 @@ public partial class Specification<T>
     public Specification() { }
     public Specification(int initialCapacity)
     {
-        _states = new SpecState[initialCapacity];
+        _items = new SpecItem[initialCapacity];
     }
 
     public virtual IEnumerable<T> Evaluate(IEnumerable<T> entities, bool ignorePaging = false)
@@ -51,50 +51,50 @@ public partial class Specification<T>
 
     public ISpecificationBuilder<T> Query => new SpecificationBuilder<T>(this);
 
-    [MemberNotNullWhen(false, nameof(_states))]
-    public bool IsEmpty => _states is null;
+    [MemberNotNullWhen(false, nameof(_items))]
+    public bool IsEmpty => _items is null;
 
-    public IEnumerable<WhereExpressionCompiled<T>> WhereExpressionsCompiled => _states is null
+    public IEnumerable<WhereExpressionCompiled<T>> WhereExpressionsCompiled => _items is null
         ? Enumerable.Empty<WhereExpressionCompiled<T>>()
-        : new SpecSelectIterator<Func<T, bool>, WhereExpressionCompiled<T>>(GetCompiledStates(), StateType.Where, (x, bag) => new(x));
+        : new SpecSelectIterator<Func<T, bool>, WhereExpressionCompiled<T>>(GetCompiledItems(), ItemType.Where, (x, bag) => new(x));
 
-    public IEnumerable<OrderExpressionCompiled<T>> OrderExpressionsCompiled => _states is null
+    public IEnumerable<OrderExpressionCompiled<T>> OrderExpressionsCompiled => _items is null
         ? Enumerable.Empty<OrderExpressionCompiled<T>>()
-        : new SpecSelectIterator<Func<T, object?>, OrderExpressionCompiled<T>>(GetCompiledStates(), StateType.Order, (x, bag) => new(x, (OrderType)bag));
+        : new SpecSelectIterator<Func<T, object?>, OrderExpressionCompiled<T>>(GetCompiledItems(), ItemType.Order, (x, bag) => new(x, (OrderType)bag));
 
-    public IEnumerable<LikeExpressionCompiled<T>> LikeExpressionsCompiled => _states is null
+    public IEnumerable<LikeExpressionCompiled<T>> LikeExpressionsCompiled => _items is null
         ? Enumerable.Empty<LikeExpressionCompiled<T>>()
-        : new SpecSelectIterator<SpecLikeCompiled<T>, LikeExpressionCompiled<T>>(GetCompiledStates(), StateType.Like, (x, bag) => new(x.KeySelector, x.Pattern, bag));
+        : new SpecSelectIterator<SpecLikeCompiled<T>, LikeExpressionCompiled<T>>(GetCompiledItems(), ItemType.Like, (x, bag) => new(x.KeySelector, x.Pattern, bag));
 
-    public IEnumerable<WhereExpression<T>> WhereExpressions => _states is null
+    public IEnumerable<WhereExpression<T>> WhereExpressions => _items is null
         ? Enumerable.Empty<WhereExpression<T>>()
-        : new SpecSelectIterator<Expression<Func<T, bool>>, WhereExpression<T>>(_states, StateType.Where, (x, bag) => new WhereExpression<T>(x));
+        : new SpecSelectIterator<Expression<Func<T, bool>>, WhereExpression<T>>(_items, ItemType.Where, (x, bag) => new WhereExpression<T>(x));
 
-    public IEnumerable<IncludeExpression<T>> IncludeExpressions => _states is null
+    public IEnumerable<IncludeExpression<T>> IncludeExpressions => _items is null
         ? Enumerable.Empty<IncludeExpression<T>>()
-        : new SpecSelectIterator<LambdaExpression, IncludeExpression<T>>(_states, StateType.Include, (x, bag) => new IncludeExpression<T>(x, (IncludeType)bag));
+        : new SpecSelectIterator<LambdaExpression, IncludeExpression<T>>(_items, ItemType.Include, (x, bag) => new IncludeExpression<T>(x, (IncludeType)bag));
 
-    public IEnumerable<OrderExpression<T>> OrderExpressions => _states is null
+    public IEnumerable<OrderExpression<T>> OrderExpressions => _items is null
         ? Enumerable.Empty<OrderExpression<T>>()
-        : new SpecSelectIterator<Expression<Func<T, object?>>, OrderExpression<T>>(_states, StateType.Order, (x, bag) => new OrderExpression<T>(x, (OrderType)bag));
+        : new SpecSelectIterator<Expression<Func<T, object?>>, OrderExpression<T>>(_items, ItemType.Order, (x, bag) => new OrderExpression<T>(x, (OrderType)bag));
 
-    public IEnumerable<LikeExpression<T>> LikeExpressions => _states is null
+    public IEnumerable<LikeExpression<T>> LikeExpressions => _items is null
         ? Enumerable.Empty<LikeExpression<T>>()
-        : new SpecSelectIterator<SpecLike<T>, LikeExpression<T>>(_states, StateType.Like, (x, bag) => new LikeExpression<T>(x.KeySelector, x.Pattern, bag));
+        : new SpecSelectIterator<SpecLike<T>, LikeExpression<T>>(_items, ItemType.Like, (x, bag) => new LikeExpression<T>(x.KeySelector, x.Pattern, bag));
 
-    public IEnumerable<string> IncludeStrings => _states is null
+    public IEnumerable<string> IncludeStrings => _items is null
         ? Enumerable.Empty<string>()
-        : new SpecSelectIterator<string, string>(_states, StateType.IncludeString, (x, bag) => x);
+        : new SpecSelectIterator<string, string>(_items, ItemType.IncludeString, (x, bag) => x);
 
     public int Take
     {
-        get => FirstOrDefault<SpecPaging>(StateType.Paging)?.Take ?? -1;
-        set => GetOrCreate<SpecPaging>(StateType.Paging).Take = value;
+        get => FirstOrDefault<SpecPaging>(ItemType.Paging)?.Take ?? -1;
+        set => GetOrCreate<SpecPaging>(ItemType.Paging).Take = value;
     }
     public int Skip
     {
-        get => FirstOrDefault<SpecPaging>(StateType.Paging)?.Skip ?? -1;
-        set => GetOrCreate<SpecPaging>(StateType.Paging).Skip = value;
+        get => FirstOrDefault<SpecPaging>(ItemType.Paging)?.Skip ?? -1;
+        set => GetOrCreate<SpecPaging>(ItemType.Paging).Skip = value;
     }
     public bool IgnoreQueryFilters
     {
@@ -128,66 +128,66 @@ public partial class Specification<T>
     {
         if (IsEmpty) return default;
 
-        foreach (var state in _states)
+        foreach (var item in _items)
         {
-            if (state.Type == type && state.Reference is TObject reference)
+            if (item.Type == type && item.Reference is TObject reference)
             {
                 return reference;
             }
         }
         return default;
     }
-    public IEnumerable<TObject> OfType<TObject>(int type) => _states is null
+    public IEnumerable<TObject> OfType<TObject>(int type) => _items is null
         ? Enumerable.Empty<TObject>()
-        : new SpecIterator<TObject>(_states, type);
+        : new SpecIterator<TObject>(_items, type);
 
-    internal ReadOnlySpan<SpecState> States => _states ?? ReadOnlySpan<SpecState>.Empty;
+    internal ReadOnlySpan<SpecItem> Items => _items ?? ReadOnlySpan<SpecItem>.Empty;
 
-    [MemberNotNull(nameof(_states))]
+    [MemberNotNull(nameof(_items))]
     internal void AddInternal(int type, object value, int bag = 0)
     {
-        var newState = new SpecState();
-        newState.Type = type;
-        newState.Reference = value;
-        newState.Bag = bag;
+        var newItem = new SpecItem();
+        newItem.Type = type;
+        newItem.Reference = value;
+        newItem.Bag = bag;
 
         if (IsEmpty)
         {
             // Specs with two items are very common, we'll optimize for that.
-            _states = new SpecState[2];
-            _states[0] = newState;
+            _items = new SpecItem[2];
+            _items[0] = newItem;
         }
         else
         {
-            var states = _states;
+            var items = _items;
 
-            // We have a special case for Paging, we're storing it in the same state with Flags.
-            if (type == StateType.Paging)
+            // We have a special case for Paging, we're storing it in the same item with Flags.
+            if (type == ItemType.Paging)
             {
-                for (int i = 0; i < states.Length; i++)
+                for (int i = 0; i < items.Length; i++)
                 {
-                    if (states[i].Type == StateType.Paging)
+                    if (items[i].Type == ItemType.Paging)
                     {
-                        _states[i].Reference = newState.Reference;
+                        _items[i].Reference = newItem.Reference;
                         return;
                     }
                 }
             }
 
-            for (int i = 0; i < states.Length; i++)
+            for (int i = 0; i < items.Length; i++)
             {
-                if (states[i].Type == 0)
+                if (items[i].Type == 0)
                 {
-                    states[i] = newState;
+                    items[i] = newItem;
                     return;
                 }
             }
 
-            var originalLength = states.Length;
-            var newArray = new SpecState[originalLength + 4];
-            Array.Copy(states, newArray, originalLength);
-            newArray[originalLength] = newState;
-            _states = newArray;
+            var originalLength = items.Length;
+            var newArray = new SpecItem[originalLength + 4];
+            Array.Copy(items, newArray, originalLength);
+            newArray[originalLength] = newItem;
+            _items = newArray;
         }
     }
     internal void AddOrUpdateInternal(int type, object value, int bag = 0)
@@ -197,68 +197,68 @@ public partial class Specification<T>
             AddInternal(type, value, bag);
             return;
         }
-        var states = _states;
-        for (int i = 0; i < states.Length; i++)
+        var items = _items;
+        for (int i = 0; i < items.Length; i++)
         {
-            if (states[i].Type == type)
+            if (items[i].Type == type)
             {
-                _states[i].Reference = value;
-                _states[i].Bag = bag;
+                _items[i].Reference = value;
+                _items[i].Bag = bag;
                 return;
             }
         }
         AddInternal(type, value, bag);
     }
-    internal SpecState[] GetCompiledStates()
+    internal SpecItem[] GetCompiledItems()
     {
-        if (IsEmpty) return Array.Empty<SpecState>();
+        if (IsEmpty) return Array.Empty<SpecItem>();
 
-        var compilableStatesCount = CountCompilableStates(_states);
-        if (compilableStatesCount == 0) return Array.Empty<SpecState>();
+        var compilableItemsCount = CountCompilableItems(_items);
+        if (compilableItemsCount == 0) return Array.Empty<SpecItem>();
 
-        var compiledStates = GetCompiledStates(_states);
+        var compiledItems = GetCompiledItems(_items);
 
-        // If the count of compilable states is equal to the count of compiled states, we don't need to recompile.
-        if (compiledStates.Length == compilableStatesCount) return compiledStates;
+        // If the count of compilable items is equal to the count of compiled items, we don't need to recompile.
+        if (compiledItems.Length == compilableItemsCount) return compiledItems;
 
-        compiledStates = GenerateCompiledStates(_states, compilableStatesCount);
-        AddOrUpdateInternal(StateType.Compiled, compiledStates);
-        return compiledStates;
+        compiledItems = GenerateCompiledItems(_items, compilableItemsCount);
+        AddOrUpdateInternal(ItemType.Compiled, compiledItems);
+        return compiledItems;
 
-        static SpecState[] GetCompiledStates(SpecState[] states)
+        static SpecItem[] GetCompiledItems(SpecItem[] items)
         {
-            foreach (var state in states)
+            foreach (var item in items)
             {
-                if (state.Type == StateType.Compiled && state.Reference is SpecState[] compiledStates)
+                if (item.Type == ItemType.Compiled && item.Reference is SpecItem[] compiledItems)
                 {
-                    return compiledStates;
+                    return compiledItems;
                 }
             }
-            return Array.Empty<SpecState>();
+            return Array.Empty<SpecItem>();
         }
 
-        static int CountCompilableStates(SpecState[] states)
+        static int CountCompilableItems(SpecItem[] items)
         {
             var count = 0;
-            foreach (var item in states)
+            foreach (var item in items)
             {
-                if (item.Type == StateType.Where || item.Type == StateType.Like || item.Type == StateType.Order)
+                if (item.Type == ItemType.Where || item.Type == ItemType.Like || item.Type == ItemType.Order)
                     count++;
             }
             return count;
         }
 
-        static SpecState[] GenerateCompiledStates(SpecState[] states, int count)
+        static SpecItem[] GenerateCompiledItems(SpecItem[] items, int count)
         {
-            var compiledStates = new SpecState[count];
+            var compiledItems = new SpecItem[count];
 
-            // We want to place the states contiguously by type. Sorting is more expensive than looping per type.
+            // We want to place the items contiguously by type. Sorting is more expensive than looping per type.
             var index = 0;
-            foreach (var item in states)
+            foreach (var item in items)
             {
-                if (item.Type == StateType.Where && item.Reference is Expression<Func<T, bool>> expr)
+                if (item.Type == ItemType.Where && item.Reference is Expression<Func<T, bool>> expr)
                 {
-                    compiledStates[index++] = new SpecState
+                    compiledItems[index++] = new SpecItem
                     {
                         Type = item.Type,
                         Reference = expr.Compile(),
@@ -266,13 +266,13 @@ public partial class Specification<T>
                     };
                 }
             }
-            if (index == count) return compiledStates;
+            if (index == count) return compiledItems;
 
-            foreach (var item in states)
+            foreach (var item in items)
             {
-                if (item.Type == StateType.Order && item.Reference is Expression<Func<T, object?>> expr)
+                if (item.Type == ItemType.Order && item.Reference is Expression<Func<T, object?>> expr)
                 {
-                    compiledStates[index++] = new SpecState
+                    compiledItems[index++] = new SpecItem
                     {
                         Type = item.Type,
                         Reference = expr.Compile(),
@@ -280,14 +280,14 @@ public partial class Specification<T>
                     };
                 }
             }
-            if (index == count) return compiledStates;
+            if (index == count) return compiledItems;
 
             var likeStartIndex = index;
-            foreach (var item in states)
+            foreach (var item in items)
             {
-                if (item.Type == StateType.Like && item.Reference is SpecLike<T> like)
+                if (item.Type == ItemType.Like && item.Reference is SpecLike<T> like)
                 {
-                    compiledStates[index++] = new SpecState
+                    compiledItems[index++] = new SpecItem
                     {
                         Type = item.Type,
                         Reference = new SpecLikeCompiled<T>(like.KeySelector.Compile(), like.Pattern),
@@ -296,10 +296,10 @@ public partial class Specification<T>
                 }
             }
 
-            // Sort Like states by the group, so we do it only once and not repeatedly in the Like evaluator).
-            compiledStates.AsSpan()[likeStartIndex..count].Sort((x, y) => x.Bag.CompareTo(y.Bag));
+            // Sort Like items by the group, so we do it only once and not repeatedly in the Like evaluator).
+            compiledItems.AsSpan()[likeStartIndex..count].Sort((x, y) => x.Bag.CompareTo(y.Bag));
 
-            return compiledStates;
+            return compiledItems;
         }
     }
 
@@ -317,11 +317,11 @@ public partial class Specification<T>
     {
         if (IsEmpty) return false;
 
-        foreach (var state in _states)
+        foreach (var item in _items)
         {
-            if (state.Type == StateType.Flags)
+            if (item.Type == ItemType.Flags)
             {
-                return ((SpecFlag)state.Bag & flag) == flag;
+                return ((SpecFlag)item.Bag & flag) == flag;
             }
         }
         return false;
@@ -332,28 +332,28 @@ public partial class Specification<T>
         {
             if (value)
             {
-                AddInternal(StateType.Flags, null!, (int)flag);
+                AddInternal(ItemType.Flags, null!, (int)flag);
             }
             return;
         }
 
-        var states = _states;
-        for (var i = 0; i < states.Length; i++)
+        var items = _items;
+        for (var i = 0; i < items.Length; i++)
         {
-            if (states[i].Type == StateType.Flags)
+            if (items[i].Type == ItemType.Flags)
             {
                 var newValue = value
-                    ? (SpecFlag)states[i].Bag | flag
-                    : (SpecFlag)states[i].Bag & ~flag;
+                    ? (SpecFlag)items[i].Bag | flag
+                    : (SpecFlag)items[i].Bag & ~flag;
 
-                _states[i].Bag = (int)newValue;
+                _items[i].Bag = (int)newValue;
                 return;
             }
         }
 
         if (value)
         {
-            AddInternal(StateType.Flags, null!, (int)flag);
+            AddInternal(ItemType.Flags, null!, (int)flag);
         }
     }
 

@@ -9,9 +9,9 @@ public sealed class WhereEvaluator : IEvaluator, IInMemoryEvaluator
     {
         if (specification.IsEmpty) return source;
 
-        foreach (var state in specification.States)
+        foreach (var item in specification.Items)
         {
-            if (state.Type == StateType.Where && state.Reference is Expression<Func<T, bool>> expr)
+            if (item.Type == ItemType.Where && item.Reference is Expression<Func<T, bool>> expr)
             {
                 source = source.Where(expr);
             }
@@ -24,11 +24,11 @@ public sealed class WhereEvaluator : IEvaluator, IInMemoryEvaluator
     {
         if (specification.IsEmpty) return source;
 
-        var compiledStates = specification.GetCompiledStates();
+        var compiledItems = specification.GetCompiledItems();
 
-        foreach (var state in compiledStates)
+        foreach (var item in compiledItems)
         {
-            if (state.Type == StateType.Where && state.Reference is Func<T, bool> compiledExpr)
+            if (item.Type == ItemType.Where && item.Reference is Func<T, bool> compiledExpr)
             {
                 source = source.Where(compiledExpr);
             }

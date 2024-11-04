@@ -35,7 +35,7 @@ public sealed class LikeEvaluator : IEvaluator
             return source;
         }
 
-        SpecState[]? array = ArrayPool<SpecState>.Shared.Rent(count);
+        SpecItem[]? array = ArrayPool<SpecItem>.Shared.Rent(count);
 
         try
         {
@@ -45,7 +45,7 @@ public sealed class LikeEvaluator : IEvaluator
         }
         finally
         {
-            ArrayPool<SpecState>.Shared.Return(array);
+            ArrayPool<SpecItem>.Shared.Return(array);
         }
 
         return source;
@@ -53,18 +53,18 @@ public sealed class LikeEvaluator : IEvaluator
 
     private static IQueryable<T> ApplySingleLike<T>(IQueryable<T> source, Specification<T> specification) where T : class
     {
-        var states = specification.States;
-        for (int i = 0; i < states.Length; i++)
+        var items = specification.Items;
+        for (int i = 0; i < items.Length; i++)
         {
-            if (states[i].Type == StateType.Like)
+            if (items[i].Type == ItemType.Like)
             {
-                return source.ApplyLikesAsOrGroup(states.Slice(i, 1));
+                return source.ApplyLikesAsOrGroup(items.Slice(i, 1));
             }
         }
         return source;
     }
 
-    private static IQueryable<T> ApplyLike<T>(IQueryable<T> source, ReadOnlySpan<SpecState> span) where T : class
+    private static IQueryable<T> ApplyLike<T>(IQueryable<T> source, ReadOnlySpan<SpecItem> span) where T : class
     {
         int start = 0;
 
@@ -82,31 +82,31 @@ public sealed class LikeEvaluator : IEvaluator
     private static int GetCount<T>(Specification<T> specification)
     {
         var count = 0;
-        foreach (var state in specification.States)
+        foreach (var item in specification.Items)
         {
-            if (state.Type == StateType.Like)
+            if (item.Type == ItemType.Like)
                 count++;
         }
         return count;
     }
 
-    private static void FillSorted<T>(Specification<T> specification, Span<SpecState> span)
+    private static void FillSorted<T>(Specification<T> specification, Span<SpecItem> span)
     {
         var i = 0;
-        foreach (var state in specification.States)
+        foreach (var item in specification.Items)
         {
-            if (state.Type == StateType.Like)
+            if (item.Type == ItemType.Like)
             {
                 // Find the correct insertion point
                 var j = i;
-                while (j > 0 && span[j - 1].Bag > state.Bag)
+                while (j > 0 && span[j - 1].Bag > item.Bag)
                 {
                     span[j] = span[j - 1];
                     j--;
                 }
 
-                // Insert the current state in the sorted position
-                span[j] = state;
+                // Insert the current item in the sorted position
+                span[j] = item;
                 i++;
             }
         }

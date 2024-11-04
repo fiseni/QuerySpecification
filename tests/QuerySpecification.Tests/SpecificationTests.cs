@@ -7,11 +7,11 @@ public class SpecificationTests
     public record Customer(int Id, string Name);
 
     [Fact]
-    public void StateIsNull_GivenEmptySpec()
+    public void ItemsIsNull_GivenEmptySpec()
     {
         var spec = new Specification<Customer>();
 
-        Accessors<Customer>.State(spec).Should().BeNull();
+        Accessors<Customer>.Items(spec).Should().BeNull();
     }
 
     [Fact]
@@ -28,7 +28,7 @@ public class SpecificationTests
 
     private class Accessors<T>
     {
-        [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_states")]
-        public static extern ref SpecState[]? State(Specification<T> @this);
+        [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_items")]
+        public static extern ref SpecItem[]? Items(Specification<T> @this);
     }
 }

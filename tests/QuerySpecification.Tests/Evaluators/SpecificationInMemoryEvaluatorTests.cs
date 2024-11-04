@@ -237,9 +237,9 @@ public class SpecificationInMemoryEvaluatorTests
 
         var evaluator = new SpecificationInMemoryEvaluator(evaluators);
 
-        var state = EvaluatorsOf(evaluator);
-        state.Should().HaveSameCount(evaluators);
-        state.Should().Equal(evaluators);
+        var result = EvaluatorsOf(evaluator);
+        result.Should().HaveSameCount(evaluators);
+        result.Should().Equal(evaluators);
     }
 
     [Fact]
@@ -247,13 +247,13 @@ public class SpecificationInMemoryEvaluatorTests
     {
         var evaluator = new SpecificationEvaluatorDerived();
 
-        var state = EvaluatorsOf(evaluator);
-        state.Should().HaveCount(5);
-        state[0].Should().BeOfType<LikeMemoryEvaluator>();
-        state[1].Should().BeOfType<WhereEvaluator>();
-        state[2].Should().BeOfType<LikeMemoryEvaluator>();
-        state[3].Should().BeOfType<OrderEvaluator>();
-        state[4].Should().BeOfType<WhereEvaluator>();
+        var result = EvaluatorsOf(evaluator);
+        result.Should().HaveCount(5);
+        result[0].Should().BeOfType<LikeMemoryEvaluator>();
+        result[1].Should().BeOfType<WhereEvaluator>();
+        result[2].Should().BeOfType<LikeMemoryEvaluator>();
+        result[3].Should().BeOfType<OrderEvaluator>();
+        result[4].Should().BeOfType<WhereEvaluator>();
     }
 
     private class SpecificationEvaluatorDerived : SpecificationInMemoryEvaluator

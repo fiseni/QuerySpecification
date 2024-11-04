@@ -40,27 +40,27 @@ public sealed class IncludeEvaluator : IEvaluator
     {
         if (specification.IsEmpty) return source;
 
-        foreach (var state in specification.States)
+        foreach (var item in specification.Items)
         {
-            if (state.Type == StateType.IncludeString && state.Reference is string includeString)
+            if (item.Type == ItemType.IncludeString && item.Reference is string includeString)
             {
                 source = source.Include(includeString);
             }
         }
 
         Type? previousReturnType = null;
-        foreach (var state in specification.States)
+        foreach (var item in specification.Items)
         {
-            if (state.Type == StateType.Include && state.Reference is LambdaExpression expr)
+            if (item.Type == ItemType.Include && item.Reference is LambdaExpression expr)
             {
-                if (state.Bag == (int)IncludeType.Include)
+                if (item.Bag == (int)IncludeType.Include)
                 {
                     var key = new CacheKey(typeof(T), expr.ReturnType, null);
                     previousReturnType = expr.ReturnType;
                     var include = _cache.GetOrAdd(key, CreateIncludeDelegate);
                     source = (IQueryable<T>)include(source, expr);
                 }
-                else if (state.Bag == (int)IncludeType.ThenInclude)
+                else if (item.Bag == (int)IncludeType.ThenInclude)
                 {
                     var key = new CacheKey(typeof(T), expr.ReturnType, previousReturnType);
                     previousReturnType = expr.ReturnType;

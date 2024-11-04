@@ -11,23 +11,23 @@ public sealed class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 
         IOrderedQueryable<T>? orderedQuery = null;
 
-        foreach (var state in specification.States)
+        foreach (var item in specification.Items)
         {
-            if (state.Type == StateType.Order && state.Reference is Expression<Func<T, object?>> expr)
+            if (item.Type == ItemType.Order && item.Reference is Expression<Func<T, object?>> expr)
             {
-                if (state.Bag == (int)OrderType.OrderBy)
+                if (item.Bag == (int)OrderType.OrderBy)
                 {
                     orderedQuery = source.OrderBy(expr);
                 }
-                else if (state.Bag == (int)OrderType.OrderByDescending)
+                else if (item.Bag == (int)OrderType.OrderByDescending)
                 {
                     orderedQuery = source.OrderByDescending(expr);
                 }
-                else if (state.Bag == (int)OrderType.ThenBy)
+                else if (item.Bag == (int)OrderType.ThenBy)
                 {
                     orderedQuery = orderedQuery!.ThenBy(expr);
                 }
-                else if (state.Bag == (int)OrderType.ThenByDescending)
+                else if (item.Bag == (int)OrderType.ThenByDescending)
                 {
                     orderedQuery = orderedQuery!.ThenByDescending(expr);
                 }
@@ -46,26 +46,26 @@ public sealed class OrderEvaluator : IEvaluator, IInMemoryEvaluator
     {
         if (specification.IsEmpty) return source;
 
-        var compiledStates = specification.GetCompiledStates();
+        var compiledItems = specification.GetCompiledItems();
         IOrderedEnumerable<T>? orderedQuery = null;
 
-        foreach (var state in compiledStates)
+        foreach (var item in compiledItems)
         {
-            if (state.Type == StateType.Order && state.Reference is Func<T, object?> compiledExpr)
+            if (item.Type == ItemType.Order && item.Reference is Func<T, object?> compiledExpr)
             {
-                if (state.Bag == (int)OrderType.OrderBy)
+                if (item.Bag == (int)OrderType.OrderBy)
                 {
                     orderedQuery = source.OrderBy(compiledExpr);
                 }
-                else if (state.Bag == (int)OrderType.OrderByDescending)
+                else if (item.Bag == (int)OrderType.OrderByDescending)
                 {
                     orderedQuery = source.OrderByDescending(compiledExpr);
                 }
-                else if (state.Bag == (int)OrderType.ThenBy)
+                else if (item.Bag == (int)OrderType.ThenBy)
                 {
                     orderedQuery = orderedQuery!.ThenBy(compiledExpr);
                 }
-                else if (state.Bag == (int)OrderType.ThenByDescending)
+                else if (item.Bag == (int)OrderType.ThenByDescending)
                 {
                     orderedQuery = orderedQuery!.ThenByDescending(compiledExpr);
                 }

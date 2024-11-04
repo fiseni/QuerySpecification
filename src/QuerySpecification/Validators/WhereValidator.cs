@@ -9,11 +9,11 @@ public sealed class WhereValidator : IValidator
     {
         if (specification.IsEmpty) return true;
 
-        var compiledStates = specification.GetCompiledStates();
+        var compiledItems = specification.GetCompiledItems();
 
-        foreach (var state in compiledStates)
+        foreach (var item in compiledItems)
         {
-            if (state.Type == StateType.Where && state.Reference is Func<T, bool> compiledExpr)
+            if (item.Type == ItemType.Where && item.Reference is Func<T, bool> compiledExpr)
             {
                 if (compiledExpr(entity) == false)
                     return false;

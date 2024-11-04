@@ -345,9 +345,9 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
 
         var evaluator = new SpecificationEvaluator(evaluators);
 
-        var state = EvaluatorsOf(evaluator);
-        state.Should().HaveSameCount(evaluators);
-        state.Should().Equal(evaluators);
+        var result = EvaluatorsOf(evaluator);
+        result.Should().HaveSameCount(evaluators);
+        result.Should().Equal(evaluators);
     }
 
     [Fact]
@@ -355,18 +355,18 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     {
         var evaluator = new SpecificationEvaluatorDerived();
 
-        var state = EvaluatorsOf(evaluator);
-        state.Should().HaveCount(10);
-        state[0].Should().BeOfType<LikeEvaluator>();
-        state[1].Should().BeOfType<WhereEvaluator>();
-        state[2].Should().BeOfType<LikeEvaluator>();
-        state[3].Should().BeOfType<IncludeEvaluator>();
-        state[4].Should().BeOfType<OrderEvaluator>();
-        state[5].Should().BeOfType<AsNoTrackingEvaluator>();
-        state[6].Should().BeOfType<AsNoTrackingWithIdentityResolutionEvaluator>();
-        state[7].Should().BeOfType<IgnoreQueryFiltersEvaluator>();
-        state[8].Should().BeOfType<AsSplitQueryEvaluator>();
-        state[9].Should().BeOfType<WhereEvaluator>();
+        var result = EvaluatorsOf(evaluator);
+        result.Should().HaveCount(10);
+        result[0].Should().BeOfType<LikeEvaluator>();
+        result[1].Should().BeOfType<WhereEvaluator>();
+        result[2].Should().BeOfType<LikeEvaluator>();
+        result[3].Should().BeOfType<IncludeEvaluator>();
+        result[4].Should().BeOfType<OrderEvaluator>();
+        result[5].Should().BeOfType<AsNoTrackingEvaluator>();
+        result[6].Should().BeOfType<AsNoTrackingWithIdentityResolutionEvaluator>();
+        result[7].Should().BeOfType<IgnoreQueryFiltersEvaluator>();
+        result[8].Should().BeOfType<AsSplitQueryEvaluator>();
+        result[9].Should().BeOfType<WhereEvaluator>();
     }
 
     private class SpecificationEvaluatorDerived : SpecificationEvaluator

@@ -24,24 +24,24 @@ public sealed class LikeValidator : IValidator
     {
         if (specification.IsEmpty) return true;
 
-        var compiledStates = specification.GetCompiledStates();
-        if (compiledStates.Length == 0) return true;
+        var compiledItems = specification.GetCompiledItems();
+        if (compiledItems.Length == 0) return true;
 
-        int startIndexLikeStates = Array.FindIndex(compiledStates, state => state.Type == StateType.Like);
-        if (startIndexLikeStates == -1) return true;
+        int startIndexLikeItems = Array.FindIndex(compiledItems, item => item.Type == ItemType.Like);
+        if (startIndexLikeItems == -1) return true;
 
-        // The like states are contiguous placed as last segment in the array and are already sorted by group.
-        return IsValid(entity, compiledStates.AsSpan()[startIndexLikeStates..compiledStates.Length]);
+        // The like items are contiguously placed as a last segment in the array and are already sorted by group.
+        return IsValid(entity, compiledItems.AsSpan()[startIndexLikeItems..compiledItems.Length]);
     }
 
-    private static bool IsValid<T>(T item, ReadOnlySpan<SpecState> span)
+    private static bool IsValid<T>(T entity, ReadOnlySpan<SpecItem> span)
     {
         int start = 0;
         for (int i = 1; i <= span.Length; i++)
         {
             if (i == span.Length || span[i].Bag != span[start].Bag)
             {
-                if (IsValidInOrGroup(item, span[start..i]) is false)
+                if (IsValidInOrGroup(entity, span[start..i]) is false)
                 {
                     return false;
                 }
@@ -50,14 +50,14 @@ public sealed class LikeValidator : IValidator
         }
         return true;
 
-        static bool IsValidInOrGroup(T item, ReadOnlySpan<SpecState> span)
+        static bool IsValidInOrGroup(T entity, ReadOnlySpan<SpecItem> span)
         {
             var validOrGroup = false;
-            foreach (var state in span)
+            foreach (var specItem in span)
             {
-                if (state.Reference is not SpecLikeCompiled<T> specLike) continue;
+                if (specItem.Reference is not SpecLikeCompiled<T> specLike) continue;
 
-                if (specLike.KeySelector(item)?.Like(specLike.Pattern) ?? false)
+                if (specLike.KeySelector(entity)?.Like(specLike.Pattern) ?? false)
                 {
                     validOrGroup = true;
                     break;

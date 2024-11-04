@@ -15,7 +15,7 @@ public class Extensions_Like(TestFactory factory) : IntegrationTest(factory)
             .Like(x22 => x22.Company.Name, $"%{companyTerm}%");
 
         var actual = DbContext.Stores
-            .ApplyLikesAsOrGroup(spec.States)
+            .ApplyLikesAsOrGroup(spec.Items)
             .ToQueryString();
 
         var expected = DbContext.Stores
@@ -32,7 +32,7 @@ public class Extensions_Like(TestFactory factory) : IntegrationTest(factory)
         var spec = new Specification<Store>();
 
         var actual = DbContext.Stores
-            .ApplyLikesAsOrGroup(spec.States)
+            .ApplyLikesAsOrGroup(spec.Items)
             .ToQueryString();
 
         var expected = DbContext.Stores

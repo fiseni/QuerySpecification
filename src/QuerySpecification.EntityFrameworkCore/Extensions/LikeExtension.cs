@@ -21,7 +21,7 @@ internal static class LikeExtension
     // We'll name the property Format just so we match the produced SQL query parameter name (in case of interpolated strings).
     private record StringVar(string Format);
 
-    public static IQueryable<T> ApplyLikesAsOrGroup<T>(this IQueryable<T> source, ReadOnlySpan<SpecState> likeStates)
+    public static IQueryable<T> ApplyLikesAsOrGroup<T>(this IQueryable<T> source, ReadOnlySpan<SpecItem> likeItems)
     {
         Debug.Assert(_likeMethodInfo is not null);
 
@@ -29,9 +29,9 @@ internal static class LikeExtension
         ParameterExpression? mainParam = null;
         ParameterReplacerVisitor? visitor = null;
 
-        foreach (var state in likeStates)
+        foreach (var item in likeItems)
         {
-            if (state.Reference is not SpecLike<T> specLike) continue;
+            if (item.Reference is not SpecLike<T> specLike) continue;
 
             mainParam ??= specLike.KeySelector.Parameters[0];
 

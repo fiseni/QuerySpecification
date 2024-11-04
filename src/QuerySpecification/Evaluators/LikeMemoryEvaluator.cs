@@ -26,35 +26,35 @@ public sealed class LikeMemoryEvaluator : IInMemoryEvaluator
     {
         if (specification.IsEmpty) return source;
 
-        var compiledStates = specification.GetCompiledStates();
-        if (compiledStates.Length == 0) return source;
+        var compiledItems = specification.GetCompiledItems();
+        if (compiledItems.Length == 0) return source;
 
-        int startIndexLikeStates = Array.FindIndex(compiledStates, state => state.Type == StateType.Like);
-        if (startIndexLikeStates == -1) return source;
+        int startIndexLikeItems = Array.FindIndex(compiledItems, item => item.Type == ItemType.Like);
+        if (startIndexLikeItems == -1) return source;
 
-        // The like states are contiguous placed as last segment in the array and are already sorted by group.
-        return new SpecLikeIterator<T>(source, compiledStates, startIndexLikeStates);
+        // The like items are contiguously placed as a last segment in the array and are already sorted by group.
+        return new SpecLikeIterator<T>(source, compiledItems, startIndexLikeItems);
     }
 
     private sealed class SpecLikeIterator<TSource> : Iterator<TSource>
     {
         private readonly IEnumerable<TSource> _source;
-        private readonly SpecState[] _likeStates;
+        private readonly SpecItem[] _compiledItems;
         private readonly int _startIndex;
 
         private IEnumerator<TSource>? _enumerator;
 
-        public SpecLikeIterator(IEnumerable<TSource> source, SpecState[] compiledStates, int startIndex)
+        public SpecLikeIterator(IEnumerable<TSource> source, SpecItem[] compiledItems, int startIndex)
         {
             Debug.Assert(source != null);
-            Debug.Assert(compiledStates != null);
+            Debug.Assert(compiledItems != null);
             _source = source;
-            _likeStates = compiledStates;
+            _compiledItems = compiledItems;
             _startIndex = startIndex;
         }
 
         public override Iterator<TSource> Clone()
-            => new SpecLikeIterator<TSource>(_source, _likeStates, _startIndex);
+            => new SpecLikeIterator<TSource>(_source, _compiledItems, _startIndex);
 
         public override void Dispose()
         {
@@ -76,13 +76,13 @@ public sealed class LikeMemoryEvaluator : IInMemoryEvaluator
                     goto case 2;
                 case 2:
                     Debug.Assert(_enumerator is not null);
-                    var likeStates = _likeStates.AsSpan()[_startIndex.._likeStates.Length];
+                    var likeItems = _compiledItems.AsSpan()[_startIndex.._compiledItems.Length];
                     while (_enumerator.MoveNext())
                     {
-                        TSource item = _enumerator.Current;
-                        if (IsValid(item, likeStates))
+                        TSource sourceItem = _enumerator.Current;
+                        if (IsValid(sourceItem, likeItems))
                         {
-                            _current = item;
+                            _current = sourceItem;
                             return true;
                         }
                     }
@@ -94,7 +94,7 @@ public sealed class LikeMemoryEvaluator : IInMemoryEvaluator
             return false;
         }
 
-        private static bool IsValid<T>(T item, ReadOnlySpan<SpecState> span)
+        private static bool IsValid<T>(T sourceItem, ReadOnlySpan<SpecItem> span)
         {
             var valid = true;
             int start = 0;
@@ -103,7 +103,7 @@ public sealed class LikeMemoryEvaluator : IInMemoryEvaluator
             {
                 if (i == span.Length || span[i].Bag != span[start].Bag)
                 {
-                    var validOrGroup = IsValidInOrGroup(item, span[start..i]);
+                    var validOrGroup = IsValidInOrGroup(sourceItem, span[start..i]);
                     if ((valid = valid && validOrGroup) is false)
                     {
                         break;
@@ -114,14 +114,14 @@ public sealed class LikeMemoryEvaluator : IInMemoryEvaluator
 
             return valid;
 
-            static bool IsValidInOrGroup(T item, ReadOnlySpan<SpecState> span)
+            static bool IsValidInOrGroup(T sourceItem, ReadOnlySpan<SpecItem> span)
             {
                 var validOrGroup = false;
-                foreach (var state in span)
+                foreach (var specItem in span)
                 {
-                    if (state.Reference is not SpecLikeCompiled<T> specLike) continue;
+                    if (specItem.Reference is not SpecLikeCompiled<T> specLike) continue;
 
-                    if (specLike.KeySelector(item)?.Like(specLike.Pattern) ?? false)
+                    if (specLike.KeySelector(sourceItem)?.Like(specLike.Pattern) ?? false)
                     {
                         validOrGroup = true;
                         break;

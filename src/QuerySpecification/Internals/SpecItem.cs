@@ -1,6 +1,6 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-internal struct SpecState
+internal struct SpecItem
 {
     public int Type; // 0-4 bytes
     public int Bag; // 4-8 bytes
