@@ -3,22 +3,22 @@
 
 |||
 |:---|:---|
-| Generated on: | 10/25/2024 - 14:40:26 |
-| Coverage date: | 10/25/2024 - 14:39:57 - 10/25/2024 - 14:40:24 |
+| Generated on: | 11/05/2024 - 14:16:31 |
+| Coverage date: | 11/05/2024 - 14:16:03 - 11/05/2024 - 14:16:30 |
 | Parser: | MultiReport (2x Cobertura) |
 | Assemblies: | 2 |
-| Classes: | 44 |
-| Files: | 40 |
-| **Line coverage:** | 100% (766 of 766) |
-| Covered lines: | 766 |
+| Classes: | 52 |
+| Files: | 44 |
+| **Line coverage:** | 100% (1055 of 1055) |
+| Covered lines: | 1055 |
 | Uncovered lines: | 0 |
-| Coverable lines: | 766 |
-| Total lines: | 2234 |
-| **Branch coverage:** | 100% (312 of 312) |
-| Covered branches: | 312 |
-| Total branches: | 312 |
+| Coverable lines: | 1055 |
+| Total lines: | 2987 |
+| **Branch coverage:** | 100% (522 of 522) |
+| Covered branches: | 522 |
+| Total branches: | 522 |
 | **Method coverage:** | [Feature is only available for sponsors](https://reportgenerator.io/pro) |
-| Tag: | 49_11520314130 |
+| Tag: | 50_11685979511 |
 
 </details>
 
@@ -33,17 +33,18 @@
 |Pozitron.QuerySpecification.IncludableBuilderExtensions|100%|100%|
 |Pozitron.QuerySpecification.IncludableSpecificationBuilder`2|100%||
 |Pozitron.QuerySpecification.IncludableSpecificationBuilder`3|100%||
-|Pozitron.QuerySpecification.IncludeExpression|100%|100%|
+|Pozitron.QuerySpecification.IncludeExpression`1|100%||
 |Pozitron.QuerySpecification.InvalidLikePatternException|100%||
-|Pozitron.QuerySpecification.LikeExpression`1|100%|100%|
+|Pozitron.QuerySpecification.Iterator`1|100%|100%|
+|Pozitron.QuerySpecification.LikeExpression`1|100%||
+|Pozitron.QuerySpecification.LikeExpressionCompiled`1|100%||
 |Pozitron.QuerySpecification.LikeExtension|100%|100%|
 |Pozitron.QuerySpecification.LikeMemoryEvaluator|100%|100%|
 |Pozitron.QuerySpecification.LikeValidator|100%|100%|
 |Pozitron.QuerySpecification.OrderedBuilderExtensions|100%|100%|
-|Pozitron.QuerySpecification.OrderedSpecificationBuilder`1|100%||
-|Pozitron.QuerySpecification.OrderedSpecificationBuilder`2|100%||
 |Pozitron.QuerySpecification.OrderEvaluator|100%|100%|
-|Pozitron.QuerySpecification.OrderExpression`1|100%|100%|
+|Pozitron.QuerySpecification.OrderExpression`1|100%||
+|Pozitron.QuerySpecification.OrderExpressionCompiled`1|100%||
 |Pozitron.QuerySpecification.PagedResult`1|100%||
 |Pozitron.QuerySpecification.Pagination|100%|100%|
 |Pozitron.QuerySpecification.PaginationExtensions|100%|100%|
@@ -57,8 +58,14 @@
 |Pozitron.QuerySpecification.SpecificationBuilderExtensions|100%|100%|
 |Pozitron.QuerySpecification.SpecificationInMemoryEvaluator|100%|100%|
 |Pozitron.QuerySpecification.SpecificationValidator|100%|100%|
+|Pozitron.QuerySpecification.SpecIterator`1|100%|100%|
+|Pozitron.QuerySpecification.SpecLike`1|100%||
+|Pozitron.QuerySpecification.SpecLikeCompiled`1|100%||
+|Pozitron.QuerySpecification.SpecPaging|100%||
+|Pozitron.QuerySpecification.SpecSelectIterator`2|100%|100%|
 |Pozitron.QuerySpecification.WhereEvaluator|100%|100%|
-|Pozitron.QuerySpecification.WhereExpression`1|100%|100%|
+|Pozitron.QuerySpecification.WhereExpression`1|100%||
+|Pozitron.QuerySpecification.WhereExpressionCompiled`1|100%||
 |Pozitron.QuerySpecification.WhereValidator|100%|100%|
 
 </details>
@@ -72,6 +79,7 @@
 |Pozitron.QuerySpecification.AsSplitQueryEvaluator|100%|100%|
 |Pozitron.QuerySpecification.IgnoreQueryFiltersEvaluator|100%|100%|
 |Pozitron.QuerySpecification.IncludeEvaluator|100%|100%|
+|Pozitron.QuerySpecification.IncludeStringEvaluator|100%|100%|
 |Pozitron.QuerySpecification.IQueryableExtensions|100%|100%|
 |Pozitron.QuerySpecification.LikeEvaluator|100%|100%|
 |Pozitron.QuerySpecification.LikeExtension|100%|100%|
