@@ -44,7 +44,7 @@ public class SpecificationEvaluator
 
         source = Evaluate(source, (Specification<T>)specification, true);
 
-        var resultQuery = selector is not null 
+        var resultQuery = selector is not null
             ? source.Select(selector)
             : source.SelectMany(selectorMany!);
 

@@ -27,7 +27,7 @@ internal sealed class SpecIterator<TObject> : Iterator<TObject>
         {
             var item = source[index];
             index = _state++;
-            
+
             if (item.Type == type && item.Reference is TObject reference)
             {
                 _current = reference;

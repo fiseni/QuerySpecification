@@ -25,7 +25,7 @@ public class SpecificationValidator
 
         foreach (var validator in Validators)
         {
-            if (validator.IsValid(entity, specification) == false) 
+            if (validator.IsValid(entity, specification) == false)
                 return false;
         }
 
