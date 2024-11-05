@@ -1,15 +1,18 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public class WhereEvaluator : IEvaluator, IInMemoryEvaluator
+public sealed class WhereEvaluator : IEvaluator, IInMemoryEvaluator
 {
     private WhereEvaluator() { }
     public static WhereEvaluator Instance = new();
 
     public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class
     {
-        foreach (var whereExpression in specification.WhereExpressions)
+        foreach (var item in specification.Items)
         {
-            source = source.Where(whereExpression.Filter);
+            if (item.Type == ItemType.Where && item.Reference is Expression<Func<T, bool>> expr)
+            {
+                source = source.Where(expr);
+            }
         }
 
         return source;
@@ -17,11 +20,17 @@ public class WhereEvaluator : IEvaluator, IInMemoryEvaluator
 
     public IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)
     {
-        foreach (var whereExpression in specification.WhereExpressions)
+        var compiledItems = specification.GetCompiledItems();
+
+        foreach (var item in compiledItems)
         {
-            source = source.Where(whereExpression.FilterFunc);
+            if (item.Type == ItemType.Where && item.Reference is Func<T, bool> compiledExpr)
+            {
+                source = source.Where(compiledExpr);
+            }
         }
 
         return source;
     }
 }
+

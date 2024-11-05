@@ -1,15 +1,25 @@
-﻿namespace Pozitron.QuerySpecification;
+﻿using System.Diagnostics;
 
-public class WhereExpression<T>
+namespace Pozitron.QuerySpecification;
+
+public sealed class WhereExpression<T>
 {
-    private Func<T, bool>? _filterFunc;
     public Expression<Func<T, bool>> Filter { get; }
 
     public WhereExpression(Expression<Func<T, bool>> filter)
     {
-        ArgumentNullException.ThrowIfNull(filter);
+        Debug.Assert(filter is not null);
         Filter = filter;
     }
+}
 
-    public Func<T, bool> FilterFunc => _filterFunc ??= Filter.Compile();
+public sealed class WhereExpressionCompiled<T>
+{
+    public Func<T, bool> Filter { get; }
+
+    public WhereExpressionCompiled(Func<T, bool> filter)
+    {
+        Debug.Assert(filter is not null);
+        Filter = filter;
+    }
 }

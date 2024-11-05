@@ -1,6 +1,6 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public enum OrderTypeEnum
+public enum OrderType
 {
     OrderBy = 1,
     OrderByDescending = 2,

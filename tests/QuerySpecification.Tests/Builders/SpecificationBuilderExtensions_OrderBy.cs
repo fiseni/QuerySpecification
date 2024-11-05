@@ -43,10 +43,10 @@ public class SpecificationBuilderExtensions_OrderBy
 
         spec1.OrderExpressions.Should().ContainSingle();
         spec1.OrderExpressions.First().KeySelector.Should().BeSameAs(expr);
-        spec1.OrderExpressions.First().OrderType.Should().Be(OrderTypeEnum.OrderBy);
+        spec1.OrderExpressions.First().Type.Should().Be(OrderType.OrderBy);
         spec2.OrderExpressions.Should().ContainSingle();
         spec2.OrderExpressions.First().KeySelector.Should().BeSameAs(expr);
-        spec2.OrderExpressions.First().OrderType.Should().Be(OrderTypeEnum.OrderBy);
+        spec2.OrderExpressions.First().Type.Should().Be(OrderType.OrderBy);
     }
 
     [Fact]
@@ -63,8 +63,8 @@ public class SpecificationBuilderExtensions_OrderBy
             .OrderBy(x => x.LastName);
 
         spec1.OrderExpressions.Should().HaveCount(2);
-        spec1.OrderExpressions.Should().AllSatisfy(x => x.OrderType.Should().Be(OrderTypeEnum.OrderBy));
+        spec1.OrderExpressions.Should().AllSatisfy(x => x.Type.Should().Be(OrderType.OrderBy));
         spec2.OrderExpressions.Should().HaveCount(2);
-        spec2.OrderExpressions.Should().AllSatisfy(x => x.OrderType.Should().Be(OrderTypeEnum.OrderBy));
+        spec2.OrderExpressions.Should().AllSatisfy(x => x.Type.Should().Be(OrderType.OrderBy));
     }
 }

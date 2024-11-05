@@ -6,14 +6,14 @@ public static class SpecificationBuilderExtensions
         this ISpecificationBuilder<T, TResult> builder,
         Expression<Func<T, TResult>> selector)
     {
-        builder.Specification.Selector = selector;
+        builder.Specification.AddOrUpdateInternal(ItemType.Select, selector, (int)SelectType.Select);
     }
 
     public static void SelectMany<T, TResult>(
         this ISpecificationBuilder<T, TResult> builder,
         Expression<Func<T, IEnumerable<TResult>>> selector)
     {
-        builder.Specification.SelectorMany = selector;
+        builder.Specification.AddOrUpdateInternal(ItemType.Select, selector, (int)SelectType.SelectMany);
     }
 
     public static ISpecificationBuilder<T, TResult> Where<T, TResult>(
@@ -28,8 +28,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new WhereExpression<T>(criteria);
-            builder.Specification.Add(expr);
+            builder.Specification.AddInternal(ItemType.Where, criteria);
         }
         return builder;
     }
@@ -46,8 +45,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new WhereExpression<T>(criteria);
-            builder.Specification.Add(expr);
+            builder.Specification.AddInternal(ItemType.Where, criteria);
         }
         return builder;
     }
@@ -64,12 +62,11 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new OrderExpression<T>(keySelector, OrderTypeEnum.OrderBy);
-            builder.Specification.Add(expr);
+            builder.Specification.AddInternal(ItemType.Order, keySelector, (int)OrderType.OrderBy);
         }
 
-        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T, TResult>(builder.Specification, !condition);
-        return orderedSpecificationBuilder;
+        Specification<T, TResult>.IsChainDiscarded = !condition;
+        return (SpecificationBuilder<T, TResult>)builder;
     }
 
     public static IOrderedSpecificationBuilder<T> OrderBy<T>(
@@ -84,12 +81,11 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new OrderExpression<T>(keySelector, OrderTypeEnum.OrderBy);
-            builder.Specification.Add(expr);
+            builder.Specification.AddInternal(ItemType.Order, keySelector, (int)OrderType.OrderBy);
         }
 
-        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T>(builder.Specification, !condition);
-        return orderedSpecificationBuilder;
+        Specification<T>.IsChainDiscarded = !condition;
+        return (SpecificationBuilder<T>)builder;
     }
 
     public static IOrderedSpecificationBuilder<T, TResult> OrderByDescending<T, TResult>(
@@ -104,12 +100,11 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new OrderExpression<T>(keySelector, OrderTypeEnum.OrderByDescending);
-            builder.Specification.Add(expr);
+            builder.Specification.AddInternal(ItemType.Order, keySelector, (int)OrderType.OrderByDescending);
         }
 
-        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T, TResult>(builder.Specification, !condition);
-        return orderedSpecificationBuilder;
+        Specification<T, TResult>.IsChainDiscarded = !condition;
+        return (SpecificationBuilder<T, TResult>)builder;
     }
 
     public static IOrderedSpecificationBuilder<T> OrderByDescending<T>(
@@ -124,12 +119,11 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new OrderExpression<T>(keySelector, OrderTypeEnum.OrderByDescending);
-            builder.Specification.Add(expr);
+            builder.Specification.AddInternal(ItemType.Order, keySelector, (int)OrderType.OrderByDescending);
         }
 
-        var orderedSpecificationBuilder = new OrderedSpecificationBuilder<T>(builder.Specification, !condition);
-        return orderedSpecificationBuilder;
+        Specification<T>.IsChainDiscarded = !condition;
+        return (SpecificationBuilder<T>)builder;
     }
 
     public static IIncludableSpecificationBuilder<T, TResult, TProperty> Include<T, TResult, TProperty>(
@@ -144,11 +138,11 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new IncludeExpression(includeExpression, typeof(T), typeof(TProperty));
-            builder.Specification.Add(expr);
+            builder.Specification.AddInternal(ItemType.Include, includeExpression, (int)IncludeType.Include);
         }
 
-        var includeBuilder = new IncludableSpecificationBuilder<T, TResult, TProperty>(builder.Specification, !condition);
+        Specification<T, TResult>.IsChainDiscarded = !condition;
+        var includeBuilder = new IncludableSpecificationBuilder<T, TResult, TProperty>(builder.Specification);
         return includeBuilder;
     }
 
@@ -164,11 +158,11 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new IncludeExpression(includeExpression, typeof(T), typeof(TProperty));
-            builder.Specification.Add(expr);
+            builder.Specification.AddInternal(ItemType.Include, includeExpression, (int)IncludeType.Include);
         }
 
-        var includeBuilder = new IncludableSpecificationBuilder<T, TProperty>(builder.Specification, !condition);
+        Specification<T>.IsChainDiscarded = !condition;
+        var includeBuilder = new IncludableSpecificationBuilder<T, TProperty>(builder.Specification);
         return includeBuilder;
     }
 
@@ -184,7 +178,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.Add(includeString);
+            builder.Specification.AddInternal(ItemType.IncludeString, includeString);
         }
         return builder;
     }
@@ -200,7 +194,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.Add(includeString);
+            builder.Specification.AddInternal(ItemType.IncludeString, includeString);
         }
         return builder;
     }
@@ -221,8 +215,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new LikeExpression<T>(keySelector, pattern, group);
-            builder.Specification.Add(expr);
+            var like = new SpecLike<T>(keySelector, pattern);
+            builder.Specification.AddInternal(ItemType.Like, like, group);
         }
         return builder;
     }
@@ -243,8 +237,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            var expr = new LikeExpression<T>(keySelector, pattern, group);
-            builder.Specification.Add(expr);
+            var like = new SpecLike<T>(keySelector, pattern);
+            builder.Specification.AddInternal(ItemType.Like, like, group);
         }
         return builder;
     }

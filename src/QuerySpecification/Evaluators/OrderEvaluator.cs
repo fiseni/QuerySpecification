@@ -1,6 +1,6 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public class OrderEvaluator : IEvaluator, IInMemoryEvaluator
+public sealed class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 {
     private OrderEvaluator() { }
     public static OrderEvaluator Instance = new();
@@ -9,23 +9,26 @@ public class OrderEvaluator : IEvaluator, IInMemoryEvaluator
     {
         IOrderedQueryable<T>? orderedQuery = null;
 
-        foreach (var orderExpression in specification.OrderExpressions)
+        foreach (var item in specification.Items)
         {
-            if (orderExpression.OrderType == OrderTypeEnum.OrderBy)
+            if (item.Type == ItemType.Order && item.Reference is Expression<Func<T, object?>> expr)
             {
-                orderedQuery = source.OrderBy(orderExpression.KeySelector);
-            }
-            else if (orderExpression.OrderType == OrderTypeEnum.OrderByDescending)
-            {
-                orderedQuery = source.OrderByDescending(orderExpression.KeySelector);
-            }
-            else if (orderExpression.OrderType == OrderTypeEnum.ThenBy)
-            {
-                orderedQuery = orderedQuery!.ThenBy(orderExpression.KeySelector);
-            }
-            else if (orderExpression.OrderType == OrderTypeEnum.ThenByDescending)
-            {
-                orderedQuery = orderedQuery!.ThenByDescending(orderExpression.KeySelector);
+                if (item.Bag == (int)OrderType.OrderBy)
+                {
+                    orderedQuery = source.OrderBy(expr);
+                }
+                else if (item.Bag == (int)OrderType.OrderByDescending)
+                {
+                    orderedQuery = source.OrderByDescending(expr);
+                }
+                else if (item.Bag == (int)OrderType.ThenBy)
+                {
+                    orderedQuery = orderedQuery!.ThenBy(expr);
+                }
+                else if (item.Bag == (int)OrderType.ThenByDescending)
+                {
+                    orderedQuery = orderedQuery!.ThenByDescending(expr);
+                }
             }
         }
 
@@ -39,25 +42,29 @@ public class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 
     public IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)
     {
+        var compiledItems = specification.GetCompiledItems();
         IOrderedEnumerable<T>? orderedQuery = null;
 
-        foreach (var orderExpression in specification.OrderExpressions)
+        foreach (var item in compiledItems)
         {
-            if (orderExpression.OrderType == OrderTypeEnum.OrderBy)
+            if (item.Type == ItemType.Order && item.Reference is Func<T, object?> compiledExpr)
             {
-                orderedQuery = source.OrderBy(orderExpression.KeySelectorFunc);
-            }
-            else if (orderExpression.OrderType == OrderTypeEnum.OrderByDescending)
-            {
-                orderedQuery = source.OrderByDescending(orderExpression.KeySelectorFunc);
-            }
-            else if (orderExpression.OrderType == OrderTypeEnum.ThenBy)
-            {
-                orderedQuery = orderedQuery!.ThenBy(orderExpression.KeySelectorFunc);
-            }
-            else if (orderExpression.OrderType == OrderTypeEnum.ThenByDescending)
-            {
-                orderedQuery = orderedQuery!.ThenByDescending(orderExpression.KeySelectorFunc);
+                if (item.Bag == (int)OrderType.OrderBy)
+                {
+                    orderedQuery = source.OrderBy(compiledExpr);
+                }
+                else if (item.Bag == (int)OrderType.OrderByDescending)
+                {
+                    orderedQuery = source.OrderByDescending(compiledExpr);
+                }
+                else if (item.Bag == (int)OrderType.ThenBy)
+                {
+                    orderedQuery = orderedQuery!.ThenBy(compiledExpr);
+                }
+                else if (item.Bag == (int)OrderType.ThenByDescending)
+                {
+                    orderedQuery = orderedQuery!.ThenByDescending(compiledExpr);
+                }
             }
         }
 

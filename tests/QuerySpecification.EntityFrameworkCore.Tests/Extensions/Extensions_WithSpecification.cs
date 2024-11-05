@@ -10,9 +10,9 @@ public class Extensions_WithSpecification(TestFactory factory) : IntegrationTest
     {
         var id = 1;
         var name = "Store1";
-        var storeTerm = "ab";
-        var companyTerm = "ab";
-        var streetTerm = "ab";
+        var storeTerm = "ab1";
+        var companyTerm = "ab2";
+        var streetTerm = "ab3";
 
         var spec = new Specification<Store>();
         spec.Query
@@ -34,8 +34,7 @@ public class Extensions_WithSpecification(TestFactory factory) : IntegrationTest
 
         var actual = DbContext.Stores
             .WithSpecification(spec)
-            .ToQueryString()
-            .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
+            .ToQueryString();
 
         // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores
@@ -65,9 +64,9 @@ public class Extensions_WithSpecification(TestFactory factory) : IntegrationTest
     {
         var id = 1;
         var name = "Store1";
-        var storeTerm = "ab";
-        var companyTerm = "ab";
-        var streetTerm = "ab";
+        var storeTerm = "ab1";
+        var companyTerm = "ab2";
+        var streetTerm = "ab3";
 
         var spec = new Specification<Store, string?>();
         spec.Query
@@ -90,8 +89,7 @@ public class Extensions_WithSpecification(TestFactory factory) : IntegrationTest
 
         var actual = DbContext.Stores
             .WithSpecification(spec)
-            .ToQueryString()
-            .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
+            .ToQueryString();
 
         // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores
@@ -122,9 +120,9 @@ public class Extensions_WithSpecification(TestFactory factory) : IntegrationTest
     {
         var id = 1;
         var name = "Store1";
-        var storeTerm = "ab";
-        var companyTerm = "ab";
-        var streetTerm = "ab";
+        var storeTerm = "ab1";
+        var companyTerm = "ab2";
+        var streetTerm = "ab3";
 
         var spec = new Specification<Store, string?>();
         spec.Query
@@ -147,8 +145,7 @@ public class Extensions_WithSpecification(TestFactory factory) : IntegrationTest
 
         var actual = DbContext.Stores
             .WithSpecification(spec)
-            .ToQueryString()
-            .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
+            .ToQueryString();
 
         // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores

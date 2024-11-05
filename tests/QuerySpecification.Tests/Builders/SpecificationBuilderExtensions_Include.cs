@@ -46,10 +46,10 @@ public class SpecificationBuilderExtensions_Include
 
         spec1.IncludeExpressions.Should().ContainSingle();
         spec1.IncludeExpressions.First().LambdaExpression.Should().BeSameAs(expr);
-        spec1.IncludeExpressions.First().Type.Should().Be(IncludeTypeEnum.Include);
+        spec1.IncludeExpressions.First().Type.Should().Be(IncludeType.Include);
         spec2.IncludeExpressions.Should().ContainSingle();
         spec2.IncludeExpressions.First().LambdaExpression.Should().BeSameAs(expr);
-        spec2.IncludeExpressions.First().Type.Should().Be(IncludeTypeEnum.Include);
+        spec2.IncludeExpressions.First().Type.Should().Be(IncludeType.Include);
     }
 
     [Fact]
@@ -66,8 +66,8 @@ public class SpecificationBuilderExtensions_Include
             .Include(x => x.Contact);
 
         spec1.IncludeExpressions.Should().HaveCount(2);
-        spec1.IncludeExpressions.Should().AllSatisfy(x => x.Type.Should().Be(IncludeTypeEnum.Include));
+        spec1.IncludeExpressions.Should().AllSatisfy(x => x.Type.Should().Be(IncludeType.Include));
         spec2.IncludeExpressions.Should().HaveCount(2);
-        spec2.IncludeExpressions.Should().AllSatisfy(x => x.Type.Should().Be(IncludeTypeEnum.Include));
+        spec2.IncludeExpressions.Should().AllSatisfy(x => x.Type.Should().Be(IncludeType.Include));
     }
 }

@@ -18,9 +18,9 @@ public class OrderedBuilderExtensions_ThenBy
             .ThenBy(x => x.LastName, false);
 
         spec1.OrderExpressions.Should().ContainSingle();
-        spec1.OrderExpressions.Should().AllSatisfy(x => x.OrderType.Should().Be(OrderTypeEnum.OrderBy));
+        spec1.OrderExpressions.Should().AllSatisfy(x => x.Type.Should().Be(OrderType.OrderBy));
         spec2.OrderExpressions.Should().ContainSingle();
-        spec2.OrderExpressions.Should().AllSatisfy(x => x.OrderType.Should().Be(OrderTypeEnum.OrderBy));
+        spec2.OrderExpressions.Should().AllSatisfy(x => x.Type.Should().Be(OrderType.OrderBy));
     }
 
     [Fact]
@@ -56,9 +56,9 @@ public class OrderedBuilderExtensions_ThenBy
             .ThenBy(x => x.Email);
 
         spec1.OrderExpressions.Should().ContainSingle();
-        spec1.OrderExpressions.Should().AllSatisfy(x => x.OrderType.Should().Be(OrderTypeEnum.OrderBy));
+        spec1.OrderExpressions.Should().AllSatisfy(x => x.Type.Should().Be(OrderType.OrderBy));
         spec2.OrderExpressions.Should().ContainSingle();
-        spec2.OrderExpressions.Should().AllSatisfy(x => x.OrderType.Should().Be(OrderTypeEnum.OrderBy));
+        spec2.OrderExpressions.Should().AllSatisfy(x => x.Type.Should().Be(OrderType.OrderBy));
     }
 
     [Fact]
@@ -78,12 +78,12 @@ public class OrderedBuilderExtensions_ThenBy
 
         spec1.OrderExpressions.Should().HaveCount(2);
         spec1.OrderExpressions.Last().KeySelector.Should().BeSameAs(expr);
-        spec1.OrderExpressions.First().OrderType.Should().Be(OrderTypeEnum.OrderBy);
-        spec1.OrderExpressions.Last().OrderType.Should().Be(OrderTypeEnum.ThenBy);
+        spec1.OrderExpressions.First().Type.Should().Be(OrderType.OrderBy);
+        spec1.OrderExpressions.Last().Type.Should().Be(OrderType.ThenBy);
         spec2.OrderExpressions.Should().HaveCount(2);
         spec2.OrderExpressions.Last().KeySelector.Should().BeSameAs(expr);
-        spec2.OrderExpressions.First().OrderType.Should().Be(OrderTypeEnum.OrderBy);
-        spec2.OrderExpressions.Last().OrderType.Should().Be(OrderTypeEnum.ThenBy);
+        spec2.OrderExpressions.First().Type.Should().Be(OrderType.OrderBy);
+        spec2.OrderExpressions.Last().Type.Should().Be(OrderType.ThenBy);
     }
 
     [Fact]
@@ -102,11 +102,11 @@ public class OrderedBuilderExtensions_ThenBy
             .ThenBy(x => x.Email);
 
         spec1.OrderExpressions.Should().HaveCount(3);
-        spec1.OrderExpressions.First().OrderType.Should().Be(OrderTypeEnum.OrderBy);
-        spec1.OrderExpressions.Skip(1).Should().AllSatisfy(x => x.OrderType.Should().Be(OrderTypeEnum.ThenBy));
+        spec1.OrderExpressions.First().Type.Should().Be(OrderType.OrderBy);
+        spec1.OrderExpressions.Skip(1).Should().AllSatisfy(x => x.Type.Should().Be(OrderType.ThenBy));
         spec2.OrderExpressions.Should().HaveCount(3);
-        spec2.OrderExpressions.First().OrderType.Should().Be(OrderTypeEnum.OrderBy);
-        spec2.OrderExpressions.Skip(1).Should().AllSatisfy(x => x.OrderType.Should().Be(OrderTypeEnum.ThenBy));
+        spec2.OrderExpressions.First().Type.Should().Be(OrderType.OrderBy);
+        spec2.OrderExpressions.Skip(1).Should().AllSatisfy(x => x.Type.Should().Be(OrderType.ThenBy));
     }
 
     [Fact]
@@ -125,12 +125,12 @@ public class OrderedBuilderExtensions_ThenBy
             .ThenByDescending(x => x.Email);
 
         spec1.OrderExpressions.Should().HaveCount(3);
-        spec1.OrderExpressions.First().OrderType.Should().Be(OrderTypeEnum.OrderBy);
-        spec1.OrderExpressions.Skip(1).First().OrderType.Should().Be(OrderTypeEnum.ThenBy);
-        spec1.OrderExpressions.Last().OrderType.Should().Be(OrderTypeEnum.ThenByDescending);
+        spec1.OrderExpressions.First().Type.Should().Be(OrderType.OrderBy);
+        spec1.OrderExpressions.Skip(1).First().Type.Should().Be(OrderType.ThenBy);
+        spec1.OrderExpressions.Last().Type.Should().Be(OrderType.ThenByDescending);
         spec2.OrderExpressions.Should().HaveCount(3);
-        spec2.OrderExpressions.First().OrderType.Should().Be(OrderTypeEnum.OrderBy);
-        spec2.OrderExpressions.Skip(1).First().OrderType.Should().Be(OrderTypeEnum.ThenBy);
-        spec2.OrderExpressions.Last().OrderType.Should().Be(OrderTypeEnum.ThenByDescending);
+        spec2.OrderExpressions.First().Type.Should().Be(OrderType.OrderBy);
+        spec2.OrderExpressions.Skip(1).First().Type.Should().Be(OrderType.ThenBy);
+        spec2.OrderExpressions.Last().Type.Should().Be(OrderType.ThenByDescending);
     }
 }

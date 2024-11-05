@@ -35,18 +35,33 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
         sut.Should().Throw<SelectorNotFoundException>();
     }
 
+    // TODO: We should allow overwriting. Think about this. [fatii, 26/10/2024]
+    //[Fact]
+    //public void ThrowsConcurrentSelectorsException_GivenBothSelectAndSelectMany()
+    //{
+    //    var spec = new Specification<Store, string?>();
+    //    spec.Query
+    //        .Select(x => x.Name);
+    //    spec.Query
+    //        .SelectMany(x => x.Products.Select(x => x.Name));
+
+    //    var sut = () => _evaluator.Evaluate(DbContext.Stores, spec);
+
+    //    sut.Should().Throw<ConcurrentSelectorsException>();
+    //}
+
     [Fact]
-    public void ThrowsConcurrentSelectorsException_GivenBothSelectAndSelectMany()
+    public void GivenEmptySpec()
     {
-        var spec = new Specification<Store, string?>();
-        spec.Query
-            .Select(x => x.Name);
-        spec.Query
-            .SelectMany(x => x.Products.Select(x => x.Name));
+        var spec = new Specification<Store>();
 
-        var sut = () => _evaluator.Evaluate(DbContext.Stores, spec);
+        var actual = _evaluator.Evaluate(DbContext.Stores, spec)
+            .ToQueryString();
 
-        sut.Should().Throw<ConcurrentSelectorsException>();
+        var expected = DbContext.Stores
+            .ToQueryString();
+
+        actual.Should().Be(expected);
     }
 
     [Fact]
@@ -54,9 +69,9 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     {
         var id = 2;
         var name = "Store1";
-        var storeTerm = "ab";
-        var companyTerm = "ab";
-        var streetTerm = "ab";
+        var storeTerm = "ab1";
+        var companyTerm = "ab2";
+        var streetTerm = "ab3";
 
         var spec = new Specification<Store>();
         spec.Query
@@ -77,8 +92,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
             .IgnoreQueryFilters();
 
         var actual = _evaluator.Evaluate(DbContext.Stores, spec)
-            .ToQueryString()
-            .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
+            .ToQueryString();
 
         // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores
@@ -108,9 +122,9 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     {
         var id = 2;
         var name = "Store1";
-        var storeTerm = "ab";
-        var companyTerm = "ab";
-        var streetTerm = "ab";
+        var storeTerm = "ab1";
+        var companyTerm = "ab2";
+        var streetTerm = "ab3";
 
         var spec = new Specification<Store>();
         spec.Query
@@ -131,8 +145,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
             .IgnoreQueryFilters();
 
         var actual = _evaluator.Evaluate(DbContext.Stores, spec)
-            .ToQueryString()
-            .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
+            .ToQueryString();
 
         // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores
@@ -162,9 +175,9 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     {
         var id = 2;
         var name = "Store1";
-        var storeTerm = "ab";
-        var companyTerm = "ab";
-        var streetTerm = "ab";
+        var storeTerm = "ab1";
+        var companyTerm = "ab2";
+        var streetTerm = "ab3";
 
         var spec = new Specification<Store, string?>();
         spec.Query
@@ -186,8 +199,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
             .Select(x => x.Name);
 
         var actual = _evaluator.Evaluate(DbContext.Stores, spec)
-            .ToQueryString()
-            .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
+            .ToQueryString();
 
         // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores
@@ -218,9 +230,9 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     {
         var id = 2;
         var name = "Store1";
-        var storeTerm = "ab";
-        var companyTerm = "ab";
-        var streetTerm = "ab";
+        var storeTerm = "ab1";
+        var companyTerm = "ab2";
+        var streetTerm = "ab3";
 
         var spec = new Specification<Store, string?>();
         spec.Query
@@ -242,8 +254,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
             .SelectMany(x => x.Products.Select(x => x.Name));
 
         var actual = _evaluator.Evaluate(DbContext.Stores, spec)
-            .ToQueryString()
-            .Replace("__likeExpression_Pattern_", "__Format_"); //like parameter names are different
+            .ToQueryString();
 
         // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores
@@ -348,9 +359,9 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
 
         var evaluator = new SpecificationEvaluator(evaluators);
 
-        var state = EvaluatorsOf(evaluator);
-        state.Should().HaveSameCount(evaluators);
-        state.Should().Equal(evaluators);
+        var result = EvaluatorsOf(evaluator);
+        result.Should().HaveSameCount(evaluators);
+        result.Should().Equal(evaluators);
     }
 
     [Fact]
@@ -358,18 +369,19 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     {
         var evaluator = new SpecificationEvaluatorDerived();
 
-        var state = EvaluatorsOf(evaluator);
-        state.Should().HaveCount(10);
-        state[0].Should().BeOfType<LikeEvaluator>();
-        state[1].Should().BeOfType<WhereEvaluator>();
-        state[2].Should().BeOfType<LikeEvaluator>();
-        state[3].Should().BeOfType<IncludeEvaluator>();
-        state[4].Should().BeOfType<OrderEvaluator>();
-        state[5].Should().BeOfType<AsNoTrackingEvaluator>();
-        state[6].Should().BeOfType<AsNoTrackingWithIdentityResolutionEvaluator>();
-        state[7].Should().BeOfType<IgnoreQueryFiltersEvaluator>();
-        state[8].Should().BeOfType<AsSplitQueryEvaluator>();
-        state[9].Should().BeOfType<WhereEvaluator>();
+        var result = EvaluatorsOf(evaluator);
+        result.Should().HaveCount(11);
+        result[0].Should().BeOfType<LikeEvaluator>();
+        result[1].Should().BeOfType<WhereEvaluator>();
+        result[2].Should().BeOfType<LikeEvaluator>();
+        result[3].Should().BeOfType<IncludeStringEvaluator>();
+        result[4].Should().BeOfType<IncludeEvaluator>();
+        result[5].Should().BeOfType<OrderEvaluator>();
+        result[6].Should().BeOfType<AsNoTrackingEvaluator>();
+        result[7].Should().BeOfType<AsNoTrackingWithIdentityResolutionEvaluator>();
+        result[8].Should().BeOfType<IgnoreQueryFiltersEvaluator>();
+        result[9].Should().BeOfType<AsSplitQueryEvaluator>();
+        result[10].Should().BeOfType<WhereEvaluator>();
     }
 
     private class SpecificationEvaluatorDerived : SpecificationEvaluator

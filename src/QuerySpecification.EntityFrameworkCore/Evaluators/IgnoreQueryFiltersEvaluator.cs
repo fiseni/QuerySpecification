@@ -1,6 +1,6 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public class IgnoreQueryFiltersEvaluator : IEvaluator
+public sealed class IgnoreQueryFiltersEvaluator : IEvaluator
 {
     private IgnoreQueryFiltersEvaluator() { }
     public static IgnoreQueryFiltersEvaluator Instance = new();

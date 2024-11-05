@@ -14,13 +14,16 @@ public static class IncludableBuilderExtensions
         bool condition)
         where TEntity : class
     {
-        if (condition && !previousBuilder.IsChainDiscarded)
+        if (condition && !Specification<TEntity, TResult>.IsChainDiscarded)
         {
-            var expr = new IncludeExpression(thenIncludeExpression, typeof(TEntity), typeof(TProperty), typeof(TPreviousProperty));
-            previousBuilder.Specification.Add(expr);
+            previousBuilder.Specification.AddInternal(ItemType.Include, thenIncludeExpression, (int)IncludeType.ThenInclude);
+        }
+        else
+        {
+            Specification<TEntity, TResult>.IsChainDiscarded = true;
         }
 
-        var includeBuilder = new IncludableSpecificationBuilder<TEntity, TResult, TProperty>(previousBuilder.Specification, !condition || previousBuilder.IsChainDiscarded);
+        var includeBuilder = new IncludableSpecificationBuilder<TEntity, TResult, TProperty>(previousBuilder.Specification);
         return includeBuilder;
     }
 
@@ -36,13 +39,16 @@ public static class IncludableBuilderExtensions
         bool condition)
         where TEntity : class
     {
-        if (condition && !previousBuilder.IsChainDiscarded)
+        if (condition && !Specification<TEntity>.IsChainDiscarded)
         {
-            var expr = new IncludeExpression(thenIncludeExpression, typeof(TEntity), typeof(TProperty), typeof(TPreviousProperty));
-            previousBuilder.Specification.Add(expr);
+            previousBuilder.Specification.AddInternal(ItemType.Include, thenIncludeExpression, (int)IncludeType.ThenInclude);
+        }
+        else
+        {
+            Specification<TEntity>.IsChainDiscarded = true;
         }
 
-        var includeBuilder = new IncludableSpecificationBuilder<TEntity, TProperty>(previousBuilder.Specification, !condition || previousBuilder.IsChainDiscarded);
+        var includeBuilder = new IncludableSpecificationBuilder<TEntity, TProperty>(previousBuilder.Specification);
         return includeBuilder;
     }
 
@@ -58,13 +64,16 @@ public static class IncludableBuilderExtensions
         bool condition)
         where TEntity : class
     {
-        if (condition && !previousBuilder.IsChainDiscarded)
+        if (condition && !Specification<TEntity, TResult>.IsChainDiscarded)
         {
-            var expr = new IncludeExpression(thenIncludeExpression, typeof(TEntity), typeof(TProperty), typeof(IEnumerable<TPreviousProperty>));
-            previousBuilder.Specification.Add(expr);
+            previousBuilder.Specification.AddInternal(ItemType.Include, thenIncludeExpression, (int)IncludeType.ThenInclude);
+        }
+        else
+        {
+            Specification<TEntity, TResult>.IsChainDiscarded = true;
         }
 
-        var includeBuilder = new IncludableSpecificationBuilder<TEntity, TResult, TProperty>(previousBuilder.Specification, !condition || previousBuilder.IsChainDiscarded);
+        var includeBuilder = new IncludableSpecificationBuilder<TEntity, TResult, TProperty>(previousBuilder.Specification);
         return includeBuilder;
     }
 
@@ -80,13 +89,16 @@ public static class IncludableBuilderExtensions
         bool condition)
         where TEntity : class
     {
-        if (condition && !previousBuilder.IsChainDiscarded)
+        if (condition && !Specification<TEntity>.IsChainDiscarded)
         {
-            var expr = new IncludeExpression(thenIncludeExpression, typeof(TEntity), typeof(TProperty), typeof(IEnumerable<TPreviousProperty>));
-            previousBuilder.Specification.Add(expr);
+            previousBuilder.Specification.AddInternal(ItemType.Include, thenIncludeExpression, (int)IncludeType.ThenInclude);
+        }
+        else
+        {
+            Specification<TEntity>.IsChainDiscarded = true;
         }
 
-        var includeBuilder = new IncludableSpecificationBuilder<TEntity, TProperty>(previousBuilder.Specification, !condition || previousBuilder.IsChainDiscarded);
+        var includeBuilder = new IncludableSpecificationBuilder<TEntity, TProperty>(previousBuilder.Specification);
         return includeBuilder;
     }
 }

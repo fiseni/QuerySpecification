@@ -21,9 +21,11 @@ public class SpecificationValidator
 
     public virtual bool IsValid<T>(T entity, Specification<T> specification)
     {
-        foreach (var partialValidator in Validators)
+        if (specification.IsEmpty) return true;
+
+        foreach (var validator in Validators)
         {
-            if (partialValidator.IsValid(entity, specification) == false) 
+            if (validator.IsValid(entity, specification) == false)
                 return false;
         }
 

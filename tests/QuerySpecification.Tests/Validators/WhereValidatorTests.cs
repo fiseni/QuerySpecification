@@ -7,6 +7,18 @@ public class WhereValidatorTests
     public record Customer(int Id, string Name);
 
     [Fact]
+    public void ReturnsTrue_GivenEmptySpec()
+    {
+        var customer = new Customer(1, "Customer1");
+
+        var spec = new Specification<Customer>();
+
+        var result = _validator.IsValid(customer, spec);
+
+        result.Should().BeTrue();
+    }
+
+    [Fact]
     public void ReturnsTrue_GivenSpecWithSingleWhere_WithValidEntity()
     {
         var customer = new Customer(1, "Customer1");

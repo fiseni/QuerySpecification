@@ -1,11 +1,11 @@
 ﻿using System.Linq.Expressions;
 
-namespace Tests.Extensions;
+namespace Tests.Evaluators;
 
 public class ParameterReplacerVisitorTests
 {
     [Fact]
-    public void Replace_ReturnsExpressionWithReplacedParameter()
+    public void ReturnsExpressionWithReplacedParameter()
     {
         Expression<Func<int, decimal, bool>> expected = (y, z) => y == 1;
 
@@ -13,7 +13,8 @@ public class ParameterReplacerVisitorTests
         var oldParameter = expression.Parameters[0];
         var newExpression = Expression.Parameter(typeof(int), "y");
 
-        var result = ParameterReplacerVisitor.Replace(expression, oldParameter, newExpression);
+        var visitor = new ParameterReplacerVisitor(oldParameter, newExpression);
+        var result = visitor.Visit(expression);
 
         result.ToString().Should().Be(expected.ToString());
     }

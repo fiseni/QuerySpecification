@@ -14,27 +14,34 @@ public class BenchmarkDbContext : DbContext
 
         if (!created) return;
 
-        var store = new Store
+        var company = new Company()
+        {
+            Name = "Company 1",
+            Country = new()
+            {
+                Name = "Country 1"
+            }
+        };
+        var store1 = new Store
         {
             Name = "Store 1",
-            Company = new()
-            {
-                Name = "Company 1",
-                Country = new()
-                {
-                    Name = "Country 1"
-                }
-            },
+            Company = company,
             Products =
             [
-                new()
-                {
-                    Name = "Product 1"
-                }
+                new() { Name = "Product 1" }
+            ]
+        };
+        var store2 = new Store
+        {
+            Name = "Store 2",
+            Company = company,
+            Products =
+            [
+                new() { Name = "Product 2" }
             ]
         };
 
-        context.Add(store);
+        context.AddRange(store1, store2);
         await context.SaveChangesAsync();
     }
 }

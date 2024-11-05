@@ -1,21 +1,35 @@
-﻿namespace Pozitron.QuerySpecification;
+﻿using System.Diagnostics;
 
-public class LikeExpression<T>
+namespace Pozitron.QuerySpecification;
+
+public sealed class LikeExpression<T>
 {
-    private Func<T, string?>? _keySelectorFunc;
     public Expression<Func<T, string?>> KeySelector { get; }
     public string Pattern { get; }
     public int Group { get; }
 
     public LikeExpression(Expression<Func<T, string?>> keySelector, string pattern, int group = 1)
     {
-        ArgumentNullException.ThrowIfNull(keySelector);
-        ArgumentException.ThrowIfNullOrEmpty(pattern);
-
+        Debug.Assert(keySelector is not null);
+        Debug.Assert(!string.IsNullOrEmpty(pattern));
         KeySelector = keySelector;
         Pattern = pattern;
         Group = group;
     }
+}
 
-    public Func<T, string?> KeySelectorFunc => _keySelectorFunc ??= KeySelector.Compile();
+public sealed class LikeExpressionCompiled<T>
+{
+    public Func<T, string?> KeySelector { get; }
+    public string Pattern { get; }
+    public int Group { get; }
+
+    public LikeExpressionCompiled(Func<T, string?> keySelector, string pattern, int group = 1)
+    {
+        Debug.Assert(keySelector is not null);
+        Debug.Assert(!string.IsNullOrEmpty(pattern));
+        KeySelector = keySelector;
+        Pattern = pattern;
+        Group = group;
+    }
 }

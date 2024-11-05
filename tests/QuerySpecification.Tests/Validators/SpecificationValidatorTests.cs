@@ -27,6 +27,20 @@ public class SpecificationValidatorTests
     }
 
     [Fact]
+    public void ReturnTrue_GivenEmptySpec()
+    {
+        var customer = new Customer(1, "FirstName1", "LastName1");
+
+        var spec = new Specification<Customer>();
+
+        var result = _validatorDefault.IsValid(customer, spec);
+        var resultFromSpec = spec.IsSatisfiedBy(customer);
+
+        result.Should().Be(resultFromSpec);
+        result.Should().BeTrue();
+    }
+
+    [Fact]
     public void ReturnFalse_GivenOneValidatorFails()
     {
         var customer = new Customer(1, "FirstName1", "LastName1");
@@ -74,9 +88,9 @@ public class SpecificationValidatorTests
 
         var validator = new SpecificationValidator(validators);
 
-        var state = ValidatorsOf(validator);
-        state.Should().HaveSameCount(validators);
-        state.Should().Equal(validators);
+        var result = ValidatorsOf(validator);
+        result.Should().HaveSameCount(validators);
+        result.Should().Equal(validators);
     }
 
     [Fact]
@@ -84,12 +98,12 @@ public class SpecificationValidatorTests
     {
         var validator = new SpecificationValidatorDerived();
 
-        var state = ValidatorsOf(validator);
-        state.Should().HaveCount(4);
-        state[0].Should().BeOfType<LikeValidator>();
-        state[1].Should().BeOfType<WhereValidator>();
-        state[2].Should().BeOfType<LikeValidator>();
-        state[3].Should().BeOfType<WhereValidator>();
+        var result = ValidatorsOf(validator);
+        result.Should().HaveCount(4);
+        result[0].Should().BeOfType<LikeValidator>();
+        result[1].Should().BeOfType<WhereValidator>();
+        result[2].Should().BeOfType<LikeValidator>();
+        result[3].Should().BeOfType<WhereValidator>();
     }
 
     private class SpecificationValidatorDerived : SpecificationValidator

@@ -35,19 +35,20 @@ public class SpecificationInMemoryEvaluatorTests
         sut.Should().Throw<SelectorNotFoundException>();
     }
 
-    [Fact]
-    public void Evaluate_ThrowsConcurrentSelectorsException_GivenBothSelectAndSelectMany()
-    {
-        var spec = new Specification<CustomerWithMails, string>();
-        spec.Query
-            .Select(x => x.FirstName);
-        spec.Query
-            .SelectMany(x => x.Emails);
+    // TODO: We should allow overwriting. Think about this. [fatii, 26/10/2024]
+    //[Fact]
+    //public void Evaluate_ThrowsConcurrentSelectorsException_GivenBothSelectAndSelectMany()
+    //{
+    //    var spec = new Specification<CustomerWithMails, string>();
+    //    spec.Query
+    //        .Select(x => x.FirstName);
+    //    spec.Query
+    //        .SelectMany(x => x.Emails);
 
-        var sut = () => _evaluator.Evaluate([], spec);
+    //    var sut = () => _evaluator.Evaluate([], spec);
 
-        sut.Should().Throw<ConcurrentSelectorsException>();
-    }
+    //    sut.Should().Throw<ConcurrentSelectorsException>();
+    //}
 
     [Fact]
     public void Evaluate_Filters_GivenSpec()
@@ -73,7 +74,11 @@ public class SpecificationInMemoryEvaluatorTests
             .Skip(1)
             .Take(1);
 
-        AssertForEvaluate(spec, input, expected);
+        var actual = _evaluator.Evaluate(input, spec).ToList();
+        var actualFromSpec = spec.Evaluate(input).ToList();
+
+        actual.Should().Equal(actualFromSpec);
+        actual.Should().Equal(expected);
     }
 
     [Fact]
@@ -98,7 +103,11 @@ public class SpecificationInMemoryEvaluatorTests
             .Take(1)
             .Select(x => x.FirstName);
 
-        AssertForEvaluate(spec, input, expected);
+        var actual = _evaluator.Evaluate(input, spec).ToList();
+        var actualFromSpec = spec.Evaluate(input).ToList();
+
+        actual.Should().Equal(actualFromSpec);
+        actual.Should().Equal(expected);
     }
 
     [Fact]
@@ -123,7 +132,39 @@ public class SpecificationInMemoryEvaluatorTests
             .Take(2)
             .SelectMany(x => x.Emails);
 
-        AssertForEvaluate(spec, input, expected);
+        var actual = _evaluator.Evaluate(input, spec).ToList();
+        var actualFromSpec = spec.Evaluate(input).ToList();
+
+        actual.Should().Equal(actualFromSpec);
+        actual.Should().Equal(expected);
+    }
+
+    [Fact]
+    public void Evaluate_DoesNotFilter_GivenEmptySpec()
+    {
+        List<Customer> input =
+        [
+            new(1, "axxa", "axya"),
+            new(2, "aaaa", "axya"),
+            new(3, "aaaa", "axya"),
+            new(4, "aaaa", "axya")
+        ];
+
+        List<Customer> expected =
+        [
+            new(1, "axxa", "axya"),
+            new(2, "aaaa", "axya"),
+            new(3, "aaaa", "axya"),
+            new(4, "aaaa", "axya")
+        ];
+
+        var spec = new Specification<Customer>();
+
+        var actual = _evaluator.Evaluate(input, spec).ToList();
+        var actualFromSpec = spec.Evaluate(input).ToList();
+
+        actual.Should().Equal(actualFromSpec);
+        actual.Should().Equal(expected);
     }
 
     [Fact]
@@ -137,13 +178,25 @@ public class SpecificationInMemoryEvaluatorTests
             new(4, "aaaa", "axya")
         ];
 
+        List<Customer> expected =
+        [
+            new(1, "axxa", "axya"),
+            new(2, "aaaa", "axya"),
+            new(3, "aaaa", "axya"),
+            new(4, "aaaa", "axya")
+        ];
+
         var spec = new Specification<Customer>();
         spec.Query
             .OrderBy(x => x.Id)
             .Skip(1)
             .Take(1);
 
-        AssertForEvaluate(spec, input, input, ignorePaging: true);
+        var actual = _evaluator.Evaluate(input, spec, ignorePaging: true).ToList();
+        var actualFromSpec = spec.Evaluate(input, ignorePaging: true).ToList();
+
+        actual.Should().Equal(actualFromSpec);
+        actual.Should().Equal(expected);
     }
 
     [Fact]
@@ -166,7 +219,11 @@ public class SpecificationInMemoryEvaluatorTests
             .Take(1)
             .Select(x => x.FirstName);
 
-        AssertForEvaluate(spec, input, expected, ignorePaging: true);
+        var actual = _evaluator.Evaluate(input, spec, ignorePaging: true).ToList();
+        var actualFromSpec = spec.Evaluate(input, ignorePaging: true).ToList();
+
+        actual.Should().Equal(actualFromSpec);
+        actual.Should().Equal(expected);
     }
 
     [Fact]
@@ -189,36 +246,10 @@ public class SpecificationInMemoryEvaluatorTests
             .Take(2)
             .SelectMany(x => x.Emails);
 
-        AssertForEvaluate(spec, input, expected, ignorePaging: true);
-    }
-
-    private static void AssertForEvaluate<T>(
-        Specification<T> spec,
-        List<T> input,
-        IEnumerable<T> expected,
-        bool ignorePaging = false)
-    {
-        var actual = _evaluator.Evaluate(input, spec, ignorePaging);
-        var actualFromSpec = spec.Evaluate(input, ignorePaging);
+        var actual = _evaluator.Evaluate(input, spec, true).ToList();
+        var actualFromSpec = spec.Evaluate(input, true).ToList();
 
         actual.Should().Equal(actualFromSpec);
-        actual.Should().NotBeNull();
-        actual.Should().HaveSameCount(expected);
-        actual.Should().Equal(expected);
-    }
-
-    private static void AssertForEvaluate<T, TResult>(
-        Specification<T, TResult> spec,
-        List<T> input,
-        IEnumerable<TResult> expected,
-        bool ignorePaging = false)
-    {
-        var actual = _evaluator.Evaluate(input, spec, ignorePaging);
-        var actualFromSpec = spec.Evaluate(input, ignorePaging);
-
-        actual.Should().Equal(actualFromSpec);
-        actual.Should().NotBeNull();
-        actual.Should().HaveSameCount(expected);
         actual.Should().Equal(expected);
     }
 
@@ -234,9 +265,9 @@ public class SpecificationInMemoryEvaluatorTests
 
         var evaluator = new SpecificationInMemoryEvaluator(evaluators);
 
-        var state = EvaluatorsOf(evaluator);
-        state.Should().HaveSameCount(evaluators);
-        state.Should().Equal(evaluators);
+        var result = EvaluatorsOf(evaluator);
+        result.Should().HaveSameCount(evaluators);
+        result.Should().Equal(evaluators);
     }
 
     [Fact]
@@ -244,13 +275,13 @@ public class SpecificationInMemoryEvaluatorTests
     {
         var evaluator = new SpecificationEvaluatorDerived();
 
-        var state = EvaluatorsOf(evaluator);
-        state.Should().HaveCount(5);
-        state[0].Should().BeOfType<LikeMemoryEvaluator>();
-        state[1].Should().BeOfType<WhereEvaluator>();
-        state[2].Should().BeOfType<LikeMemoryEvaluator>();
-        state[3].Should().BeOfType<OrderEvaluator>();
-        state[4].Should().BeOfType<WhereEvaluator>();
+        var result = EvaluatorsOf(evaluator);
+        result.Should().HaveCount(5);
+        result[0].Should().BeOfType<LikeMemoryEvaluator>();
+        result[1].Should().BeOfType<WhereEvaluator>();
+        result[2].Should().BeOfType<OrderEvaluator>();
+        result[3].Should().BeOfType<LikeMemoryEvaluator>();
+        result[4].Should().BeOfType<WhereEvaluator>();
     }
 
     private class SpecificationEvaluatorDerived : SpecificationInMemoryEvaluator

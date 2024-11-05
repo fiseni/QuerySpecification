@@ -7,6 +7,32 @@ public class LikeValidatorTests
     public record Customer(int Id, string FirstName, string? LastName);
 
     [Fact]
+    public void ReturnsTrue_GivenEmptySpec()
+    {
+        var customer = new Customer(1, "FirstName1", "LastName1");
+
+        var spec = new Specification<Customer>();
+
+        var result = _validator.IsValid(customer, spec);
+
+        result.Should().BeTrue();
+    }
+
+    [Fact]
+    public void ReturnsTrue_GivenNoLike()
+    {
+        var customer = new Customer(1, "FirstName1", "LastName1");
+
+        var spec = new Specification<Customer>();
+        spec.Query
+            .Where(x => x.Id == 1);
+
+        var result = _validator.IsValid(customer, spec);
+
+        result.Should().BeTrue();
+    }
+
+    [Fact]
     public void ReturnsTrue_GivenSpecWithSingleLike_WithValidEntity()
     {
         var customer = new Customer(1, "FirstName1", "LastName1");

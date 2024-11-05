@@ -1,17 +1,29 @@
-﻿namespace Pozitron.QuerySpecification;
+﻿using System.Diagnostics;
 
-public class OrderExpression<T>
+namespace Pozitron.QuerySpecification;
+
+public sealed class OrderExpression<T>
 {
-    private Func<T, object?>? _keySelectorFunc;
     public Expression<Func<T, object?>> KeySelector { get; }
-    public OrderTypeEnum OrderType { get; }
+    public OrderType Type { get; }
 
-    public OrderExpression(Expression<Func<T, object?>> keySelector, OrderTypeEnum orderType)
+    public OrderExpression(Expression<Func<T, object?>> keySelector, OrderType type)
     {
-        ArgumentNullException.ThrowIfNull(keySelector);
+        Debug.Assert(keySelector is not null);
         KeySelector = keySelector;
-        OrderType = orderType;
+        Type = type;
     }
+}
 
-    public Func<T, object?> KeySelectorFunc => _keySelectorFunc ??= KeySelector.Compile();
+public sealed class OrderExpressionCompiled<T>
+{
+    public Func<T, object?> KeySelector { get; }
+    public OrderType Type { get; }
+
+    public OrderExpressionCompiled(Func<T, object?> keySelector, OrderType type)
+    {
+        Debug.Assert(keySelector is not null);
+        KeySelector = keySelector;
+        Type = type;
+    }
 }

@@ -28,7 +28,12 @@ public class LikeMemoryEvaluatorTests
             .Like(x => x.FirstName, "%xx%")
             .Like(x => x.LastName, "%xy%");
 
-        AssertForEvaluate(spec, input, expected);
+        // Not materializing with ToList() intentionally to test cloning in the iterator
+        var actual = _evaluator.Evaluate(input, spec);
+
+        // Multiple iterations will force cloning
+        actual.Should().HaveSameCount(expected);
+        actual.Should().Equal(expected);
     }
 
     [Fact]
@@ -52,7 +57,9 @@ public class LikeMemoryEvaluatorTests
             .Like(x => x.FirstName, "%xx%", 1)
             .Like(x => x.LastName, "%xy%", 2);
 
-        AssertForEvaluate(spec, input, expected);
+        var actual = _evaluator.Evaluate(input, spec).ToList();
+
+        actual.Should().Equal(expected);
     }
 
     [Fact]
@@ -79,7 +86,9 @@ public class LikeMemoryEvaluatorTests
             .Like(x => x.LastName, "%xy%", 2)
             .Like(x => x.LastName, "%xz%", 2);
 
-        AssertForEvaluate(spec, input, expected);
+        var actual = _evaluator.Evaluate(input, spec).ToList();
+
+        actual.Should().Equal(expected);
     }
 
     [Fact]
@@ -100,16 +109,35 @@ public class LikeMemoryEvaluatorTests
         ];
 
         var spec = new Specification<Customer>();
+        spec.Query
+            .Where(x => x.Id > 0);
 
-        AssertForEvaluate(spec, input, expected);
-    }
-
-    private static void AssertForEvaluate<T>(Specification<T> spec, List<T> input, IEnumerable<T> expected)
-    {
         var actual = _evaluator.Evaluate(input, spec);
 
-        actual.Should().NotBeNull();
-        actual.Should().HaveSameCount(expected);
+        actual.Should().Equal(expected);
+    }
+
+    [Fact]
+    public void DoesNotFilter_GivenEmptySpec()
+    {
+        List<Customer> input =
+        [
+            new(1, "axxa", "axya"),
+            new(2, "aaaa", "aaaa"),
+            new(3, "aaaa", "axya")
+        ];
+
+        List<Customer> expected =
+        [
+            new(1, "axxa", "axya"),
+            new(2, "aaaa", "aaaa"),
+            new(3, "aaaa", "axya")
+        ];
+
+        var spec = new Specification<Customer>();
+
+        var actual = _evaluator.Evaluate(input, spec);
+
         actual.Should().Equal(expected);
     }
 }

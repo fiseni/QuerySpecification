@@ -53,7 +53,7 @@ internal static class LikeExtension
 
             // It might happen we end up with more items than max (concurrency), but we won't be too strict.
             // We're just trying to avoid indefinite growth.
-            for (int i = _dictionary.Count - _maxSize; i >= 0; i--)
+            for (var i = _dictionary.Count - _maxSize; i >= 0; i--)
             {
                 // Avoid being smart, just remove sequentially from the start.
                 var firstKey = _dictionary.Keys.FirstOrDefault();
@@ -75,7 +75,7 @@ internal static class LikeExtension
     // It covers almost all of the scenarios, and it's faster than regex based implementations.
     // It may fail/throw in some very specific and edge cases, hence, wrap it in try/catch.
     // UPDATE: it returns incorrect results for some obvious cases.
-    [ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage(Justification = "Dead code. Keeping it just as a reference")]
     private static bool SqlLikeOption2(string str, string pattern)
     {
         var isMatch = true;

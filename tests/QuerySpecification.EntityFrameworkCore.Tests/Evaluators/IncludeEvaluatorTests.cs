@@ -10,7 +10,6 @@ public class IncludeEvaluatorTests(TestFactory factory) : IntegrationTest(factor
     {
         var spec = new Specification<Store>();
         spec.Query
-            .Include(nameof(Address))
             .Include(x => x.Products.Where(x => x.Id > 10))
                 .ThenInclude(x => x.Images)
             .Include(x => x.Company)
@@ -21,7 +20,6 @@ public class IncludeEvaluatorTests(TestFactory factory) : IntegrationTest(factor
             .ToQueryString();
 
         var expected = DbContext.Stores
-            .Include(nameof(Address))
             .Include(x => x.Products.Where(x => x.Id > 10))
                 .ThenInclude(x => x.Images)
             .Include(x => x.Company)
