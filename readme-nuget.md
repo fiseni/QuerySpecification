@@ -118,7 +118,7 @@ The `PagedResult<T>` is serializable and contains a detailed pagination informat
 
 ## Benchmarks
 
-In version 11, we re-factored and rebuilt the internals from the ground up. The new version reduces the memory footprint drastically. The overhead of the library is now negligible and statistically insignificant. Here are the benchmark results of `ToQueryString()` for various queries. Refer to the Benchmarks project for more benchmarks.
+In version 11, we refactored and rebuilt the internals from the ground up. The new version reduces the memory footprint drastically. The overhead of the library is now negligible and statistically insignificant. Here are the benchmark results of `ToQueryString()` for various queries. Refer to the [Benchmarks](https://github.com/fiseni/QuerySpecification/tree/main/tests/QuerySpecification.Benchmarks/Benchmarks) project for more benchmarks.
 
 Type:
 - 0 -> Empty

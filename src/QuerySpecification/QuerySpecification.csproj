@@ -7,42 +7,14 @@
     <Description>Abstract package for building query specifications.</Description>
     <Summary>Abstract package for building query specifications.</Summary>
     
-    <Version>10.2.1</Version>
+    <Version>11.0.0-beta1</Version>
     <PackageTags>fiseni pozitron query specification</PackageTags>
     <PackageReleaseNotes>
-      v10.2.1
-      - Bump EntityFrameworkCore version to 8.0.10
-
-      v10.2.0
-      - Added ability to override the specification validator and in-memory evaluator.
-      - Performance improvements for in-memory Like.
-      - Refactored repositories
-        - Removed projection methods from RepositoryBase and IReadRepositoryBase
-        - Added IProjectionRepository contract defining the ProjectTo APIs.
-        - Added RepositoryWithMapper. It inherits RepositoryBase and implements IProjectionRepository.
-
-      v10.1.0
-      - Publish a separate symbol package (snupkg).
-      - Added ToPagedResult extensions.
-      - Consolidated method and parameter names for evaluator APIs.
-      - IEvaluator.GetQuery renamed to IEvaluator.Evaluate
-      - Refactored pagination infrastructure
-        - Removed PaginationEvaluator
-        - Apply pagination at the end of the query (fixed SelectMany issues).
-        - PagedResponse renamed to PagedResult
-        - Pagination.Default renamed to Pagination.Empty
-
-      v10.0.0
-      - Dropped support for old TFMs. Support only .NET 8.
-      - Dropped support for old plugin packages. Support only EntityFrameworkCore 8.
-      - Redesigned the infrastructure and refactored the internals.
-      - Removed all specification interfaces.
-      - Minimized the memory footprint.
-      - Removed obsolete features.
-      - Improved query-building capabilities.
-      - Added full support for pagination.
-      - Added support for paginated responses.
-      - Added arbitrary projection capabilities in repositories.
+      v11.0.0-beta1
+      - Refactored and rebuilt the internals from the ground up.
+      - Reduced the memory footprint drastically.
+      - Negligible to no overhead for specification evaluations.
+      - Better support for extending specifications.
     </PackageReleaseNotes>
   </PropertyGroup>
 
