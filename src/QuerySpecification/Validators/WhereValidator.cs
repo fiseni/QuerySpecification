@@ -7,8 +7,6 @@ public sealed class WhereValidator : IValidator
 
     public bool IsValid<T>(T entity, Specification<T> specification)
     {
-        if (specification.IsEmpty) return true;
-
         var compiledItems = specification.GetCompiledItems();
 
         foreach (var item in compiledItems)

@@ -7,8 +7,6 @@ public sealed class WhereEvaluator : IEvaluator, IInMemoryEvaluator
 
     public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class
     {
-        if (specification.IsEmpty) return source;
-
         foreach (var item in specification.Items)
         {
             if (item.Type == ItemType.Where && item.Reference is Expression<Func<T, bool>> expr)
@@ -22,8 +20,6 @@ public sealed class WhereEvaluator : IEvaluator, IInMemoryEvaluator
 
     public IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)
     {
-        if (specification.IsEmpty) return source;
-
         var compiledItems = specification.GetCompiledItems();
 
         foreach (var item in compiledItems)

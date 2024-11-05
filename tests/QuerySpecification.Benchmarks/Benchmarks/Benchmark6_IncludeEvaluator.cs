@@ -96,7 +96,7 @@ public class Benchmark6_IncludeEvaluator
                 }
             }
 
-            bool isPreviousPropertyCollection = false;
+            var isPreviousPropertyCollection = false;
 
             foreach (var item in specification.Items)
             {

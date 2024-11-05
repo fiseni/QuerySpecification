@@ -1,7 +1,7 @@
 ﻿namespace QuerySpecification.Benchmarks;
 
 [MemoryDiagnoser]
-public class Benchmark0_IQueryable
+public class Benchmark1_IQueryable
 {
     /* This benchmark measures building the IQueryable state. It's the pure overhead of using specifications.
      * Types:

@@ -22,12 +22,10 @@ public sealed class LikeValidator : IValidator
 
     public bool IsValid<T>(T entity, Specification<T> specification)
     {
-        if (specification.IsEmpty) return true;
-
         var compiledItems = specification.GetCompiledItems();
         if (compiledItems.Length == 0) return true;
 
-        int startIndexLikeItems = Array.FindIndex(compiledItems, item => item.Type == ItemType.Like);
+        var startIndexLikeItems = Array.FindIndex(compiledItems, item => item.Type == ItemType.Like);
         if (startIndexLikeItems == -1) return true;
 
         // The like items are contiguously placed as a last segment in the array and are already sorted by group.
@@ -36,8 +34,8 @@ public sealed class LikeValidator : IValidator
 
     private static bool IsValid<T>(T entity, ReadOnlySpan<SpecItem> span)
     {
-        int start = 0;
-        for (int i = 1; i <= span.Length; i++)
+        var start = 0;
+        for (var i = 1; i <= span.Length; i++)
         {
             if (i == span.Length || span[i].Bag != span[start].Bag)
             {

@@ -3,7 +3,7 @@
 namespace QuerySpecification.Benchmarks;
 
 [MemoryDiagnoser]
-public class Benchmark3_SpecSize
+public class Benchmark0_SpecSize
 {
     /* This benchmark is just used to measure the Specification sizes and detect eventual regressions.
      * We measure with provided expressions, so it measures pure spec overhead.

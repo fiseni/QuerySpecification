@@ -1,9 +1,9 @@
 ﻿namespace QuerySpecification.Benchmarks;
 
 [MemoryDiagnoser]
-public class Benchmark2_DbQuery
+public class Benchmark2_ToQueryString
 {
-    /* This benchmark measures the end-to-end cycle, including the round trip to the database.
+    /* This benchmark measures building the final SQL query.
      * Types:
      * 0 -> Empty
      * 1 -> Single Where clause
@@ -12,53 +12,47 @@ public class Benchmark2_DbQuery
      * 4 -> Where, Order chain, Include chain, Like, Skip, Take, Flag (AsNoTracking)
      */
 
-    [GlobalSetup]
-    public async Task Setup()
-    {
-        await BenchmarkDbContext.SeedAsync();
-    }
-
     [Params(0, 1, 2, 3, 4)]
     public int Type { get; set; }
 
     [Benchmark(Baseline = true)]
-    public async Task<Store> EFCore()
+    public string EFCore()
     {
         using var context = new BenchmarkDbContext();
 
         if (Type == 0)
         {
-            return await context.Stores
-                .FirstAsync();
+            return context.Stores
+                .ToQueryString();
         }
         else if (Type == 1)
         {
-            return await context.Stores
+            return context.Stores
                 .Where(x => x.Id > 0)
-                .FirstAsync();
+                .ToQueryString();
         }
         else if (Type == 2)
         {
-            return await context.Stores
+            return context.Stores
                 .Where(x => x.Id > 0)
                 .OrderBy(x => x.Id)
-                .FirstAsync();
+                .ToQueryString();
         }
         else if (Type == 3)
         {
-            return await context.Stores
+            return context.Stores
                 .Where(x => x.Id > 0)
                 .OrderBy(x => x.Id)
                     .ThenBy(x => x.Name)
                 .Include(x => x.Company)
                     .ThenInclude(x => x.Country)
                 .AsNoTracking()
-                .FirstAsync();
+                .ToQueryString();
         }
         else
         {
             var nameTerm = "tore";
-            return await context.Stores
+            return context.Stores
                 .Where(x => x.Id > 0)
                 .OrderBy(x => x.Id)
                     .ThenBy(x => x.Name)
@@ -68,12 +62,12 @@ public class Benchmark2_DbQuery
                 .Skip(1)
                 .Take(1)
                 .AsNoTracking()
-                .FirstAsync();
+                .ToQueryString();
         }
     }
 
     [Benchmark]
-    public async Task<Store> Spec()
+    public string Spec()
     {
         using var context = new BenchmarkDbContext();
 
@@ -81,9 +75,9 @@ public class Benchmark2_DbQuery
         {
             var spec = new Specification<Store>();
 
-            return await context.Stores
+            return context.Stores
                 .WithSpecification(spec)
-                .FirstAsync();
+                .ToQueryString();
         }
         else if (Type == 1)
         {
@@ -91,9 +85,9 @@ public class Benchmark2_DbQuery
             spec.Query
                 .Where(x => x.Id > 0);
 
-            return await context.Stores
+            return context.Stores
                 .WithSpecification(spec)
-                .FirstAsync();
+                .ToQueryString();
         }
         else if (Type == 2)
         {
@@ -102,9 +96,9 @@ public class Benchmark2_DbQuery
                 .Where(x => x.Id > 0)
                 .OrderBy(x => x.Id);
 
-            return await context.Stores
+            return context.Stores
                 .WithSpecification(spec)
-                .FirstAsync();
+                .ToQueryString();
         }
         else if (Type == 3)
         {
@@ -117,9 +111,9 @@ public class Benchmark2_DbQuery
                     .ThenInclude(x => x.Country)
                 .AsNoTracking();
 
-            return await context.Stores
+            return context.Stores
                 .WithSpecification(spec)
-                .FirstAsync();
+                .ToQueryString();
         }
         else
         {
@@ -136,9 +130,9 @@ public class Benchmark2_DbQuery
                 .Take(1)
                 .AsNoTracking();
 
-            return await context.Stores
+            return context.Stores
                 .WithSpecification(spec)
-                .FirstAsync();
+                .ToQueryString();
         }
     }
 }

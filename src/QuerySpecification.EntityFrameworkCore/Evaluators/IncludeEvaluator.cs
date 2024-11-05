@@ -38,8 +38,6 @@ public sealed class IncludeEvaluator : IEvaluator
 
     public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class
     {
-        if (specification.IsEmpty) return source;
-
         foreach (var item in specification.Items)
         {
             if (item.Type == ItemType.IncludeString && item.Reference is string includeString)

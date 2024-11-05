@@ -1,4 +1,6 @@
-﻿namespace Pozitron.QuerySpecification;
+﻿using System.Diagnostics;
+
+namespace Pozitron.QuerySpecification;
 
 public sealed class IncludeExpression<T>
 {
@@ -7,6 +9,7 @@ public sealed class IncludeExpression<T>
 
     public IncludeExpression(LambdaExpression expression, IncludeType type)
     {
+        Debug.Assert(expression is not null);
         LambdaExpression = expression;
         Type = type;
     }

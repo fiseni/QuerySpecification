@@ -1,7 +1,7 @@
-﻿namespace Tests.Extensions;
+﻿namespace Tests.Evaluators;
 
 [Collection("SharedCollection")]
-public class Extensions_Like(TestFactory factory) : IntegrationTest(factory)
+public class LikeExtensionTests(TestFactory factory) : IntegrationTest(factory)
 {
     [Fact]
     public void QueriesMatch_GivenSpecWithMultipleLike()

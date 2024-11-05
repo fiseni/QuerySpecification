@@ -23,23 +23,21 @@ public sealed class LikeEvaluator : IEvaluator
 
     public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class
     {
-        if (specification.IsEmpty) return source;
+        var likeCount = GetLikeCount(specification);
+        if (likeCount == 0) return source;
 
-        var count = GetCount(specification);
-        if (count == 0) return source;
-
-        if (count == 1)
+        if (likeCount == 1)
         {
             // Specs with a single Like are the most common. We can optimize for this case to avoid all the additional overhead.
             source = ApplySingleLike(source, specification);
             return source;
         }
 
-        SpecItem[]? array = ArrayPool<SpecItem>.Shared.Rent(count);
+        SpecItem[] array = ArrayPool<SpecItem>.Shared.Rent(likeCount);
 
         try
         {
-            var span = array.AsSpan()[..count];
+            var span = array.AsSpan()[..likeCount];
             FillSorted(specification, span);
             source = ApplyLike(source, span);
         }
@@ -54,7 +52,7 @@ public sealed class LikeEvaluator : IEvaluator
     private static IQueryable<T> ApplySingleLike<T>(IQueryable<T> source, Specification<T> specification) where T : class
     {
         var items = specification.Items;
-        for (int i = 0; i < items.Length; i++)
+        for (var i = 0; i < items.Length; i++)
         {
             if (items[i].Type == ItemType.Like)
             {
@@ -66,9 +64,9 @@ public sealed class LikeEvaluator : IEvaluator
 
     private static IQueryable<T> ApplyLike<T>(IQueryable<T> source, ReadOnlySpan<SpecItem> span) where T : class
     {
-        int start = 0;
+        var start = 0;
 
-        for (int i = 1; i <= span.Length; i++)
+        for (var i = 1; i <= span.Length; i++)
         {
             if (i == span.Length || span[i].Bag != span[start].Bag)
             {
@@ -79,7 +77,7 @@ public sealed class LikeEvaluator : IEvaluator
         return source;
     }
 
-    private static int GetCount<T>(Specification<T> specification)
+    private static int GetLikeCount<T>(Specification<T> specification)
     {
         var count = 0;
         foreach (var item in specification.Items)

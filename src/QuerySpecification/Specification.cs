@@ -137,6 +137,19 @@ public partial class Specification<T>
         }
         return default;
     }
+    public TObject First<TObject>(int type)
+    {
+        if (IsEmpty) throw new InvalidOperationException("Specification contains no items");
+
+        foreach (var item in _items)
+        {
+            if (item.Type == type && item.Reference is TObject reference)
+            {
+                return reference;
+            }
+        }
+        throw new InvalidOperationException("Specification contains no matching item");
+    }
     public IEnumerable<TObject> OfType<TObject>(int type) => _items is null
         ? Enumerable.Empty<TObject>()
         : new SpecIterator<TObject>(_items, type);
@@ -164,7 +177,7 @@ public partial class Specification<T>
             // We have a special case for Paging, we're storing it in the same item with Flags.
             if (type == ItemType.Paging)
             {
-                for (int i = 0; i < items.Length; i++)
+                for (var i = 0; i < items.Length; i++)
                 {
                     if (items[i].Type == ItemType.Paging)
                     {
@@ -174,7 +187,7 @@ public partial class Specification<T>
                 }
             }
 
-            for (int i = 0; i < items.Length; i++)
+            for (var i = 0; i < items.Length; i++)
             {
                 if (items[i].Type == 0)
                 {
@@ -198,7 +211,7 @@ public partial class Specification<T>
             return;
         }
         var items = _items;
-        for (int i = 0; i < items.Length; i++)
+        for (var i = 0; i < items.Length; i++)
         {
             if (items[i].Type == type)
             {

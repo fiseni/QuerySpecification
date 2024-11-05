@@ -1,4 +1,6 @@
-﻿namespace Pozitron.QuerySpecification;
+﻿using System.Diagnostics;
+
+namespace Pozitron.QuerySpecification;
 
 public sealed class WhereExpression<T>
 {
@@ -6,6 +8,7 @@ public sealed class WhereExpression<T>
 
     public WhereExpression(Expression<Func<T, bool>> filter)
     {
+        Debug.Assert(filter is not null);
         Filter = filter;
     }
 }
@@ -16,6 +19,7 @@ public sealed class WhereExpressionCompiled<T>
 
     public WhereExpressionCompiled(Func<T, bool> filter)
     {
+        Debug.Assert(filter is not null);
         Filter = filter;
     }
 }

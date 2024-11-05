@@ -12,6 +12,7 @@ public class SpecificationEvaluator
         [
             WhereEvaluator.Instance,
             LikeEvaluator.Instance,
+            IncludeStringEvaluator.Instance,
             IncludeEvaluator.Instance,
             OrderEvaluator.Instance,
             AsNoTrackingEvaluator.Instance,

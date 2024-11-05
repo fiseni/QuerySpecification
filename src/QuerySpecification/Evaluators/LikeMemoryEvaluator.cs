@@ -24,12 +24,10 @@ public sealed class LikeMemoryEvaluator : IInMemoryEvaluator
 
     public IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)
     {
-        if (specification.IsEmpty) return source;
-
         var compiledItems = specification.GetCompiledItems();
         if (compiledItems.Length == 0) return source;
 
-        int startIndexLikeItems = Array.FindIndex(compiledItems, item => item.Type == ItemType.Like);
+        var startIndexLikeItems = Array.FindIndex(compiledItems, item => item.Type == ItemType.Like);
         if (startIndexLikeItems == -1) return source;
 
         // The like items are contiguously placed as a last segment in the array and are already sorted by group.
@@ -97,9 +95,9 @@ public sealed class LikeMemoryEvaluator : IInMemoryEvaluator
         private static bool IsValid<T>(T sourceItem, ReadOnlySpan<SpecItem> span)
         {
             var valid = true;
-            int start = 0;
+            var start = 0;
 
-            for (int i = 1; i <= span.Length; i++)
+            for (var i = 1; i <= span.Length; i++)
             {
                 if (i == span.Length || span[i].Bag != span[start].Bag)
                 {

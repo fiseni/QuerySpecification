@@ -11,8 +11,8 @@ public class SpecificationInMemoryEvaluator
         Evaluators =
         [
             WhereEvaluator.Instance,
-            LikeMemoryEvaluator.Instance,
             OrderEvaluator.Instance,
+            LikeMemoryEvaluator.Instance,
         ];
     }
     public SpecificationInMemoryEvaluator(IEnumerable<IInMemoryEvaluator> evaluators)
@@ -52,6 +52,7 @@ public class SpecificationInMemoryEvaluator
         bool ignorePaging = false)
     {
         ArgumentNullException.ThrowIfNull(specification);
+        if (specification.IsEmpty) return source;
 
         foreach (var evaluator in Evaluators)
         {

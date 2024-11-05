@@ -53,7 +53,7 @@ internal static class LikeExtension
 
             // It might happen we end up with more items than max (concurrency), but we won't be too strict.
             // We're just trying to avoid indefinite growth.
-            for (int i = _dictionary.Count - _maxSize; i >= 0; i--)
+            for (var i = _dictionary.Count - _maxSize; i >= 0; i--)
             {
                 // Avoid being smart, just remove sequentially from the start.
                 var firstKey = _dictionary.Keys.FirstOrDefault();

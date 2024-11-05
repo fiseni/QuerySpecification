@@ -1,6 +1,6 @@
 ﻿namespace Tests.Evaluators;
 
-public class LikeExtension_Like
+public class LikeExtensionTests
 {
     [Theory]
     [InlineData(true, "%", "")]
