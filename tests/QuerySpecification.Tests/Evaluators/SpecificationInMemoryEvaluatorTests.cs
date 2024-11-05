@@ -140,6 +140,34 @@ public class SpecificationInMemoryEvaluatorTests
     }
 
     [Fact]
+    public void Evaluate_DoesNotFilter_GivenEmptySpec()
+    {
+        List<Customer> input =
+        [
+            new(1, "axxa", "axya"),
+            new(2, "aaaa", "axya"),
+            new(3, "aaaa", "axya"),
+            new(4, "aaaa", "axya")
+        ];
+
+        List<Customer> expected =
+        [
+            new(1, "axxa", "axya"),
+            new(2, "aaaa", "axya"),
+            new(3, "aaaa", "axya"),
+            new(4, "aaaa", "axya")
+        ];
+
+        var spec = new Specification<Customer>();
+
+        var actual = _evaluator.Evaluate(input, spec).ToList();
+        var actualFromSpec = spec.Evaluate(input).ToList();
+
+        actual.Should().Equal(actualFromSpec);
+        actual.Should().Equal(expected);
+    }
+
+    [Fact]
     public void Evaluate_DoesNotFilter_GivenSpecAndIgnorePagination()
     {
         List<Customer> input =

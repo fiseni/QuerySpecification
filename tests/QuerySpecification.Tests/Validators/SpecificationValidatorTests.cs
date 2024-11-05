@@ -27,6 +27,20 @@ public class SpecificationValidatorTests
     }
 
     [Fact]
+    public void ReturnTrue_GivenEmptySpec()
+    {
+        var customer = new Customer(1, "FirstName1", "LastName1");
+
+        var spec = new Specification<Customer>();
+
+        var result = _validatorDefault.IsValid(customer, spec);
+        var resultFromSpec = spec.IsSatisfiedBy(customer);
+
+        result.Should().Be(resultFromSpec);
+        result.Should().BeTrue();
+    }
+
+    [Fact]
     public void ReturnFalse_GivenOneValidatorFails()
     {
         var customer = new Customer(1, "FirstName1", "LastName1");

@@ -51,6 +51,20 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     //}
 
     [Fact]
+    public void GivenEmptySpec()
+    {
+        var spec = new Specification<Store>();
+
+        var actual = _evaluator.Evaluate(DbContext.Stores, spec)
+            .ToQueryString();
+
+        var expected = DbContext.Stores
+            .ToQueryString();
+
+        actual.Should().Be(expected);
+    }
+
+    [Fact]
     public void GivenFullQuery()
     {
         var id = 2;

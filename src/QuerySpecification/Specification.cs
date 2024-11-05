@@ -159,10 +159,12 @@ public partial class Specification<T>
     [MemberNotNull(nameof(_items))]
     internal void AddInternal(int type, object value, int bag = 0)
     {
-        var newItem = new SpecItem();
-        newItem.Type = type;
-        newItem.Reference = value;
-        newItem.Bag = bag;
+        var newItem = new SpecItem
+        {
+            Type = type,
+            Reference = value,
+            Bag = bag
+        };
 
         if (IsEmpty)
         {

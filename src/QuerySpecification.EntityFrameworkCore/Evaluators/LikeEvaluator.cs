@@ -29,8 +29,14 @@ public sealed class LikeEvaluator : IEvaluator
         if (likeCount == 1)
         {
             // Specs with a single Like are the most common. We can optimize for this case to avoid all the additional overhead.
-            source = ApplySingleLike(source, specification);
-            return source;
+            var items = specification.Items;
+            for (var i = 0; i < items.Length; i++)
+            {
+                if (items[i].Type == ItemType.Like)
+                {
+                    return source.ApplyLikesAsOrGroup(items.Slice(i, 1));
+                }
+            }
         }
 
         SpecItem[] array = ArrayPool<SpecItem>.Shared.Rent(likeCount);
@@ -49,29 +55,16 @@ public sealed class LikeEvaluator : IEvaluator
         return source;
     }
 
-    private static IQueryable<T> ApplySingleLike<T>(IQueryable<T> source, Specification<T> specification) where T : class
-    {
-        var items = specification.Items;
-        for (var i = 0; i < items.Length; i++)
-        {
-            if (items[i].Type == ItemType.Like)
-            {
-                return source.ApplyLikesAsOrGroup(items.Slice(i, 1));
-            }
-        }
-        return source;
-    }
-
     private static IQueryable<T> ApplyLike<T>(IQueryable<T> source, ReadOnlySpan<SpecItem> span) where T : class
     {
-        var start = 0;
-
+        var groupStart = 0;
         for (var i = 1; i <= span.Length; i++)
         {
-            if (i == span.Length || span[i].Bag != span[start].Bag)
+            // If we reached the end of the span or the group has changed, we slice and process the group.
+            if (i == span.Length || span[i].Bag != span[groupStart].Bag)
             {
-                source = source.ApplyLikesAsOrGroup(span[start..i]);
-                start = i;
+                source = source.ApplyLikesAsOrGroup(span[groupStart..i]);
+                groupStart = i;
             }
         }
         return source;

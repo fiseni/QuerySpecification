@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Pozitron.QuerySpecification;
 
@@ -23,6 +24,8 @@ internal abstract class Iterator<TSource> : IEnumerable<TSource>, IEnumerator<TS
     object? IEnumerator.Current => Current;
     IEnumerator<TSource> IEnumerable<TSource>.GetEnumerator() => GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    [ExcludeFromCodeCoverage]
     void IEnumerator.Reset() => throw new NotSupportedException();
 
     public virtual void Dispose()

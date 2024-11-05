@@ -28,8 +28,11 @@ public class LikeMemoryEvaluatorTests
             .Like(x => x.FirstName, "%xx%")
             .Like(x => x.LastName, "%xy%");
 
-        var actual = _evaluator.Evaluate(input, spec).ToList();
+        // Not materializing with ToList() intentionally to test cloning in the iterator
+        var actual = _evaluator.Evaluate(input, spec);
 
+        // Multiple iterations will force cloning
+        actual.Should().HaveSameCount(expected);
         actual.Should().Equal(expected);
     }
 
@@ -106,8 +109,34 @@ public class LikeMemoryEvaluatorTests
         ];
 
         var spec = new Specification<Customer>();
+        spec.Query
+            .Where(x => x.Id > 0);
 
-        var actual = _evaluator.Evaluate(input, spec).ToList();
+        var actual = _evaluator.Evaluate(input, spec);
+
+        actual.Should().Equal(expected);
+    }
+
+    [Fact]
+    public void DoesNotFilter_GivenEmptySpec()
+    {
+        List<Customer> input =
+        [
+            new(1, "axxa", "axya"),
+            new(2, "aaaa", "aaaa"),
+            new(3, "aaaa", "axya")
+        ];
+
+        List<Customer> expected =
+        [
+            new(1, "axxa", "axya"),
+            new(2, "aaaa", "aaaa"),
+            new(3, "aaaa", "axya")
+        ];
+
+        var spec = new Specification<Customer>();
+
+        var actual = _evaluator.Evaluate(input, spec);
 
         actual.Should().Equal(expected);
     }

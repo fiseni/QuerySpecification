@@ -1,4 +1,6 @@
-﻿namespace Pozitron.QuerySpecification;
+﻿using System.Diagnostics;
+
+namespace Pozitron.QuerySpecification;
 
 internal sealed class SpecLike<T>
 {
@@ -7,6 +9,8 @@ internal sealed class SpecLike<T>
 
     public SpecLike(Expression<Func<T, string?>> keySelector, string pattern)
     {
+        Debug.Assert(keySelector is not null);
+        Debug.Assert(!string.IsNullOrEmpty(pattern));
         KeySelector = keySelector;
         Pattern = pattern;
     }
@@ -19,6 +23,8 @@ internal sealed class SpecLikeCompiled<T>
 
     public SpecLikeCompiled(Func<T, string?> keySelector, string pattern)
     {
+        Debug.Assert(keySelector is not null);
+        Debug.Assert(!string.IsNullOrEmpty(pattern));
         KeySelector = keySelector;
         Pattern = pattern;
     }

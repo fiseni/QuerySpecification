@@ -11,10 +11,10 @@ namespace Pozitron.QuerySpecification;
         }
         return source;
     }
-    This was the previous implementation.We're trying to avoid allocations of LikeExpressions, GroupBy and LINQ.
+    This was the previous implementation. We're trying to avoid allocations of LikeExpressions, GroupBy and LINQ.
     The new implementation preserves the behavior and reduces allocations drastically.
     We've implemented a custom iterator. Also, instead of GroupBy, we have a single array sorted by group, and we slice it to get the groups.
-    For 1000 items, the allocations are reduced from 257.872 bytes to only 64 bytes (the cost of the iterator instance). Refer to LikeInMemoryEvaluatorBenchmark results.
+    For source of 1000 items, the allocations are reduced from 257.872 bytes to only 64 bytes (the cost of the iterator instance). Refer to LikeInMemoryEvaluatorBenchmark results.
  */
 
 public sealed class LikeMemoryEvaluator : IInMemoryEvaluator
@@ -95,18 +95,19 @@ public sealed class LikeMemoryEvaluator : IInMemoryEvaluator
         private static bool IsValid<T>(T sourceItem, ReadOnlySpan<SpecItem> span)
         {
             var valid = true;
-            var start = 0;
+            var groupStart = 0;
 
             for (var i = 1; i <= span.Length; i++)
             {
-                if (i == span.Length || span[i].Bag != span[start].Bag)
+                // If we reached the end of the span or the group has changed, we slice and process the group.
+                if (i == span.Length || span[i].Bag != span[groupStart].Bag)
                 {
-                    var validOrGroup = IsValidInOrGroup(sourceItem, span[start..i]);
+                    var validOrGroup = IsValidInOrGroup(sourceItem, span[groupStart..i]);
                     if ((valid = valid && validOrGroup) is false)
                     {
                         break;
                     }
-                    start = i;
+                    groupStart = i;
                 }
             }
 

@@ -12,7 +12,7 @@
     This was the previous implementation.We're trying to avoid allocations of LikeExpressions, GroupBy and LINQ.
     Instead of GroupBy, we have a single array sorted by group, and we slice it to get the groups.
     The new implementation preserves the behavior and reduces allocations drastically.
-    For 1000 items, the allocations are reduced from 651.160 bytes to ZERO bytes. Refer to LikeValidatorBenchmark results.
+    For 1000 entities, the allocations are reduced from 651.160 bytes to ZERO bytes. Refer to LikeValidatorBenchmark results.
  */
 
 public sealed class LikeValidator : IValidator
@@ -34,16 +34,17 @@ public sealed class LikeValidator : IValidator
 
     private static bool IsValid<T>(T entity, ReadOnlySpan<SpecItem> span)
     {
-        var start = 0;
+        var groupStart = 0;
         for (var i = 1; i <= span.Length; i++)
         {
-            if (i == span.Length || span[i].Bag != span[start].Bag)
+            // If we reached the end of the span or the group has changed, we slice and process the group.
+            if (i == span.Length || span[i].Bag != span[groupStart].Bag)
             {
-                if (IsValidInOrGroup(entity, span[start..i]) is false)
+                if (IsValidInOrGroup(entity, span[groupStart..i]) is false)
                 {
                     return false;
                 }
-                start = i;
+                groupStart = i;
             }
         }
         return true;

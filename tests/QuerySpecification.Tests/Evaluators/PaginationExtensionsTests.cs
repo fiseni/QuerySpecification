@@ -16,14 +16,14 @@ public class PaginationExtensionsTests
             .Take(2);
 
         var actual = input.ApplyPaging(spec);
-        Assert(actual, expected);
+        actual.Should().Equal(expected);
 
         actual = input.AsQueryable().ApplyPaging(spec);
-        Assert(actual, expected);
+        actual.Should().Equal(expected);
 
         var pagination = new Pagination(input.Count, 2, 2);
         actual = input.AsQueryable().ApplyPaging(pagination);
-        Assert(actual, expected);
+        actual.Should().Equal(expected);
     }
 
     [Fact]
@@ -32,17 +32,17 @@ public class PaginationExtensionsTests
         List<Customer> input = [new(1), new(2), new(3), new(4), new(5)];
         List<Customer> expected = [new(3), new(4)];
 
-        var spec = new Specification<Customer, int>();
+        var spec = new Specification<Customer, Customer>();
         spec.Query
             .Skip(2)
             .Take(2)
-            .Select(x => x.Id);
+            .Select(x => x);
 
         var actual = input.ApplyPaging(spec);
-        Assert(actual, expected);
+        actual.Should().Equal(expected);
 
         actual = input.AsQueryable().ApplyPaging(spec);
-        Assert(actual, expected);
+        actual.Should().Equal(expected);
     }
 
     [Fact]
@@ -54,10 +54,27 @@ public class PaginationExtensionsTests
         var spec = new Specification<Customer>();
 
         var actual = input.ApplyPaging(spec);
-        Assert(actual, expected);
+        actual.Should().Equal(expected);
 
         actual = input.AsQueryable().ApplyPaging(spec);
-        Assert(actual, expected);
+        actual.Should().Equal(expected);
+    }
+
+    [Fact]
+    public void DoesNotFilter_GivenSpecWithSelectAndNoPagination()
+    {
+        List<Customer> input = [new(1), new(2), new(3), new(4), new(5)];
+        List<Customer> expected = [new(1), new(2), new(3), new(4), new(5)];
+
+        var spec = new Specification<Customer, Customer>();
+        spec.Query
+            .Select(x => x);
+
+        var actual = input.ApplyPaging(spec);
+        actual.Should().Equal(expected);
+
+        actual = input.AsQueryable().ApplyPaging(spec);
+        actual.Should().Equal(expected);
     }
 
     [Fact]
@@ -72,10 +89,10 @@ public class PaginationExtensionsTests
             .Take(-1);
 
         var actual = input.ApplyPaging(spec);
-        Assert(actual, expected);
+        actual.Should().Equal(expected);
 
         actual = input.AsQueryable().ApplyPaging(spec);
-        Assert(actual, expected);
+        actual.Should().Equal(expected);
     }
 
     [Fact]
@@ -89,16 +106,9 @@ public class PaginationExtensionsTests
             .Skip(0);
 
         var actual = input.ApplyPaging(spec);
-        Assert(actual, expected);
+        actual.Should().Equal(expected);
 
         actual = input.AsQueryable().ApplyPaging(spec);
-        Assert(actual, expected);
-    }
-
-    private static void Assert<T>(IEnumerable<T> actual, IEnumerable<T> expected)
-    {
-        actual.Should().NotBeNull();
-        actual.Should().HaveSameCount(expected);
         actual.Should().Equal(expected);
     }
 }
