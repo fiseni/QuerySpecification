@@ -20,7 +20,7 @@ An extended list of features (in-memory collection evaluations, validations, rep
 
 ### Creating and consuming specifications
 
-Create your specification classes by inheriting from the `Specification<T>` class, and use the `Query` builder in the constructor to define your conditions.
+Create your specifications by inheriting from the `Specification<T>` class, and use the `Query` builder in the constructor to define your conditions.
 
 ```csharp
 public class CustomerSpec : Specification<Customer>
@@ -125,6 +125,34 @@ The `PagedResult<T>` is serializable and contains a detailed pagination informat
   ]
 }
 ```
+
+## Benchmarks
+
+In version 11, we re-factored and rebuilt the internals from the ground up. The new version reduces the memory footprint drastically. The overhead of the library is now negligible and statistically insignificant. Here are the benchmark results of `ToQueryString()` for various queries. Refer to the Benchmarks project for more benchmarks.
+
+Type:
+- 0 -> Empty
+- 1 -> Single Where clause
+- 2 -> Where and OrderBy
+- 3 -> Where, Order chain, Include chain, Flag (AsNoTracking)
+- 4 -> Where, Order chain, Include chain, Like, Skip, Take, Flag (AsNoTracking)
+
+| Method | Type | Mean      | Error    | StdDev   | Ratio | Gen0    | Gen1   | Allocated | Alloc Ratio |
+|------- |----- |----------:|---------:|---------:|------:|--------:|-------:|----------:|------------:|
+| EFCore | 0    |  81.55 us | 0.686 us | 0.608 us |  1.00 | 10.0098 | 0.9766 |  82.54 KB |        1.00 |
+| Spec   | 0    |  78.18 us | 0.472 us | 0.441 us |  0.96 | 10.0098 | 0.9766 |  82.53 KB |        1.00 |
+|        |      |           |          |          |       |         |        |           |             |
+| EFCore | 1    |  92.62 us | 0.350 us | 0.310 us |  1.00 | 10.2539 | 0.9766 |  84.77 KB |        1.00 |
+| Spec   | 1    |  92.92 us | 0.252 us | 0.236 us |  1.00 | 10.2539 | 0.9766 |  84.84 KB |        1.00 |
+|        |      |           |          |          |       |         |        |           |             |
+| EFCore | 2    |  95.48 us | 0.654 us | 0.580 us |  1.00 | 10.2539 | 0.9766 |  86.03 KB |        1.00 |
+| Spec   | 2    |  98.36 us | 0.775 us | 0.687 us |  1.03 | 10.2539 | 0.4883 |  86.12 KB |        1.00 |
+|        |      |           |          |          |       |         |        |           |             |
+| EFCore | 3    | 106.62 us | 0.684 us | 0.606 us |  1.00 | 10.7422 | 0.4883 |  90.35 KB |        1.00 |
+| Spec   | 3    | 109.56 us | 0.700 us | 0.655 us |  1.03 | 10.7422 | 0.4883 |  90.64 KB |        1.00 |
+|        |      |           |          |          |       |         |        |           |             |
+| EFCore | 4    | 147.47 us | 0.619 us | 0.483 us |  1.00 | 13.1836 | 0.9766 | 110.78 KB |        1.00 |
+| Spec   | 4    | 150.82 us | 0.538 us | 0.449 us |  1.02 | 13.1836 | 0.9766 | 111.32 KB |        1.00 |
 
 ## Give a Star! :star:
 If you like or are using this project please give it a star. Thanks!

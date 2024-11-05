@@ -57,14 +57,14 @@ public class Benchmark3_DbQuery
         }
         else
         {
-            var nameTerm = "tore";
+            var name = "%tore%";
             return await context.Stores
                 .Where(x => x.Id > 0)
+                .Where(x => EF.Functions.Like(x.Name, name))
                 .OrderBy(x => x.Id)
                     .ThenBy(x => x.Name)
                 .Include(x => x.Company)
                     .ThenInclude(x => x.Country)
-                .Where(x => EF.Functions.Like(x.Name, $"%{nameTerm}%"))
                 .Skip(1)
                 .Take(1)
                 .AsNoTracking()
@@ -123,15 +123,15 @@ public class Benchmark3_DbQuery
         }
         else
         {
-            var nameTerm = "tore";
+            var name = "%tore%";
             var spec = new Specification<Store>(7);
             spec.Query
                 .Where(x => x.Id > 0)
+                .Like(x => x.Name, name)
                 .OrderBy(x => x.Id)
                     .ThenBy(x => x.Name)
                 .Include(x => x.Company)
                     .ThenInclude(x => x.Country)
-                .Like(x => x.Name, $"%{nameTerm}%")
                 .Skip(1)
                 .Take(1)
                 .AsNoTracking();
