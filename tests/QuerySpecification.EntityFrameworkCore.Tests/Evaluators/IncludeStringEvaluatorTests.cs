@@ -1,9 +1,9 @@
 ﻿namespace Tests.Evaluators;
 
 [Collection("SharedCollection")]
-public class IncludeStringTests(TestFactory factory) : IntegrationTest(factory)
+public class IncludeStringEvaluatorTests(TestFactory factory) : IntegrationTest(factory)
 {
-    private static readonly IncludeEvaluator _evaluator = IncludeEvaluator.Instance;
+    private static readonly IncludeStringEvaluator _evaluator = IncludeStringEvaluator.Instance;
 
     [Fact]
     public void QueriesMatch_GivenIncludeString()
