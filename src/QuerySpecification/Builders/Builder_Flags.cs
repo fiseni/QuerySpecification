@@ -72,7 +72,6 @@ public static partial class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTrackingWithIdentityResolution, false);
             builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTracking, true);
         }
         return builder;
@@ -88,7 +87,6 @@ public static partial class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTrackingWithIdentityResolution, false);
             builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTracking, true);
         }
         return builder;
@@ -104,7 +102,6 @@ public static partial class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTracking, false);
             builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTrackingWithIdentityResolution, true);
         }
         return builder;
@@ -120,8 +117,37 @@ public static partial class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTracking, false);
             builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTrackingWithIdentityResolution, true);
+        }
+        return builder;
+    }
+
+    public static ISpecificationBuilder<T, TResult> AsTracking<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder) where T : class
+        => AsTracking(builder, true);
+
+    public static ISpecificationBuilder<T, TResult> AsTracking<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
+        bool condition) where T : class
+    {
+        if (condition)
+        {
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsTracking, true);
+        }
+        return builder;
+    }
+
+    public static ISpecificationBuilder<T> AsTracking<T>(
+        this ISpecificationBuilder<T> builder) where T : class
+        => AsTracking(builder, true);
+
+    public static ISpecificationBuilder<T> AsTracking<T>(
+        this ISpecificationBuilder<T> builder,
+        bool condition) where T : class
+    {
+        if (condition)
+        {
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsTracking, true);
         }
         return builder;
     }

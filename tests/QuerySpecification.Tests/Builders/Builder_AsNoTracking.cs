@@ -43,23 +43,4 @@ public class Builder_AsNoTracking
         spec1.AsNoTracking.Should().Be(true);
         spec2.AsNoTracking.Should().Be(true);
     }
-
-    [Fact]
-    public void SetsAsNoTracking_GivenAsNoTrackingAndAsNoTrackingWithIdentityResolution()
-    {
-        var spec1 = new Specification<Customer>();
-        spec1.Query
-            .AsNoTrackingWithIdentityResolution()
-            .AsNoTracking();
-
-        var spec2 = new Specification<Customer>();
-        spec2.Query
-            .AsNoTrackingWithIdentityResolution()
-            .AsNoTracking();
-
-        spec1.AsNoTrackingWithIdentityResolution.Should().Be(false);
-        spec1.AsNoTracking.Should().Be(true);
-        spec2.AsNoTrackingWithIdentityResolution.Should().Be(false);
-        spec2.AsNoTracking.Should().Be(true);
-    }
 }

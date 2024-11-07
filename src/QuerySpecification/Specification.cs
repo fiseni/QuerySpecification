@@ -92,6 +92,7 @@ public partial class Specification<T>
     public bool AsSplitQuery => GetFlag(SpecFlags.AsSplitQuery);
     public bool AsNoTracking => GetFlag(SpecFlags.AsNoTracking);
     public bool AsNoTrackingWithIdentityResolution => GetFlag(SpecFlags.AsNoTrackingWithIdentityResolution);
+    public bool AsTracking => GetFlag(SpecFlags.AsTracking);
 
     public void Add(int type, object value)
     {

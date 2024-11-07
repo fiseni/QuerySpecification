@@ -348,6 +348,33 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     }
 
     [Fact]
+    public void GivenSpecWithMultipleFlags()
+    {
+        var spec = new Specification<Country>();
+        spec.Query
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .AsNoTrackingWithIdentityResolution()
+            .AsTracking()
+            .AsSplitQuery();
+
+        var actual = _evaluator.Evaluate(DbContext.Countries, spec)
+            .Expression
+            .ToString();
+
+        var expected = DbContext.Countries
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .AsNoTrackingWithIdentityResolution()
+            .AsTracking()
+            .AsSplitQuery()
+            .Expression
+            .ToString();
+
+        actual.Should().Be(expected);
+    }
+
+    [Fact]
     public void Constructor_SetsProvidedEvaluators()
     {
         var evaluators = new List<IEvaluator>
@@ -370,18 +397,19 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
         var evaluator = new SpecificationEvaluatorDerived();
 
         var result = EvaluatorsOf(evaluator);
-        result.Should().HaveCount(11);
+        result.Should().HaveCount(12);
         result[0].Should().BeOfType<LikeEvaluator>();
         result[1].Should().BeOfType<WhereEvaluator>();
         result[2].Should().BeOfType<LikeEvaluator>();
         result[3].Should().BeOfType<IncludeStringEvaluator>();
         result[4].Should().BeOfType<IncludeEvaluator>();
         result[5].Should().BeOfType<OrderEvaluator>();
-        result[6].Should().BeOfType<AsNoTrackingEvaluator>();
-        result[7].Should().BeOfType<AsNoTrackingWithIdentityResolutionEvaluator>();
-        result[8].Should().BeOfType<IgnoreQueryFiltersEvaluator>();
-        result[9].Should().BeOfType<AsSplitQueryEvaluator>();
-        result[10].Should().BeOfType<WhereEvaluator>();
+        result[6].Should().BeOfType<IgnoreQueryFiltersEvaluator>();
+        result[7].Should().BeOfType<AsNoTrackingEvaluator>();
+        result[8].Should().BeOfType<AsNoTrackingWithIdentityResolutionEvaluator>();
+        result[9].Should().BeOfType<AsTrackingEvaluator>();
+        result[10].Should().BeOfType<AsSplitQueryEvaluator>();
+        result[11].Should().BeOfType<WhereEvaluator>();
     }
 
     private class SpecificationEvaluatorDerived : SpecificationEvaluator

@@ -15,10 +15,11 @@ public class SpecificationEvaluator
             IncludeStringEvaluator.Instance,
             IncludeEvaluator.Instance,
             OrderEvaluator.Instance,
+            IgnoreQueryFiltersEvaluator.Instance,
             AsNoTrackingEvaluator.Instance,
             AsNoTrackingWithIdentityResolutionEvaluator.Instance,
-            IgnoreQueryFiltersEvaluator.Instance,
-            AsSplitQueryEvaluator.Instance
+            AsTrackingEvaluator.Instance,
+            AsSplitQueryEvaluator.Instance,
         ];
     }
 

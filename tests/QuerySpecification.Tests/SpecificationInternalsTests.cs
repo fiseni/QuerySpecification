@@ -98,7 +98,7 @@ public class SpecificationInternalsTests
         items[0].Type.Should().Be(ItemType.Flags);
         items[0].Reference.Should().Be(itemPaging.Reference);
         items[0].Bag.Should().NotBe(itemPaging.Bag);
-        items[0].Bag.Should().Match(num => (num > 0) && ((num & (num - 1)) == 0), "It contains Flags enum and should be a power of 2");
+        items[0].Bag.Should().Be((int)SpecFlags.AsNoTracking);
         items[1].Should().Be(_emptySpecItem);
     }
 
@@ -255,6 +255,17 @@ public class SpecificationInternalsTests
         items.Should().HaveCount(2);
         items![0].Type.Should().Be(ItemType.Where);
         items![1].Type.Should().Be(ItemType.Flags);
+    }
+
+    [Fact]
+    public void SpecFlags_ContainItemsWithPowerOfTwo()
+    {
+        var flags = Enum.GetValues<SpecFlags>();
+        foreach (var flag in flags)
+        {
+            var value = (int)flag;
+            value.Should().Match(num => (num > 0) && ((num & (num - 1)) == 0), "The flag value should be a power of 2");
+        }
     }
 
     [Fact]
