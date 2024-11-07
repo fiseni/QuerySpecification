@@ -1,6 +1,6 @@
 ﻿namespace Tests.Builders;
 
-public class SpecificationBuilderExtensions_IgnoreQueryFilters
+public class Builder_IgnoreQueryFilters
 {
     public record Customer(int Id, string Name);
 

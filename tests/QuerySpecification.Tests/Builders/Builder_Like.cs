@@ -1,6 +1,6 @@
 ﻿namespace Tests.Builders;
 
-public class SpecificationBuilderExtensions_Like
+public class Builder_Like
 {
     public record Customer(int Id, string FirstName, string LastName);
 

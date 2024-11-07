@@ -1,6 +1,6 @@
 ﻿namespace Tests.Builders;
 
-public class SpecificationBuilderExtensions_AsNoTracking
+public class Builder_AsNoTracking
 {
     public record Customer(int Id, string Name);
 

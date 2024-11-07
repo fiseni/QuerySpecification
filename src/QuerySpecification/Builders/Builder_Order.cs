@@ -1,7 +1,83 @@
 ﻿namespace Pozitron.QuerySpecification;
 
-public static class OrderedBuilderExtensions
+public static partial class SpecificationBuilderExtensions
 {
+    public static IOrderedSpecificationBuilder<T, TResult> OrderBy<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
+        Expression<Func<T, object?>> keySelector)
+        => OrderBy(builder, keySelector, true);
+
+    public static IOrderedSpecificationBuilder<T, TResult> OrderBy<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
+        Expression<Func<T, object?>> keySelector,
+        bool condition)
+    {
+        if (condition)
+        {
+            builder.Specification.AddInternal(ItemType.Order, keySelector, (int)OrderType.OrderBy);
+        }
+
+        Specification<T, TResult>.IsChainDiscarded = !condition;
+        return (SpecificationBuilder<T, TResult>)builder;
+    }
+
+    public static IOrderedSpecificationBuilder<T> OrderBy<T>(
+        this ISpecificationBuilder<T> builder,
+        Expression<Func<T, object?>> keySelector)
+        => OrderBy(builder, keySelector, true);
+
+    public static IOrderedSpecificationBuilder<T> OrderBy<T>(
+        this ISpecificationBuilder<T> builder,
+        Expression<Func<T, object?>> keySelector,
+        bool condition)
+    {
+        if (condition)
+        {
+            builder.Specification.AddInternal(ItemType.Order, keySelector, (int)OrderType.OrderBy);
+        }
+
+        Specification<T>.IsChainDiscarded = !condition;
+        return (SpecificationBuilder<T>)builder;
+    }
+
+    public static IOrderedSpecificationBuilder<T, TResult> OrderByDescending<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
+        Expression<Func<T, object?>> keySelector)
+        => OrderByDescending(builder, keySelector, true);
+
+    public static IOrderedSpecificationBuilder<T, TResult> OrderByDescending<T, TResult>(
+        this ISpecificationBuilder<T, TResult> builder,
+        Expression<Func<T, object?>> keySelector,
+        bool condition)
+    {
+        if (condition)
+        {
+            builder.Specification.AddInternal(ItemType.Order, keySelector, (int)OrderType.OrderByDescending);
+        }
+
+        Specification<T, TResult>.IsChainDiscarded = !condition;
+        return (SpecificationBuilder<T, TResult>)builder;
+    }
+
+    public static IOrderedSpecificationBuilder<T> OrderByDescending<T>(
+        this ISpecificationBuilder<T> builder,
+        Expression<Func<T, object?>> keySelector)
+        => OrderByDescending(builder, keySelector, true);
+
+    public static IOrderedSpecificationBuilder<T> OrderByDescending<T>(
+        this ISpecificationBuilder<T> builder,
+        Expression<Func<T, object?>> keySelector,
+        bool condition)
+    {
+        if (condition)
+        {
+            builder.Specification.AddInternal(ItemType.Order, keySelector, (int)OrderType.OrderByDescending);
+        }
+
+        Specification<T>.IsChainDiscarded = !condition;
+        return (SpecificationBuilder<T>)builder;
+    }
+
     public static IOrderedSpecificationBuilder<T, TResult> ThenBy<T, TResult>(
         this IOrderedSpecificationBuilder<T, TResult> orderedBuilder,
         Expression<Func<T, object?>> orderExpression)

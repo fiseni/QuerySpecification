@@ -1,6 +1,6 @@
 ﻿namespace Tests.Builders;
 
-public class SpecificationBuilderExtensions_IncludeString
+public class Builder_IncludeString
 {
     public record Customer(int Id, Address Address, Contact Contact);
     public record Address(int Id, string City);

@@ -1,6 +1,6 @@
 ﻿namespace Tests.Builders;
 
-public class SpecificationBuilderExtensions_Skip
+public class Builder_Skip
 {
     public record Customer(int Id, string Name);
 

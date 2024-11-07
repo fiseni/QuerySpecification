@@ -1,6 +1,6 @@
 ﻿namespace Tests.Builders;
 
-public class IncludableBuilderExtensions_ThenInclude
+public class Builder_ThenInclude
 {
     public record Customer(int Id, Address Address, List<Address> Addresses);
     public record Address(int Id, Contact Contact, List<Contact> Contacts);

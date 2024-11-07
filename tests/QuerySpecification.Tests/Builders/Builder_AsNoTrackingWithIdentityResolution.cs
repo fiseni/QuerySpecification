@@ -1,6 +1,6 @@
 ﻿namespace Tests.Builders;
 
-public class SpecificationBuilderExtensions_AsNoTrackingWithIdentityResolution
+public class Builder_AsNoTrackingWithIdentityResolution
 {
     public record Customer(int Id, string Name);
 

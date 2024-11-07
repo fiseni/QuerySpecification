@@ -1,6 +1,6 @@
 ﻿namespace Tests.Builders;
 
-public class OrderedBuilderExtensions_ThenBy
+public class Builder_OrderThenBy
 {
     public record Customer(int Id, string FirstName, string LastName, string Email);
 

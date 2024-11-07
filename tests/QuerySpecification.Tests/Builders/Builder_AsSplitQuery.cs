@@ -1,6 +1,6 @@
 ﻿namespace Tests.Builders;
 
-public class SpecificationBuilderExtensions_AsSplitQuery
+public class Builder_AsSplitQuery
 {
     public record Customer(int Id, string Name);
 

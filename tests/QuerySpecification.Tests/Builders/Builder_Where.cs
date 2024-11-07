@@ -1,6 +1,6 @@
 ﻿namespace Tests.Builders;
 
-public class SpecificationBuilderExtensions_Where
+public class Builder_Where
 {
     public record Customer(int Id, string Name);
 

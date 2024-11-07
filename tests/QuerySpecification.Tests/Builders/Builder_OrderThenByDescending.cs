@@ -1,6 +1,6 @@
 ﻿namespace Tests.Builders;
 
-public class OrderedBuilderExtensions_ThenByDescending
+public class Builder_OrderThenByDescending
 {
     public record Customer(int Id, string FirstName, string LastName, string Email);
 

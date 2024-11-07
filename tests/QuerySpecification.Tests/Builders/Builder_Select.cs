@@ -1,6 +1,6 @@
 ﻿namespace Tests.Builders;
 
-public class SpecificationBuilderExtensions_Select
+public class Builder_Select
 {
     public record Customer(int Id, string FirstName, string LastName);
 
