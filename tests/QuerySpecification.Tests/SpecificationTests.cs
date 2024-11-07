@@ -1,10 +1,10 @@
 ﻿using System.Collections;
-using System.Runtime.CompilerServices;
 
 namespace Tests;
 
 public class SpecificationTests
 {
+    private static readonly SpecItem _emptySpecItem = new();
     public record Customer(int Id, string Name, Address Address);
     public record Address(int Id, City City);
     public record City(int Id, string Name);
@@ -189,6 +189,73 @@ public class SpecificationTests
         var spec = new Specification<City>();
 
         var action = () => spec.Add(-1, new object());
+
+        action.Should().Throw<ArgumentOutOfRangeException>();
+    }
+
+    [Fact]
+    public void AddOrUpdate_GivenItemNotExist()
+    {
+        var city1 = new City(1, "City1");
+        var city2 = new City(2, "City2");
+
+        var spec = new Specification<City>();
+
+        spec.AddOrUpdate(10, city1);
+        spec.AddOrUpdate(11, city2);
+
+        var result = spec.Items.ToArray();
+        result.Should().HaveCount(2);
+        result[0].Reference.Should().BeSameAs(city1);
+        result[0].Type.Should().Be(10);
+        result[1].Reference.Should().BeSameAs(city2);
+        result[1].Type.Should().Be(11);
+    }
+
+    [Fact]
+    public void AddOrUpdate_GivenItemExists()
+    {
+        var city1 = new City(1, "City1");
+        var city2 = new City(2, "City2");
+
+        var spec = new Specification<City>();
+
+        spec.AddOrUpdate(10, city1);
+        spec.AddOrUpdate(10, city2);
+
+        var result = spec.Items.ToArray();
+        result.Should().HaveCount(2);
+        result[0].Reference.Should().BeSameAs(city2);
+        result[0].Type.Should().Be(10);
+        result[1].Should().Be(_emptySpecItem);
+    }
+
+    [Fact]
+    public void AddOrUpdate_ThrowsArgumentNullException_GivenNullValue()
+    {
+        var spec = new Specification<City>();
+
+        var action = () => spec.AddOrUpdate(10, null!);
+
+        action.Should().Throw<ArgumentNullException>();
+    }
+
+    [Fact]
+    public void AddOrUpdate_ArgumentOutOfRangeException_GivenZeroType()
+    {
+        var spec = new Specification<City>();
+
+        var action = () => spec.AddOrUpdate(0, new object());
+
+        action.Should().Throw<ArgumentOutOfRangeException>();
+    }
+
+    [Fact]
+    public void AddOrUpdate_ArgumentOutOfRangeException_GivenNegativeType()
+    {
+        var spec = new Specification<City>();
+
+        var action = () => spec.AddOrUpdate(-1, new object());
 
         action.Should().Throw<ArgumentOutOfRangeException>();
     }

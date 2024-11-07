@@ -386,4 +386,3 @@ FodyWeavers.xsd
 
 # Developer config files
 **/appsettings.Development*.json
-*V11.csproj

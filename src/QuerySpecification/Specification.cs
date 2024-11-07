@@ -86,36 +86,12 @@ public partial class Specification<T>
         ? Enumerable.Empty<string>()
         : new SpecSelectIterator<string, string>(_items, ItemType.IncludeString, (x, bag) => x);
 
-    public int Take
-    {
-        get => FirstOrDefault<SpecPaging>(ItemType.Paging)?.Take ?? -1;
-        set => GetOrCreate<SpecPaging>(ItemType.Paging).Take = value;
-    }
-    public int Skip
-    {
-        get => FirstOrDefault<SpecPaging>(ItemType.Paging)?.Skip ?? -1;
-        set => GetOrCreate<SpecPaging>(ItemType.Paging).Skip = value;
-    }
-    public bool IgnoreQueryFilters
-    {
-        get => GetFlag(SpecFlag.IgnoreQueryFilters);
-        set => UpdateFlag(SpecFlag.IgnoreQueryFilters, value);
-    }
-    public bool AsSplitQuery
-    {
-        get => GetFlag(SpecFlag.AsSplitQuery);
-        set => UpdateFlag(SpecFlag.AsSplitQuery, value);
-    }
-    public bool AsNoTracking
-    {
-        get => GetFlag(SpecFlag.AsNoTracking);
-        set => UpdateFlag(SpecFlag.AsNoTracking, value);
-    }
-    public bool AsNoTrackingWithIdentityResolution
-    {
-        get => GetFlag(SpecFlag.AsNoTrackingWithIdentityResolution);
-        set => UpdateFlag(SpecFlag.AsNoTrackingWithIdentityResolution, value);
-    }
+    public int Take => FirstOrDefault<SpecPaging>(ItemType.Paging)?.Take ?? -1;
+    public int Skip => FirstOrDefault<SpecPaging>(ItemType.Paging)?.Skip ?? -1;
+    public bool IgnoreQueryFilters => GetFlag(SpecFlags.IgnoreQueryFilters);
+    public bool AsSplitQuery => GetFlag(SpecFlags.AsSplitQuery);
+    public bool AsNoTracking => GetFlag(SpecFlags.AsNoTracking);
+    public bool AsNoTrackingWithIdentityResolution => GetFlag(SpecFlags.AsNoTrackingWithIdentityResolution);
 
     public void Add(int type, object value)
     {
@@ -123,6 +99,13 @@ public partial class Specification<T>
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(type);
 
         AddInternal(type, value);
+    }
+    public void AddOrUpdate(int type, object value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(type);
+
+        AddOrUpdateInternal(type, value);
     }
     public TObject? FirstOrDefault<TObject>(int type)
     {
@@ -318,7 +301,7 @@ public partial class Specification<T>
         }
     }
 
-    private TObject GetOrCreate<TObject>(int type) where TObject : new()
+    internal TObject GetOrCreate<TObject>(int type) where TObject : new()
     {
         return FirstOrDefault<TObject>(type) ?? Create();
         TObject Create()
@@ -328,7 +311,7 @@ public partial class Specification<T>
             return reference;
         }
     }
-    private bool GetFlag(SpecFlag flag)
+    internal bool GetFlag(SpecFlags flag)
     {
         if (IsEmpty) return false;
 
@@ -336,12 +319,12 @@ public partial class Specification<T>
         {
             if (item.Type == ItemType.Flags)
             {
-                return ((SpecFlag)item.Bag & flag) == flag;
+                return ((SpecFlags)item.Bag & flag) == flag;
             }
         }
         return false;
     }
-    private void UpdateFlag(SpecFlag flag, bool value)
+    internal void AddOrUpdateFlag(SpecFlags flag, bool value)
     {
         if (IsEmpty)
         {
@@ -358,8 +341,8 @@ public partial class Specification<T>
             if (items[i].Type == ItemType.Flags)
             {
                 var newValue = value
-                    ? (SpecFlag)items[i].Bag | flag
-                    : (SpecFlag)items[i].Bag & ~flag;
+                    ? (SpecFlags)items[i].Bag | flag
+                    : (SpecFlags)items[i].Bag & ~flag;
 
                 _items[i].Bag = (int)newValue;
                 return;
@@ -370,14 +353,5 @@ public partial class Specification<T>
         {
             AddInternal(ItemType.Flags, null!, (int)flag);
         }
-    }
-
-    [Flags]
-    private enum SpecFlag
-    {
-        IgnoreQueryFilters = 1,
-        AsNoTracking = 2,
-        AsNoTrackingWithIdentityResolution = 4,
-        AsSplitQuery = 8
     }
 }

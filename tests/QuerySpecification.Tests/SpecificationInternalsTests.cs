@@ -4,7 +4,7 @@ namespace Tests;
 
 public class SpecificationInternalsTests
 {
-    private static readonly SpecItem _emptySpecItem = new SpecItem();
+    private static readonly SpecItem _emptySpecItem = new();
 
     public record Customer(int Id, string Name, Address Address);
     public record Address(int Id, City City);
@@ -179,10 +179,10 @@ public class SpecificationInternalsTests
     }
 
     [Fact]
-    public void UpdateFlag_AddsNewItem_GivenSingleFlagAndSetTrue()
+    public void AddOrUpdateFlag_AddsNewItem_GivenSingleFlagAndSetTrue()
     {
         var spec = new Specification<Customer>();
-        spec.AsNoTracking = true;
+        spec.AddOrUpdateFlag(SpecFlags.AsNoTracking, true);
 
         spec.AsNoTracking.Should().BeTrue();
         var items = Accessors<Customer>.Items(spec);
@@ -192,21 +192,21 @@ public class SpecificationInternalsTests
     }
 
     [Fact]
-    public void UpdateFlag_DoesNotAddItem_GivenSingleFlagAndSetFalse()
+    public void AddOrUpdateFlag_DoesNotAddItem_GivenSingleFlagAndSetFalse()
     {
         var spec = new Specification<Customer>();
-        spec.AsNoTracking = false;
+        spec.AddOrUpdateFlag(SpecFlags.AsNoTracking, false);
 
         spec.AsNoTracking.Should().BeFalse();
         Accessors<Customer>.Items(spec).Should().BeNull();
     }
 
     [Fact]
-    public void UpdateFlag_AddsNewItem_GivenFlagAndSetTrue()
+    public void AddOrUpdateFlag_AddsNewItem_GivenFlagAndSetTrue()
     {
         var spec = new Specification<Customer>();
         spec.Query.Where(x => x.Id > 0);
-        spec.AsNoTracking = true;
+        spec.AddOrUpdateFlag(SpecFlags.AsNoTracking, true);
 
         spec.AsNoTracking.Should().BeTrue();
         var items = Accessors<Customer>.Items(spec);
@@ -216,11 +216,11 @@ public class SpecificationInternalsTests
     }
 
     [Fact]
-    public void UpdateFlag_DoesNotAddItem_GivenFlagAndSetFalse()
+    public void AddOrUpdateFlag_DoesNotAddItem_GivenFlagAndSetFalse()
     {
         var spec = new Specification<Customer>();
         spec.Query.Where(x => x.Id > 0);
-        spec.AsNoTracking = false;
+        spec.AddOrUpdateFlag(SpecFlags.AsNoTracking, false);
 
         spec.AsNoTracking.Should().BeFalse();
         var items = Accessors<Customer>.Items(spec);
@@ -230,11 +230,11 @@ public class SpecificationInternalsTests
     }
 
     [Fact]
-    public void UpdateFlag_UpdatesFlags_GivenFlagAndSetTrue()
+    public void AddOrUpdateFlag_UpdatesFlags_GivenFlagAndSetTrue()
     {
         var spec = new Specification<Customer>();
         spec.Query.Where(x => x.Id > 0).AsSplitQuery();
-        spec.AsNoTracking = true;
+        spec.AddOrUpdateFlag(SpecFlags.AsNoTracking, true);
 
         spec.AsNoTracking.Should().BeTrue();
         var items = Accessors<Customer>.Items(spec);
@@ -244,11 +244,11 @@ public class SpecificationInternalsTests
     }
 
     [Fact]
-    public void UpdateFlag_UpdatesFlags_GivenFlagAndSetFalse()
+    public void AddOrUpdateFlag_UpdatesFlags_GivenFlagAndSetFalse()
     {
         var spec = new Specification<Customer>();
         spec.Query.Where(x => x.Id > 0).AsSplitQuery();
-        spec.AsNoTracking = false;
+        spec.AddOrUpdateFlag(SpecFlags.AsNoTracking, false);
 
         spec.AsNoTracking.Should().BeFalse();
         var items = Accessors<Customer>.Items(spec);

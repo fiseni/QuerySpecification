@@ -255,7 +255,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.Take = take;
+            builder.Specification.GetOrCreate<SpecPaging>(ItemType.Paging).Take = take;
         }
         return builder;
     }
@@ -272,7 +272,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.Take = take;
+            builder.Specification.GetOrCreate<SpecPaging>(ItemType.Paging).Take = take;
         }
         return builder;
     }
@@ -289,7 +289,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.Skip = skip;
+            builder.Specification.GetOrCreate<SpecPaging>(ItemType.Paging).Skip = skip;
         }
         return builder;
     }
@@ -306,7 +306,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.Skip = skip;
+            builder.Specification.GetOrCreate<SpecPaging>(ItemType.Paging).Skip = skip;
         }
         return builder;
     }
@@ -321,7 +321,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.IgnoreQueryFilters = true;
+            builder.Specification.AddOrUpdateFlag(SpecFlags.IgnoreQueryFilters, true);
         }
         return builder;
     }
@@ -336,7 +336,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.IgnoreQueryFilters = true;
+            builder.Specification.AddOrUpdateFlag(SpecFlags.IgnoreQueryFilters, true);
         }
         return builder;
     }
@@ -351,7 +351,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AsSplitQuery = true;
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsSplitQuery, true);
         }
         return builder;
     }
@@ -366,7 +366,7 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AsSplitQuery = true;
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsSplitQuery, true);
         }
         return builder;
     }
@@ -381,8 +381,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AsNoTrackingWithIdentityResolution = false;
-            builder.Specification.AsNoTracking = true;
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTrackingWithIdentityResolution, false);
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTracking, true);
         }
         return builder;
     }
@@ -397,8 +397,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AsNoTrackingWithIdentityResolution = false;
-            builder.Specification.AsNoTracking = true;
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTrackingWithIdentityResolution, false);
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTracking, true);
         }
         return builder;
     }
@@ -413,8 +413,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AsNoTracking = false;
-            builder.Specification.AsNoTrackingWithIdentityResolution = true;
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTracking, false);
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTrackingWithIdentityResolution, true);
         }
         return builder;
     }
@@ -429,8 +429,8 @@ public static class SpecificationBuilderExtensions
     {
         if (condition)
         {
-            builder.Specification.AsNoTracking = false;
-            builder.Specification.AsNoTrackingWithIdentityResolution = true;
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTracking, false);
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTrackingWithIdentityResolution, true);
         }
         return builder;
     }

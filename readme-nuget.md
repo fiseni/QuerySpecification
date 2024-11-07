@@ -73,7 +73,7 @@ List<CustomerDto> result = await _context
 
 ### Pagination
 
-The library defines a convenient `ToPagedResult` extension method that returns a detailed paginated result.
+The library defines a convenient `ToPagedResult` extension method that returns a detailed paged result.
 
 ```csharp
 var spec = new CustomerDtoSpec(1, "Customer");
