@@ -72,6 +72,8 @@ public static partial class SpecificationBuilderExtensions
     {
         if (condition)
         {
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsTracking, false);
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTrackingWithIdentityResolution, false);
             builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTracking, true);
         }
         return builder;
@@ -87,6 +89,8 @@ public static partial class SpecificationBuilderExtensions
     {
         if (condition)
         {
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsTracking, false);
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTrackingWithIdentityResolution, false);
             builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTracking, true);
         }
         return builder;
@@ -102,6 +106,8 @@ public static partial class SpecificationBuilderExtensions
     {
         if (condition)
         {
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTracking, false);
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsTracking, false);
             builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTrackingWithIdentityResolution, true);
         }
         return builder;
@@ -117,6 +123,8 @@ public static partial class SpecificationBuilderExtensions
     {
         if (condition)
         {
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTracking, false);
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsTracking, false);
             builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTrackingWithIdentityResolution, true);
         }
         return builder;
@@ -132,6 +140,8 @@ public static partial class SpecificationBuilderExtensions
     {
         if (condition)
         {
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTracking, false);
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTrackingWithIdentityResolution, false);
             builder.Specification.AddOrUpdateFlag(SpecFlags.AsTracking, true);
         }
         return builder;
@@ -147,6 +157,8 @@ public static partial class SpecificationBuilderExtensions
     {
         if (condition)
         {
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTracking, false);
+            builder.Specification.AddOrUpdateFlag(SpecFlags.AsNoTrackingWithIdentityResolution, false);
             builder.Specification.AddOrUpdateFlag(SpecFlags.AsTracking, true);
         }
         return builder;

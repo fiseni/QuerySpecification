@@ -353,9 +353,9 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
         var spec = new Specification<Country>();
         spec.Query
             .IgnoreQueryFilters()
-            .AsNoTracking()
-            .AsNoTrackingWithIdentityResolution()
             .AsTracking()
+            .AsNoTrackingWithIdentityResolution()
+            .AsNoTracking() // the last one overwrites other Tracking behavior.
             .AsSplitQuery();
 
         var actual = _evaluator.Evaluate(DbContext.Countries, spec)
@@ -365,8 +365,6 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
         var expected = DbContext.Countries
             .IgnoreQueryFilters()
             .AsNoTracking()
-            .AsNoTrackingWithIdentityResolution()
-            .AsTracking()
             .AsSplitQuery()
             .Expression
             .ToString();
