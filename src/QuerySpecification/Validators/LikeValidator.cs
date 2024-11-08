@@ -15,11 +15,18 @@
     For 1000 entities, the allocations are reduced from 651.160 bytes to ZERO bytes. Refer to LikeValidatorBenchmark results.
  */
 
+/// <summary>
+/// Represents a validator for "like" expressions.
+/// </summary>
 public sealed class LikeValidator : IValidator
 {
-    private LikeValidator() { }
+    /// <summary>
+    /// Gets the singleton instance of the <see cref="LikeValidator"/> class.
+    /// </summary>
     public static LikeValidator Instance = new();
+    private LikeValidator() { }
 
+    /// <inheritdoc/>
     public bool IsValid<T>(T entity, Specification<T> specification)
     {
         var compiledItems = specification.GetCompiledItems();

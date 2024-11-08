@@ -1,10 +1,17 @@
 ﻿namespace Pozitron.QuerySpecification;
 
+/// <summary>
+/// Evaluator to apply AsTracking to the query if the specification has AsTracking set to true.
+/// </summary>
 public sealed class AsTrackingEvaluator : IEvaluator
 {
-    private AsTrackingEvaluator() { }
+    /// <summary>
+    /// Gets the singleton instance of the <see cref="AsTrackingEvaluator"/> class.
+    /// </summary>
     public static AsTrackingEvaluator Instance = new();
+    private AsTrackingEvaluator() { }
 
+    /// <inheritdoc/>
     public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class
     {
         if (specification.AsTracking)

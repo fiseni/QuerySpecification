@@ -16,11 +16,19 @@ namespace Pozitron.QuerySpecification;
     Instead of GroupBy, we have a single array, sorted by group, and we slice it to get the groups.
 */
 
+/// <summary>
+/// Evaluates a specification to apply "like" expressions for filtering.
+/// </summary>
 public sealed class LikeEvaluator : IEvaluator
 {
     private LikeEvaluator() { }
+
+    /// <summary>
+    /// Gets the singleton instance of the <see cref="LikeEvaluator"/> class.
+    /// </summary>
     public static LikeEvaluator Instance = new();
 
+    /// <inheritdoc/>
     public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class
     {
         var likeCount = GetLikeCount(specification);
@@ -103,4 +111,3 @@ public sealed class LikeEvaluator : IEvaluator
         }
     }
 }
-

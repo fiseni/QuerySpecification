@@ -6,6 +6,9 @@ using System.Reflection;
 
 namespace Pozitron.QuerySpecification;
 
+/// <summary>
+/// Evaluates a specification to include navigation properties.
+/// </summary>
 public sealed class IncludeEvaluator : IEvaluator
 {
     private static readonly MethodInfo _includeMethodInfo = typeof(EntityFrameworkQueryableExtensions)
@@ -33,9 +36,14 @@ public sealed class IncludeEvaluator : IEvaluator
     private readonly record struct CacheKey(Type EntityType, Type PropertyType, Type? PreviousReturnType);
     private static readonly ConcurrentDictionary<CacheKey, Func<IQueryable, LambdaExpression, IQueryable>> _cache = new();
 
-    private IncludeEvaluator() { }
-    public static IncludeEvaluator Instance = new();
 
+    /// <summary>
+    /// Gets the singleton instance of the <see cref="IncludeEvaluator"/> class.
+    /// </summary>
+    public static IncludeEvaluator Instance = new();
+    private IncludeEvaluator() { }
+
+    /// <inheritdoc/>
     public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class
     {
         Type? previousReturnType = null;

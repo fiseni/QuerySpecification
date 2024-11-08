@@ -17,11 +17,18 @@ namespace Pozitron.QuerySpecification;
     For source of 1000 items, the allocations are reduced from 257.872 bytes to only 64 bytes (the cost of the iterator instance). Refer to LikeInMemoryEvaluatorBenchmark results.
  */
 
+/// <summary>
+/// Represents an in-memory evaluator for "Like" expressions.
+/// </summary>
 public sealed class LikeMemoryEvaluator : IInMemoryEvaluator
 {
-    private LikeMemoryEvaluator() { }
+    /// <summary>
+    /// Gets the singleton instance of the <see cref="LikeMemoryEvaluator"/> class.
+    /// </summary>
     public static LikeMemoryEvaluator Instance = new();
+    private LikeMemoryEvaluator() { }
 
+    /// <inheritdoc/>
     public IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)
     {
         var compiledItems = specification.GetCompiledItems();

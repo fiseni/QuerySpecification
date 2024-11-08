@@ -1,10 +1,17 @@
 ﻿namespace Pozitron.QuerySpecification;
 
+/// <summary>
+/// Represents an evaluator for order expressions.
+/// </summary>
 public sealed class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 {
-    private OrderEvaluator() { }
+    /// <summary>
+    /// Gets the singleton instance of the <see cref="OrderEvaluator"/> class.
+    /// </summary>
     public static OrderEvaluator Instance = new();
+    private OrderEvaluator() { }
 
+    /// <inheritdoc/>
     public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class
     {
         IOrderedQueryable<T>? orderedQuery = null;
@@ -40,6 +47,7 @@ public sealed class OrderEvaluator : IEvaluator, IInMemoryEvaluator
         return source;
     }
 
+    /// <inheritdoc/>
     public IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)
     {
         var compiledItems = specification.GetCompiledItems();

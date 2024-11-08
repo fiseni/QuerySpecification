@@ -1,10 +1,17 @@
 ﻿namespace Pozitron.QuerySpecification;
 
+/// <summary>
+/// Represents a validator for where expressions.
+/// </summary>
 public sealed class WhereValidator : IValidator
 {
-    private WhereValidator() { }
+    /// <summary>
+    /// Gets the singleton instance of the <see cref="WhereValidator"/> class.
+    /// </summary>
     public static WhereValidator Instance = new();
+    private WhereValidator() { }
 
+    /// <inheritdoc/>
     public bool IsValid<T>(T entity, Specification<T> specification)
     {
         var compiledItems = specification.GetCompiledItems();

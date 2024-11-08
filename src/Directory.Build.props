@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
 
-    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Deterministic>true</Deterministic>
   </PropertyGroup>

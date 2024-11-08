@@ -1,10 +1,17 @@
 ﻿namespace Pozitron.QuerySpecification;
 
+/// <summary>
+/// Represents an evaluator for where expressions.
+/// </summary>
 public sealed class WhereEvaluator : IEvaluator, IInMemoryEvaluator
 {
-    private WhereEvaluator() { }
+    /// <summary>
+    /// Gets the singleton instance of the <see cref="WhereEvaluator"/> class.
+    /// </summary>
     public static WhereEvaluator Instance = new();
+    private WhereEvaluator() { }
 
+    /// <inheritdoc/>
     public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class
     {
         foreach (var item in specification.Items)
@@ -18,6 +25,7 @@ public sealed class WhereEvaluator : IEvaluator, IInMemoryEvaluator
         return source;
     }
 
+    /// <inheritdoc/>
     public IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)
     {
         var compiledItems = specification.GetCompiledItems();
@@ -33,4 +41,3 @@ public sealed class WhereEvaluator : IEvaluator, IInMemoryEvaluator
         return source;
     }
 }
-
