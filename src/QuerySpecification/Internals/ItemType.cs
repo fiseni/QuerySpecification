@@ -13,4 +13,6 @@ internal static class ItemType
     // We can save 16  bytes (on x64) by storing both Flags and Paging in the same item.
     public const int Paging = -8; // Stored in the reference
     public const int Flags = -8; // Stored in the bag
+
+    public const int QueryTag = -9;
 }

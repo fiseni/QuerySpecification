@@ -33,6 +33,7 @@ public class SpecificationEvaluator
             AsTrackingEvaluator.Instance,
             AsSplitQueryEvaluator.Instance,
             IgnoreAutoIncludesEvaluator.Instance,
+            QueryTagEvaluator.Instance,
         ];
     }
 
