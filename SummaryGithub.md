@@ -3,22 +3,22 @@
 
 |||
 |:---|:---|
-| Generated on: | 11/08/2024 - 10:56:53 |
-| Coverage date: | 11/08/2024 - 10:56:26 - 11/08/2024 - 10:56:51 |
+| Generated on: | 06/03/2025 - 15:24:29 |
+| Coverage date: | 06/03/2025 - 15:23:45 - 06/03/2025 - 15:24:27 |
 | Parser: | MultiReport (2x Cobertura) |
 | Assemblies: | 2 |
-| Classes: | 51 |
-| Files: | 49 |
-| **Line coverage:** | 100% (1074 of 1074) |
-| Covered lines: | 1074 |
+| Classes: | 52 |
+| Files: | 50 |
+| **Line coverage:** | 100% (1089 of 1089) |
+| Covered lines: | 1089 |
 | Uncovered lines: | 0 |
-| Coverable lines: | 1074 |
-| Total lines: | 4488 |
-| **Branch coverage:** | 100% (528 of 528) |
-| Covered branches: | 528 |
-| Total branches: | 528 |
+| Coverable lines: | 1089 |
+| Total lines: | 4577 |
+| **Branch coverage:** | 100% (534 of 534) |
+| Covered branches: | 534 |
+| Total branches: | 534 |
 | **Method coverage:** | [Feature is only available for sponsors](https://reportgenerator.io/pro) |
-| Tag: | 52_11740816328 |
+| Tag: | 53_15421371011 |
 
 </details>
 
@@ -76,6 +76,7 @@
 |Pozitron.QuerySpecification.AsNoTrackingWithIdentityResolutionEvaluator|100%|100%|
 |Pozitron.QuerySpecification.AsSplitQueryEvaluator|100%|100%|
 |Pozitron.QuerySpecification.AsTrackingEvaluator|100%|100%|
+|Pozitron.QuerySpecification.IgnoreAutoIncludesEvaluator|100%|100%|
 |Pozitron.QuerySpecification.IgnoreQueryFiltersEvaluator|100%|100%|
 |Pozitron.QuerySpecification.IncludeEvaluator|100%|100%|
 |Pozitron.QuerySpecification.IncludeStringEvaluator|100%|100%|
