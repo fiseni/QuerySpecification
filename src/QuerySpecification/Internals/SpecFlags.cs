@@ -7,5 +7,6 @@ internal enum SpecFlags
     AsNoTracking = 2,
     AsNoTrackingWithIdentityResolution = 4,
     AsTracking = 8,
-    AsSplitQuery = 16
+    AsSplitQuery = 16,
+    IgnoreAutoIncludes = 32,
 }

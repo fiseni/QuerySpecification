@@ -32,6 +32,7 @@ public class SpecificationEvaluator
             AsNoTrackingWithIdentityResolutionEvaluator.Instance,
             AsTrackingEvaluator.Instance,
             AsSplitQueryEvaluator.Instance,
+            IgnoreAutoIncludesEvaluator.Instance,
         ];
     }
 
