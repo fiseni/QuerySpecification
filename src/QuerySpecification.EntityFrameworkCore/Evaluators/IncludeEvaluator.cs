@@ -33,7 +33,7 @@ public sealed class IncludeEvaluator : IEvaluator
                 && mi.GetParameters()[0].ParameterType.GetGenericTypeDefinition() == typeof(IIncludableQueryable<,>)
                 && mi.GetParameters()[1].ParameterType.GetGenericTypeDefinition() == typeof(Expression<>));
 
-    private readonly record struct CacheKey(Type EntityType, Type PropertyType, Type? PreviousReturnType);
+    private readonly record struct CacheKey(int IncludeType, Type EntityType, Type PropertyType, Type? PreviousReturnType);
     private static readonly ConcurrentDictionary<CacheKey, Func<IQueryable, LambdaExpression, IQueryable>> _cache = new();
 
 
@@ -53,14 +53,15 @@ public sealed class IncludeEvaluator : IEvaluator
             {
                 if (item.Bag == (int)IncludeType.Include)
                 {
-                    var key = new CacheKey(typeof(T), expr.ReturnType, null);
+                    var key = new CacheKey(item.Bag, typeof(T), expr.ReturnType, null);
                     previousReturnType = expr.ReturnType;
                     var include = _cache.GetOrAdd(key, CreateIncludeDelegate);
                     source = (IQueryable<T>)include(source, expr);
                 }
-                else if (item.Bag == (int)IncludeType.ThenInclude)
+                else if (item.Bag == (int)IncludeType.ThenIncludeAfterReference
+                      || item.Bag == (int)IncludeType.ThenIncludeAfterCollection)
                 {
-                    var key = new CacheKey(typeof(T), expr.ReturnType, previousReturnType);
+                    var key = new CacheKey(item.Bag, typeof(T), expr.ReturnType, previousReturnType);
                     previousReturnType = expr.ReturnType;
                     var include = _cache.GetOrAdd(key, CreateThenIncludeDelegate);
                     source = (IQueryable<T>)include(source, expr);
@@ -90,33 +91,21 @@ public sealed class IncludeEvaluator : IEvaluator
     {
         Debug.Assert(cacheKey.PreviousReturnType is not null);
 
-        var thenIncludeInfo = IsGenericEnumerable(cacheKey.PreviousReturnType, out var previousPropertyType)
-            ? _thenIncludeAfterEnumerableMethodInfo
-            : _thenIncludeAfterReferenceMethodInfo;
+        var (thenIncludeMethod, previousPropertyType) = cacheKey.IncludeType == (int)IncludeType.ThenIncludeAfterReference
+            ? (_thenIncludeAfterReferenceMethodInfo, cacheKey.PreviousReturnType)
+            : (_thenIncludeAfterEnumerableMethodInfo, cacheKey.PreviousReturnType.GenericTypeArguments[0]);
 
-        var thenIncludeMethod = thenIncludeInfo.MakeGenericMethod(cacheKey.EntityType, previousPropertyType, cacheKey.PropertyType);
+        var thenIncludeMethodGeneric = thenIncludeMethod.MakeGenericMethod(cacheKey.EntityType, previousPropertyType, cacheKey.PropertyType);
         var sourceParameter = Expression.Parameter(typeof(IQueryable));
         var selectorParameter = Expression.Parameter(typeof(LambdaExpression));
 
         var call = Expression.Call(
-                thenIncludeMethod,
+                thenIncludeMethodGeneric,
                 // We must pass cacheKey.PreviousReturnType. It must be exact type, not the generic type argument
                 Expression.Convert(sourceParameter, typeof(IIncludableQueryable<,>).MakeGenericType(cacheKey.EntityType, cacheKey.PreviousReturnType)),
                 Expression.Convert(selectorParameter, typeof(Expression<>).MakeGenericType(typeof(Func<,>).MakeGenericType(previousPropertyType, cacheKey.PropertyType))));
 
         var lambda = Expression.Lambda<Func<IQueryable, LambdaExpression, IQueryable>>(call, sourceParameter, selectorParameter);
         return lambda.Compile();
-    }
-
-    private static bool IsGenericEnumerable(Type type, out Type propertyType)
-    {
-        if (type.IsGenericType && typeof(IEnumerable).IsAssignableFrom(type))
-        {
-            propertyType = type.GenericTypeArguments[0];
-            return true;
-        }
-
-        propertyType = type;
-        return false;
     }
 }

@@ -5,7 +5,7 @@ namespace Tests;
 public class SpecificationTests
 {
     private static readonly SpecItem _emptySpecItem = new();
-    public record Customer(int Id, string Name, Address Address);
+    public record Customer(int Id, string Name, Address Address, List<Address> Addresses);
     public record Address(int Id, City City);
     public record City(int Id, string Name);
 
@@ -112,7 +112,7 @@ public class SpecificationTests
     }
 
     [Fact]
-    public void IncludeExpressions()
+    public void IncludeExpressions_GivenThenIncludeAfterReference()
     {
         Expression<Func<Customer, Address>> include = x => x.Address;
         Expression<Func<Address, City>> thenInclude = x => x.City;
@@ -127,7 +127,26 @@ public class SpecificationTests
         expressions[0].LambdaExpression.Should().BeSameAs(include);
         expressions[0].Type.Should().Be(IncludeType.Include);
         expressions[1].LambdaExpression.Should().BeSameAs(thenInclude);
-        expressions[1].Type.Should().Be(IncludeType.ThenInclude);
+        expressions[1].Type.Should().Be(IncludeType.ThenIncludeAfterReference);
+    }
+
+    [Fact]
+    public void IncludeExpressions_GivenThenIncludeAfterCollection()
+    {
+        Expression<Func<Customer, List<Address>>> include = x => x.Addresses;
+        Expression<Func<Address, City>> thenInclude = x => x.City;
+        var spec = new Specification<Customer>();
+        spec.Query
+            .Include(include)
+            .ThenInclude(thenInclude);
+
+        var expressions = spec.IncludeExpressions.ToList();
+
+        expressions.Should().HaveCount(2);
+        expressions[0].LambdaExpression.Should().BeSameAs(include);
+        expressions[0].Type.Should().Be(IncludeType.Include);
+        expressions[1].LambdaExpression.Should().BeSameAs(thenInclude);
+        expressions[1].Type.Should().Be(IncludeType.ThenIncludeAfterCollection);
     }
 
     [Fact]

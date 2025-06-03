@@ -6,12 +6,17 @@
 public enum IncludeType
 {
     /// <summary>
-    /// Represents an include operation.
+    /// Represents an Include operation.
     /// </summary>
     Include = 1,
 
     /// <summary>
-    /// Represents a then include operation.
+    /// Represents a ThenInclude operation after reference include.
     /// </summary>
-    ThenInclude = 2
+    ThenIncludeAfterReference = 2,
+
+    /// <summary>
+    /// Represents a ThenInclude operation after collection include.
+    /// </summary>
+    ThenIncludeAfterCollection = 3
 }
