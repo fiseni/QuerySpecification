@@ -341,7 +341,8 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
             .AsTracking()
             .AsNoTrackingWithIdentityResolution()
             .AsNoTracking() // the last one overwrites other Tracking behavior.
-            .AsSplitQuery();
+            .AsSplitQuery()
+            .IgnoreAutoIncludes();
 
         var actual = _evaluator.Evaluate(DbContext.Countries, spec)
             .Expression
@@ -351,6 +352,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
             .IgnoreQueryFilters()
             .AsNoTracking()
             .AsSplitQuery()
+            .IgnoreAutoIncludes()
             .Expression
             .ToString();
 
@@ -380,7 +382,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
         var evaluator = new SpecificationEvaluatorDerived();
 
         var result = EvaluatorsOf(evaluator);
-        result.Should().HaveCount(12);
+        result.Should().HaveCount(13);
         result[0].Should().BeOfType<LikeEvaluator>();
         result[1].Should().BeOfType<WhereEvaluator>();
         result[2].Should().BeOfType<LikeEvaluator>();
@@ -392,7 +394,8 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
         result[8].Should().BeOfType<AsNoTrackingWithIdentityResolutionEvaluator>();
         result[9].Should().BeOfType<AsTrackingEvaluator>();
         result[10].Should().BeOfType<AsSplitQueryEvaluator>();
-        result[11].Should().BeOfType<WhereEvaluator>();
+        result[11].Should().BeOfType<IgnoreAutoIncludesEvaluator>();
+        result[12].Should().BeOfType<WhereEvaluator>();
     }
 
     private class SpecificationEvaluatorDerived : SpecificationEvaluator

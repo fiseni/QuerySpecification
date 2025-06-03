@@ -192,6 +192,11 @@ public partial class Specification<T>
     public bool IgnoreQueryFilters => GetFlag(SpecFlags.IgnoreQueryFilters);
 
     /// <summary>
+    /// Gets a value indicating whether IgnoreAutoIncludes is applied.
+    /// </summary>
+    public bool IgnoreAutoIncludes => GetFlag(SpecFlags.IgnoreAutoIncludes);
+
+    /// <summary>
     /// Gets a value indicating whether AsSplitQuery is applied.
     /// </summary>
     public bool AsSplitQuery => GetFlag(SpecFlags.AsSplitQuery);
