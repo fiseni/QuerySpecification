@@ -3,22 +3,22 @@
 
 |||
 |:---|:---|
-| Generated on: | 06/03/2025 - 15:24:29 |
-| Coverage date: | 06/03/2025 - 15:23:45 - 06/03/2025 - 15:24:27 |
+| Generated on: | 06/03/2025 - 15:44:27 |
+| Coverage date: | 06/03/2025 - 15:43:42 - 06/03/2025 - 15:44:25 |
 | Parser: | MultiReport (2x Cobertura) |
 | Assemblies: | 2 |
-| Classes: | 52 |
-| Files: | 50 |
-| **Line coverage:** | 100% (1089 of 1089) |
-| Covered lines: | 1089 |
+| Classes: | 53 |
+| Files: | 52 |
+| **Line coverage:** | 100% (1108 of 1108) |
+| Covered lines: | 1108 |
 | Uncovered lines: | 0 |
-| Coverable lines: | 1089 |
-| Total lines: | 4577 |
-| **Branch coverage:** | 100% (534 of 534) |
-| Covered branches: | 534 |
-| Total branches: | 534 |
+| Coverable lines: | 1108 |
+| Total lines: | 4688 |
+| **Branch coverage:** | 100% (548 of 548) |
+| Covered branches: | 548 |
+| Total branches: | 548 |
 | **Method coverage:** | [Feature is only available for sponsors](https://reportgenerator.io/pro) |
-| Tag: | 53_15421371011 |
+| Tag: | 54_15421804008 |
 
 </details>
 
@@ -84,6 +84,7 @@
 |Pozitron.QuerySpecification.LikeEvaluator|100%|100%|
 |Pozitron.QuerySpecification.LikeExtension|100%|100%|
 |Pozitron.QuerySpecification.ParameterReplacerVisitor|100%|100%|
+|Pozitron.QuerySpecification.QueryTagEvaluator|100%|100%|
 |Pozitron.QuerySpecification.RepositoryBase`1|100%|100%|
 |Pozitron.QuerySpecification.RepositoryWithMapper`1|100%|100%|
 |Pozitron.QuerySpecification.SpecificationEvaluator|100%|100%|
