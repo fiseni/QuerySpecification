@@ -30,6 +30,36 @@ public class IncludeEvaluatorTests(TestFactory factory) : IntegrationTest(factor
     }
 
     [Fact]
+    public void QueriesMatch_GivenInheritanceModel()
+    {
+        var spec = new Specification<Bar>();
+        spec.Query
+            .Include(x => x.BarChildren)
+                .ThenInclude(x => (x as BarDerived)!.BarDerivedInfo);
+
+        var actual = _evaluator
+            .Evaluate(DbContext.Bars, spec)
+            .ToQueryString();
+
+        var spec2 = new Specification<Bar>();
+        spec2.Query
+            .Include(x => x.BarChildren)
+            .ThenInclude<Bar, BarChild, BarDerivedInfo>(x => (x as BarDerived)!.BarDerivedInfo);
+
+        var actual2 = _evaluator
+            .Evaluate(DbContext.Bars, spec2)
+            .ToQueryString();
+
+        var expected = DbContext.Bars
+            .Include(x => x.BarChildren)
+            .ThenInclude(x => (x as BarDerived)!.BarDerivedInfo)
+            .ToQueryString();
+
+        actual.Should().Be(expected);
+        actual2.Should().Be(expected);
+    }
+
+    [Fact]
     public void QueriesMatch_GivenThenIncludeWithVariousNavigationCollectionTypes()
     {
         var spec = new Specification<Foo>();

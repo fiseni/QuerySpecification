@@ -179,7 +179,7 @@ public static partial class SpecificationBuilderExtensions
     {
         if (condition && !Specification<TEntity, TResult>.IsChainDiscarded)
         {
-            builder.Specification.AddInternal(ItemType.Include, navigationSelector, (int)IncludeType.ThenInclude);
+            builder.Specification.AddInternal(ItemType.Include, navigationSelector, (int)IncludeType.ThenIncludeAfterReference);
         }
         else
         {
@@ -223,7 +223,7 @@ public static partial class SpecificationBuilderExtensions
     {
         if (condition && !Specification<TEntity>.IsChainDiscarded)
         {
-            builder.Specification.AddInternal(ItemType.Include, navigationSelector, (int)IncludeType.ThenInclude);
+            builder.Specification.AddInternal(ItemType.Include, navigationSelector, (int)IncludeType.ThenIncludeAfterReference);
         }
         else
         {
@@ -269,7 +269,7 @@ public static partial class SpecificationBuilderExtensions
     {
         if (condition && !Specification<TEntity, TResult>.IsChainDiscarded)
         {
-            builder.Specification.AddInternal(ItemType.Include, navigationSelector, (int)IncludeType.ThenInclude);
+            builder.Specification.AddInternal(ItemType.Include, navigationSelector, (int)IncludeType.ThenIncludeAfterCollection);
         }
         else
         {
@@ -313,7 +313,7 @@ public static partial class SpecificationBuilderExtensions
     {
         if (condition && !Specification<TEntity>.IsChainDiscarded)
         {
-            builder.Specification.AddInternal(ItemType.Include, navigationSelector, (int)IncludeType.ThenInclude);
+            builder.Specification.AddInternal(ItemType.Include, navigationSelector, (int)IncludeType.ThenIncludeAfterCollection);
         }
         else
         {

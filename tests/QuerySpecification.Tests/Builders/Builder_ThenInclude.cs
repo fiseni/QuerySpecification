@@ -115,7 +115,7 @@ public class Builder_ThenInclude
     }
 
     [Fact]
-    public void AddsIncludeThen_GivenIncludeThen()
+    public void AddsThenInclude_GivenThenIncludeAfterReference()
     {
         Expression<Func<Address, Contact>> expr = x => x.Contact;
 
@@ -132,11 +132,36 @@ public class Builder_ThenInclude
         spec1.IncludeExpressions.Should().HaveCount(2);
         spec1.IncludeExpressions.Last().LambdaExpression.Should().BeSameAs(expr);
         spec1.IncludeExpressions.First().Type.Should().Be(IncludeType.Include);
-        spec1.IncludeExpressions.Last().Type.Should().Be(IncludeType.ThenInclude);
+        spec1.IncludeExpressions.Last().Type.Should().Be(IncludeType.ThenIncludeAfterReference);
         spec2.IncludeExpressions.Should().HaveCount(2);
         spec2.IncludeExpressions.Last().LambdaExpression.Should().BeSameAs(expr);
         spec2.IncludeExpressions.First().Type.Should().Be(IncludeType.Include);
-        spec2.IncludeExpressions.Last().Type.Should().Be(IncludeType.ThenInclude);
+        spec2.IncludeExpressions.Last().Type.Should().Be(IncludeType.ThenIncludeAfterReference);
+    }
+
+    [Fact]
+    public void AddsThenInclude_GivenThenIncludeAfterCollection()
+    {
+        Expression<Func<Address, Contact>> expr = x => x.Contact;
+
+        var spec1 = new Specification<Customer>();
+        spec1.Query
+            .Include(x => x.Addresses)
+            .ThenInclude(expr);
+
+        var spec2 = new Specification<Customer, string>();
+        spec2.Query
+            .Include(x => x.Addresses)
+            .ThenInclude(expr);
+
+        spec1.IncludeExpressions.Should().HaveCount(2);
+        spec1.IncludeExpressions.Last().LambdaExpression.Should().BeSameAs(expr);
+        spec1.IncludeExpressions.First().Type.Should().Be(IncludeType.Include);
+        spec1.IncludeExpressions.Last().Type.Should().Be(IncludeType.ThenIncludeAfterCollection);
+        spec2.IncludeExpressions.Should().HaveCount(2);
+        spec2.IncludeExpressions.Last().LambdaExpression.Should().BeSameAs(expr);
+        spec2.IncludeExpressions.First().Type.Should().Be(IncludeType.Include);
+        spec2.IncludeExpressions.Last().Type.Should().Be(IncludeType.ThenIncludeAfterCollection);
     }
 
     [Fact]
@@ -174,9 +199,11 @@ public class Builder_ThenInclude
 
         spec1.IncludeExpressions.Should().HaveCount(12);
         spec1.IncludeExpressions.OrderBy(x => x.Type).Take(4).Should().AllSatisfy(x => x.Type.Should().Be(IncludeType.Include));
-        spec1.IncludeExpressions.OrderBy(x => x.Type).Skip(4).Should().AllSatisfy(x => x.Type.Should().Be(IncludeType.ThenInclude));
+        spec1.IncludeExpressions.OrderBy(x => x.Type).Skip(4).Take(4).Should().AllSatisfy(x => x.Type.Should().Be(IncludeType.ThenIncludeAfterReference));
+        spec1.IncludeExpressions.OrderBy(x => x.Type).Skip(8).Should().AllSatisfy(x => x.Type.Should().Be(IncludeType.ThenIncludeAfterCollection));
         spec2.IncludeExpressions.Should().HaveCount(12);
         spec2.IncludeExpressions.OrderBy(x => x.Type).Take(4).Should().AllSatisfy(x => x.Type.Should().Be(IncludeType.Include));
-        spec2.IncludeExpressions.OrderBy(x => x.Type).Skip(4).Should().AllSatisfy(x => x.Type.Should().Be(IncludeType.ThenInclude));
+        spec2.IncludeExpressions.OrderBy(x => x.Type).Skip(4).Take(4).Should().AllSatisfy(x => x.Type.Should().Be(IncludeType.ThenIncludeAfterReference));
+        spec2.IncludeExpressions.OrderBy(x => x.Type).Skip(8).Should().AllSatisfy(x => x.Type.Should().Be(IncludeType.ThenIncludeAfterCollection));
     }
 }
