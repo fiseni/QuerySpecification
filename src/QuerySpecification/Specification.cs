@@ -177,6 +177,13 @@ public partial class Specification<T>
         : new SpecSelectIterator<string, string>(_items, ItemType.IncludeString, (x, bag) => x);
 
     /// <summary>
+    /// Gets the Query tags.
+    /// </summary>
+    public IEnumerable<string> QueryTags => _items is null
+        ? Enumerable.Empty<string>()
+        : new SpecSelectIterator<string, string>(_items, ItemType.QueryTag, (x, bag) => x);
+
+    /// <summary>
     /// Gets the number of items to take.
     /// </summary>
     public int Take => FirstOrDefault<SpecPaging>(ItemType.Paging)?.Take ?? -1;

@@ -60,6 +60,8 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
 
         var spec = new Specification<Store>();
         spec.Query
+            .TagWith("full test query")
+            .TagWith("another tag")
             .Where(x => x.Id > id)
             .Where(x => x.Name == name)
             .Like(x => x.Name, $"%{storeTerm}%")
@@ -81,6 +83,8 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
 
         // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores
+            .TagWith("full test query")
+            .TagWith("another tag")
             .Where(x => x.Id > id)
             .Where(x => x.Name == name)
             .Where(x => EF.Functions.Like(x.Name, $"%{storeTerm}%")
@@ -166,6 +170,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
 
         var spec = new Specification<Store, string?>();
         spec.Query
+            .TagWith("full test query with select")
             .Where(x => x.Id > id)
             .Where(x => x.Name == name)
             .Like(x => x.Name, $"%{storeTerm}%")
@@ -188,6 +193,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
 
         // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores
+            .TagWith("full test query with select")
             .Where(x => x.Id > id)
             .Where(x => x.Name == name)
             .Where(x => EF.Functions.Like(x.Name, $"%{storeTerm}%")
@@ -221,6 +227,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
 
         var spec = new Specification<Store, string?>();
         spec.Query
+            .TagWith("full test query with select many")
             .Where(x => x.Id > id)
             .Where(x => x.Name == name)
             .Like(x => x.Name, $"%{storeTerm}%")
@@ -243,6 +250,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
 
         // The expression in the spec are applied in a predefined order.
         var expected = DbContext.Stores
+            .TagWith("full test query with select many")
             .Where(x => x.Id > id)
             .Where(x => x.Name == name)
             .Where(x => EF.Functions.Like(x.Name, $"%{storeTerm}%")
@@ -382,7 +390,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
         var evaluator = new SpecificationEvaluatorDerived();
 
         var result = EvaluatorsOf(evaluator);
-        result.Should().HaveCount(13);
+        result.Should().HaveCount(14);
         result[0].Should().BeOfType<LikeEvaluator>();
         result[1].Should().BeOfType<WhereEvaluator>();
         result[2].Should().BeOfType<LikeEvaluator>();
@@ -395,7 +403,8 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
         result[9].Should().BeOfType<AsTrackingEvaluator>();
         result[10].Should().BeOfType<AsSplitQueryEvaluator>();
         result[11].Should().BeOfType<IgnoreAutoIncludesEvaluator>();
-        result[12].Should().BeOfType<WhereEvaluator>();
+        result[12].Should().BeOfType<QueryTagEvaluator>();
+        result[13].Should().BeOfType<WhereEvaluator>();
     }
 
     private class SpecificationEvaluatorDerived : SpecificationEvaluator
