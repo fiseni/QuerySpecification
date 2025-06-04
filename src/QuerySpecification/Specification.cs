@@ -184,6 +184,16 @@ public partial class Specification<T>
         : new SpecSelectIterator<string, string>(_items, ItemType.QueryTag, (x, bag) => x);
 
     /// <summary>
+    /// Return whether or not a cache key is set.
+    /// </summary>
+    public bool HasCacheKey => Contains(ItemType.CacheKey);
+
+    /// <summary>
+    /// Gets the cache key.
+    /// </summary>
+    public string? CacheKey => FirstOrDefault<string>(ItemType.CacheKey);
+
+    /// <summary>
     /// Gets the number of items to take.
     /// </summary>
     public int Take => FirstOrDefault<SpecPaging>(ItemType.Paging)?.Take ?? -1;
@@ -305,6 +315,20 @@ public partial class Specification<T>
         : new SpecIterator<TObject>(_items, type);
 
     internal ReadOnlySpan<SpecItem> Items => _items ?? ReadOnlySpan<SpecItem>.Empty;
+
+    internal bool Contains(int type)
+    {
+        if (IsEmpty) return false;
+
+        foreach (var item in _items)
+        {
+            if (item.Type == type)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
     [MemberNotNull(nameof(_items))]
     internal void AddInternal(int type, object value, int bag = 0)
