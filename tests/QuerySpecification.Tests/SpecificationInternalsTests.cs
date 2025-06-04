@@ -258,6 +258,84 @@ public class SpecificationInternalsTests
     }
 
     [Fact]
+    public void Clone_ReturnsNewSpecWithSameItems()
+    {
+        var spec = new Specification<Customer>();
+        spec.Query
+            .Where(x => x.Name == "test")
+            .Include(x => x.Address)
+            .Include("Address")
+            .OrderBy(x => x.Id)
+            .Like(x => x.Name, "test")
+            .Take(2)
+            .Skip(3)
+            .WithCacheKey("testKey")
+            .IgnoreQueryFilters()
+            .IgnoreQueryFilters()
+            .AsSplitQuery()
+            .AsNoTracking()
+            .TagWith("testQuery1");
+
+        var clonedSpec = spec.Clone();
+
+        clonedSpec.Should().NotBeSameAs(spec);
+        clonedSpec.Should().BeOfType<Specification<Customer>>();
+        Accessors<Customer>.Items(clonedSpec).Should().NotBeSameAs(Accessors<Customer>.Items(spec));
+        Accessors<Customer>.Items(clonedSpec)!.Should().Equal(Accessors<Customer>.Items(spec)!);
+    }
+
+    [Fact]
+    public void Clone_ReturnsEmptyNewSpec_GivenEmptySpec()
+    {
+        var spec = new Specification<Customer>();
+
+        var clonedSpec = spec.Clone();
+
+        clonedSpec.Should().NotBeSameAs(spec);
+        clonedSpec.Should().BeOfType<Specification<Customer>>();
+        Accessors<Customer>.Items(clonedSpec).Should().BeNull();
+    }
+
+    [Fact]
+    public void Clone_ReturnsNewProjectionSpecWithSameItems_GivenTResult()
+    {
+        var spec = new Specification<Customer>();
+        spec.Query
+            .Where(x => x.Name == "test")
+            .Include(x => x.Address)
+            .Include("Address")
+            .OrderBy(x => x.Id)
+            .Like(x => x.Name, "test")
+            .Take(2)
+            .Skip(3)
+            .WithCacheKey("testKey")
+            .IgnoreQueryFilters()
+            .IgnoreQueryFilters()
+            .AsSplitQuery()
+            .AsNoTracking()
+            .TagWith("testQuery1");
+
+        var clonedSpec = spec.Clone<string>();
+
+        clonedSpec.Should().NotBeSameAs(spec);
+        clonedSpec.Should().BeOfType<Specification<Customer, string>>();
+        Accessors<Customer>.Items(clonedSpec).Should().NotBeSameAs(Accessors<Customer>.Items(spec));
+        Accessors<Customer>.Items(clonedSpec)!.Should().Equal(Accessors<Customer>.Items(spec)!);
+    }
+
+    [Fact]
+    public void Clone_ReturnsEmptyNewProjectionSpec_GivenEmptySpecAndTResult()
+    {
+        var spec = new Specification<Customer>();
+
+        var clonedSpec = spec.Clone<string>();
+
+        clonedSpec.Should().NotBeSameAs(spec);
+        clonedSpec.Should().BeOfType<Specification<Customer, string>>();
+        Accessors<Customer>.Items(clonedSpec).Should().BeNull();
+    }
+
+    [Fact]
     public void SpecFlags_ContainItemsWithPowerOfTwo()
     {
         var flags = Enum.GetValues<SpecFlags>();

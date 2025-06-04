@@ -545,4 +545,24 @@ public partial class Specification<T>
             AddInternal(ItemType.Flags, null!, (int)flag);
         }
     }
+
+    internal Specification<T> Clone()
+    {
+        if (IsEmpty) return new Specification<T>();
+
+        var items = _items;
+        var newItems = new SpecItem[items.Length];
+        Array.Copy(items, newItems, items.Length);
+        return new Specification<T> { _items = newItems };
+    }
+
+    internal Specification<T, TResult> Clone<TResult>()
+    {
+        if (IsEmpty) return new Specification<T, TResult>();
+
+        var items = _items;
+        var newItems = new SpecItem[items.Length];
+        Array.Copy(items, newItems, items.Length);
+        return new Specification<T, TResult> { _items = newItems };
+    }
 }
