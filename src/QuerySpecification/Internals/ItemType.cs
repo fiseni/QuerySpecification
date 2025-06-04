@@ -15,4 +15,5 @@ internal static class ItemType
     public const int Flags = -8; // Stored in the bag
 
     public const int QueryTag = -9;
+    public const int CacheKey = -10;
 }
