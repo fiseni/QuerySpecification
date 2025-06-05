@@ -2,9 +2,9 @@
 
 namespace Tests.Evaluators;
 
-public class SpecificationInMemoryEvaluatorTests
+public class SpecificationMemoryEvaluatorTests
 {
-    private static readonly SpecificationInMemoryEvaluator _evaluator = SpecificationInMemoryEvaluator.Default;
+    private static readonly SpecificationMemoryEvaluator _evaluator = SpecificationMemoryEvaluator.Default;
 
     public record Customer(int Id, string FirstName, string LastName);
     public record CustomerWithMails(int Id, string FirstName, string LastName, List<string> Emails);
@@ -241,14 +241,14 @@ public class SpecificationInMemoryEvaluatorTests
     [Fact]
     public void Constructor_SetsProvidedEvaluators()
     {
-        var evaluators = new List<IInMemoryEvaluator>
+        var evaluators = new List<IMemoryEvaluator>
         {
             WhereEvaluator.Instance,
             OrderEvaluator.Instance,
             WhereEvaluator.Instance,
         };
 
-        var evaluator = new SpecificationInMemoryEvaluator(evaluators);
+        var evaluator = new SpecificationMemoryEvaluator(evaluators);
 
         var result = EvaluatorsOf(evaluator);
         result.Should().HaveSameCount(evaluators);
@@ -269,7 +269,7 @@ public class SpecificationInMemoryEvaluatorTests
         result[4].Should().BeOfType<WhereEvaluator>();
     }
 
-    private class SpecificationEvaluatorDerived : SpecificationInMemoryEvaluator
+    private class SpecificationEvaluatorDerived : SpecificationMemoryEvaluator
     {
         public SpecificationEvaluatorDerived()
         {
@@ -279,5 +279,5 @@ public class SpecificationInMemoryEvaluatorTests
     }
 
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "<Evaluators>k__BackingField")]
-    public static extern ref List<IInMemoryEvaluator> EvaluatorsOf(SpecificationInMemoryEvaluator @this);
+    public static extern ref List<IMemoryEvaluator> EvaluatorsOf(SpecificationMemoryEvaluator @this);
 }

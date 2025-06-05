@@ -4,7 +4,7 @@
 /// Represents an evaluator for where expressions.
 /// </summary>
 [EvaluatorDiscovery(Order = -100)]
-public sealed class WhereEvaluator : IEvaluator, IInMemoryEvaluator
+public sealed class WhereEvaluator : IEvaluator, IMemoryEvaluator
 {
     /// <summary>
     /// Gets the singleton instance of the <see cref="WhereEvaluator"/> class.

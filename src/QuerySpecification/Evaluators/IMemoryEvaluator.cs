@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents an in-memory evaluator that processes a specification.
 /// </summary>
-public interface IInMemoryEvaluator
+public interface IMemoryEvaluator
 {
     /// <summary>
     /// Evaluates the given specification on the provided enumerable source.

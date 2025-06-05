@@ -3,22 +3,22 @@
 /// <summary>
 /// Evaluates specifications in memory.
 /// </summary>
-public class SpecificationInMemoryEvaluator
+public class SpecificationMemoryEvaluator
 {
     /// <summary>
-    /// Gets the default instance of the <see cref="SpecificationInMemoryEvaluator"/> class.
+    /// Gets the default instance of the <see cref="SpecificationMemoryEvaluator"/> class.
     /// </summary>
-    public static SpecificationInMemoryEvaluator Default = new();
+    public static SpecificationMemoryEvaluator Default = new();
 
     /// <summary>
     /// Gets the list of in-memory evaluators.
     /// </summary>
-    protected List<IInMemoryEvaluator> Evaluators { get; }
+    protected List<IMemoryEvaluator> Evaluators { get; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SpecificationInMemoryEvaluator"/> class.
+    /// Initializes a new instance of the <see cref="SpecificationMemoryEvaluator"/> class.
     /// </summary>
-    public SpecificationInMemoryEvaluator(DiscoveryStrategy strategy = DiscoveryStrategy.All)
+    public SpecificationMemoryEvaluator(DiscoveryStrategy strategy = DiscoveryStrategy.All)
     {
         Evaluators = strategy switch
         {
@@ -29,10 +29,10 @@ public class SpecificationInMemoryEvaluator
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SpecificationInMemoryEvaluator"/> class with the specified evaluators.
+    /// Initializes a new instance of the <see cref="SpecificationMemoryEvaluator"/> class with the specified evaluators.
     /// </summary>
     /// <param name="evaluators">The in-memory evaluators to use.</param>
-    public SpecificationInMemoryEvaluator(IEnumerable<IInMemoryEvaluator> evaluators)
+    public SpecificationMemoryEvaluator(IEnumerable<IMemoryEvaluator> evaluators)
     {
         Evaluators = evaluators.ToList();
     }

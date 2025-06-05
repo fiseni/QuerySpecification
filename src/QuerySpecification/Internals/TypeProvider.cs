@@ -2,8 +2,8 @@
 
 internal class EvaluatorProvider
 {
-    public static List<IInMemoryEvaluator> GetAllMemoryEvaluators() => _allMemoryEvaluators.Value.ToList();
-    public static List<IInMemoryEvaluator> GetBuiltInMemoryEvaluators() => _builtInMemoryEvaluators.Value.ToList();
+    public static List<IMemoryEvaluator> GetAllMemoryEvaluators() => _allMemoryEvaluators.Value.ToList();
+    public static List<IMemoryEvaluator> GetBuiltInMemoryEvaluators() => _builtInMemoryEvaluators.Value.ToList();
 
     public static List<IEvaluator> GetAllEvaluators() => _allEvaluators.Value.ToList();
     public static List<IEvaluator> GetBuiltInEvaluators() => _builtInEvaluators.Value.ToList();
@@ -18,12 +18,12 @@ internal class EvaluatorProvider
             (AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName != null && x.FullName.StartsWith("Pozitron.QuerySpecification"))),
         LazyThreadSafetyMode.ExecutionAndPublication);
 
-    private static readonly Lazy<List<IInMemoryEvaluator>> _allMemoryEvaluators = new(
-        () => TypeHelper.GetInstancesOf<IInMemoryEvaluator, DiscoveryAttribute>(AppDomain.CurrentDomain.GetAssemblies()),
+    private static readonly Lazy<List<IMemoryEvaluator>> _allMemoryEvaluators = new(
+        () => TypeHelper.GetInstancesOf<IMemoryEvaluator, DiscoveryAttribute>(AppDomain.CurrentDomain.GetAssemblies()),
         LazyThreadSafetyMode.ExecutionAndPublication);
 
-    private static readonly Lazy<List<IInMemoryEvaluator>> _builtInMemoryEvaluators = new(
-        () => TypeHelper.GetInstancesOf<IInMemoryEvaluator, DiscoveryAttribute>
+    private static readonly Lazy<List<IMemoryEvaluator>> _builtInMemoryEvaluators = new(
+        () => TypeHelper.GetInstancesOf<IMemoryEvaluator, DiscoveryAttribute>
             (AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName != null && x.FullName.StartsWith("Pozitron.QuerySpecification"))),
         LazyThreadSafetyMode.ExecutionAndPublication);
 }
