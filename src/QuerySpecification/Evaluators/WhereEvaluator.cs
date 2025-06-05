@@ -3,6 +3,7 @@
 /// <summary>
 /// Represents an evaluator for where expressions.
 /// </summary>
+[EvaluatorDiscovery(Order = -100)]
 public sealed class WhereEvaluator : IEvaluator, IInMemoryEvaluator
 {
     /// <summary>

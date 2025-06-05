@@ -3,6 +3,7 @@
 /// <summary>
 /// Evaluates a specification to include navigation properties specified by string paths.
 /// </summary>
+[EvaluatorDiscovery(Order = -90)]
 public sealed class IncludeStringEvaluator : IEvaluator
 {
 

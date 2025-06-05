@@ -3,6 +3,7 @@
 /// <summary>
 /// Evaluator to apply IgnoreQueryFilters to the query if the specification has IgnoreQueryFilters set to true.
 /// </summary>
+[EvaluatorDiscovery(Order = -65)]
 public sealed class IgnoreQueryFiltersEvaluator : IEvaluator
 {
 

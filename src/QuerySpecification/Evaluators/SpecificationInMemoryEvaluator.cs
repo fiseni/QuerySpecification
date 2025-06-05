@@ -18,14 +18,14 @@ public class SpecificationInMemoryEvaluator
     /// <summary>
     /// Initializes a new instance of the <see cref="SpecificationInMemoryEvaluator"/> class.
     /// </summary>
-    public SpecificationInMemoryEvaluator()
+    public SpecificationInMemoryEvaluator(DiscoveryStrategy strategy = DiscoveryStrategy.All)
     {
-        Evaluators =
-        [
-            WhereEvaluator.Instance,
-            OrderEvaluator.Instance,
-            LikeMemoryEvaluator.Instance,
-        ];
+        Evaluators = strategy switch
+        {
+            DiscoveryStrategy.BuiltInOnly => EvaluatorProvider.GetBuiltInMemoryEvaluators(),
+            DiscoveryStrategy.All => EvaluatorProvider.GetAllMemoryEvaluators(),
+            _ => []
+        };
     }
 
     /// <summary>

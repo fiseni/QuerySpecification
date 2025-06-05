@@ -18,23 +18,14 @@ public class SpecificationEvaluator
     /// <summary>
     /// Initializes a new instance of the <see cref="SpecificationEvaluator"/> class.
     /// </summary>
-    public SpecificationEvaluator()
+    public SpecificationEvaluator(DiscoveryStrategy strategy = DiscoveryStrategy.All)
     {
-        Evaluators =
-        [
-            WhereEvaluator.Instance,
-            LikeEvaluator.Instance,
-            IncludeStringEvaluator.Instance,
-            IncludeEvaluator.Instance,
-            OrderEvaluator.Instance,
-            IgnoreQueryFiltersEvaluator.Instance,
-            AsNoTrackingEvaluator.Instance,
-            AsNoTrackingWithIdentityResolutionEvaluator.Instance,
-            AsTrackingEvaluator.Instance,
-            AsSplitQueryEvaluator.Instance,
-            IgnoreAutoIncludesEvaluator.Instance,
-            QueryTagEvaluator.Instance,
-        ];
+        Evaluators = strategy switch
+        {
+            DiscoveryStrategy.BuiltInOnly => EvaluatorProvider.GetBuiltInEvaluators(),
+            DiscoveryStrategy.All => EvaluatorProvider.GetAllEvaluators(),
+            _ => []
+        };
     }
 
     /// <summary>

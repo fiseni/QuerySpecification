@@ -3,6 +3,7 @@
 /// <summary>
 /// Represents an evaluator for order expressions.
 /// </summary>
+[EvaluatorDiscovery(Order = -80)]
 public sealed class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 {
     /// <summary>

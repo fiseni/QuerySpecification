@@ -19,6 +19,7 @@ namespace Pozitron.QuerySpecification;
 /// <summary>
 /// Evaluates a specification to apply "like" expressions for filtering.
 /// </summary>
+[EvaluatorDiscovery(Order = -95)]
 public sealed class LikeEvaluator : IEvaluator
 {
     private LikeEvaluator() { }

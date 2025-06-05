@@ -357,10 +357,10 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
             .ToString();
 
         var expected = DbContext.Countries
-            .IgnoreQueryFilters()
-            .AsNoTracking()
-            .AsSplitQuery()
             .IgnoreAutoIncludes()
+            .IgnoreQueryFilters()
+            .AsSplitQuery()
+            .AsNoTracking()
             .Expression
             .ToString();
 
@@ -397,13 +397,13 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
         result[3].Should().BeOfType<IncludeStringEvaluator>();
         result[4].Should().BeOfType<IncludeEvaluator>();
         result[5].Should().BeOfType<OrderEvaluator>();
-        result[6].Should().BeOfType<IgnoreQueryFiltersEvaluator>();
-        result[7].Should().BeOfType<AsNoTrackingEvaluator>();
-        result[8].Should().BeOfType<AsNoTrackingWithIdentityResolutionEvaluator>();
-        result[9].Should().BeOfType<AsTrackingEvaluator>();
-        result[10].Should().BeOfType<AsSplitQueryEvaluator>();
-        result[11].Should().BeOfType<IgnoreAutoIncludesEvaluator>();
-        result[12].Should().BeOfType<QueryTagEvaluator>();
+        result[6].Should().BeOfType<QueryTagEvaluator>();
+        result[7].Should().BeOfType<IgnoreAutoIncludesEvaluator>();
+        result[8].Should().BeOfType<IgnoreQueryFiltersEvaluator>();
+        result[9].Should().BeOfType<AsSplitQueryEvaluator>();
+        result[10].Should().BeOfType<AsNoTrackingEvaluator>();
+        result[11].Should().BeOfType<AsNoTrackingWithIdentityResolutionEvaluator>();
+        result[12].Should().BeOfType<AsTrackingEvaluator>();
         result[13].Should().BeOfType<WhereEvaluator>();
     }
 

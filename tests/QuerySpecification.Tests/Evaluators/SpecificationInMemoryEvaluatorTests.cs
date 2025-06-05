@@ -264,8 +264,8 @@ public class SpecificationInMemoryEvaluatorTests
         result.Should().HaveCount(5);
         result[0].Should().BeOfType<LikeMemoryEvaluator>();
         result[1].Should().BeOfType<WhereEvaluator>();
-        result[2].Should().BeOfType<OrderEvaluator>();
-        result[3].Should().BeOfType<LikeMemoryEvaluator>();
+        result[2].Should().BeOfType<LikeMemoryEvaluator>();
+        result[3].Should().BeOfType<OrderEvaluator>();
         result[4].Should().BeOfType<WhereEvaluator>();
     }
 
