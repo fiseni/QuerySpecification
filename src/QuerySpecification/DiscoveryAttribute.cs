@@ -17,10 +17,16 @@ public class DiscoveryAttribute : Attribute
     public bool Enable { get; set; } = true;
 }
 
+/// <summary>
+/// Specifies discovery options for evaluators, such as order and whether discovery is enabled.
+/// </summary>
 public sealed class EvaluatorDiscoveryAttribute : DiscoveryAttribute
 {
 }
 
+/// <summary>
+/// Specifies discovery options for validators, such as order and whether discovery is enabled.
+/// </summary>
 public sealed class ValidatorDiscoveryAttribute : DiscoveryAttribute
 {
 }
