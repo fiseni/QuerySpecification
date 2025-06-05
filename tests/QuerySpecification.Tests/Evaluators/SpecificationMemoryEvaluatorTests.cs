@@ -256,25 +256,45 @@ public class SpecificationMemoryEvaluatorTests
     }
 
     [Fact]
-    public void DerivedSpecificationEvaluatorCanAlterDefaultEvaluator()
+    public void DerivedSpecificationEvaluatorCanAlterDefaultEvaluators()
     {
+        var expectedEvaluators = new List<IMemoryEvaluator>
+        {
+            LikeMemoryEvaluator.Instance,
+            WhereEvaluator.Instance,
+            LikeMemoryEvaluator.Instance,
+            OrderEvaluator.Instance,
+            WhereEvaluator.Instance
+        };
+
         var evaluator = new SpecificationEvaluatorDerived();
 
         var result = EvaluatorsOf(evaluator);
-        result.Should().HaveCount(5);
-        result[0].Should().BeOfType<LikeMemoryEvaluator>();
-        result[1].Should().BeOfType<WhereEvaluator>();
-        result[2].Should().BeOfType<LikeMemoryEvaluator>();
-        result[3].Should().BeOfType<OrderEvaluator>();
-        result[4].Should().BeOfType<WhereEvaluator>();
+        result.Should().Equal(expectedEvaluators);
+    }
+
+    [Fact]
+    public void DerivedSpecificationEvaluatorCanDisableDiscovery()
+    {
+        var evaluator = new SpecificationEvaluatorWithDisabledDiscovery();
+
+        var result = EvaluatorsOf(evaluator);
+        result.Should().BeEmpty();
     }
 
     private class SpecificationEvaluatorDerived : SpecificationMemoryEvaluator
     {
-        public SpecificationEvaluatorDerived()
+        public SpecificationEvaluatorDerived() : base(DiscoveryStrategy.BuiltInOnly)
         {
             Evaluators.Add(WhereEvaluator.Instance);
             Evaluators.Insert(0, LikeMemoryEvaluator.Instance);
+        }
+    }
+
+    private class SpecificationEvaluatorWithDisabledDiscovery : SpecificationMemoryEvaluator
+    {
+        public SpecificationEvaluatorWithDisabledDiscovery() : base(DiscoveryStrategy.Disable)
+        {
         }
     }
 

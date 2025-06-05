@@ -385,34 +385,54 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     }
 
     [Fact]
-    public void DerivedSpecificationEvaluatorCanAlterDefaultEvaluator()
+    public void DerivedSpecificationEvaluatorCanAlterDefaultEvaluators()
     {
+        var expectedEvaluators = new List<IEvaluator>
+        {
+            LikeEvaluator.Instance,
+            WhereEvaluator.Instance,
+            LikeEvaluator.Instance,
+            IncludeStringEvaluator.Instance,
+            IncludeEvaluator.Instance,
+            OrderEvaluator.Instance,
+            QueryTagEvaluator.Instance,
+            IgnoreAutoIncludesEvaluator.Instance,
+            IgnoreQueryFiltersEvaluator.Instance,
+            AsSplitQueryEvaluator.Instance,
+            AsNoTrackingEvaluator.Instance,
+            AsNoTrackingWithIdentityResolutionEvaluator.Instance,
+            AsTrackingEvaluator.Instance,
+            WhereEvaluator.Instance
+        };
+
         var evaluator = new SpecificationEvaluatorDerived();
 
         var result = EvaluatorsOf(evaluator);
-        result.Should().HaveCount(14);
-        result[0].Should().BeOfType<LikeEvaluator>();
-        result[1].Should().BeOfType<WhereEvaluator>();
-        result[2].Should().BeOfType<LikeEvaluator>();
-        result[3].Should().BeOfType<IncludeStringEvaluator>();
-        result[4].Should().BeOfType<IncludeEvaluator>();
-        result[5].Should().BeOfType<OrderEvaluator>();
-        result[6].Should().BeOfType<QueryTagEvaluator>();
-        result[7].Should().BeOfType<IgnoreAutoIncludesEvaluator>();
-        result[8].Should().BeOfType<IgnoreQueryFiltersEvaluator>();
-        result[9].Should().BeOfType<AsSplitQueryEvaluator>();
-        result[10].Should().BeOfType<AsNoTrackingEvaluator>();
-        result[11].Should().BeOfType<AsNoTrackingWithIdentityResolutionEvaluator>();
-        result[12].Should().BeOfType<AsTrackingEvaluator>();
-        result[13].Should().BeOfType<WhereEvaluator>();
+        result.Should().Equal(expectedEvaluators);
+    }
+
+    [Fact]
+    public void DerivedSpecificationEvaluatorCanDisableDiscovery()
+    {
+        var evaluator = new SpecificationEvaluatorWithDisabledDiscovery();
+
+        var result = EvaluatorsOf(evaluator);
+        result.Should().BeEmpty();
     }
 
     private class SpecificationEvaluatorDerived : SpecificationEvaluator
     {
-        public SpecificationEvaluatorDerived()
+        public SpecificationEvaluatorDerived() : base(DiscoveryStrategy.BuiltInOnly)
         {
             Evaluators.Add(WhereEvaluator.Instance);
             Evaluators.Insert(0, LikeEvaluator.Instance);
+        }
+    }
+
+    private class SpecificationEvaluatorWithDisabledDiscovery : SpecificationEvaluator
+    {
+        public SpecificationEvaluatorWithDisabledDiscovery() : base(DiscoveryStrategy.Disable)
+        {
         }
     }
 

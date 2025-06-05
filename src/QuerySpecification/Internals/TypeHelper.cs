@@ -18,7 +18,7 @@ internal static class TypeHelper
 
     internal static readonly Lazy<Assembly[]> _specificationAssemblies = new(
         () => _loadedAssemblies.Value
-            .Where(a => a.FullName != null && a.FullName.StartsWith("Pozitron.QuerySpecification", StringComparison.OrdinalIgnoreCase))
+            .Where(a => a.FullName!.StartsWith("Pozitron.QuerySpecification", StringComparison.OrdinalIgnoreCase))
             .ToArray(),
         LazyThreadSafetyMode.ExecutionAndPublication);
 
