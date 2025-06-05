@@ -8,23 +8,20 @@ internal class EvaluatorProvider
     public static List<IEvaluator> GetAllEvaluators() => _allEvaluators.Value.ToList();
     public static List<IEvaluator> GetBuiltInEvaluators() => _builtInEvaluators.Value.ToList();
 
-
     private static readonly Lazy<List<IEvaluator>> _allEvaluators = new(
-        () => TypeHelper.GetInstancesOf<IEvaluator, DiscoveryAttribute>(AppDomain.CurrentDomain.GetAssemblies()),
+        () => TypeHelper.GetInstancesOf<IEvaluator, DiscoveryAttribute>(scanOnlySpecificationAssemblies: false),
         LazyThreadSafetyMode.ExecutionAndPublication);
 
     private static readonly Lazy<List<IEvaluator>> _builtInEvaluators = new(
-        () => TypeHelper.GetInstancesOf<IEvaluator, DiscoveryAttribute>
-            (AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName != null && x.FullName.StartsWith("Pozitron.QuerySpecification"))),
+        () => TypeHelper.GetInstancesOf<IEvaluator, DiscoveryAttribute>(scanOnlySpecificationAssemblies: true),
         LazyThreadSafetyMode.ExecutionAndPublication);
 
     private static readonly Lazy<List<IMemoryEvaluator>> _allMemoryEvaluators = new(
-        () => TypeHelper.GetInstancesOf<IMemoryEvaluator, DiscoveryAttribute>(AppDomain.CurrentDomain.GetAssemblies()),
+        () => TypeHelper.GetInstancesOf<IMemoryEvaluator, DiscoveryAttribute>(scanOnlySpecificationAssemblies: false),
         LazyThreadSafetyMode.ExecutionAndPublication);
 
     private static readonly Lazy<List<IMemoryEvaluator>> _builtInMemoryEvaluators = new(
-        () => TypeHelper.GetInstancesOf<IMemoryEvaluator, DiscoveryAttribute>
-            (AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName != null && x.FullName.StartsWith("Pozitron.QuerySpecification"))),
+        () => TypeHelper.GetInstancesOf<IMemoryEvaluator, DiscoveryAttribute>(scanOnlySpecificationAssemblies: true),
         LazyThreadSafetyMode.ExecutionAndPublication);
 }
 
@@ -35,11 +32,10 @@ internal class ValidatorProvider
 
 
     private static readonly Lazy<List<IValidator>> _allValidators = new(
-        () => TypeHelper.GetInstancesOf<IValidator, DiscoveryAttribute>(AppDomain.CurrentDomain.GetAssemblies()),
+        () => TypeHelper.GetInstancesOf<IValidator, DiscoveryAttribute>(scanOnlySpecificationAssemblies: false),
         LazyThreadSafetyMode.ExecutionAndPublication);
 
     private static readonly Lazy<List<IValidator>> _builtInValidators = new(
-        () => TypeHelper.GetInstancesOf<IValidator, DiscoveryAttribute>
-            (AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName != null && x.FullName.StartsWith("Pozitron.QuerySpecification"))),
+        () => TypeHelper.GetInstancesOf<IValidator, DiscoveryAttribute>(scanOnlySpecificationAssemblies: true),
         LazyThreadSafetyMode.ExecutionAndPublication);
 }
