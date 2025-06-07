@@ -1,4 +1,4 @@
-﻿[assembly: AutoDiscovery]
+﻿[assembly: SpecAutoDiscovery]
 
 namespace Tests;
 

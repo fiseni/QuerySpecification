@@ -4,7 +4,7 @@
 /// Specifies whether auto discovery for evaluators and validators is enabled.
 /// </summary>
 [AttributeUsage(AttributeTargets.Assembly)]
-public sealed class AutoDiscoveryAttribute : Attribute
+public sealed class SpecAutoDiscoveryAttribute : Attribute
 {
 }
 

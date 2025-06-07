@@ -34,7 +34,7 @@ internal static class TypeDiscovery
             {
                 return _loadedAssemblies
                     .Value
-                    .Any(x => x.GetCustomAttributes().Any(attr => attr.GetType().Equals(typeof(AutoDiscoveryAttribute))));
+                    .Any(x => x.GetCustomAttributes().Any(attr => attr.GetType().Equals(typeof(SpecAutoDiscoveryAttribute))));
             }
             catch
             {
