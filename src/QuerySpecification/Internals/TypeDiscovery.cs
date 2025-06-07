@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 
 namespace Pozitron.QuerySpecification;
 
@@ -12,6 +13,7 @@ internal static class TypeDiscovery
                 return AppDomain.CurrentDomain
                     .GetAssemblies()
                     .Where(a =>
+                        a.IsDynamic == false &&
                         a.FullName != null &&
                         !a.FullName.StartsWith("System", StringComparison.OrdinalIgnoreCase) &&
                         !a.FullName.StartsWith("Microsoft", StringComparison.OrdinalIgnoreCase) &&
@@ -20,8 +22,10 @@ internal static class TypeDiscovery
                     )
                     .ToArray();
             }
-            catch
+            catch (Exception ex)
             {
+                Trace.TraceError("Error loading assemblies for type discovery: {0}", ex.Message);
+                Trace.TraceError("Stack Trace: {0}", ex.StackTrace);
                 return [];
             }
         },
@@ -36,8 +40,10 @@ internal static class TypeDiscovery
                     .Value
                     .Any(x => x.GetCustomAttributes().Any(attr => attr.GetType().Equals(typeof(SpecAutoDiscoveryAttribute))));
             }
-            catch
+            catch (Exception ex)
             {
+                Trace.TraceError("Error checking auto discovery attribute: {0}", ex.Message);
+                Trace.TraceError("Stack Trace: {0}", ex.StackTrace);
                 return false;
             }
         },
@@ -120,8 +126,11 @@ internal static class TypeDiscovery
                 .Select(e => e.Instance)
                 .ToList();
         }
-        catch
+        catch (Exception ex)
         {
+            Trace.TraceError("Error during type discovery for {0}.", typeof(TType).Name);
+            Trace.TraceError("Exception: {0}", ex.Message);
+            Trace.TraceError("Stack Trace: {0}", ex.StackTrace);
             return [];
         }
     }
