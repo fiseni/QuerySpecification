@@ -18,14 +18,15 @@ public class SpecificationValidator
     /// <summary>
     /// Initializes a new instance of the <see cref="SpecificationValidator"/> class.
     /// </summary>
-    public SpecificationValidator(DiscoveryStrategy strategy = DiscoveryStrategy.All)
+    public SpecificationValidator()
     {
-        Validators = strategy switch
-        {
-            DiscoveryStrategy.BuiltInOnly => ValidatorProvider.GetBuiltInValidators(),
-            DiscoveryStrategy.All => ValidatorProvider.GetAllValidators(),
-            _ => []
-        };
+        Validators = TypeDiscovery.IsAutoDiscoveryEnabled
+            ? TypeDiscovery.GetValidators()
+            :
+            [
+                WhereValidator.Instance,
+                LikeValidator.Instance,
+            ];
     }
 
     /// <summary>

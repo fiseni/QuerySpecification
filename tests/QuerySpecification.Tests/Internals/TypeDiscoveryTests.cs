@@ -2,14 +2,35 @@
 
 namespace Tests.Internals;
 
-public class TypeHelperTests
+public class TypeDiscoveryTests
 {
-    private static readonly Assembly[] _thisAssemblyArray = [typeof(TypeHelperTests).Assembly];
+    private static readonly Assembly[] _thisAssemblyArray = [typeof(TypeDiscoveryTests).Assembly];
+
+    [Fact]
+    public void GetMemoryEvaluators_IncludesCustom()
+    {
+        var allEvaluators = TypeDiscovery.GetMemoryEvaluators();
+        allEvaluators.Should().ContainSingle(x => x is TestMemoryEvaluator);
+    }
+
+    [Fact]
+    public void GetEvaluators_IncludesCustom()
+    {
+        var allEvaluators = TypeDiscovery.GetEvaluators();
+        allEvaluators.Should().ContainSingle(x => x is TestEvaluator);
+    }
+
+    [Fact]
+    public void GetValidators_IncludesCustom()
+    {
+        var allValidators = TypeDiscovery.GetValidators();
+        allValidators.Should().ContainSingle(x => x is TestValidator);
+    }
 
     [Fact]
     public void InstanceOf_IncludesTypeWithoutAttribute()
     {
-        var result = TypeHelper.GetInstancesOf<ITestType, TestDiscoveryAttribute>(_thisAssemblyArray);
+        var result = TypeDiscovery.GetInstancesOf<ITestType, TestDiscoveryAttribute>(_thisAssemblyArray);
 
         // Should be present
         result.Should().ContainSingle(x => x is NoAttributeType);
@@ -23,7 +44,7 @@ public class TypeHelperTests
     [Fact]
     public void InstanceOf_ReturnsInstance_GivenParameterlessConstructor()
     {
-        var result = TypeHelper.GetInstancesOf<ITestType, TestDiscoveryAttribute>(_thisAssemblyArray);
+        var result = TypeDiscovery.GetInstancesOf<ITestType, TestDiscoveryAttribute>(_thisAssemblyArray);
 
         result.Should().ContainSingle(x=>x is TestCtorType);
     }
@@ -31,7 +52,7 @@ public class TypeHelperTests
     [Fact]
     public void InstanceOf_ReturnsInstance_GivenSingletonFromStaticField()
     {
-        var result = TypeHelper.GetInstancesOf<ITestType, TestDiscoveryAttribute>(_thisAssemblyArray);
+        var result = TypeDiscovery.GetInstancesOf<ITestType, TestDiscoveryAttribute>(_thisAssemblyArray);
 
         result.Should().ContainSingle(x => x is TestFieldType && ReferenceEquals(x, TestFieldType.Instance));
     }
@@ -39,7 +60,7 @@ public class TypeHelperTests
     [Fact]
     public void InstanceOf_ReturnsInstance_GivenSingletonFromStaticProperty()
     {
-        var result = TypeHelper.GetInstancesOf<ITestType, TestDiscoveryAttribute>(_thisAssemblyArray);
+        var result = TypeDiscovery.GetInstancesOf<ITestType, TestDiscoveryAttribute>(_thisAssemblyArray);
 
         result.Should().ContainSingle(x => x is TestPropertyType && ReferenceEquals(x, TestPropertyType.Instance));
     }
@@ -47,7 +68,7 @@ public class TypeHelperTests
     [Fact]
     public void InstanceOf_DoesNotReturnsInstance_GivenPrivateConstructorAndNoSingleton()
     {
-        var result = TypeHelper.GetInstancesOf<ITestType, TestDiscoveryAttribute>(_thisAssemblyArray);
+        var result = TypeDiscovery.GetInstancesOf<ITestType, TestDiscoveryAttribute>(_thisAssemblyArray);
 
         result.Should().NotContain(x => x is TestPrivateCtorType);
     }
@@ -55,7 +76,7 @@ public class TypeHelperTests
     [Fact]
     public void InstanceOf_SkipsTypesWithDisabledDiscovery()
     {
-        var result = TypeHelper.GetInstancesOf<ITestType, TestDiscoveryAttribute>(_thisAssemblyArray);
+        var result = TypeDiscovery.GetInstancesOf<ITestType, TestDiscoveryAttribute>(_thisAssemblyArray);
 
         result.Should().NotContain(x => x is TestDisabledType);
     }
@@ -63,7 +84,7 @@ public class TypeHelperTests
     [Fact]
     public void InstanceOf_SkipsAbstractAndNonAssignableTypes()
     {
-        var result = TypeHelper.GetInstancesOf<ITestType, TestDiscoveryAttribute>(_thisAssemblyArray);
+        var result = TypeDiscovery.GetInstancesOf<ITestType, TestDiscoveryAttribute>(_thisAssemblyArray);
 
         result.Should().NotContain(x => x is TestAbstractType);
         result.Should().NotContain(x => x is NotAssignableType);
@@ -72,11 +93,36 @@ public class TypeHelperTests
     [Fact]
     public void InstanceOf_OrdersByOrderThenTypeName()
     {
-        var result = TypeHelper.GetInstancesOf<ITestType, TestDiscoveryAttribute>(_thisAssemblyArray);
+        var result = TypeDiscovery.GetInstancesOf<ITestType, TestDiscoveryAttribute>(_thisAssemblyArray);
 
         var indexA = result.FindIndex(x => x is TestOrderTypeA);
         var indexB = result.FindIndex(x => x is TestOrderTypeB);
         indexA.Should().BeLessThan(indexB, "TestOrderTypeA should come before TestOrderTypeB");
+    }
+
+    // Custom user evaluators and validators
+    public class TestEvaluator : IEvaluator
+    {
+        public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class
+        {
+            return source;
+        }
+    }
+
+    public class TestMemoryEvaluator : IMemoryEvaluator
+    {
+        public IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)
+        {
+            return source;
+        }
+    }
+
+    public class TestValidator : IValidator
+    {
+        public bool IsValid<T>(T entity, Specification<T> specification)
+        {
+            return true;
+        }
     }
 
     // Helper types for testing

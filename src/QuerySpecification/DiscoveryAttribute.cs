@@ -1,6 +1,14 @@
 ﻿namespace Pozitron.QuerySpecification;
 
 /// <summary>
+/// Specifies whether auto discovery for evaluators and validators is enabled.
+/// </summary>
+[AttributeUsage(AttributeTargets.Assembly)]
+public sealed class AutoDiscoveryAttribute : Attribute
+{
+}
+
+/// <summary>
 /// Specifies discovery options for evaluators and validators, such as order and whether discovery is enabled.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]

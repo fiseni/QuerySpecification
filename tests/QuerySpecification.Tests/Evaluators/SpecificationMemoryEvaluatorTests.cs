@@ -273,28 +273,12 @@ public class SpecificationMemoryEvaluatorTests
         result.Should().Equal(expectedEvaluators);
     }
 
-    [Fact]
-    public void DerivedSpecificationEvaluatorCanDisableDiscovery()
-    {
-        var evaluator = new SpecificationEvaluatorWithDisabledDiscovery();
-
-        var result = EvaluatorsOf(evaluator);
-        result.Should().BeEmpty();
-    }
-
     private class SpecificationEvaluatorDerived : SpecificationMemoryEvaluator
     {
-        public SpecificationEvaluatorDerived() : base(DiscoveryStrategy.BuiltInOnly)
+        public SpecificationEvaluatorDerived()
         {
             Evaluators.Add(WhereEvaluator.Instance);
             Evaluators.Insert(0, LikeMemoryEvaluator.Instance);
-        }
-    }
-
-    private class SpecificationEvaluatorWithDisabledDiscovery : SpecificationMemoryEvaluator
-    {
-        public SpecificationEvaluatorWithDisabledDiscovery() : base(DiscoveryStrategy.Disable)
-        {
         }
     }
 

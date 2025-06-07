@@ -110,28 +110,12 @@ public class SpecificationValidatorTests
         result.Should().Equal(expectedValidators);
     }
 
-    [Fact]
-    public void DerivedSpecificationValidatorCanDisableDiscovery()
-    {
-        var validator = new SpecificationValidatorWithDisabledDiscovery();
-
-        var result = ValidatorsOf(validator);
-        result.Should().BeEmpty();
-    }
-
     private class SpecificationValidatorDerived : SpecificationValidator
     {
-        public SpecificationValidatorDerived() : base(DiscoveryStrategy.BuiltInOnly)
+        public SpecificationValidatorDerived()
         {
             Validators.Add(WhereValidator.Instance);
             Validators.Insert(0, LikeValidator.Instance);
-        }
-    }
-
-    private class SpecificationValidatorWithDisabledDiscovery : SpecificationValidator
-    {
-        public SpecificationValidatorWithDisabledDiscovery() : base(DiscoveryStrategy.Disable)
-        {
         }
     }
 

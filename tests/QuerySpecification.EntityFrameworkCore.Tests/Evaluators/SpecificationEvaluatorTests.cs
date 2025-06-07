@@ -411,28 +411,12 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
         result.Should().Equal(expectedEvaluators);
     }
 
-    [Fact]
-    public void DerivedSpecificationEvaluatorCanDisableDiscovery()
-    {
-        var evaluator = new SpecificationEvaluatorWithDisabledDiscovery();
-
-        var result = EvaluatorsOf(evaluator);
-        result.Should().BeEmpty();
-    }
-
     private class SpecificationEvaluatorDerived : SpecificationEvaluator
     {
-        public SpecificationEvaluatorDerived() : base(DiscoveryStrategy.BuiltInOnly)
+        public SpecificationEvaluatorDerived()
         {
             Evaluators.Add(WhereEvaluator.Instance);
             Evaluators.Insert(0, LikeEvaluator.Instance);
-        }
-    }
-
-    private class SpecificationEvaluatorWithDisabledDiscovery : SpecificationEvaluator
-    {
-        public SpecificationEvaluatorWithDisabledDiscovery() : base(DiscoveryStrategy.Disable)
-        {
         }
     }
 
