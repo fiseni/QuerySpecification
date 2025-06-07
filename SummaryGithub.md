@@ -3,32 +3,33 @@
 
 |||
 |:---|:---|
-| Generated on: | 06/05/2025 - 10:07:03 |
-| Coverage date: | 06/05/2025 - 10:06:16 - 06/05/2025 - 10:07:00 |
-| Parser: | MultiReport (2x Cobertura) |
+| Generated on: | 06/07/2025 - 21:56:57 |
+| Coverage date: | 06/07/2025 - 21:56:16 - 06/07/2025 - 21:56:56 |
+| Parser: | MultiReport (3x Cobertura) |
 | Assemblies: | 2 |
-| Classes: | 54 |
-| Files: | 54 |
-| **Line coverage:** | 100% (1134 of 1134) |
-| Covered lines: | 1134 |
-| Uncovered lines: | 0 |
-| Coverable lines: | 1134 |
-| Total lines: | 4814 |
-| **Branch coverage:** | 100% (566 of 566) |
-| Covered branches: | 566 |
-| Total branches: | 566 |
+| Classes: | 56 |
+| Files: | 56 |
+| **Line coverage:** | 99.5% (1221 of 1227) |
+| Covered lines: | 1221 |
+| Uncovered lines: | 6 |
+| Coverable lines: | 1227 |
+| Total lines: | 5002 |
+| **Branch coverage:** | 99.5% (607 of 610) |
+| Covered branches: | 607 |
+| Total branches: | 610 |
 | **Method coverage:** | [Feature is only available for sponsors](https://reportgenerator.io/pro) |
-| Tag: | 60_15464272565 |
+| Tag: | 61_15512024063 |
 
 </details>
 
 ## Coverage
-<details><summary>Pozitron.QuerySpecification - 100%</summary>
+<details><summary>Pozitron.QuerySpecification - 99.3%</summary>
 
 |**Name**|**Line**|**Branch**|
 |:---|---:|---:|
-|**Pozitron.QuerySpecification**|**100%**|**100%**|
+|**Pozitron.QuerySpecification**|**99.3%**|**99.5%**|
 |Pozitron.QuerySpecification.ConcurrentSelectorsException|100%||
+|Pozitron.QuerySpecification.DiscoveryAttribute|100%||
 |Pozitron.QuerySpecification.EntityNotFoundException|100%||
 |Pozitron.QuerySpecification.IncludableSpecificationBuilder`2|100%||
 |Pozitron.QuerySpecification.IncludableSpecificationBuilder`3|100%||
@@ -55,13 +56,14 @@
 |Pozitron.QuerySpecification.SpecificationBuilder`2|100%||
 |Pozitron.QuerySpecification.SpecificationBuilderExtensions|100%|100%|
 |Pozitron.QuerySpecification.SpecificationExtensions|100%|100%|
-|Pozitron.QuerySpecification.SpecificationInMemoryEvaluator|100%|100%|
-|Pozitron.QuerySpecification.SpecificationValidator|100%|100%|
+|Pozitron.QuerySpecification.SpecificationMemoryEvaluator|100%|93.7%|
+|Pozitron.QuerySpecification.SpecificationValidator|100%|87.5%|
 |Pozitron.QuerySpecification.SpecIterator`1|100%|100%|
 |Pozitron.QuerySpecification.SpecLike`1|100%||
 |Pozitron.QuerySpecification.SpecLikeCompiled`1|100%||
 |Pozitron.QuerySpecification.SpecPaging|100%||
 |Pozitron.QuerySpecification.SpecSelectIterator`2|100%|100%|
+|Pozitron.QuerySpecification.TypeDiscovery|92.9%|100%|
 |Pozitron.QuerySpecification.WhereEvaluator|100%|100%|
 |Pozitron.QuerySpecification.WhereExpression`1|100%||
 |Pozitron.QuerySpecification.WhereExpressionCompiled`1|100%||
@@ -72,7 +74,7 @@
 
 |**Name**|**Line**|**Branch**|
 |:---|---:|---:|
-|**Pozitron.QuerySpecification.EntityFrameworkCore**|**100%**|**100%**|
+|**Pozitron.QuerySpecification.EntityFrameworkCore**|**100%**|**99.2%**|
 |Pozitron.QuerySpecification.AsNoTrackingEvaluator|100%|100%|
 |Pozitron.QuerySpecification.AsNoTrackingWithIdentityResolutionEvaluator|100%|100%|
 |Pozitron.QuerySpecification.AsSplitQueryEvaluator|100%|100%|
@@ -88,6 +90,6 @@
 |Pozitron.QuerySpecification.QueryTagEvaluator|100%|100%|
 |Pozitron.QuerySpecification.RepositoryBase`1|100%|100%|
 |Pozitron.QuerySpecification.RepositoryWithMapper`1|100%|100%|
-|Pozitron.QuerySpecification.SpecificationEvaluator|100%|100%|
+|Pozitron.QuerySpecification.SpecificationEvaluator|100%|93.7%|
 
 </details>
