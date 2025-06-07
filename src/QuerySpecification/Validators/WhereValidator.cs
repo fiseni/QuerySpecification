@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a validator for where expressions.
 /// </summary>
-[ValidatorDiscovery(Order = -100)]
+[ValidatorDiscovery(Order = 10)]
 public sealed class WhereValidator : IValidator
 {
     /// <summary>

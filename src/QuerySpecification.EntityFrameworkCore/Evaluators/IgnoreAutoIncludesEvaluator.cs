@@ -3,7 +3,7 @@
 /// <summary>
 /// Evaluator to apply IgnoreAutoIncludes to the query if the specification has IgnoreAutoIncludes set to true.
 /// </summary>
-[EvaluatorDiscovery(Order = -70)]
+[EvaluatorDiscovery(Order = 70)]
 public sealed class IgnoreAutoIncludesEvaluator : IEvaluator
 {
 

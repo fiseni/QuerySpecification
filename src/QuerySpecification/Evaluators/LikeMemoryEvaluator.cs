@@ -20,7 +20,7 @@ namespace Pozitron.QuerySpecification;
 /// <summary>
 /// Represents an in-memory evaluator for "Like" expressions.
 /// </summary>
-[EvaluatorDiscovery(Order = -95)]
+[EvaluatorDiscovery(Order = 20)]
 public sealed class LikeMemoryEvaluator : IMemoryEvaluator
 {
     /// <summary>

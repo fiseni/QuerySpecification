@@ -3,7 +3,7 @@
 /// <summary>
 /// Evaluator to apply the query tags to the query.
 /// </summary>
-[EvaluatorDiscovery(Order = -75)]
+[EvaluatorDiscovery(Order = 60)]
 public sealed class QueryTagEvaluator : IEvaluator
 {
 
