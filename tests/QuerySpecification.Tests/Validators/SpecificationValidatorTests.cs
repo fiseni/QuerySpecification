@@ -77,6 +77,22 @@ public class SpecificationValidatorTests
     }
 
     [Fact]
+    public void Constructor_SetsDefaultValidators()
+    {
+        var expectedValidators = new List<IValidator>
+        {
+            WhereValidator.Instance,
+            LikeValidator.Instance,
+        };
+
+        var validator = new SpecificationValidator();
+
+        var result = ValidatorsOf(validator);
+        result.Should().HaveSameCount(expectedValidators);
+        result.Should().Equal(expectedValidators);
+    }
+
+    [Fact]
     public void Constructor_SetsProvidedValidators()
     {
         var validators = new List<IValidator>

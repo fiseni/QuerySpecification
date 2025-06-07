@@ -368,6 +368,32 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
     }
 
     [Fact]
+    public void Constructor_SetsDefaultEvaluators()
+    {
+        var expectedEvaluators = new List<IEvaluator>
+        {
+            WhereEvaluator.Instance,
+            LikeEvaluator.Instance,
+            IncludeStringEvaluator.Instance,
+            IncludeEvaluator.Instance,
+            OrderEvaluator.Instance,
+            QueryTagEvaluator.Instance,
+            IgnoreAutoIncludesEvaluator.Instance,
+            IgnoreQueryFiltersEvaluator.Instance,
+            AsSplitQueryEvaluator.Instance,
+            AsNoTrackingEvaluator.Instance,
+            AsNoTrackingWithIdentityResolutionEvaluator.Instance,
+            AsTrackingEvaluator.Instance,
+        };
+
+        var evaluator = new SpecificationEvaluator();
+
+        var result = EvaluatorsOf(evaluator);
+        result.Should().HaveSameCount(expectedEvaluators);
+        result.Should().Equal(expectedEvaluators);
+    }
+
+    [Fact]
     public void Constructor_SetsProvidedEvaluators()
     {
         var evaluators = new List<IEvaluator>

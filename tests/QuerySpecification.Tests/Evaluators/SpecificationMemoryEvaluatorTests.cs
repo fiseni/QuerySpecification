@@ -239,6 +239,23 @@ public class SpecificationMemoryEvaluatorTests
     }
 
     [Fact]
+    public void Constructor_SetsDefaultEvaluators()
+    {
+        var expectedEvaluators = new List<IMemoryEvaluator>
+        {
+            WhereEvaluator.Instance,
+            LikeMemoryEvaluator.Instance,
+            OrderEvaluator.Instance,
+        };
+
+        var evaluator = new SpecificationMemoryEvaluator();
+
+        var result = EvaluatorsOf(evaluator);
+        result.Should().HaveSameCount(expectedEvaluators);
+        result.Should().Equal(expectedEvaluators);
+    }
+
+    [Fact]
     public void Constructor_SetsProvidedEvaluators()
     {
         var evaluators = new List<IMemoryEvaluator>
