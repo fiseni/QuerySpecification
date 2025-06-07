@@ -102,7 +102,7 @@ public partial class Specification<T>
     /// <summary>
     /// Gets the evaluator.
     /// </summary>
-    protected virtual SpecificationInMemoryEvaluator Evaluator => SpecificationInMemoryEvaluator.Default;
+    protected virtual SpecificationMemoryEvaluator Evaluator => SpecificationMemoryEvaluator.Default;
 
     /// <summary>
     /// Gets the validator.

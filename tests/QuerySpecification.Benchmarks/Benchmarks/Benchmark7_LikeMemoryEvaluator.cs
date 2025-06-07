@@ -1,7 +1,7 @@
 ﻿namespace QuerySpecification.Benchmarks;
 
 [MemoryDiagnoser]
-public class Benchmark7_LikeInMemoryEvaluator
+public class Benchmark7_LikeMemoryEvaluator
 {
     private List<Customer> _source = default!;
     private CustomerSpec _specification = default!;

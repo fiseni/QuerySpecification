@@ -3,6 +3,7 @@
 /// <summary>
 /// Evaluator to apply AsNoTracking to the query if the specification has AsNoTracking set to true.
 /// </summary>
+[EvaluatorDiscovery(Order = 110)]
 public sealed class AsNoTrackingWithIdentityResolutionEvaluator : IEvaluator
 {
     /// <summary>

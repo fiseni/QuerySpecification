@@ -18,6 +18,7 @@
 /// <summary>
 /// Represents a validator for "like" expressions.
 /// </summary>
+[ValidatorDiscovery(Order = 20)]
 public sealed class LikeValidator : IValidator
 {
     /// <summary>

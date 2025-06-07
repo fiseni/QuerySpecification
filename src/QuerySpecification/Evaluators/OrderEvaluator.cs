@@ -3,7 +3,8 @@
 /// <summary>
 /// Represents an evaluator for order expressions.
 /// </summary>
-public sealed class OrderEvaluator : IEvaluator, IInMemoryEvaluator
+[EvaluatorDiscovery(Order = 50)]
+public sealed class OrderEvaluator : IEvaluator, IMemoryEvaluator
 {
     /// <summary>
     /// Gets the singleton instance of the <see cref="OrderEvaluator"/> class.

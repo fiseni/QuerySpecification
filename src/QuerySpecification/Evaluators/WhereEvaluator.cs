@@ -3,7 +3,8 @@
 /// <summary>
 /// Represents an evaluator for where expressions.
 /// </summary>
-public sealed class WhereEvaluator : IEvaluator, IInMemoryEvaluator
+[EvaluatorDiscovery(Order = 10)]
+public sealed class WhereEvaluator : IEvaluator, IMemoryEvaluator
 {
     /// <summary>
     /// Gets the singleton instance of the <see cref="WhereEvaluator"/> class.

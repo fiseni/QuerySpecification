@@ -96,14 +96,18 @@ public class SpecificationValidatorTests
     [Fact]
     public void DerivedSpecificationValidatorCanAlterDefaultValidators()
     {
+        var expectedValidators = new List<IValidator>
+        {
+            LikeValidator.Instance,
+            WhereValidator.Instance,
+            LikeValidator.Instance,
+            WhereValidator.Instance
+        };
+
         var validator = new SpecificationValidatorDerived();
 
         var result = ValidatorsOf(validator);
-        result.Should().HaveCount(4);
-        result[0].Should().BeOfType<LikeValidator>();
-        result[1].Should().BeOfType<WhereValidator>();
-        result[2].Should().BeOfType<LikeValidator>();
-        result[3].Should().BeOfType<WhereValidator>();
+        result.Should().Equal(expectedValidators);
     }
 
     private class SpecificationValidatorDerived : SpecificationValidator

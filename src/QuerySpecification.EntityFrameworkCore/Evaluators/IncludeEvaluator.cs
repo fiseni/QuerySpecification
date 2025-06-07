@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Query;
-using System.Collections;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reflection;
@@ -9,6 +8,7 @@ namespace Pozitron.QuerySpecification;
 /// <summary>
 /// Evaluates a specification to include navigation properties.
 /// </summary>
+[EvaluatorDiscovery(Order = 40)]
 public sealed class IncludeEvaluator : IEvaluator
 {
     private static readonly MethodInfo _includeMethodInfo = typeof(EntityFrameworkQueryableExtensions)

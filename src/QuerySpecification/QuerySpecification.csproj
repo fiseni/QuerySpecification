@@ -15,10 +15,15 @@
     </PackageReleaseNotes>
   </PropertyGroup>
 
+  <ItemGroup Label="Packaging targets">
+    <None Include="build\*" Pack="true" PackagePath="build\" />
+  </ItemGroup>
+
   <ItemGroup>
     <InternalsVisibleTo Include="Pozitron.QuerySpecification.EntityFrameworkCore" />
     <InternalsVisibleTo Include="QuerySpecification.Tests" />
     <InternalsVisibleTo Include="QuerySpecification.EntityFrameworkCore.Tests" />
+    <InternalsVisibleTo Include="QuerySpecification.AutoDiscovery.Tests" />
     <InternalsVisibleTo Include="QuerySpecification.Benchmarks" />
   </ItemGroup>
 </Project>

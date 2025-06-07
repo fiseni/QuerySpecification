@@ -14,13 +14,14 @@ namespace Pozitron.QuerySpecification;
     This was the previous implementation. We're trying to avoid allocations of LikeExpressions, GroupBy and LINQ.
     The new implementation preserves the behavior and reduces allocations drastically.
     We've implemented a custom iterator. Also, instead of GroupBy, we have a single array sorted by group, and we slice it to get the groups.
-    For source of 1000 items, the allocations are reduced from 257.872 bytes to only 64 bytes (the cost of the iterator instance). Refer to LikeInMemoryEvaluatorBenchmark results.
+    For source of 1000 items, the allocations are reduced from 257.872 bytes to only 64 bytes (the cost of the iterator instance). Refer to LikeMemoryEvaluatorBenchmark results.
  */
 
 /// <summary>
 /// Represents an in-memory evaluator for "Like" expressions.
 /// </summary>
-public sealed class LikeMemoryEvaluator : IInMemoryEvaluator
+[EvaluatorDiscovery(Order = 20)]
+public sealed class LikeMemoryEvaluator : IMemoryEvaluator
 {
     /// <summary>
     /// Gets the singleton instance of the <see cref="LikeMemoryEvaluator"/> class.

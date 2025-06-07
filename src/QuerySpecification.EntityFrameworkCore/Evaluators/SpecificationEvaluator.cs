@@ -20,21 +20,23 @@ public class SpecificationEvaluator
     /// </summary>
     public SpecificationEvaluator()
     {
-        Evaluators =
-        [
-            WhereEvaluator.Instance,
-            LikeEvaluator.Instance,
-            IncludeStringEvaluator.Instance,
-            IncludeEvaluator.Instance,
-            OrderEvaluator.Instance,
-            IgnoreQueryFiltersEvaluator.Instance,
-            AsNoTrackingEvaluator.Instance,
-            AsNoTrackingWithIdentityResolutionEvaluator.Instance,
-            AsTrackingEvaluator.Instance,
-            AsSplitQueryEvaluator.Instance,
-            IgnoreAutoIncludesEvaluator.Instance,
-            QueryTagEvaluator.Instance,
-        ];
+        Evaluators = TypeDiscovery.IsAutoDiscoveryEnabled
+            ? TypeDiscovery.GetEvaluators()
+            :
+            [
+                WhereEvaluator.Instance,
+                LikeEvaluator.Instance,
+                IncludeStringEvaluator.Instance,
+                IncludeEvaluator.Instance,
+                OrderEvaluator.Instance,
+                QueryTagEvaluator.Instance,
+                IgnoreAutoIncludesEvaluator.Instance,
+                IgnoreQueryFiltersEvaluator.Instance,
+                AsSplitQueryEvaluator.Instance,
+                AsNoTrackingEvaluator.Instance,
+                AsNoTrackingWithIdentityResolutionEvaluator.Instance,
+                AsTrackingEvaluator.Instance,
+            ];
     }
 
     /// <summary>

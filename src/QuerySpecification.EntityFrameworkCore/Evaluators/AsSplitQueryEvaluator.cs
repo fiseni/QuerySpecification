@@ -3,6 +3,7 @@
 /// <summary>
 /// Evaluator to apply AsSplitQuery to the query if the specification has AsSplitQuery set to true.
 /// </summary>
+[EvaluatorDiscovery(Order = 90)]
 public sealed class AsSplitQueryEvaluator : IEvaluator
 {
     /// <summary>

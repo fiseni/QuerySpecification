@@ -2,9 +2,9 @@
 
 namespace Tests.Evaluators;
 
-public class SpecificationInMemoryEvaluatorTests
+public class SpecificationMemoryEvaluatorTests
 {
-    private static readonly SpecificationInMemoryEvaluator _evaluator = SpecificationInMemoryEvaluator.Default;
+    private static readonly SpecificationMemoryEvaluator _evaluator = SpecificationMemoryEvaluator.Default;
 
     public record Customer(int Id, string FirstName, string LastName);
     public record CustomerWithMails(int Id, string FirstName, string LastName, List<string> Emails);
@@ -241,14 +241,14 @@ public class SpecificationInMemoryEvaluatorTests
     [Fact]
     public void Constructor_SetsProvidedEvaluators()
     {
-        var evaluators = new List<IInMemoryEvaluator>
+        var evaluators = new List<IMemoryEvaluator>
         {
             WhereEvaluator.Instance,
             OrderEvaluator.Instance,
             WhereEvaluator.Instance,
         };
 
-        var evaluator = new SpecificationInMemoryEvaluator(evaluators);
+        var evaluator = new SpecificationMemoryEvaluator(evaluators);
 
         var result = EvaluatorsOf(evaluator);
         result.Should().HaveSameCount(evaluators);
@@ -256,20 +256,24 @@ public class SpecificationInMemoryEvaluatorTests
     }
 
     [Fact]
-    public void DerivedSpecificationEvaluatorCanAlterDefaultEvaluator()
+    public void DerivedSpecificationEvaluatorCanAlterDefaultEvaluators()
     {
+        var expectedEvaluators = new List<IMemoryEvaluator>
+        {
+            LikeMemoryEvaluator.Instance,
+            WhereEvaluator.Instance,
+            LikeMemoryEvaluator.Instance,
+            OrderEvaluator.Instance,
+            WhereEvaluator.Instance
+        };
+
         var evaluator = new SpecificationEvaluatorDerived();
 
         var result = EvaluatorsOf(evaluator);
-        result.Should().HaveCount(5);
-        result[0].Should().BeOfType<LikeMemoryEvaluator>();
-        result[1].Should().BeOfType<WhereEvaluator>();
-        result[2].Should().BeOfType<OrderEvaluator>();
-        result[3].Should().BeOfType<LikeMemoryEvaluator>();
-        result[4].Should().BeOfType<WhereEvaluator>();
+        result.Should().Equal(expectedEvaluators);
     }
 
-    private class SpecificationEvaluatorDerived : SpecificationInMemoryEvaluator
+    private class SpecificationEvaluatorDerived : SpecificationMemoryEvaluator
     {
         public SpecificationEvaluatorDerived()
         {
@@ -279,5 +283,5 @@ public class SpecificationInMemoryEvaluatorTests
     }
 
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "<Evaluators>k__BackingField")]
-    public static extern ref List<IInMemoryEvaluator> EvaluatorsOf(SpecificationInMemoryEvaluator @this);
+    public static extern ref List<IMemoryEvaluator> EvaluatorsOf(SpecificationMemoryEvaluator @this);
 }

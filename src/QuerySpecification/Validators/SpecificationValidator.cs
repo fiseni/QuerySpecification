@@ -20,11 +20,13 @@ public class SpecificationValidator
     /// </summary>
     public SpecificationValidator()
     {
-        Validators =
-        [
-            WhereValidator.Instance,
-            LikeValidator.Instance
-        ];
+        Validators = TypeDiscovery.IsAutoDiscoveryEnabled
+            ? TypeDiscovery.GetValidators()
+            :
+            [
+                WhereValidator.Instance,
+                LikeValidator.Instance,
+            ];
     }
 
     /// <summary>

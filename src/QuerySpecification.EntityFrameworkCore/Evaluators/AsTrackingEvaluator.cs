@@ -3,6 +3,7 @@
 /// <summary>
 /// Evaluator to apply AsTracking to the query if the specification has AsTracking set to true.
 /// </summary>
+[EvaluatorDiscovery(Order = 120)]
 public sealed class AsTrackingEvaluator : IEvaluator
 {
     /// <summary>

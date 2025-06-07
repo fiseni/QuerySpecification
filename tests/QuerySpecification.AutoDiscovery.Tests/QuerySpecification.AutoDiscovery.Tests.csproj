@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\QuerySpecification.EntityFrameworkCore\QuerySpecification.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\src\QuerySpecification\QuerySpecification.csproj" />
+  </ItemGroup>
+
+</Project>
