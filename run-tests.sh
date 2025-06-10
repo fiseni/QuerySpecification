@@ -17,10 +17,10 @@ testtarget="*.sln"
 fi
 
 dotnet build $testtarget --configuration Release
-dotnet test $testtarget --configuration Release --no-build --no-restore --collect:"XPlat Code Coverage"
+dotnet test $testtarget --configuration Release --no-build --no-restore --collect:"XPlat Code Coverage;Format=opencover"
 
 reportgenerator \
-    -reports:tests/**/coverage.cobertura.xml \
+    -reports:tests/**/coverage.opencover.xml \
     -targetdir:TestResults \
     -reporttypes:"Html;Badges;MarkdownSummaryGithub" \
     -assemblyfilters:-*Tests*
