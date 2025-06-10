@@ -21,11 +21,11 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release
     - name: Test
-      run: dotnet test --configuration Release --no-build --no-restore --collect:"XPlat Code Coverage"
+      run: dotnet test --configuration Release --no-build --no-restore --collect:"XPlat Code Coverage;Format=opencover"
     - name: ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.3.9
       with:
-        reports: tests/**/coverage.cobertura.xml
+        reports: tests/**/coverage.opencover.xml
         targetdir: ${{ runner.temp }}/coveragereport
         reporttypes: 'Html;Badges;MarkdownSummaryGithub'
         assemblyfilters: -*Tests*
