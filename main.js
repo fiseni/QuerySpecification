@@ -249,8 +249,8 @@ var assemblies = [
       { "name": "Pozitron.QuerySpecification.SpecificationBuilder<T1, T2>", "rp": "Pozitron.QuerySpecification_SpecificationBuilder_2.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 72, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.SpecificationBuilderExtensions", "rp": "Pozitron.QuerySpecification_SpecificationBuilderExtensions.html", "cl": 200, "ucl": 0, "cal": 200, "tl": 1477, "cb": 96, "tb": 96, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.SpecificationExtensions", "rp": "Pozitron.QuerySpecification_SpecificationExtensions.html", "cl": 6, "ucl": 0, "cal": 6, "tl": 35, "cb": 6, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Pozitron.QuerySpecification.SpecificationMemoryEvaluator", "rp": "Pozitron.QuerySpecification_SpecificationMemoryEvaluator.html", "cl": 34, "ucl": 0, "cal": 34, "tl": 102, "cb": 15, "tb": 16, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Pozitron.QuerySpecification.SpecificationValidator", "rp": "Pozitron.QuerySpecification_SpecificationValidator.html", "cl": 20, "ucl": 0, "cal": 20, "tl": 60, "cb": 7, "tb": 8, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Pozitron.QuerySpecification.SpecificationMemoryEvaluator", "rp": "Pozitron.QuerySpecification_SpecificationMemoryEvaluator.html", "cl": 34, "ucl": 0, "cal": 34, "tl": 102, "cb": 16, "tb": 16, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Pozitron.QuerySpecification.SpecificationValidator", "rp": "Pozitron.QuerySpecification_SpecificationValidator.html", "cl": 20, "ucl": 0, "cal": 20, "tl": 60, "cb": 8, "tb": 8, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.SpecIterator<T>", "rp": "Pozitron.QuerySpecification_SpecIterator_1.html", "cl": 16, "ucl": 0, "cal": 16, "tl": 41, "cb": 6, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.SpecLike<T>", "rp": "Pozitron.QuerySpecification_SpecLike_1.html", "cl": 6, "ucl": 0, "cal": 6, "tl": 31, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.SpecLikeCompiled<T>", "rp": "Pozitron.QuerySpecification_SpecLikeCompiled_1.html", "cl": 6, "ucl": 0, "cal": 6, "tl": 31, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
@@ -280,55 +280,55 @@ var assemblies = [
       { "name": "Pozitron.QuerySpecification.QueryTagEvaluator", "rp": "Pozitron.QuerySpecification.EntityFrameworkCore_QueryTagEvaluator.html", "cl": 6, "ucl": 0, "cal": 6, "tl": 29, "cb": 6, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.RepositoryBase<T>", "rp": "Pozitron.QuerySpecification.EntityFrameworkCore_RepositoryBase_1.html", "cl": 63, "ucl": 0, "cal": 63, "tl": 210, "cb": 4, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.RepositoryWithMapper<T>", "rp": "Pozitron.QuerySpecification.EntityFrameworkCore_RepositoryWithMapper_1.html", "cl": 32, "ucl": 0, "cal": 32, "tl": 107, "cb": 2, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Pozitron.QuerySpecification.SpecificationEvaluator", "rp": "Pozitron.QuerySpecification.EntityFrameworkCore_SpecificationEvaluator.html", "cl": 43, "ucl": 0, "cal": 43, "tl": 111, "cb": 15, "tb": 16, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Pozitron.QuerySpecification.SpecificationEvaluator", "rp": "Pozitron.QuerySpecification.EntityFrameworkCore_SpecificationEvaluator.html", "cl": 43, "ucl": 0, "cal": 43, "tl": 111, "cb": 16, "tb": 16, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
     ]},
 ];
 
-var metrics = [{ "name": "Crap Score", "abbreviation": "crp", "explanationUrl": "https://googletesting.blogspot.de/2011/02/this-code-is-crap.html" }, { "name": "Cyclomatic complexity", "abbreviation": "cc", "explanationUrl": "https://en.wikipedia.org/wiki/Cyclomatic_complexity" }, { "name": "Line coverage", "abbreviation": "cov", "explanationUrl": "https://en.wikipedia.org/wiki/Code_coverage" }, { "name": "Branch coverage", "abbreviation": "bcov", "explanationUrl": "https://en.wikipedia.org/wiki/Code_coverage" }];
+var metrics = [{ "name": "Cyclomatic complexity", "abbreviation": "cc", "explanationUrl": "https://en.wikipedia.org/wiki/Cyclomatic_complexity" }, { "name": "NPath complexity", "abbreviation": "npth", "explanationUrl": "https://modess.io/npath-complexity-cyclomatic-complexity-explained" }, { "name": "Sequence coverage", "abbreviation": "seq", "explanationUrl": "https://en.wikipedia.org/wiki/Code_coverage" }, { "name": "Branch coverage", "abbreviation": "bcov", "explanationUrl": "https://en.wikipedia.org/wiki/Code_coverage" }];
 
 var historicCoverageExecutionTimes = [];
 
 var riskHotspotMetrics = [
-      { "name": "Crap Score", "explanationUrl": "https://googletesting.blogspot.de/2011/02/this-code-is-crap.html" },
       { "name": "Cyclomatic complexity", "explanationUrl": "https://en.wikipedia.org/wiki/Cyclomatic_complexity" },
+      { "name": "NPath complexity", "explanationUrl": "https://modess.io/npath-complexity-cyclomatic-complexity-explained" },
 ];
 
 var riskHotspots = [
   {
-    "assembly": "Pozitron.QuerySpecification", "class": "Pozitron.QuerySpecification.TypeDiscovery", "reportPath": "Pozitron.QuerySpecification_TypeDiscovery.html", "methodName": "GetInstancesOf(System.Collections.Generic.IEnumerable`1<System.Reflection.Assembly>)", "methodShortName": "GetInstancesOf(...)", "fileIndex": 0, "line": 81,
+    "assembly": "Pozitron.QuerySpecification", "class": "Pozitron.QuerySpecification.TypeDiscovery", "reportPath": "Pozitron.QuerySpecification_TypeDiscovery.html", "methodName": "System.Collections.Generic.List`1<TType> Pozitron.QuerySpecification.TypeDiscovery::GetInstancesOf(System.Collections.Generic.IEnumerable`1<System.Reflection.Assembly>)", "methodShortName": "GetInstancesOf(...)", "fileIndex": 0, "line": 81,
     "metrics": [
-      { "value": 32.22, "exceeded": true },
       { "value": 30, "exceeded": true },
+      { "value": 30, "exceeded": false },
     ]},
   {
-    "assembly": "Pozitron.QuerySpecification", "class": "Pozitron.QuerySpecification.Specification<T>", "reportPath": "Pozitron.QuerySpecification_Specification_1.html", "methodName": "GenerateCompiledItems()", "methodShortName": "GenerateCompiledItems()", "fileIndex": 0, "line": 442,
+    "assembly": "Pozitron.QuerySpecification", "class": "Pozitron.QuerySpecification.Specification<T>", "reportPath": "Pozitron.QuerySpecification_Specification_1.html", "methodName": "GenerateCompiledItems(Pozitron.QuerySpecification.SpecItem[],System.Int32)", "methodShortName": "GenerateCompiledItems(Pozitron.QuerySpecification.SpecItem[],System.Int32)", "fileIndex": 0, "line": 442,
     "metrics": [
-      { "value": 24, "exceeded": false },
       { "value": 24, "exceeded": true },
+      { "value": 24, "exceeded": false },
     ]},
   {
-    "assembly": "Pozitron.QuerySpecification.EntityFrameworkCore", "class": "Pozitron.QuerySpecification.IncludeEvaluator", "reportPath": "Pozitron.QuerySpecification.EntityFrameworkCore_IncludeEvaluator.html", "methodName": ".cctor()", "methodShortName": ".cctor()", "fileIndex": 0, "line": 14,
+    "assembly": "Pozitron.QuerySpecification.EntityFrameworkCore", "class": "Pozitron.QuerySpecification.IncludeEvaluator", "reportPath": "Pozitron.QuerySpecification.EntityFrameworkCore_IncludeEvaluator.html", "methodName": "System.Void Pozitron.QuerySpecification.IncludeEvaluator::.cctor()", "methodShortName": ".cctor()", "fileIndex": 0, "line": 14,
     "metrics": [
-      { "value": 22, "exceeded": false },
       { "value": 22, "exceeded": true },
+      { "value": 22, "exceeded": false },
     ]},
   {
-    "assembly": "Pozitron.QuerySpecification", "class": "Pozitron.QuerySpecification.OrderEvaluator", "reportPath": "Pozitron.QuerySpecification_OrderEvaluator.html", "methodName": "Evaluate(System.Linq.IQueryable`1<T>,Pozitron.QuerySpecification.Specification`1<T>)", "methodShortName": "Evaluate(...)", "fileIndex": 0, "line": 18,
+    "assembly": "Pozitron.QuerySpecification", "class": "Pozitron.QuerySpecification.OrderEvaluator", "reportPath": "Pozitron.QuerySpecification_OrderEvaluator.html", "methodName": "System.Linq.IQueryable`1<T> Pozitron.QuerySpecification.OrderEvaluator::Evaluate(System.Linq.IQueryable`1<T>,Pozitron.QuerySpecification.Specification`1<T>)", "methodShortName": "Evaluate(...)", "fileIndex": 0, "line": 18,
     "metrics": [
-      { "value": 16, "exceeded": false },
       { "value": 16, "exceeded": true },
+      { "value": 16, "exceeded": false },
     ]},
   {
-    "assembly": "Pozitron.QuerySpecification", "class": "Pozitron.QuerySpecification.OrderEvaluator", "reportPath": "Pozitron.QuerySpecification_OrderEvaluator.html", "methodName": "Evaluate(System.Collections.Generic.IEnumerable`1<T>,Pozitron.QuerySpecification.Specification`1<T>)", "methodShortName": "Evaluate(...)", "fileIndex": 0, "line": 54,
+    "assembly": "Pozitron.QuerySpecification", "class": "Pozitron.QuerySpecification.OrderEvaluator", "reportPath": "Pozitron.QuerySpecification_OrderEvaluator.html", "methodName": "System.Collections.Generic.IEnumerable`1<T> Pozitron.QuerySpecification.OrderEvaluator::Evaluate(System.Collections.Generic.IEnumerable`1<T>,Pozitron.QuerySpecification.Specification`1<T>)", "methodShortName": "Evaluate(...)", "fileIndex": 0, "line": 54,
     "metrics": [
-      { "value": 16, "exceeded": false },
       { "value": 16, "exceeded": true },
+      { "value": 16, "exceeded": false },
     ]},
   {
-    "assembly": "Pozitron.QuerySpecification.EntityFrameworkCore", "class": "Pozitron.QuerySpecification.LikeExtension", "reportPath": "Pozitron.QuerySpecification.EntityFrameworkCore_LikeExtension.html", "methodName": "ApplyLikesAsOrGroup(System.Linq.IQueryable`1<T>,System.ReadOnlySpan`1<Pozitron.QuerySpecification.SpecItem>)", "methodShortName": "ApplyLikesAsOrGroup(...)", "fileIndex": 0, "line": 28,
+    "assembly": "Pozitron.QuerySpecification.EntityFrameworkCore", "class": "Pozitron.QuerySpecification.LikeExtension", "reportPath": "Pozitron.QuerySpecification.EntityFrameworkCore_LikeExtension.html", "methodName": "System.Linq.IQueryable`1<T> Pozitron.QuerySpecification.LikeExtension::ApplyLikesAsOrGroup(System.Linq.IQueryable`1<T>,System.ReadOnlySpan`1<Pozitron.QuerySpecification.SpecItem>)", "methodShortName": "ApplyLikesAsOrGroup(...)", "fileIndex": 0, "line": 28,
     "metrics": [
-      { "value": 16, "exceeded": false },
       { "value": 16, "exceeded": true },
+      { "value": 16, "exceeded": false },
     ]},
 ];
 
