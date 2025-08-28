@@ -102,39 +102,33 @@ public sealed class LikeMemoryEvaluator : IMemoryEvaluator
 
         private static bool IsValid<T>(T sourceItem, ReadOnlySpan<SpecItem> span)
         {
-            var valid = true;
             var groupStart = 0;
-
             for (var i = 1; i <= span.Length; i++)
             {
                 // If we reached the end of the span or the group has changed, we slice and process the group.
                 if (i == span.Length || span[i].Bag != span[groupStart].Bag)
                 {
-                    var validOrGroup = IsValidInOrGroup(sourceItem, span[groupStart..i]);
-                    if ((valid = valid && validOrGroup) is false)
+                    if (IsValidInOrGroup(sourceItem, span[groupStart..i]) is false)
                     {
-                        break;
+                        return false;
                     }
                     groupStart = i;
                 }
             }
-
-            return valid;
+            return true;
 
             static bool IsValidInOrGroup(T sourceItem, ReadOnlySpan<SpecItem> span)
             {
-                var validOrGroup = false;
                 foreach (var specItem in span)
                 {
                     if (specItem.Reference is not SpecLikeCompiled<T> specLike) continue;
 
                     if (specLike.KeySelector(sourceItem)?.Like(specLike.Pattern) ?? false)
                     {
-                        validOrGroup = true;
-                        break;
+                        return true;
                     }
                 }
-                return validOrGroup;
+                return false;
             }
         }
     }

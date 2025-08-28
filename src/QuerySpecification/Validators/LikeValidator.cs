@@ -59,18 +59,16 @@ public sealed class LikeValidator : IValidator
 
         static bool IsValidInOrGroup(T entity, ReadOnlySpan<SpecItem> span)
         {
-            var validOrGroup = false;
             foreach (var specItem in span)
             {
                 if (specItem.Reference is not SpecLikeCompiled<T> specLike) continue;
 
                 if (specLike.KeySelector(entity)?.Like(specLike.Pattern) ?? false)
                 {
-                    validOrGroup = true;
-                    break;
+                    return true;
                 }
             }
-            return validOrGroup;
+            return false;
         }
     }
 }
