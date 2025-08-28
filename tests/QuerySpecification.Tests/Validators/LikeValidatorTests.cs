@@ -63,6 +63,21 @@ public class LikeValidatorTests
     }
 
     [Fact]
+    public void ReturnsFalse_GivenSpecWithSingleLike_WithNullProperty()
+    {
+        var customer = new Customer(1, "FirstName1", null);
+
+        var term = "irst";
+        var spec = new Specification<Customer>();
+        spec.Query
+            .Like(x => x.LastName, $"%{term}%");
+
+        var result = _validator.IsValid(customer, spec);
+
+        result.Should().BeFalse();
+    }
+
+    [Fact]
     public void ReturnsTrue_GivenSpecWithMultipleLikeSameGroup_WithValidEntity()
     {
         var customer = new Customer(1, "FirstName1", "LastName1");

@@ -5,7 +5,7 @@ public class Builder_IgnoreAutoIncludes
     public record Customer(int Id, string Name);
 
     [Fact]
-    public void DoesNothing_GivenNoIgnoreAutoIncludes()
+    public void DoesNothing_GivenNoAutoIncludes()
     {
         var spec1 = new Specification<Customer>();
         var spec2 = new Specification<Customer, string>();
@@ -15,7 +15,7 @@ public class Builder_IgnoreAutoIncludes
     }
 
     [Fact]
-    public void DoesNothing_GivenIgnoreAutoIncludesWithFalseCondition()
+    public void DoesNothing_GivenAutoIncludesWithFalseCondition()
     {
         var spec1 = new Specification<Customer>();
         spec1.Query
@@ -30,7 +30,7 @@ public class Builder_IgnoreAutoIncludes
     }
 
     [Fact]
-    public void SetsIgnoreAutoIncludes_GivenIgnoreAutoIncludes()
+    public void SetsAutoIncludes_GivenAutoIncludes()
     {
         var spec1 = new Specification<Customer>();
         spec1.Query

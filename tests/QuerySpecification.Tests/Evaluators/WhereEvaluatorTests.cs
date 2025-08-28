@@ -20,6 +20,20 @@ public class WhereEvaluatorTests
     }
 
     [Fact]
+    public void Filters_GivenMultipleWhereExpressions()
+    {
+        List<Customer> input = [new(1), new(2), new(3), new(4), new(5)];
+        List<Customer> expected = [new(4)];
+
+        var spec = new Specification<Customer>();
+        spec.Query
+            .Where(x => x.Id > 3)
+            .Where(x => x.Id < 5);
+
+        Assert(spec, input, expected);
+    }
+
+    [Fact]
     public void DoesNotFilter_GivenNoWhereExpression()
     {
         List<Customer> input = [new(1), new(2), new(3), new(4), new(5)];

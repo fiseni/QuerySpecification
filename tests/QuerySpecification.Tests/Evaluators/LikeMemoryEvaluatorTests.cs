@@ -7,6 +7,34 @@ public class LikeMemoryEvaluatorTests
     public record Customer(int Id, string FirstName, string? LastName);
 
     [Fact]
+    public void Filters_GivenSingleLike()
+    {
+        List<Customer> input =
+        [
+            new(1, "axxa", "axya"),
+            new(2, "aaaa", "aaaa"),
+            new(3, "aaaa", "axya"),
+            new(4, "aaaa", null)
+        ];
+
+        List<Customer> expected =
+        [
+            new(2, "aaaa", "aaaa"),
+        ];
+
+        var spec = new Specification<Customer>();
+        spec.Query
+            .Like(x => x.LastName, "%aa%");
+
+        // Not materializing with ToList() intentionally to test cloning in the iterator
+        var actual = _evaluator.Evaluate(input, spec);
+
+        // Multiple iterations will force cloning
+        actual.Should().HaveSameCount(expected);
+        actual.Should().Equal(expected);
+    }
+
+    [Fact]
     public void Filters_GivenLikeInSameGroup()
     {
         List<Customer> input =
