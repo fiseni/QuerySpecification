@@ -6,7 +6,8 @@
 /// <typeparam name="T">The type of the entity.</typeparam>
 /// <typeparam name="TResult">The type of the result.</typeparam>
 /// <typeparam name="TProperty">The type of the property.</typeparam>
-public interface IIncludableSpecificationBuilder<T, TResult, out TProperty> : ISpecificationBuilder<T, TResult> where T : class
+public interface IIncludableSpecificationBuilder<T, TResult, out TProperty> 
+    : ISpecificationBuilder<T, TResult>, IIncludableSpecificationBuilder<T, TProperty> where T : class
 {
 }
 
@@ -15,7 +16,8 @@ public interface IIncludableSpecificationBuilder<T, TResult, out TProperty> : IS
 /// </summary>
 /// <typeparam name="T">The type of the entity.</typeparam>
 /// <typeparam name="TProperty">The type of the property.</typeparam>
-public interface IIncludableSpecificationBuilder<T, out TProperty> : ISpecificationBuilder<T> where T : class
+public interface IIncludableSpecificationBuilder<T, out TProperty> 
+    : ISpecificationBuilder<T> where T : class
 {
 }
 
