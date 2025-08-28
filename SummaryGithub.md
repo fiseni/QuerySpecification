@@ -3,21 +3,21 @@
 
 |||
 |:---|:---|
-| Generated on: | 06/11/2025 - 14:38:48 |
+| Generated on: | 08/28/2025 - 14:08:49 |
 | Parser: | MultiReport (3x OpenCover) |
 | Assemblies: | 2 |
 | Classes: | 56 |
 | Files: | 56 |
-| **Line coverage:** | 98.9% (1222 of 1235) |
-| Covered lines: | 1222 |
+| **Line coverage:** | 98.9% (1217 of 1230) |
+| Covered lines: | 1217 |
 | Uncovered lines: | 13 |
-| Coverable lines: | 1235 |
-| Total lines: | 5011 |
+| Coverable lines: | 1230 |
+| Total lines: | 5005 |
 | **Branch coverage:** | 100% (612 of 612) |
 | Covered branches: | 612 |
 | Total branches: | 612 |
 | **Method coverage:** | [Feature is only available for sponsors](https://reportgenerator.io/pro) |
-| Tag: | 67_15587897385 |
+| Tag: | 68_17298362965 |
 
 </details>
 
