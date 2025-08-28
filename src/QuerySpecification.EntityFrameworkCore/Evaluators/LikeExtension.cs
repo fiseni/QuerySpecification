@@ -6,20 +6,19 @@ namespace Pozitron.QuerySpecification;
 
 internal static class LikeExtension
 {
+    // We'll name the property Format just so we match the produced SQL query parameter name (in case of interpolated strings).
+    private record StringVar(string Format);
+    private static readonly PropertyInfo _stringFormatProperty = typeof(StringVar).GetProperty(nameof(StringVar.Format))!;
+    private static readonly MemberExpression _functions = Expression.Property(null, typeof(EF).GetProperty(nameof(EF.Functions))!);
     private static readonly MethodInfo _likeMethodInfo = typeof(DbFunctionsExtensions)
         .GetMethod(nameof(DbFunctionsExtensions.Like), [typeof(DbFunctions), typeof(string), typeof(string)])!;
 
-    private static readonly MemberExpression _functions = Expression.Property(null, typeof(EF).GetProperty(nameof(EF.Functions))!);
 
     // It's required so EF can generate parameterized query.
     // In the past I've been creating closures for this, e.g. var patternAsExpression = ((Expression<Func<string>>)(() => pattern)).Body;
     // But, that allocates 168 bytes. So, this is more efficient way.
-    private static MemberExpression StringAsExpression(string value) => Expression.Property(
-            Expression.Constant(new StringVar(value)),
-            typeof(StringVar).GetProperty(nameof(StringVar.Format))!);
-
-    // We'll name the property Format just so we match the produced SQL query parameter name (in case of interpolated strings).
-    private record StringVar(string Format);
+    private static MemberExpression StringAsExpression(string value)
+        => Expression.Property(Expression.Constant(new StringVar(value)), _stringFormatProperty);
 
     public static IQueryable<T> ApplyLikesAsOrGroup<T>(this IQueryable<T> source, ReadOnlySpan<SpecItem> likeItems)
     {
