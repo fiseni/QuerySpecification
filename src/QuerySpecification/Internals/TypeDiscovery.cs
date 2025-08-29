@@ -53,11 +53,13 @@ internal static class TypeDiscovery
             var attr = entryAssembly?.GetCustomAttributes<SpecAutoDiscoveryAttribute>().FirstOrDefault();
             if (attr is not null) return attr.Value;
 
-            attr = _loadedAssemblies.Value
-                .Select(a => a.GetCustomAttributes<SpecAutoDiscoveryAttribute>().FirstOrDefault())
-                .FirstOrDefault(a => a is not null);
+            foreach (var asm in _loadedAssemblies.Value)
+            {
+                attr = asm.GetCustomAttributes<SpecAutoDiscoveryAttribute>().FirstOrDefault();
+                if (attr is not null) return attr.Value;
+            }
 
-            return attr?.Value ?? string.Empty;
+            return string.Empty;
         },
         LazyThreadSafetyMode.ExecutionAndPublication);
 
