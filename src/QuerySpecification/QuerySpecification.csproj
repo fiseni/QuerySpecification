@@ -7,7 +7,7 @@
     <Description>Abstract package for building query specifications.</Description>
     <Summary>Abstract package for building query specifications.</Summary>
     
-    <Version>11.3.0</Version>
+    <Version>11.3.1</Version>
     <PackageTags>fiseni pozitron query specification</PackageTags>
     <PackageReleaseNotes>
       Refer to Releases page for details.
