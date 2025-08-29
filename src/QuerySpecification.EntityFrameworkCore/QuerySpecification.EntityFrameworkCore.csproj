@@ -7,7 +7,7 @@
     <Description>EntityFrameworkCore plugin to Pozitron.QuerySpecification containing EF evaluators.</Description>
     <Summary>EntityFrameworkCore plugin to Pozitron.QuerySpecification containing EF evaluators.</Summary>
     
-    <Version>11.2.0</Version>
+    <Version>11.3.0</Version>
     <PackageTags>fiseni pozitron query specification efcore</PackageTags>
     <PackageReleaseNotes>
       Refer to Releases page for details.
