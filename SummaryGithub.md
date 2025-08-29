@@ -3,30 +3,30 @@
 
 |||
 |:---|:---|
-| Generated on: | 08/28/2025 - 15:41:19 |
+| Generated on: | 08/29/2025 - 18:25:47 |
 | Parser: | MultiReport (3x OpenCover) |
 | Assemblies: | 2 |
-| Classes: | 56 |
-| Files: | 56 |
-| **Line coverage:** | 98.9% (1216 of 1229) |
-| Covered lines: | 1216 |
-| Uncovered lines: | 13 |
-| Coverable lines: | 1229 |
-| Total lines: | 5004 |
-| **Branch coverage:** | 100% (612 of 612) |
-| Covered branches: | 612 |
-| Total branches: | 612 |
+| Classes: | 58 |
+| Files: | 57 |
+| **Line coverage:** | 98.8% (1236 of 1250) |
+| Covered lines: | 1236 |
+| Uncovered lines: | 14 |
+| Coverable lines: | 1250 |
+| Total lines: | 5060 |
+| **Branch coverage:** | 98.4% (618 of 628) |
+| Covered branches: | 618 |
+| Total branches: | 628 |
 | **Method coverage:** | [Feature is only available for sponsors](https://reportgenerator.io/pro) |
-| Tag: | 69_17300817084 |
+| Tag: | 70_17331386604 |
 
 </details>
 
 ## Coverage
-<details><summary>Pozitron.QuerySpecification - 98.5%</summary>
+<details><summary>Pozitron.QuerySpecification - 98.4%</summary>
 
 |**Name**|**Line**|**Branch**|
 |:---|---:|---:|
-|**Pozitron.QuerySpecification**|**98.5%**|**100%**|
+|**Pozitron.QuerySpecification**|**98.4%**|**97.9%**|
 |Pozitron.QuerySpecification.ConcurrentSelectorsException|100%||
 |Pozitron.QuerySpecification.DiscoveryAttribute|100%||
 |Pozitron.QuerySpecification.EntityNotFoundException|100%||
@@ -49,6 +49,8 @@
 |Pozitron.QuerySpecification.PaginationSettings|100%||
 |Pozitron.QuerySpecification.PagingFilter|100%||
 |Pozitron.QuerySpecification.SelectorNotFoundException|100%||
+|Pozitron.QuerySpecification.SpecAutoDiscoveryAttribute|100%||
+|Pozitron.QuerySpecification.SpecAutoDiscoveryException|100%||
 |Pozitron.QuerySpecification.Specification`1|100%|100%|
 |Pozitron.QuerySpecification.Specification`2|100%||
 |Pozitron.QuerySpecification.SpecificationBuilder`1|100%||
@@ -62,7 +64,7 @@
 |Pozitron.QuerySpecification.SpecLikeCompiled`1|100%||
 |Pozitron.QuerySpecification.SpecPaging|100%||
 |Pozitron.QuerySpecification.SpecSelectIterator`2|100%|100%|
-|Pozitron.QuerySpecification.TypeDiscovery|86%|100%|
+|Pozitron.QuerySpecification.TypeDiscovery|86.7%|82.1%|
 |Pozitron.QuerySpecification.WhereEvaluator|100%|100%|
 |Pozitron.QuerySpecification.WhereExpression`1|100%||
 |Pozitron.QuerySpecification.WhereExpressionCompiled`1|100%||

@@ -222,7 +222,7 @@ var assemblies = [
     "name": "Pozitron.QuerySpecification",
     "classes": [
       { "name": "Pozitron.QuerySpecification.ConcurrentSelectorsException", "rp": "Pozitron.QuerySpecification_ConcurrentSelectorsException.html", "cl": 4, "ucl": 0, "cal": 4, "tl": 26, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Pozitron.QuerySpecification.DiscoveryAttribute", "rp": "Pozitron.QuerySpecification_DiscoveryAttribute.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 40, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Pozitron.QuerySpecification.DiscoveryAttribute", "rp": "Pozitron.QuerySpecification_DiscoveryAttribute.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 53, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.EntityNotFoundException", "rp": "Pozitron.QuerySpecification_EntityNotFoundException.html", "cl": 6, "ucl": 0, "cal": 6, "tl": 34, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.IncludableSpecificationBuilder<T1, T2>", "rp": "Pozitron.QuerySpecification_IncludableSpecificationBuilder_2.html", "cl": 1, "ucl": 0, "cal": 1, "tl": 32, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.IncludableSpecificationBuilder<T1, T2, T3>", "rp": "Pozitron.QuerySpecification_IncludableSpecificationBuilder_3.html", "cl": 1, "ucl": 0, "cal": 1, "tl": 32, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
@@ -243,6 +243,8 @@ var assemblies = [
       { "name": "Pozitron.QuerySpecification.PaginationSettings", "rp": "Pozitron.QuerySpecification_PaginationSettings.html", "cl": 9, "ucl": 0, "cal": 9, "tl": 40, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.PagingFilter", "rp": "Pozitron.QuerySpecification_PagingFilter.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 17, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.SelectorNotFoundException", "rp": "Pozitron.QuerySpecification_SelectorNotFoundException.html", "cl": 4, "ucl": 0, "cal": 4, "tl": 26, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Pozitron.QuerySpecification.SpecAutoDiscoveryAttribute", "rp": "Pozitron.QuerySpecification_SpecAutoDiscoveryAttribute.html", "cl": 4, "ucl": 0, "cal": 4, "tl": 53, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Pozitron.QuerySpecification.SpecAutoDiscoveryException", "rp": "Pozitron.QuerySpecification_SpecAutoDiscoveryException.html", "cl": 4, "ucl": 0, "cal": 4, "tl": 26, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.Specification<T>", "rp": "Pozitron.QuerySpecification_Specification_1.html", "cl": 194, "ucl": 0, "cal": 194, "tl": 568, "cb": 152, "tb": 152, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.Specification<T1, T2>", "rp": "Pozitron.QuerySpecification_Specification_2.html", "cl": 7, "ucl": 0, "cal": 7, "tl": 568, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.SpecificationBuilder<T>", "rp": "Pozitron.QuerySpecification_SpecificationBuilder_1.html", "cl": 4, "ucl": 0, "cal": 4, "tl": 72, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
@@ -256,7 +258,7 @@ var assemblies = [
       { "name": "Pozitron.QuerySpecification.SpecLikeCompiled<T>", "rp": "Pozitron.QuerySpecification_SpecLikeCompiled_1.html", "cl": 6, "ucl": 0, "cal": 6, "tl": 31, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.SpecPaging", "rp": "Pozitron.QuerySpecification_SpecPaging.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 7, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.SpecSelectIterator<T1, T2>", "rp": "Pozitron.QuerySpecification_SpecSelectIterator_2.html", "cl": 17, "ucl": 0, "cal": 17, "tl": 43, "cb": 6, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Pozitron.QuerySpecification.TypeDiscovery", "rp": "Pozitron.QuerySpecification_TypeDiscovery.html", "cl": 80, "ucl": 13, "cal": 93, "tl": 137, "cb": 40, "tb": 40, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Pozitron.QuerySpecification.TypeDiscovery", "rp": "Pozitron.QuerySpecification_TypeDiscovery.html", "cl": 92, "ucl": 14, "cal": 106, "tl": 154, "cb": 46, "tb": 56, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.WhereEvaluator", "rp": "Pozitron.QuerySpecification_WhereEvaluator.html", "cl": 11, "ucl": 0, "cal": 11, "tl": 44, "cb": 12, "tb": 12, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.WhereExpression<T>", "rp": "Pozitron.QuerySpecification_WhereExpression_1.html", "cl": 4, "ucl": 0, "cal": 4, "tl": 47, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Pozitron.QuerySpecification.WhereExpressionCompiled<T>", "rp": "Pozitron.QuerySpecification_WhereExpressionCompiled_1.html", "cl": 4, "ucl": 0, "cal": 4, "tl": 47, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
@@ -295,13 +297,19 @@ var riskHotspotMetrics = [
 
 var riskHotspots = [
   {
-    "assembly": "Pozitron.QuerySpecification", "class": "Pozitron.QuerySpecification.TypeDiscovery", "reportPath": "Pozitron.QuerySpecification_TypeDiscovery.html", "methodName": "System.Collections.Generic.List`1<TType> Pozitron.QuerySpecification.TypeDiscovery::GetInstancesOf(System.Collections.Generic.IEnumerable`1<System.Reflection.Assembly>)", "methodShortName": "GetInstancesOf(...)", "fileIndex": 0, "line": 81,
+    "assembly": "Pozitron.QuerySpecification", "class": "Pozitron.QuerySpecification.TypeDiscovery", "reportPath": "Pozitron.QuerySpecification_TypeDiscovery.html", "methodName": "System.Collections.Generic.List`1<TType> Pozitron.QuerySpecification.TypeDiscovery::GetInstancesOf(System.Collections.Generic.IEnumerable`1<System.Reflection.Assembly>)", "methodShortName": "GetInstancesOf(...)", "fileIndex": 0, "line": 97,
     "metrics": [
-      { "value": 30, "exceeded": true },
-      { "value": 30, "exceeded": false },
+      { "value": 32, "exceeded": true },
+      { "value": 32, "exceeded": false },
     ]},
   {
     "assembly": "Pozitron.QuerySpecification", "class": "Pozitron.QuerySpecification.Specification<T>", "reportPath": "Pozitron.QuerySpecification_Specification_1.html", "methodName": "GenerateCompiledItems(Pozitron.QuerySpecification.SpecItem[],System.Int32)", "methodShortName": "GenerateCompiledItems(Pozitron.QuerySpecification.SpecItem[],System.Int32)", "fileIndex": 0, "line": 442,
+    "metrics": [
+      { "value": 24, "exceeded": true },
+      { "value": 24, "exceeded": false },
+    ]},
+  {
+    "assembly": "Pozitron.QuerySpecification", "class": "Pozitron.QuerySpecification.TypeDiscovery", "reportPath": "Pozitron.QuerySpecification_TypeDiscovery.html", "methodName": "System.Void Pozitron.QuerySpecification.TypeDiscovery::.cctor()", "methodShortName": ".cctor()", "fileIndex": 0, "line": 8,
     "metrics": [
       { "value": 24, "exceeded": true },
       { "value": 24, "exceeded": false },
