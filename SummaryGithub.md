@@ -3,21 +3,21 @@
 
 |||
 |:---|:---|
-| Generated on: | 08/29/2025 - 19:04:08 |
+| Generated on: | 08/29/2025 - 22:11:12 |
 | Parser: | MultiReport (3x OpenCover) |
 | Assemblies: | 2 |
 | Classes: | 58 |
 | Files: | 57 |
-| **Line coverage:** | 98.8% (1236 of 1250) |
-| Covered lines: | 1236 |
+| **Line coverage:** | 98.8% (1238 of 1252) |
+| Covered lines: | 1238 |
 | Uncovered lines: | 14 |
-| Coverable lines: | 1250 |
-| Total lines: | 5060 |
+| Coverable lines: | 1252 |
+| Total lines: | 5062 |
 | **Branch coverage:** | 98.4% (618 of 628) |
 | Covered branches: | 618 |
 | Total branches: | 628 |
 | **Method coverage:** | [Feature is only available for sponsors](https://reportgenerator.io/pro) |
-| Tag: | 72_17332098187 |
+| Tag: | 73_17335244062 |
 
 </details>
 
@@ -64,7 +64,7 @@
 |Pozitron.QuerySpecification.SpecLikeCompiled`1|100%||
 |Pozitron.QuerySpecification.SpecPaging|100%||
 |Pozitron.QuerySpecification.SpecSelectIterator`2|100%|100%|
-|Pozitron.QuerySpecification.TypeDiscovery|86.7%|82.1%|
+|Pozitron.QuerySpecification.TypeDiscovery|87%|82.1%|
 |Pozitron.QuerySpecification.WhereEvaluator|100%|100%|
 |Pozitron.QuerySpecification.WhereExpression`1|100%||
 |Pozitron.QuerySpecification.WhereExpressionCompiled`1|100%||
