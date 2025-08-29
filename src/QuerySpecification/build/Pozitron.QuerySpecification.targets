@@ -1,13 +1,10 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <!-- Normalize the property to lowercase -->
-  <PropertyGroup>
-    <_SpecAutoDiscoveryLower>$([System.String]::Copy('$(SpecAutoDiscovery)').ToLowerInvariant())</_SpecAutoDiscoveryLower>
-  </PropertyGroup>
-
-  <Target Name="InjectSpecAutoDiscoveryAttribute" BeforeTargets="BeforeCompile" Condition="'$(_SpecAutoDiscoveryLower)' == 'enable'">
+  <Target Name="InjectSpecAutoDiscoveryAttribute" BeforeTargets="BeforeCompile" Condition="'$(SpecAutoDiscovery)' != ''">
     <ItemGroup>
-      <AssemblyAttribute Include="Pozitron.QuerySpecification.SpecAutoDiscoveryAttribute" />
+      <AssemblyAttribute Include="Pozitron.QuerySpecification.SpecAutoDiscoveryAttribute">
+		    <_Parameter1>$(SpecAutoDiscovery)</_Parameter1>
+	    </AssemblyAttribute>
     </ItemGroup>
   </Target>
   

@@ -6,6 +6,19 @@
 [AttributeUsage(AttributeTargets.Assembly)]
 public sealed class SpecAutoDiscoveryAttribute : Attribute
 {
+    /// <summary>
+    /// Gets the value indicating whether auto discovery is enabled.
+    /// </summary>
+    public string Value { get; }
+
+    /// <summary>
+    /// Defines a SpecAutoDiscoveryAttribute to enable or disable auto discovery.
+    /// </summary>
+    /// <param name="value">The value indicating whether auto discovery is enabled.</param>
+    public SpecAutoDiscoveryAttribute(string value)
+    {
+        Value = value;
+    }
 }
 
 /// <summary>

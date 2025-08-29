@@ -5,6 +5,19 @@ namespace Pozitron.QuerySpecification;
 
 internal static class TypeDiscovery
 {
+    private static readonly Lazy<bool> _isDebugBuild = new(
+        () =>
+        {
+            var debugAttribute = Assembly
+                .GetEntryAssembly()?
+                .GetCustomAttributes<DebuggableAttribute>()
+                .FirstOrDefault();
+
+            return debugAttribute is not null
+                && (debugAttribute.DebuggingFlags & DebuggableAttribute.DebuggingModes.Default) == DebuggableAttribute.DebuggingModes.Default;
+        },
+        LazyThreadSafetyMode.ExecutionAndPublication);
+
     private static readonly Lazy<Assembly[]> _loadedAssemblies = new(
         () =>
         {
@@ -24,29 +37,32 @@ internal static class TypeDiscovery
             }
             catch (Exception ex)
             {
-                Trace.TraceError("Error loading assemblies for type discovery: {0}", ex.Message);
-                Trace.TraceError("Stack Trace: {0}", ex.StackTrace);
+                if (_isDebugBuild.Value)
+                {
+                    throw new SpecAutoDiscoveryException(ex);
+                }
                 return [];
             }
         },
         LazyThreadSafetyMode.ExecutionAndPublication);
 
-    private static readonly Lazy<bool> _isAutoDiscoveryEnabled = new(
+    private static readonly Lazy<string> _autoDiscoveryValue = new(
         () =>
         {
-            try
-            {
-                return _loadedAssemblies
-                    .Value
-                    .Any(x => x.GetCustomAttributes().Any(attr => attr.GetType().Equals(typeof(SpecAutoDiscoveryAttribute))));
-            }
-            catch (Exception ex)
-            {
-                Trace.TraceError("Error checking auto discovery attribute: {0}", ex.Message);
-                Trace.TraceError("Stack Trace: {0}", ex.StackTrace);
-                return false;
-            }
+            var entryAssembly = Assembly.GetEntryAssembly();
+            var attr = entryAssembly?.GetCustomAttributes<SpecAutoDiscoveryAttribute>().FirstOrDefault();
+            if (attr is not null) return attr.Value;
+
+            attr = _loadedAssemblies.Value
+                .Select(a => a.GetCustomAttributes<SpecAutoDiscoveryAttribute>().FirstOrDefault())
+                .FirstOrDefault(a => a is not null);
+
+            return attr?.Value ?? string.Empty;
         },
+        LazyThreadSafetyMode.ExecutionAndPublication);
+
+    private static readonly Lazy<bool> _isAutoDiscoveryEnabled = new(
+        () => _autoDiscoveryValue.Value.Equals("enable", StringComparison.OrdinalIgnoreCase),
         LazyThreadSafetyMode.ExecutionAndPublication);
 
     private static readonly Lazy<List<IEvaluator>> _evaluators = new(
@@ -128,9 +144,10 @@ internal static class TypeDiscovery
         }
         catch (Exception ex)
         {
-            Trace.TraceError("Error during type discovery for {0}.", typeof(TType).Name);
-            Trace.TraceError("Exception: {0}", ex.Message);
-            Trace.TraceError("Stack Trace: {0}", ex.StackTrace);
+            if (_isDebugBuild.Value)
+            {
+                throw new SpecAutoDiscoveryException(ex);
+            }
             return [];
         }
     }
