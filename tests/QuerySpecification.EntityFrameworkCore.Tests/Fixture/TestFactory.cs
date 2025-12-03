@@ -1,4 +1,5 @@
 ﻿using MartinCostello.SqlLocalDb;
+using Microsoft.Data.SqlClient;
 using Respawn;
 using Testcontainers.MsSql;
 
@@ -9,13 +10,14 @@ public class TestFactory : IAsyncLifetime
     // Flag to force using Docker SQL Server. Update it manually if you want to avoid localDb locally.
     private const bool _forceDocker = false;
 
+    private SqlConnection _dbConnection = default!;
     private string _connectionString = default!;
     private Respawner _respawner = default!;
     private MsSqlContainer? _dbContainer = null;
 
     public DbContextOptions<TestDbContext> DbContextOptions { get; private set; } = default!;
 
-    public Task ResetDatabase() => _respawner.ResetAsync(_connectionString);
+    public Task ResetDatabase() => _respawner.ResetAsync(_dbConnection);
 
     public async Task InitializeAsync()
     {
@@ -26,12 +28,16 @@ public class TestFactory : IAsyncLifetime
                 _dbContainer = CreateContainer();
                 await _dbContainer.StartAsync();
                 _connectionString = _dbContainer.GetConnectionString();
+                _dbConnection = new SqlConnection(_connectionString);
             }
             else
             {
                 _connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=QuerySpecificationTestsDB;Integrated Security=SSPI;TrustServerCertificate=True;";
+                _dbConnection = new SqlConnection(_connectionString);
             }
         }
+
+        await _dbConnection.OpenAsync();
 
         Console.WriteLine($"Connection string: {_connectionString}");
 
@@ -46,7 +52,7 @@ public class TestFactory : IAsyncLifetime
         //await dbContext.Database.EnsureDeletedAsync();
         await dbContext.Database.EnsureCreatedAsync();
 
-        _respawner = await Respawner.CreateAsync(_connectionString, new RespawnerOptions
+        _respawner = await Respawner.CreateAsync(_dbConnection, new RespawnerOptions
         {
             DbAdapter = DbAdapter.SqlServer,
             SchemasToInclude = ["dbo"],
@@ -57,6 +63,11 @@ public class TestFactory : IAsyncLifetime
 
     public async Task DisposeAsync()
     {
+        if (_dbConnection is not null)
+        {
+            await _dbConnection.DisposeAsync();
+        }
+
         if (_dbContainer is not null)
         {
             await _dbContainer.StopAsync();
