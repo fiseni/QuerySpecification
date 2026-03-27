@@ -142,6 +142,24 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     }
 
     /// <inheritdoc/>
+    public async Task<Dictionary<TKey, T>> ToDictionaryAsync<TKey>(Func<T, TKey> keySelector, CancellationToken cancellationToken = default) where TKey : notnull
+    {
+        return await _dbContext.Set<T>().ToDictionaryAsync(keySelector, cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public async Task<Dictionary<TKey, T>> ToDictionaryAsync<TKey>(Specification<T> specification, Func<T, TKey> keySelector, CancellationToken cancellationToken = default) where TKey : notnull
+    {
+        return await GenerateQuery(specification).ToDictionaryAsync(keySelector, cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public async Task<Dictionary<TKey, TResult>> ToDictionaryAsync<TResult, TKey>(Specification<T, TResult> specification, Func<TResult, TKey> keySelector, CancellationToken cancellationToken = default) where TKey : notnull
+    {
+        return await GenerateQuery(specification).ToDictionaryAsync(keySelector, cancellationToken);
+    }
+
+    /// <inheritdoc/>
     public virtual async Task<int> CountAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<T>().CountAsync(cancellationToken);

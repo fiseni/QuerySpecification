@@ -104,4 +104,14 @@ public abstract class RepositoryWithMapper<T> : RepositoryBase<T>, IProjectionRe
 
         return new PagedResult<TResult>(data, pagination);
     }
+
+    /// <inheritdoc/>
+    public virtual async Task<Dictionary<TKey, TResult>> ProjectToDictionaryAsync<TResult, TKey>(Specification<T> specification, Func<TResult, TKey> keySelector, CancellationToken cancellationToken = default) where TKey : notnull
+    {
+        var query = GenerateQuery(specification).AsNoTracking();
+
+        var projectedQuery = Map<TResult>(query);
+
+        return await projectedQuery.ToDictionaryAsync(keySelector, cancellationToken);
+    }
 }

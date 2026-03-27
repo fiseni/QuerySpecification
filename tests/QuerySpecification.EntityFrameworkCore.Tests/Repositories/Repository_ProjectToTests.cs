@@ -215,4 +215,54 @@ public class Repository_ProjectToTests(TestFactory factory) : IntegrationTest(fa
         spec.Skip.Should().Be(1);
         spec.Take.Should().Be(2);
     }
+
+    [Fact]
+    public async Task ProjectToDictionaryAsync_ReturnsProjectedItems_GivenSpec()
+    {
+        var expected = new Dictionary<int, CountryDto>
+        {
+            [1] = new(1, "b"),
+            [2] = new(2, "b"),
+            [3] = new(3, "b"),
+        };
+        await SeedRangeAsync<Country>(
+        [
+            new() { No = 9, Name = "a" },
+            new() { No = 9, Name = "c" },
+            new() { No = 1, Name = "b" },
+            new() { No = 2, Name = "b" },
+            new() { No = 3, Name = "b" },
+            new() { No = 9, Name = "d" },
+        ]);
+
+        var repo = new Repository<Country>(DbContext);
+        var spec = new Specification<Country>();
+        spec.Query
+            .Where(x => x.Name == "b");
+
+        var result = await repo.ProjectToDictionaryAsync<CountryDto, int>(spec, x => x.No);
+
+        result.Should().HaveSameCount(expected);
+        result.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public async Task ProjectToDictionaryAsync_ReturnsEmptyDictionary_GivenSpecWithNoMatch()
+    {
+        await SeedRangeAsync<Country>(
+        [
+            new() { No = 9, Name = "a" },
+            new() { No = 9, Name = "c" },
+            new() { No = 9, Name = "d" },
+        ]);
+
+        var repo = new Repository<Country>(DbContext);
+        var spec = new Specification<Country>();
+        spec.Query
+            .Where(x => x.Name == "x");
+
+        var result = await repo.ProjectToDictionaryAsync<CountryDto, int>(spec, x => x.No);
+
+        result.Should().BeEmpty();
+    }
 }
