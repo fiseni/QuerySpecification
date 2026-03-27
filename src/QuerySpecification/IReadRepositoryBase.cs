@@ -73,7 +73,7 @@ public interface IReadRepositoryBase<T> where T : class
     /// </summary>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the list of all entities.</returns>
-    Task<List<T>> ListAsync(CancellationToken cancellationToken = default);
+    Task<List<T>> ToListAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of entities that match the specification.
@@ -81,7 +81,7 @@ public interface IReadRepositoryBase<T> where T : class
     /// <param name="specification">The specification to evaluate.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the list of entities that match the specification.</returns>
-    Task<List<T>> ListAsync(Specification<T> specification, CancellationToken cancellationToken = default);
+    Task<List<T>> ToListAsync(Specification<T> specification, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of entities that match the specification and projects them to a result.
@@ -90,7 +90,7 @@ public interface IReadRepositoryBase<T> where T : class
     /// <param name="specification">The specification to evaluate.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the list of entities that match the specification and are projected to a result.</returns>
-    Task<List<TResult>> ListAsync<TResult>(Specification<T, TResult> specification, CancellationToken cancellationToken = default);
+    Task<List<TResult>> ToListAsync<TResult>(Specification<T, TResult> specification, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the count of all entities.

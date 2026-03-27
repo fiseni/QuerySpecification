@@ -1,7 +1,7 @@
 ﻿namespace Tests.Repositories;
 
 [Collection("SharedCollection")]
-public class Repository_ListTests(TestFactory factory) : IntegrationTest(factory)
+public class Repository_ToListTests(TestFactory factory) : IntegrationTest(factory)
 {
     public record CountryDto(string? Name);
 
@@ -18,7 +18,7 @@ public class Repository_ListTests(TestFactory factory) : IntegrationTest(factory
 
         var repo = new Repository<Country>(DbContext);
 
-        var result = await repo.ListAsync();
+        var result = await repo.ToListAsync();
 
         result.Should().HaveSameCount(expected);
         result.Should().BeEquivalentTo(expected);
@@ -46,7 +46,7 @@ public class Repository_ListTests(TestFactory factory) : IntegrationTest(factory
         spec.Query
             .Where(x => x.Name == "b");
 
-        var result = await repo.ListAsync(spec);
+        var result = await repo.ToListAsync(spec);
 
         result.Should().HaveSameCount(expected);
         result.Should().BeEquivalentTo(expected);
@@ -77,7 +77,7 @@ public class Repository_ListTests(TestFactory factory) : IntegrationTest(factory
             .Where(x => x.Name == "b")
             .Select(x => new CountryDto(x.Name));
 
-        var result = await repo.ListAsync(spec);
+        var result = await repo.ToListAsync(spec);
 
         result.Should().HaveSameCount(expected);
         result.Should().BeEquivalentTo(expected);
