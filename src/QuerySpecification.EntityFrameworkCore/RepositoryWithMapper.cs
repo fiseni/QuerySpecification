@@ -91,7 +91,7 @@ public abstract class RepositoryWithMapper<T> : RepositoryBase<T>, IProjectionRe
     }
 
     /// <inheritdoc/>
-    public virtual async Task<PagedResult<TResult>> ProjectToListAsync<TResult>(Specification<T> specification, PagingFilter filter, CancellationToken cancellationToken = default)
+    public virtual async Task<PagedResult<TResult>> ProjectToListAsync<TResult>(Specification<T> specification, IPagingFilter filter, CancellationToken cancellationToken = default)
     {
         var query = GenerateQuery(specification, true).AsNoTracking();
         var projectedQuery = Map<TResult>(query);

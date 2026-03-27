@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a filter for paging.
 /// </summary>
-public record PagingFilter
+public record PagingFilter : IPagingFilter
 {
     /// <summary>
     /// Gets or sets the page number.

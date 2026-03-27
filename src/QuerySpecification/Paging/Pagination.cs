@@ -97,7 +97,7 @@ public record Pagination
     /// </summary>
     /// <param name="itemsCount">The total number of items.</param>
     /// <param name="filter">The paging filter.</param>
-    public Pagination(int itemsCount, PagingFilter filter)
+    public Pagination(int itemsCount, IPagingFilter filter)
         : this(PaginationSettings.Default, itemsCount, filter.PageSize, filter.Page)
     {
     }
@@ -119,7 +119,7 @@ public record Pagination
     /// <param name="paginationSettings">The pagination settings.</param>
     /// <param name="itemsCount">The total number of items.</param>
     /// <param name="filter">The paging filter.</param>
-    public Pagination(PaginationSettings paginationSettings, int itemsCount, PagingFilter filter)
+    public Pagination(PaginationSettings paginationSettings, int itemsCount, IPagingFilter filter)
         : this(paginationSettings, itemsCount, filter.PageSize, filter.Page)
     {
     }
@@ -160,9 +160,9 @@ public record Pagination
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static int GetHandledPageSize(PaginationSettings settings, int? pageSize)
     {
-        if (!pageSize.HasValue || pageSize <= 0) return settings.DefaultPageSize;
+        if (!pageSize.HasValue || pageSize.Value <= 0) return settings.DefaultPageSize;
 
-        if (pageSize > settings.DefaultPageSizeLimit) return settings.DefaultPageSizeLimit;
+        if (pageSize.Value > settings.DefaultPageSizeLimit) return settings.DefaultPageSizeLimit;
 
         return pageSize.Value;
     }
@@ -176,7 +176,7 @@ public record Pagination
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static int GetHandledPage(PaginationSettings settings, int handledTotalPages, int? page)
     {
-        if (!page.HasValue || page <= 0) return settings.DefaultPage;
+        if (!page.HasValue || page.Value <= 0) return settings.DefaultPage;
 
         if (page.Value > handledTotalPages) return handledTotalPages;
 
