@@ -48,4 +48,16 @@ public interface IProjectionRepository<T> where T : class
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the paged list of projected results.</returns>
     Task<PagedResult<TResult>> ProjectToListAsync<TResult>(Specification<T> specification, IPagingFilter filter, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Asynchronously creates a dictionary from the projected elements that satisfy the specification, using the provided key selector function.
+    /// It ignores the selector in the specification, and projects the entities to the result type using the Map method.
+    /// </summary>
+    /// <typeparam name="TKey">The type of the keys in the resulting dictionary. Must be non-nullable.</typeparam>
+    /// <typeparam name="TResult">The type of the projected element for each entity.</typeparam>
+    /// <param name="specification">The specification to evaluate.</param>
+    /// <param name="keySelector">A function to extract a key from each projected element.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains a dictionary mapping each key to its projected element.</returns>
+    Task<Dictionary<TKey, TResult>> ProjectToDictionaryAsync<TResult, TKey>(Specification<T> specification, Func<TResult, TKey> keySelector, CancellationToken cancellationToken = default) where TKey : notnull;
 }

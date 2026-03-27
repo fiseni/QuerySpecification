@@ -93,6 +93,37 @@ public interface IReadRepositoryBase<T> where T : class
     Task<List<TResult>> ToListAsync<TResult>(Specification<T, TResult> specification, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Asynchronously creates a dictionary from the entities, using the specified key selector function.
+    /// </summary>
+    /// <typeparam name="TKey">The type of the keys in the resulting dictionary. Must be a non-nullable type.</typeparam>
+    /// <param name="keySelector">A function to extract a key from each element.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains a dictionary mapping each key to its corresponding entity.</returns>
+    Task<Dictionary<TKey, T>> ToDictionaryAsync<TKey>(Func<T, TKey> keySelector, CancellationToken cancellationToken = default) where TKey : notnull;
+
+    /// <summary>
+    /// Asynchronously creates a dictionary from the entities that satisfy the specification, using the provided key selector function.
+    /// </summary>
+    /// <typeparam name="TKey">The type of the keys in the resulting dictionary. Must be non-nullable.</typeparam>
+    /// <param name="specification">The specification to evaluate.</param>
+    /// <param name="keySelector">A function to extract a key from each element.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains a dictionary mapping each key to its corresponding entity.</returns>
+    Task<Dictionary<TKey, T>> ToDictionaryAsync<TKey>(Specification<T> specification, Func<T, TKey> keySelector, CancellationToken cancellationToken = default) where TKey : notnull;
+
+    /// <summary>
+    /// Asynchronously creates a dictionary from the projected elements that satisfy the specification, using the provided key selector function.
+    /// </summary>
+    /// <typeparam name="TKey">The type of the keys in the resulting dictionary. Must be non-nullable.</typeparam>
+    /// <typeparam name="TResult">The type of the projected element for each entity.</typeparam>
+    /// <param name="specification">The specification to evaluate.</param>
+    /// <param name="keySelector">A function to extract a key from each projected element.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains a dictionary mapping each key to its projected element.</returns>
+    Task<Dictionary<TKey, TResult>> ToDictionaryAsync<TResult, TKey>(Specification<T, TResult> specification, Func<TResult, TKey> keySelector, CancellationToken cancellationToken = default) where TKey : notnull;
+
+
+    /// <summary>
     /// Gets the count of all entities.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token.</param>
