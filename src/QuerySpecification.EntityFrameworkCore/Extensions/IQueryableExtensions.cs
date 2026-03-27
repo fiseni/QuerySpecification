@@ -52,7 +52,7 @@ public static class IQueryableExtensions
     /// <returns>A task that represents the asynchronous operation. The task result contains the paged result.</returns>
     public static Task<PagedResult<TSource>> ToPagedResultAsync<TSource>(
       this IQueryable<TSource> source,
-      PagingFilter filter,
+      IPagingFilter filter,
       CancellationToken cancellationToken = default)
       where TSource : class
       => ToPagedResultAsync(source, filter, PaginationSettings.Default, cancellationToken);
@@ -68,7 +68,7 @@ public static class IQueryableExtensions
     /// <returns>A task that represents the asynchronous operation. The task result contains the paged result.</returns>
     public static async Task<PagedResult<TSource>> ToPagedResultAsync<TSource>(
       this IQueryable<TSource> source,
-      PagingFilter filter,
+      IPagingFilter filter,
       PaginationSettings paginationSettings,
       CancellationToken cancellationToken = default)
       where TSource : class

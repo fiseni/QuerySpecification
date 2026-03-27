@@ -47,5 +47,5 @@ public interface IProjectionRepository<T> where T : class
     /// <param name="filter">The paging filter.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the paged list of projected results.</returns>
-    Task<PagedResult<TResult>> ProjectToListAsync<TResult>(Specification<T> specification, PagingFilter filter, CancellationToken cancellationToken = default);
+    Task<PagedResult<TResult>> ProjectToListAsync<TResult>(Specification<T> specification, IPagingFilter filter, CancellationToken cancellationToken = default);
 }
