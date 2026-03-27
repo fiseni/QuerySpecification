@@ -5,33 +5,33 @@
   </PropertyGroup>
   
   <ItemGroup Label="Package dependencies NET 8" Condition=" '$(TargetFramework)' == 'net8.0' ">
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="8.0.22" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.22" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="8.0.25" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.25" />
   </ItemGroup>
 
   <ItemGroup Label="Package dependencies NET 9" Condition=" '$(TargetFramework)' == 'net9.0' ">
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.11" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.11" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.14" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.14" />
   </ItemGroup>
 
   <ItemGroup Label="Package dependencies NET 10" Condition=" '$(TargetFramework)' == 'net10.0' ">
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.5" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.5" />
   </ItemGroup>
 
   <ItemGroup Label="Test projects dependencies">
     <PackageVersion Include="ManagedObjectSize.ObjectPool" Version="0.0.7-gd53ba9da59" />
     <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
-    <PackageVersion Include="AutoMapper" Version="[14.0.0]" />
-    <PackageVersion Include="MartinCostello.SqlLocalDb" Version="5.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
+    <PackageVersion Include="AutoMapper" Version="16.1.1" />
+    <PackageVersion Include="MartinCostello.SqlLocalDb" Version="6.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.5" />
     <PackageVersion Include="Respawn" Version="7.0.0" />
-    <PackageVersion Include="Testcontainers.MsSql" Version="4.9.0" />
+    <PackageVersion Include="Testcontainers.MsSql" Version="4.11.0" />
     <PackageVersion Include="FluentAssertions" Version="[7.2.0]" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.3.0" />
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
-    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+    <PackageVersion Include="coverlet.collector" Version="8.0.1" />
   </ItemGroup>
   
   <ItemGroup Label="Transitive Updates">

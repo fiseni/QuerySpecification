@@ -37,8 +37,6 @@ public class TestFactory : IAsyncLifetime
             }
         }
 
-        await _dbConnection.OpenAsync();
-
         Console.WriteLine($"Connection string: {_connectionString}");
 
         DbContextOptions = new DbContextOptionsBuilder<TestDbContext>()
@@ -52,6 +50,7 @@ public class TestFactory : IAsyncLifetime
         //await dbContext.Database.EnsureDeletedAsync();
         await dbContext.Database.EnsureCreatedAsync();
 
+        await _dbConnection.OpenAsync();
         _respawner = await Respawner.CreateAsync(_dbConnection, new RespawnerOptions
         {
             DbAdapter = DbAdapter.SqlServer,
@@ -79,8 +78,8 @@ public class TestFactory : IAsyncLifetime
         }
     }
 
-    private static MsSqlContainer CreateContainer() => new MsSqlBuilder()
-            .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
+    private static MsSqlContainer CreateContainer() =>
+        new MsSqlBuilder("mcr.microsoft.com/mssql/server:2022-latest")
             .WithName("QuerySpecificationTestsDB")
             .WithPassword("P@ssW0rd!")
             .Build();

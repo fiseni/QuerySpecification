@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Tests.Fixture;
 
@@ -10,7 +11,7 @@ public class Repository<T>(DbContext context) : RepositoryWithMapper<T>(context)
         var config = new MapperConfiguration(cfg =>
         {
             cfg.AddMaps(typeof(Repository<>).Assembly);
-        });
+        }, NullLoggerFactory.Instance);
         return config.CreateMapper();
     });
 
