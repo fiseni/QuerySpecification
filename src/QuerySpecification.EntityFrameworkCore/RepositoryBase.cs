@@ -124,19 +124,19 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     }
 
     /// <inheritdoc/>
-    public virtual async Task<List<T>> ListAsync(CancellationToken cancellationToken = default)
+    public virtual async Task<List<T>> ToListAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<T>().ToListAsync(cancellationToken);
     }
 
     /// <inheritdoc/>
-    public virtual async Task<List<T>> ListAsync(Specification<T> specification, CancellationToken cancellationToken = default)
+    public virtual async Task<List<T>> ToListAsync(Specification<T> specification, CancellationToken cancellationToken = default)
     {
         return await GenerateQuery(specification).ToListAsync(cancellationToken);
     }
 
     /// <inheritdoc/>
-    public virtual async Task<List<TResult>> ListAsync<TResult>(Specification<T, TResult> specification, CancellationToken cancellationToken = default)
+    public virtual async Task<List<TResult>> ToListAsync<TResult>(Specification<T, TResult> specification, CancellationToken cancellationToken = default)
     {
         return await GenerateQuery(specification).ToListAsync(cancellationToken);
     }
