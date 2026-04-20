@@ -18,6 +18,20 @@ spelling_exclusion_path = exclusion.dic
 [*.{sh,bash}]
 end_of_line = lf
 
+# Verify settings
+[*.{received,verified}.{json,txt,xml}]
+charset = utf-8-bom
+end_of_line = lf
+indent_size = unset
+indent_style = unset
+insert_final_newline = false
+tab_width = unset
+trim_trailing_whitespace = false
+
+[*.{received,verified}.{json,xml,html,htm,yaml,svg}]
+indent_size = 2
+indent_style = space
+
 # C# and VB files
 [*.{cs,vb}]
 indent_size = 4
@@ -110,9 +124,9 @@ dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
 dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
 
-dotnet_naming_rule.private_field_should_be__fieldname.severity = suggestion
-dotnet_naming_rule.private_field_should_be__fieldname.symbols = private_field
-dotnet_naming_rule.private_field_should_be__fieldname.style = _fieldname
+dotnet_naming_rule.private_or_internal_field_should_be__fieldname.severity = suggestion
+dotnet_naming_rule.private_or_internal_field_should_be__fieldname.symbols = private_or_internal_field
+dotnet_naming_rule.private_or_internal_field_should_be__fieldname.style = _fieldname
 
 dotnet_naming_rule.public_field_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.public_field_should_be_pascal_case.symbols = public_field
@@ -143,6 +157,14 @@ dotnet_naming_symbols.types.required_modifiers =
 dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, method
 dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
 dotnet_naming_symbols.non_field_members.required_modifiers = 
+
+dotnet_naming_symbols.all_methods.applicable_kinds = method
+dotnet_naming_symbols.all_methods.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.all_methods.required_modifiers = 
+
+dotnet_naming_symbols.public_method.applicable_kinds = method
+dotnet_naming_symbols.public_method.applicable_accessibilities = public
+dotnet_naming_symbols.public_method.required_modifiers = 
 
 # Naming styles
 
