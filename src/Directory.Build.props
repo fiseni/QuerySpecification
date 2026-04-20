@@ -33,8 +33,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>readme-nuget.md</PackageReadmeFile>
-    <PackageIconUrl>https://pozitrongroup.com/PozitronLogo.png</PackageIconUrl>
-    <PackageIcon>pozitronicon.png</PackageIcon>
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -43,7 +42,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="../../pozitronicon.png" Pack="true" PackagePath="\" Visible="false" />
+    <None Include="../../icon.png" Pack="true" PackagePath="\" Visible="false" />
     <None Include="../../readme-nuget.md" Pack="true" PackagePath="\" Visible="false" />
     <None Include="../../LICENSE.txt" Pack="true" PackagePath="\" Visible="false" />
   </ItemGroup>
