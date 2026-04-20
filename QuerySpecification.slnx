@@ -1,11 +1,10 @@
 <Solution>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
-    <File Path=".github/workflows/build.yml" />
-    <File Path=".github/workflows/ci.yml" />
-    <File Path=".github/workflows/release.yml" />
+    <File Path=".gitattributes" />
     <File Path=".gitignore" />
     <File Path="clean.sh" />
+    <File Path="CODE_OF_CONDUCT.md" />
     <File Path="coverage.sh" />
     <File Path="Directory.Packages.props" />
     <File Path="exclusion.dic" />
@@ -17,6 +16,11 @@
     <File Path="src/ProjectMetadata.props" />
     <File Path="src/ProjectMetadata.targets" />
     <File Path="tests/Directory.Build.props" />
+  </Folder>
+  <Folder Name="/Solution Items/workflows/">
+    <File Path=".github/workflows/build.yml" />
+    <File Path=".github/workflows/ci.yml" />
+    <File Path=".github/workflows/release.yml" />
   </Folder>
   <Folder Name="/Tests/">
     <Project Path="tests/QuerySpecification.AutoDiscovery.Tests/QuerySpecification.AutoDiscovery.Tests.csproj" />
