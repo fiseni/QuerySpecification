@@ -14,6 +14,8 @@
     <File Path="readme-nuget.md" />
     <File Path="README.md" />
     <File Path="src/Directory.Build.props" />
+    <File Path="src/ProjectMetadata.props" />
+    <File Path="src/ProjectMetadata.targets" />
     <File Path="tests/Directory.Build.props" />
   </Folder>
   <Folder Name="/Tests/">

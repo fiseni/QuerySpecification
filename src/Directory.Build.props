@@ -1,50 +1,26 @@
 <Project>
 
+  <Import Project="ProjectMetadata.props" />
+  <Import Project="ProjectMetadata.targets" />
+
   <PropertyGroup>
     <RootNamespace>Pozitron.QuerySpecification</RootNamespace>
     <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
+  </PropertyGroup>
 
+  <PropertyGroup Label="Build and Packaging">
+    <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Deterministic>true</Deterministic>
-  </PropertyGroup>
-
-  <PropertyGroup Label="Symbols">
+    
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
-    <!--<DebugType>Embedded</DebugType>-->
-    <!--<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>-->
   </PropertyGroup>
   
-  <PropertyGroup Label="Package MetaData">
-    <Authors>Fati Iseni</Authors>
-    <Company>Pozitron Group</Company>
-    <Copyright>Copyright © 2024 Pozitron Group</Copyright>
-    <Product>Pozitron QuerySpecification</Product>
-
-    <PackageProjectUrl>https://github.com/fiseni/QuerySpecification</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/fiseni/QuerySpecification</RepositoryUrl>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReadmeFile>readme-nuget.md</PackageReadmeFile>
-    <PackageIcon>icon.png</PackageIcon>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <!--Missing XML comment-->
-    <!--<NoWarn>1591</NoWarn>-->
-  </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="../../icon.png" Pack="true" PackagePath="\" Visible="false" />
-    <None Include="../../readme-nuget.md" Pack="true" PackagePath="\" Visible="false" />
-    <None Include="../../LICENSE.txt" Pack="true" PackagePath="\" Visible="false" />
-  </ItemGroup>
-
 </Project>

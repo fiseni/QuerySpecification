@@ -1,0 +1,18 @@
+<Project>
+
+  <PropertyGroup Label="Project Metadata">
+    <Authors>Fati Iseni</Authors>
+    <Company>Pozitron Group</Company>
+    <Copyright>Copyright © 2026 Pozitron Group</Copyright>
+    <Product>Pozitron QuerySpecification</Product>
+
+    <PackageProjectUrl>https://github.com/fiseni/QuerySpecification</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/fiseni/QuerySpecification</RepositoryUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>readme-nuget.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+  </PropertyGroup>
+
+</Project>
