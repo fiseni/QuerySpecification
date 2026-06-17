@@ -20,7 +20,11 @@ internal static class LikeExtension
 
         // Ensure the pattern matches the entire string
         regexPattern = "^" + regexPattern + "$";
-        var regex = new Regex(regexPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        // We intentionally don't use RegexOptions.Compiled. The patterns are dynamic (cached, but bounded and often
+        // end-user supplied), and Compiled adds a ~1ms one-time build cost per pattern that is only recovered after
+        // millions of matches of that same pattern. Interpreted is 9-980x faster for realistic match counts.
+        // See Benchmark9_LikeRegexOptions.
+        var regex = new Regex(regexPattern, RegexOptions.IgnoreCase);
         return regex;
     }
 
