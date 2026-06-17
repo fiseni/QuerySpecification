@@ -53,15 +53,14 @@ internal static class LikeExtension
 
             // It might happen we end up with more items than max (concurrency), but we won't be too strict.
             // We're just trying to avoid indefinite growth.
-            for (var i = _dictionary.Count - _maxSize; i >= 0; i--)
+            // A single Keys snapshot (instead of one per removed item) is enough; we remove sequentially until under max.
+            if (_dictionary.Count >= _maxSize)
             {
-                // Avoid being smart, just remove sequentially from the start.
-                var firstKey = _dictionary.Keys.FirstOrDefault();
-                if (firstKey is not null)
+                foreach (var existingKey in _dictionary.Keys)
                 {
-                    _dictionary.TryRemove(firstKey, out _);
+                    if (_dictionary.Count < _maxSize) break;
+                    _dictionary.TryRemove(existingKey, out _);
                 }
-
             }
 
             var newRegex = valueFactory(key);

@@ -430,40 +430,30 @@ public partial class Specification<T>
     {
         if (IsEmpty) return Array.Empty<SpecItem>();
 
-        var compilableItemsCount = CountCompilableItems(_items);
+        // Single pass: count the compilable items (Where/Like/Order) and locate the existing compiled array (if any).
+        var compilableItemsCount = 0;
+        SpecItem[]? compiledItems = null;
+        foreach (var item in _items)
+        {
+            var type = item.Type;
+            if (type == ItemType.Where || type == ItemType.Like || type == ItemType.Order)
+            {
+                compilableItemsCount++;
+            }
+            else if (type == ItemType.Compiled && item.Reference is SpecItem[] existing)
+            {
+                compiledItems = existing;
+            }
+        }
+
         if (compilableItemsCount == 0) return Array.Empty<SpecItem>();
 
-        var compiledItems = GetCompiledItems(_items);
-
         // If the count of compilable items is equal to the count of compiled items, we don't need to recompile.
-        if (compiledItems.Length == compilableItemsCount) return compiledItems;
+        if (compiledItems is not null && compiledItems.Length == compilableItemsCount) return compiledItems;
 
         compiledItems = GenerateCompiledItems(_items, compilableItemsCount);
         AddOrUpdateInternal(ItemType.Compiled, compiledItems);
         return compiledItems;
-
-        static SpecItem[] GetCompiledItems(SpecItem[] items)
-        {
-            foreach (var item in items)
-            {
-                if (item.Type == ItemType.Compiled && item.Reference is SpecItem[] compiledItems)
-                {
-                    return compiledItems;
-                }
-            }
-            return Array.Empty<SpecItem>();
-        }
-
-        static int CountCompilableItems(SpecItem[] items)
-        {
-            var count = 0;
-            foreach (var item in items)
-            {
-                if (item.Type == ItemType.Where || item.Type == ItemType.Like || item.Type == ItemType.Order)
-                    count++;
-            }
-            return count;
-        }
 
         static SpecItem[] GenerateCompiledItems(SpecItem[] items, int count)
         {
