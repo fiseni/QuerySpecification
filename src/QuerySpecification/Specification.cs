@@ -46,6 +46,34 @@ public class Specification<T, TResult> : Specification<T>
     /// Gets the SelectMany expression.
     /// </summary>
     public Expression<Func<T, IEnumerable<TResult>>>? SelectorMany => FirstOrDefault<Expression<Func<T, IEnumerable<TResult>>>>(ItemType.Select);
+
+    // Compiles the Select expression once and caches the delegate, recompiling only if the source expression reference changed.
+    internal Func<T, TResult> GetCompiledSelector(Expression<Func<T, TResult>> selector)
+    {
+        var cached = FirstOrDefault<CompiledSelector>(ItemType.CompiledSelect);
+        if (cached is not null && ReferenceEquals(cached.Source, selector))
+        {
+            return (Func<T, TResult>)cached.Compiled;
+        }
+
+        var compiled = selector.Compile();
+        AddOrUpdateInternal(ItemType.CompiledSelect, new CompiledSelector(selector, compiled));
+        return compiled;
+    }
+
+    // Compiles the SelectMany expression once and caches the delegate, recompiling only if the source expression reference changed.
+    internal Func<T, IEnumerable<TResult>> GetCompiledSelectorMany(Expression<Func<T, IEnumerable<TResult>>> selectorMany)
+    {
+        var cached = FirstOrDefault<CompiledSelector>(ItemType.CompiledSelect);
+        if (cached is not null && ReferenceEquals(cached.Source, selectorMany))
+        {
+            return (Func<T, IEnumerable<TResult>>)cached.Compiled;
+        }
+
+        var compiled = selectorMany.Compile();
+        AddOrUpdateInternal(ItemType.CompiledSelect, new CompiledSelector(selectorMany, compiled));
+        return compiled;
+    }
 }
 
 /// <summary>

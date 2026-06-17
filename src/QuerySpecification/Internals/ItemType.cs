@@ -16,4 +16,7 @@ internal static class ItemType
 
     public const int QueryTag = -9;
     public const int CacheKey = -10;
+
+    // Caches the compiled Select/SelectMany delegate for the in-memory evaluator (see CompiledSelector).
+    public const int CompiledSelect = -11;
 }

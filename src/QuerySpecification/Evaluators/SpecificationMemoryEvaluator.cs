@@ -66,8 +66,8 @@ public class SpecificationMemoryEvaluator
         source = Evaluate(source, (Specification<T>)specification, true);
 
         var result = selector is not null
-            ? source.Select(selector.Compile())
-            : source.SelectMany(selectorMany!.Compile());
+            ? source.Select(specification.GetCompiledSelector(selector))
+            : source.SelectMany(specification.GetCompiledSelectorMany(selectorMany!));
 
         return ignorePaging
             ? result

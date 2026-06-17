@@ -125,6 +125,47 @@ public class SpecificationMemoryEvaluatorTests
     }
 
     [Fact]
+    public void Evaluate_ReusesCompiledSelector_AcrossEvaluations()
+    {
+        List<Customer> input = [new(1, "axxa", "axya"), new(2, "aaaa", "axya")];
+
+        var spec = new Specification<Customer, string>();
+        spec.Query
+            .Select(x => x.FirstName);
+
+        _evaluator.Evaluate(input, spec).ToList();
+        var firstCompiled = spec.FirstOrDefault<CompiledSelector>(ItemType.CompiledSelect);
+
+        _evaluator.Evaluate(input, spec).ToList();
+        var secondCompiled = spec.FirstOrDefault<CompiledSelector>(ItemType.CompiledSelect);
+
+        firstCompiled.Should().NotBeNull();
+        secondCompiled.Should().BeSameAs(firstCompiled);
+    }
+
+    [Fact]
+    public void Evaluate_RecompilesSelector_GivenSelectorOverwritten()
+    {
+        List<Customer> input = [new(1, "first", "last")];
+
+        var spec = new Specification<Customer, string>();
+        spec.Query
+            .Select(x => x.FirstName);
+
+        var firstResult = _evaluator.Evaluate(input, spec).ToList();
+        var firstCompiled = spec.FirstOrDefault<CompiledSelector>(ItemType.CompiledSelect);
+
+        spec.Query
+            .Select(x => x.LastName);
+        var secondResult = _evaluator.Evaluate(input, spec).ToList();
+        var secondCompiled = spec.FirstOrDefault<CompiledSelector>(ItemType.CompiledSelect);
+
+        firstResult.Should().Equal("first");
+        secondResult.Should().Equal("last");
+        secondCompiled.Should().NotBeSameAs(firstCompiled);
+    }
+
+    [Fact]
     public void Evaluate_DoesNotFilter_GivenEmptySpec()
     {
         List<Customer> input =
