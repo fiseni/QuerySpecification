@@ -20,7 +20,7 @@ namespace Pozitron.QuerySpecification;
 /// Evaluates a specification to apply "like" expressions for filtering.
 /// </summary>
 [EvaluatorDiscovery(Order = 20)]
-public sealed class LikeEvaluator : IEvaluator
+public sealed class LikeEvaluator : IEvaluator, ISpecItemKind
 {
     private LikeEvaluator() { }
 
@@ -28,6 +28,8 @@ public sealed class LikeEvaluator : IEvaluator
     /// Gets the singleton instance of the <see cref="LikeEvaluator"/> class.
     /// </summary>
     public static LikeEvaluator Instance = new();
+
+    int ISpecItemKind.ItemType => Pozitron.QuerySpecification.ItemType.Like;
 
     /// <inheritdoc/>
     public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class

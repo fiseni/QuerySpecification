@@ -4,7 +4,7 @@
 /// Evaluator to apply IgnoreAutoIncludes to the query if the specification has IgnoreAutoIncludes set to true.
 /// </summary>
 [EvaluatorDiscovery(Order = 70)]
-public sealed class IgnoreAutoIncludesEvaluator : IEvaluator
+public sealed class IgnoreAutoIncludesEvaluator : IEvaluator, ISpecItemKind
 {
 
     /// <summary>
@@ -12,6 +12,8 @@ public sealed class IgnoreAutoIncludesEvaluator : IEvaluator
     /// </summary>
     public static IgnoreAutoIncludesEvaluator Instance = new();
     private IgnoreAutoIncludesEvaluator() { }
+
+    int ISpecItemKind.ItemType => Pozitron.QuerySpecification.ItemType.Flags;
 
     /// <inheritdoc/>
     public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class

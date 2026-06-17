@@ -4,13 +4,15 @@
 /// Represents an evaluator for where expressions.
 /// </summary>
 [EvaluatorDiscovery(Order = 10)]
-public sealed class WhereEvaluator : IEvaluator, IMemoryEvaluator
+public sealed class WhereEvaluator : IEvaluator, IMemoryEvaluator, ISpecItemKind
 {
     /// <summary>
     /// Gets the singleton instance of the <see cref="WhereEvaluator"/> class.
     /// </summary>
     public static WhereEvaluator Instance = new();
     private WhereEvaluator() { }
+
+    int ISpecItemKind.ItemType => Pozitron.QuerySpecification.ItemType.Where;
 
     /// <inheritdoc/>
     public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class

@@ -4,7 +4,7 @@
 /// Evaluator to apply the query tags to the query.
 /// </summary>
 [EvaluatorDiscovery(Order = 60)]
-public sealed class QueryTagEvaluator : IEvaluator
+public sealed class QueryTagEvaluator : IEvaluator, ISpecItemKind
 {
 
     /// <summary>
@@ -12,6 +12,8 @@ public sealed class QueryTagEvaluator : IEvaluator
     /// </summary>
     public static QueryTagEvaluator Instance = new();
     private QueryTagEvaluator() { }
+
+    int ISpecItemKind.ItemType => Pozitron.QuerySpecification.ItemType.QueryTag;
 
     /// <inheritdoc/>
     public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class

@@ -9,7 +9,7 @@ namespace Pozitron.QuerySpecification;
 /// Evaluates a specification to include navigation properties.
 /// </summary>
 [EvaluatorDiscovery(Order = 40)]
-public sealed class IncludeEvaluator : IEvaluator
+public sealed class IncludeEvaluator : IEvaluator, ISpecItemKind
 {
     private static readonly MethodInfo _includeMethodInfo = typeof(EntityFrameworkQueryableExtensions)
         .GetTypeInfo().GetDeclaredMethods(nameof(EntityFrameworkQueryableExtensions.Include))
@@ -42,6 +42,8 @@ public sealed class IncludeEvaluator : IEvaluator
     /// </summary>
     public static IncludeEvaluator Instance = new();
     private IncludeEvaluator() { }
+
+    int ISpecItemKind.ItemType => Pozitron.QuerySpecification.ItemType.Include;
 
     /// <inheritdoc/>
     public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class

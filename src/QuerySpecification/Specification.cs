@@ -515,6 +515,44 @@ public partial class Specification<T>
         }
         return false;
     }
+
+    // Reads the whole flags bag in a single scan. Note that Flags and Paging share the same item (ItemType.Flags == ItemType.Paging);
+    // the flags live in the Bag, so a spec with only Paging set returns 0 (no flags), which is correct.
+    internal SpecFlags Flags
+    {
+        get
+        {
+            if (IsEmpty) return 0;
+
+            foreach (var item in _items)
+            {
+                if (item.Type == ItemType.Flags)
+                {
+                    return (SpecFlags)item.Bag;
+                }
+            }
+            return 0;
+        }
+    }
+    // Builds a bitmask of the built-in (negative) item kinds present in the spec, in a single pass.
+    // The orchestrators use it to skip evaluators whose kind is absent, instead of letting each evaluator scan the items.
+    // Bit index is -Type (e.g. Where == -1 -> bit 1). Empty slots (Type 0) and custom positive types are ignored.
+    internal int PresentKindsMask()
+    {
+        if (IsEmpty) return 0;
+
+        var mask = 0;
+        foreach (var item in _items)
+        {
+            var type = item.Type;
+            if (type < 0)
+            {
+                mask |= 1 << -type;
+            }
+        }
+        return mask;
+    }
+
     internal void AddOrUpdateFlag(SpecFlags flag, bool value)
     {
         if (IsEmpty)

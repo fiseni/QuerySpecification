@@ -4,13 +4,15 @@
 /// Evaluator to apply AsTracking to the query if the specification has AsTracking set to true.
 /// </summary>
 [EvaluatorDiscovery(Order = 120)]
-public sealed class AsTrackingEvaluator : IEvaluator
+public sealed class AsTrackingEvaluator : IEvaluator, ISpecItemKind
 {
     /// <summary>
     /// Gets the singleton instance of the <see cref="AsTrackingEvaluator"/> class.
     /// </summary>
     public static AsTrackingEvaluator Instance = new();
     private AsTrackingEvaluator() { }
+
+    int ISpecItemKind.ItemType => Pozitron.QuerySpecification.ItemType.Flags;
 
     /// <inheritdoc/>
     public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class

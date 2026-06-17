@@ -90,8 +90,16 @@ public class SpecificationMemoryEvaluator
         ArgumentNullException.ThrowIfNull(specification);
         if (specification.IsEmpty) return source;
 
+        // One pass to find which kinds are present, then skip evaluators whose kind is absent (O(1) bit test)
+        // instead of having each evaluator scan the items only to find nothing.
+        var presentKinds = specification.PresentKindsMask();
+
         foreach (var evaluator in Evaluators)
         {
+            if (evaluator is ISpecItemKind kind && (presentKinds & (1 << -kind.ItemType)) == 0)
+            {
+                continue;
+            }
             source = evaluator.Evaluate(source, specification);
         }
 

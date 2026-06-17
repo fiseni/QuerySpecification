@@ -378,12 +378,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
             IncludeEvaluator.Instance,
             OrderEvaluator.Instance,
             QueryTagEvaluator.Instance,
-            IgnoreAutoIncludesEvaluator.Instance,
-            IgnoreQueryFiltersEvaluator.Instance,
-            AsSplitQueryEvaluator.Instance,
-            AsNoTrackingEvaluator.Instance,
-            AsNoTrackingWithIdentityResolutionEvaluator.Instance,
-            AsTrackingEvaluator.Instance,
+            FlagsEvaluator.Instance,
         };
 
         var evaluator = new SpecificationEvaluator();
@@ -422,12 +417,7 @@ public class SpecificationEvaluatorTests(TestFactory factory) : IntegrationTest(
             IncludeEvaluator.Instance,
             OrderEvaluator.Instance,
             QueryTagEvaluator.Instance,
-            IgnoreAutoIncludesEvaluator.Instance,
-            IgnoreQueryFiltersEvaluator.Instance,
-            AsSplitQueryEvaluator.Instance,
-            AsNoTrackingEvaluator.Instance,
-            AsNoTrackingWithIdentityResolutionEvaluator.Instance,
-            AsTrackingEvaluator.Instance,
+            FlagsEvaluator.Instance,
             WhereEvaluator.Instance
         };
 

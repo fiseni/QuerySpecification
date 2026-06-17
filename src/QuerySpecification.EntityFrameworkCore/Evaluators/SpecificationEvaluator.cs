@@ -30,12 +30,9 @@ public class SpecificationEvaluator
                 IncludeEvaluator.Instance,
                 OrderEvaluator.Instance,
                 QueryTagEvaluator.Instance,
-                IgnoreAutoIncludesEvaluator.Instance,
-                IgnoreQueryFiltersEvaluator.Instance,
-                AsSplitQueryEvaluator.Instance,
-                AsNoTrackingEvaluator.Instance,
-                AsNoTrackingWithIdentityResolutionEvaluator.Instance,
-                AsTrackingEvaluator.Instance,
+                // A single evaluator that reads the flags bag once and applies all flag operations,
+                // replacing the six individual flag evaluators (still used by the auto-discovery path).
+                FlagsEvaluator.Instance,
             ];
     }
 
@@ -99,8 +96,16 @@ public class SpecificationEvaluator
         ArgumentNullException.ThrowIfNull(specification);
         if (specification.IsEmpty) return source;
 
+        // One pass to find which kinds are present, then skip evaluators whose kind is absent (O(1) bit test)
+        // instead of having each evaluator scan the items only to find nothing.
+        var presentKinds = specification.PresentKindsMask();
+
         foreach (var evaluator in Evaluators)
         {
+            if (evaluator is ISpecItemKind kind && (presentKinds & (1 << -kind.ItemType)) == 0)
+            {
+                continue;
+            }
             source = evaluator.Evaluate(source, specification);
         }
 

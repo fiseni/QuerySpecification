@@ -4,13 +4,15 @@
 /// Represents an evaluator for order expressions.
 /// </summary>
 [EvaluatorDiscovery(Order = 50)]
-public sealed class OrderEvaluator : IEvaluator, IMemoryEvaluator
+public sealed class OrderEvaluator : IEvaluator, IMemoryEvaluator, ISpecItemKind
 {
     /// <summary>
     /// Gets the singleton instance of the <see cref="OrderEvaluator"/> class.
     /// </summary>
     public static OrderEvaluator Instance = new();
     private OrderEvaluator() { }
+
+    int ISpecItemKind.ItemType => Pozitron.QuerySpecification.ItemType.Order;
 
     /// <inheritdoc/>
     public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class

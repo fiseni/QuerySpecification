@@ -21,13 +21,15 @@ namespace Pozitron.QuerySpecification;
 /// Represents an in-memory evaluator for "Like" expressions.
 /// </summary>
 [EvaluatorDiscovery(Order = 20)]
-public sealed class LikeMemoryEvaluator : IMemoryEvaluator
+public sealed class LikeMemoryEvaluator : IMemoryEvaluator, ISpecItemKind
 {
     /// <summary>
     /// Gets the singleton instance of the <see cref="LikeMemoryEvaluator"/> class.
     /// </summary>
     public static LikeMemoryEvaluator Instance = new();
     private LikeMemoryEvaluator() { }
+
+    int ISpecItemKind.ItemType => Pozitron.QuerySpecification.ItemType.Like;
 
     /// <inheritdoc/>
     public IEnumerable<T> Evaluate<T>(IEnumerable<T> source, Specification<T> specification)

@@ -4,7 +4,7 @@
 /// Evaluates a specification to include navigation properties specified by string paths.
 /// </summary>
 [EvaluatorDiscovery(Order = 30)]
-public sealed class IncludeStringEvaluator : IEvaluator
+public sealed class IncludeStringEvaluator : IEvaluator, ISpecItemKind
 {
 
     /// <summary>
@@ -12,6 +12,8 @@ public sealed class IncludeStringEvaluator : IEvaluator
     /// </summary>
     public static IncludeStringEvaluator Instance = new();
     private IncludeStringEvaluator() { }
+
+    int ISpecItemKind.ItemType => Pozitron.QuerySpecification.ItemType.IncludeString;
 
     /// <inheritdoc/>
     public IQueryable<T> Evaluate<T>(IQueryable<T> source, Specification<T> specification) where T : class
