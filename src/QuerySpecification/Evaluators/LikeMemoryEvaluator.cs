@@ -26,7 +26,7 @@ public sealed class LikeMemoryEvaluator : IMemoryEvaluator, ISpecItemKind
     /// <summary>
     /// Gets the singleton instance of the <see cref="LikeMemoryEvaluator"/> class.
     /// </summary>
-    public static LikeMemoryEvaluator Instance = new();
+    public static readonly LikeMemoryEvaluator Instance = new();
     private LikeMemoryEvaluator() { }
 
     int ISpecItemKind.ItemType => Pozitron.QuerySpecification.ItemType.Like;
@@ -125,7 +125,7 @@ public sealed class LikeMemoryEvaluator : IMemoryEvaluator, ISpecItemKind
                 {
                     if (specItem.Reference is not SpecLikeCompiled<T> specLike) continue;
 
-                    if (specLike.KeySelector(sourceItem)?.Like(specLike.Pattern) ?? false)
+                    if (specLike.Matches(specLike.KeySelector(sourceItem)))
                     {
                         return true;
                     }

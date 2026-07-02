@@ -8,7 +8,7 @@ public class SpecificationValidator
     /// <summary>
     /// Gets the default instance of the <see cref="SpecificationValidator"/> class.
     /// </summary>
-    public static SpecificationValidator Default = new();
+    public static readonly SpecificationValidator Default = new();
 
     /// <summary>
     /// Gets the list of validators.

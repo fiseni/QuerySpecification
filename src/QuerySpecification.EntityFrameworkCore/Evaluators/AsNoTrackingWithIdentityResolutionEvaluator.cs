@@ -9,7 +9,7 @@ public sealed class AsNoTrackingWithIdentityResolutionEvaluator : IEvaluator, IS
     /// <summary>
     /// Gets the singleton instance of the <see cref="AsNoTrackingWithIdentityResolutionEvaluator"/> class.
     /// </summary>
-    public static AsNoTrackingWithIdentityResolutionEvaluator Instance = new();
+    public static readonly AsNoTrackingWithIdentityResolutionEvaluator Instance = new();
     private AsNoTrackingWithIdentityResolutionEvaluator() { }
 
     int ISpecItemKind.ItemType => Pozitron.QuerySpecification.ItemType.Flags;

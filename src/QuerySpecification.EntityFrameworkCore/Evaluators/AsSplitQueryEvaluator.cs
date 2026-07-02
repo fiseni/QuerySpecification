@@ -9,7 +9,7 @@ public sealed class AsSplitQueryEvaluator : IEvaluator, ISpecItemKind
     /// <summary>
     /// Gets the singleton instance of the <see cref="AsSplitQueryEvaluator"/> class.
     /// </summary>
-    public static AsSplitQueryEvaluator Instance = new();
+    public static readonly AsSplitQueryEvaluator Instance = new();
     private AsSplitQueryEvaluator() { }
 
     int ISpecItemKind.ItemType => Pozitron.QuerySpecification.ItemType.Flags;

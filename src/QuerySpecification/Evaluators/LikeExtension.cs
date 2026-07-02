@@ -1,59 +1,31 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
-using System.Text.RegularExpressions;
 
 namespace Pozitron.QuerySpecification;
 
 internal static class LikeExtension
 {
-    private static readonly RegexCache _regexCache = new();
-
-    private static Regex BuildRegex(string pattern)
-    {
-        // Escape special regex characters, excluding those handled separately
-        var regexPattern = Regex
-            .Escape(pattern)
-            .Replace("%", ".*")     // Translate SQL LIKE wildcard '%' to regex '.*'
-            .Replace("_", ".")      // Translate SQL LIKE wildcard '_' to regex '.'
-            .Replace(@"\[", "[")    // Unescape '[' as it's used for character classes/ranges
-            .Replace(@"\^", "^");   // Unescape '^' as it can be used for negation in character classes
-
-        // Ensure the pattern matches the entire string
-        regexPattern = "^" + regexPattern + "$";
-        // We intentionally don't use RegexOptions.Compiled. The patterns are dynamic (cached, but bounded and often
-        // end-user supplied), and Compiled adds a ~1ms one-time build cost per pattern that is only recovered after
-        // millions of matches of that same pattern. Interpreted is 9-980x faster for realistic match counts.
-        // See Benchmark9_LikeRegexOptions.
-        var regex = new Regex(regexPattern, RegexOptions.IgnoreCase);
-        return regex;
-    }
+    private static readonly MatcherCache _matcherCache = new();
 
     public static bool Like(this string input, string pattern)
     {
-        try
-        {
-            // The pattern is dynamic and arbitrary, the consumer might even compose it by an end-user input.
-            // We can not cache all Regex objects, but at least we can try to reuse the most "recent" ones. We'll cache 10 of them.
-            // This might improve the performance within the same closed loop for the in-memory evaluator and validator.
-
-            var regex = _regexCache.GetOrAdd(pattern, BuildRegex);
-            return regex.IsMatch(input);
-        }
-        catch (Exception ex)
-        {
-            throw new InvalidLikePatternException(pattern, ex);
-        }
+        // The pattern is dynamic and arbitrary, the consumer might even compose it by an end-user input.
+        // We can not cache all matchers, but at least we can try to reuse the most "recent" ones. We'll cache 10 of them.
+        // The evaluator/validator hot paths don't go through here (they cache the matcher on SpecLikeCompiled);
+        // this remains for ad-hoc matching against uncompiled patterns.
+        var matcher = _matcherCache.GetOrAdd(pattern, LikeMatcher.Create);
+        return matcher.IsMatch(input);
     }
 
-    private class RegexCache
+    private class MatcherCache
     {
         private const int _maxSize = 10;
-        private readonly ConcurrentDictionary<string, Regex> _dictionary = new();
+        private readonly ConcurrentDictionary<string, LikeMatcher> _dictionary = new();
 
-        public Regex GetOrAdd(string key, Func<string, Regex> valueFactory)
+        public LikeMatcher GetOrAdd(string key, Func<string, LikeMatcher> valueFactory)
         {
-            if (_dictionary.TryGetValue(key, out var regex))
-                return regex;
+            if (_dictionary.TryGetValue(key, out var matcher))
+                return matcher;
 
             // It might happen we end up with more items than max (concurrency), but we won't be too strict.
             // We're just trying to avoid indefinite growth.
@@ -67,9 +39,9 @@ internal static class LikeExtension
                 }
             }
 
-            var newRegex = valueFactory(key);
-            _dictionary.TryAdd(key, newRegex);
-            return newRegex;
+            var newMatcher = valueFactory(key);
+            _dictionary.TryAdd(key, newMatcher);
+            return newMatcher;
         }
     }
 

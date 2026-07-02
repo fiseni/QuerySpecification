@@ -160,7 +160,7 @@ public partial class Specification<T>
     /// </summary>
     public IEnumerable<OrderExpressionCompiled<T>> OrderExpressionsCompiled => _items is null
         ? Enumerable.Empty<OrderExpressionCompiled<T>>()
-        : new SpecSelectIterator<Func<T, object?>, OrderExpressionCompiled<T>>(GetCompiledItems(), ItemType.Order, (x, bag) => new(x, (OrderType)bag));
+        : new SpecSelectIterator<SpecOrderCompiled<T>, OrderExpressionCompiled<T>>(GetCompiledItems(), ItemType.Order, (x, bag) => new(x.KeySelector, (OrderType)bag));
 
     /// <summary>
     /// Gets the compiled like expressions.
@@ -378,24 +378,20 @@ public partial class Specification<T>
         {
             var items = _items;
 
-            // We have a special case for Paging, we're storing it in the same item with Flags.
-            if (type == ItemType.Paging)
-            {
-                for (var i = 0; i < items.Length; i++)
-                {
-                    if (items[i].Type == ItemType.Paging)
-                    {
-                        _items[i].Reference = newItem.Reference;
-                        return;
-                    }
-                }
-            }
-
             for (var i = 0; i < items.Length; i++)
             {
+                // Items are append-only, so occupied slots always precede empty ones. If we reach an empty
+                // slot, no item of the given type exists, and we can take the slot right away.
                 if (items[i].Type == 0)
                 {
                     items[i] = newItem;
+                    return;
+                }
+
+                // We have a special case for Paging, we're storing it in the same item with Flags.
+                if (type == ItemType.Paging && items[i].Type == ItemType.Paging)
+                {
+                    items[i].Reference = newItem.Reference;
                     return;
                 }
             }
@@ -426,36 +422,57 @@ public partial class Specification<T>
         }
         AddInternal(type, value, bag);
     }
-    internal SpecItem[] GetCompiledItems()
+    // NOTE: The evaluation paths mutate the spec through AddOrUpdateInternal (caching the Compiled/CompiledSelect
+    // items). Those mutations must remain benign under concurrent evaluation of a shared spec instance: the worst
+    // outcome of a race must be a lost cache write (i.e. a wasted recompilation), never a corrupted or lost user item.
+    // The validators don't need the Order expressions; they pass includeOrder=false to avoid compiling them.
+    internal SpecItem[] GetCompiledItems(bool includeOrder = true)
     {
         if (IsEmpty) return Array.Empty<SpecItem>();
 
-        // Single pass: count the compilable items (Where/Like/Order) and locate the existing compiled array (if any).
-        var compilableItemsCount = 0;
+        // Single pass: count the compilable items (Where/Like and Order) and locate the existing compiled array (if any).
+        // The compiled item's Bag records whether the Order expressions were included (1) or not (0).
+        var whereLikeCount = 0;
+        var orderCount = 0;
         SpecItem[]? compiledItems = null;
+        var compiledIncludesOrder = false;
         foreach (var item in _items)
         {
             var type = item.Type;
-            if (type == ItemType.Where || type == ItemType.Like || type == ItemType.Order)
+            if (type == ItemType.Where || type == ItemType.Like)
             {
-                compilableItemsCount++;
+                whereLikeCount++;
+            }
+            else if (type == ItemType.Order)
+            {
+                orderCount++;
             }
             else if (type == ItemType.Compiled && item.Reference is SpecItem[] existing)
             {
                 compiledItems = existing;
+                compiledIncludesOrder = item.Bag == 1;
             }
         }
 
-        if (compilableItemsCount == 0) return Array.Empty<SpecItem>();
+        var neededCount = includeOrder ? whereLikeCount + orderCount : whereLikeCount;
+        if (neededCount == 0) return Array.Empty<SpecItem>();
 
-        // If the count of compilable items is equal to the count of compiled items, we don't need to recompile.
-        if (compiledItems is not null && compiledItems.Length == compilableItemsCount) return compiledItems;
+        // If the cached array covers the requested kinds and its length matches the current count, we don't need to recompile.
+        // An array compiled with orders also satisfies requests without them (the extra items are skipped by type).
+        if (compiledItems is not null)
+        {
+            var cachedIsValid = compiledIncludesOrder
+                ? compiledItems.Length == whereLikeCount + orderCount
+                : compiledItems.Length == whereLikeCount && (!includeOrder || orderCount == 0);
 
-        compiledItems = GenerateCompiledItems(_items, compilableItemsCount);
-        AddOrUpdateInternal(ItemType.Compiled, compiledItems);
+            if (cachedIsValid) return compiledItems;
+        }
+
+        compiledItems = GenerateCompiledItems(_items, neededCount, includeOrder);
+        AddOrUpdateInternal(ItemType.Compiled, compiledItems, includeOrder ? 1 : 0);
         return compiledItems;
 
-        static SpecItem[] GenerateCompiledItems(SpecItem[] items, int count)
+        static SpecItem[] GenerateCompiledItems(SpecItem[] items, int count, bool includeOrder)
         {
             var compiledItems = new SpecItem[count];
 
@@ -475,19 +492,22 @@ public partial class Specification<T>
             }
             if (index == count) return compiledItems;
 
-            foreach (var item in items)
+            if (includeOrder)
             {
-                if (item.Type == ItemType.Order && item.Reference is Expression<Func<T, object?>> expr)
+                foreach (var item in items)
                 {
-                    compiledItems[index++] = new SpecItem
+                    if (item.Type == ItemType.Order && item.Reference is Expression<Func<T, object?>> expr)
                     {
-                        Type = item.Type,
-                        Reference = expr.Compile(),
-                        Bag = item.Bag
-                    };
+                        compiledItems[index++] = new SpecItem
+                        {
+                            Type = item.Type,
+                            Reference = SpecOrderCompiled<T>.Create(expr),
+                            Bag = item.Bag
+                        };
+                    }
                 }
+                if (index == count) return compiledItems;
             }
-            if (index == count) return compiledItems;
 
             var likeStartIndex = index;
             foreach (var item in items)

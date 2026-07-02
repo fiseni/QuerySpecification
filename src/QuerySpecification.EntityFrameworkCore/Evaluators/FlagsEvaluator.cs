@@ -1,4 +1,4 @@
-namespace Pozitron.QuerySpecification;
+﻿namespace Pozitron.QuerySpecification;
 
 /// <summary>
 /// Evaluator that applies all EF flag operations (tracking behavior, split query, ignore filters/auto-includes)
@@ -14,7 +14,7 @@ public sealed class FlagsEvaluator : IEvaluator, ISpecItemKind
     /// <summary>
     /// Gets the singleton instance of the <see cref="FlagsEvaluator"/> class.
     /// </summary>
-    public static FlagsEvaluator Instance = new();
+    public static readonly FlagsEvaluator Instance = new();
     private FlagsEvaluator() { }
 
     int ISpecItemKind.ItemType => Pozitron.QuerySpecification.ItemType.Flags;

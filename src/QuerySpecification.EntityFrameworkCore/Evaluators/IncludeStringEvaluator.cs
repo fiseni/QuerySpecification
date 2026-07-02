@@ -10,7 +10,7 @@ public sealed class IncludeStringEvaluator : IEvaluator, ISpecItemKind
     /// <summary>
     /// Gets the singleton instance of the <see cref="IncludeStringEvaluator"/> class.
     /// </summary>
-    public static IncludeStringEvaluator Instance = new();
+    public static readonly IncludeStringEvaluator Instance = new();
     private IncludeStringEvaluator() { }
 
     int ISpecItemKind.ItemType => Pozitron.QuerySpecification.ItemType.IncludeString;

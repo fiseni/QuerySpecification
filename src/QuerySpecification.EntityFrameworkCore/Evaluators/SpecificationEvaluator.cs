@@ -8,12 +8,16 @@ public class SpecificationEvaluator
     /// <summary>
     /// Gets the default instance of the <see cref="SpecificationEvaluator"/> class.
     /// </summary>
-    public static SpecificationEvaluator Default = new();
+    public static readonly SpecificationEvaluator Default = new();
 
     /// <summary>
     /// Gets the list of evaluators.
     /// </summary>
     protected List<IEvaluator> Evaluators { get; }
+
+    // Snapshot of Evaluators with each evaluator's kind bit precomputed, so Evaluate avoids the per-call
+    // interface checks. Built lazily and rebuilt if the list count changes (e.g. a derived type added evaluators).
+    private KindedEvaluator[]? _kindedEvaluators;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SpecificationEvaluator"/> class.
@@ -61,8 +65,10 @@ public class SpecificationEvaluator
     {
         ArgumentNullException.ThrowIfNull(specification);
 
-        var selector = specification.Selector;
-        var selectorMany = specification.SelectorMany;
+        // A single scan; the spec holds at most one Select item (Select and SelectMany overwrite each other).
+        var selectItem = specification.FirstOrDefault<object>(ItemType.Select);
+        var selector = selectItem as Expression<Func<T, TResult>>;
+        var selectorMany = selector is null ? selectItem as Expression<Func<T, IEnumerable<TResult>>> : null;
 
         if (selector is null && selectorMany is null)
         {
@@ -100,9 +106,9 @@ public class SpecificationEvaluator
         // instead of having each evaluator scan the items only to find nothing.
         var presentKinds = specification.PresentKindsMask();
 
-        foreach (var evaluator in Evaluators)
+        foreach (var (evaluator, kindMask) in GetKindedEvaluators())
         {
-            if (evaluator is ISpecItemKind kind && (presentKinds & (1 << -kind.ItemType)) == 0)
+            if (kindMask != 0 && (presentKinds & kindMask) == 0)
             {
                 continue;
             }
@@ -113,4 +119,22 @@ public class SpecificationEvaluator
             ? source
             : source.ApplyPaging(specification);
     }
+
+    private KindedEvaluator[] GetKindedEvaluators()
+    {
+        var cache = _kindedEvaluators;
+        var evaluators = Evaluators;
+        if (cache is not null && cache.Length == evaluators.Count) return cache;
+
+        cache = new KindedEvaluator[evaluators.Count];
+        for (var i = 0; i < cache.Length; i++)
+        {
+            var evaluator = evaluators[i];
+            cache[i] = new(evaluator, evaluator is ISpecItemKind kind ? 1 << -kind.ItemType : 0);
+        }
+        _kindedEvaluators = cache;
+        return cache;
+    }
+
+    private readonly record struct KindedEvaluator(IEvaluator Evaluator, int KindMask);
 }

@@ -9,13 +9,14 @@ public sealed class WhereValidator : IValidator
     /// <summary>
     /// Gets the singleton instance of the <see cref="WhereValidator"/> class.
     /// </summary>
-    public static WhereValidator Instance = new();
+    public static readonly WhereValidator Instance = new();
     private WhereValidator() { }
 
     /// <inheritdoc/>
     public bool IsValid<T>(T entity, Specification<T> specification)
     {
-        var compiledItems = specification.GetCompiledItems();
+        // Validation never uses the Order expressions; don't pay their compilation cost.
+        var compiledItems = specification.GetCompiledItems(includeOrder: false);
 
         foreach (var item in compiledItems)
         {

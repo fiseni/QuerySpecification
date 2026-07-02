@@ -27,7 +27,7 @@ public sealed class LikeEvaluator : IEvaluator, ISpecItemKind
     /// <summary>
     /// Gets the singleton instance of the <see cref="LikeEvaluator"/> class.
     /// </summary>
-    public static LikeEvaluator Instance = new();
+    public static readonly LikeEvaluator Instance = new();
 
     int ISpecItemKind.ItemType => Pozitron.QuerySpecification.ItemType.Like;
 

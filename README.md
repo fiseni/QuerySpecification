@@ -126,6 +126,27 @@ The `PagedResult<T>` is serializable and contains a detailed pagination informat
 }
 ```
 
+## Performance tips
+
+The library keeps its own per-query overhead minimal, but how you construct specifications dominates the cost in most applications:
+
+- **Cache specification instances when possible.** Constructing a specification builds an expression tree for every clause (the C# compiler never caches `Expression<>` lambdas), which typically allocates far more than the specification storage itself. Parameterless specifications are immutable once built and safe to reuse, so hold them in a static field or register them as singletons. Reusing an instance also lets the compiled delegates (used by in-memory evaluation and validation) be cached across evaluations, and lets EF Core's query cache hash the same expression instances again.
+- **Hoist invariant clauses into static expressions.** For parameterized specifications, only the clauses that capture the parameter need to be rebuilt per instance. The rest can be declared once:
+
+```csharp
+public class CustomerSpec : Specification<Customer>
+{
+    private static readonly Expression<Func<Customer, bool>> _isActive = x => !x.IsDeleted;
+
+    public CustomerSpec(string name)
+    {
+        Query
+            .Where(_isActive)          // built once for the lifetime of the app
+            .Where(x => x.Name == name); // built per instance (captures the parameter)
+    }
+}
+```
+
 ## Benchmarks
 
 In version 11, we refactored and rebuilt the internals from the ground up. The new version reduces the memory footprint drastically. The overhead of the library is now negligible and statistically insignificant. Here are the benchmark results of `ToQueryString()` for various queries. Refer to the [Benchmarks](https://github.com/fiseni/QuerySpecification/tree/main/tests/QuerySpecification.Benchmarks/Benchmarks) project for more benchmarks.

@@ -10,7 +10,7 @@ public sealed class QueryTagEvaluator : IEvaluator, ISpecItemKind
     /// <summary>
     /// Gets the singleton instance of the <see cref="QueryTagEvaluator"/> class.
     /// </summary>
-    public static QueryTagEvaluator Instance = new();
+    public static readonly QueryTagEvaluator Instance = new();
     private QueryTagEvaluator() { }
 
     int ISpecItemKind.ItemType => Pozitron.QuerySpecification.ItemType.QueryTag;

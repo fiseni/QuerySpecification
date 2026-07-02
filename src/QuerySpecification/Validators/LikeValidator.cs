@@ -24,13 +24,14 @@ public sealed class LikeValidator : IValidator
     /// <summary>
     /// Gets the singleton instance of the <see cref="LikeValidator"/> class.
     /// </summary>
-    public static LikeValidator Instance = new();
+    public static readonly LikeValidator Instance = new();
     private LikeValidator() { }
 
     /// <inheritdoc/>
     public bool IsValid<T>(T entity, Specification<T> specification)
     {
-        var compiledItems = specification.GetCompiledItems();
+        // Validation never uses the Order expressions; don't pay their compilation cost.
+        var compiledItems = specification.GetCompiledItems(includeOrder: false);
         if (compiledItems.Length == 0) return true;
 
         var startIndexLikeItems = Array.FindIndex(compiledItems, item => item.Type == ItemType.Like);
@@ -63,7 +64,7 @@ public sealed class LikeValidator : IValidator
             {
                 if (specItem.Reference is not SpecLikeCompiled<T> specLike) continue;
 
-                if (specLike.KeySelector(entity)?.Like(specLike.Pattern) ?? false)
+                if (specLike.Matches(specLike.KeySelector(entity)))
                 {
                     return true;
                 }

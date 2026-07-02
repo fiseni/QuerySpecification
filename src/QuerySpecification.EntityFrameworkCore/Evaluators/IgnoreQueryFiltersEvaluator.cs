@@ -10,7 +10,7 @@ public sealed class IgnoreQueryFiltersEvaluator : IEvaluator, ISpecItemKind
     /// <summary>
     /// Gets the singleton instance of the <see cref="IgnoreQueryFiltersEvaluator"/> class.
     /// </summary>
-    public static IgnoreQueryFiltersEvaluator Instance = new();
+    public static readonly IgnoreQueryFiltersEvaluator Instance = new();
     private IgnoreQueryFiltersEvaluator() { }
 
     int ISpecItemKind.ItemType => Pozitron.QuerySpecification.ItemType.Flags;

@@ -9,7 +9,7 @@ public sealed class AsTrackingEvaluator : IEvaluator, ISpecItemKind
     /// <summary>
     /// Gets the singleton instance of the <see cref="AsTrackingEvaluator"/> class.
     /// </summary>
-    public static AsTrackingEvaluator Instance = new();
+    public static readonly AsTrackingEvaluator Instance = new();
     private AsTrackingEvaluator() { }
 
     int ISpecItemKind.ItemType => Pozitron.QuerySpecification.ItemType.Flags;

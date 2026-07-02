@@ -10,7 +10,7 @@ public sealed class IgnoreAutoIncludesEvaluator : IEvaluator, ISpecItemKind
     /// <summary>
     /// Gets the singleton instance of the <see cref="IgnoreAutoIncludesEvaluator"/> class.
     /// </summary>
-    public static IgnoreAutoIncludesEvaluator Instance = new();
+    public static readonly IgnoreAutoIncludesEvaluator Instance = new();
     private IgnoreAutoIncludesEvaluator() { }
 
     int ISpecItemKind.ItemType => Pozitron.QuerySpecification.ItemType.Flags;

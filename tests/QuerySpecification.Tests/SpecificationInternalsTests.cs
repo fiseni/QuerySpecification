@@ -162,10 +162,10 @@ public class SpecificationInternalsTests
         items[0].Reference.Should().BeOfType<Func<Customer, bool>>();
         items[0].Type.Should().Be(ItemType.Where);
 
-        items[1].Reference.Should().BeOfType<Func<Customer, object?>>();
+        items[1].Reference.Should().BeAssignableTo<SpecOrderCompiled<Customer>>();
         items[1].Type.Should().Be(ItemType.Order);
         items[1].Bag.Should().Be((int)OrderType.OrderBy);
-        items[2].Reference.Should().BeOfType<Func<Customer, object?>>();
+        items[2].Reference.Should().BeAssignableTo<SpecOrderCompiled<Customer>>();
         items[2].Type.Should().Be(ItemType.Order);
         items[2].Bag.Should().Be((int)OrderType.ThenBy);
 
@@ -176,6 +176,56 @@ public class SpecificationInternalsTests
         items[4].Reference.Should().BeOfType<SpecLikeCompiled<Customer>>();
         items[4].Type.Should().Be(ItemType.Like);
         items[4].Bag.Should().Be(2);
+    }
+
+    [Fact]
+    public void GetCompiledItems_SkipsOrderItems_GivenValidatorPath()
+    {
+        var spec = new Specification<Customer>();
+        spec.Query
+            .Where(x => x.Id > 0)
+            .Like(x => x.Name, "%abc%")
+            .OrderBy(x => x.Id);
+
+        var items = spec.GetCompiledItems(includeOrder: false);
+
+        items.Should().HaveCount(2);
+        items[0].Type.Should().Be(ItemType.Where);
+        items[1].Type.Should().Be(ItemType.Like);
+    }
+
+    [Fact]
+    public void GetCompiledItems_RecompilesWithOrderItems_GivenValidatorPathCompiledFirst()
+    {
+        var spec = new Specification<Customer>();
+        spec.Query
+            .Where(x => x.Id > 0)
+            .OrderBy(x => x.Id);
+
+        var validatorItems = spec.GetCompiledItems(includeOrder: false);
+        var evaluatorItems = spec.GetCompiledItems();
+
+        validatorItems.Should().HaveCount(1);
+        evaluatorItems.Should().HaveCount(2);
+        evaluatorItems[0].Type.Should().Be(ItemType.Where);
+        evaluatorItems[1].Type.Should().Be(ItemType.Order);
+
+        // Once compiled with orders, the full array satisfies both paths.
+        spec.GetCompiledItems(includeOrder: false).Should().BeSameAs(evaluatorItems);
+        spec.GetCompiledItems().Should().BeSameAs(evaluatorItems);
+    }
+
+    [Fact]
+    public void GetCompiledItems_ReusesCachedItems_GivenValidatorPathAndNoOrderItems()
+    {
+        var spec = new Specification<Customer>();
+        spec.Query.Where(x => x.Id > 0);
+
+        var validatorItems = spec.GetCompiledItems(includeOrder: false);
+        var evaluatorItems = spec.GetCompiledItems();
+
+        // With no Order items the arrays are identical, so no recompilation happens between the two paths.
+        evaluatorItems.Should().BeSameAs(validatorItems);
     }
 
     [Fact]
