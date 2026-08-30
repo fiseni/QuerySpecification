@@ -1,3 +1,5 @@
+
+
 <img align="left" src="logo.png" width="120" height="120">
 
 &nbsp; [![NuGet](https://img.shields.io/nuget/v/Pozitron.QuerySpecification.svg)](https://www.nuget.org/packages/Pozitron.QuerySpecification)
@@ -83,7 +85,7 @@ List<CustomerDto> result = await _context
 
 ### Pagination
 
-The library defines a convenient `ToPagedResult` extension method that returns a detailed paged result.
+The library defines a convenient `ToPagedResultAsync` extension method that returns a detailed paged result.
 
 ```csharp
 var spec = new CustomerDtoSpec(1, "Customer");
